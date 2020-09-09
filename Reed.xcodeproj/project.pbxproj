@@ -10,7 +10,7 @@
 		B8D4569A2508D1A2000F9E5F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D456992508D1A2000F9E5F /* AppDelegate.swift */; };
 		B8D4569C2508D1A2000F9E5F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4569B2508D1A2000F9E5F /* SceneDelegate.swift */; };
 		B8D4569F2508D1A2000F9E5F /* Reed.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B8D4569D2508D1A2000F9E5F /* Reed.xcdatamodeld */; };
-		B8D456A12508D1A2000F9E5F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D456A02508D1A2000F9E5F /* ContentView.swift */; };
+		B8D456A12508D1A2000F9E5F /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D456A02508D1A2000F9E5F /* LibraryView.swift */; };
 		B8D456A32508D1A2000F9E5F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8D456A22508D1A2000F9E5F /* Assets.xcassets */; };
 		B8D456A62508D1A2000F9E5F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8D456A52508D1A2000F9E5F /* Preview Assets.xcassets */; };
 		B8D456A92508D1A2000F9E5F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B8D456A72508D1A2000F9E5F /* LaunchScreen.storyboard */; };
@@ -40,7 +40,7 @@
 		B8D456992508D1A2000F9E5F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B8D4569B2508D1A2000F9E5F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		B8D4569E2508D1A2000F9E5F /* Reed.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Reed.xcdatamodel; sourceTree = "<group>"; };
-		B8D456A02508D1A2000F9E5F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B8D456A02508D1A2000F9E5F /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
 		B8D456A22508D1A2000F9E5F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B8D456A52508D1A2000F9E5F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B8D456A82508D1A2000F9E5F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -101,13 +101,13 @@
 		B8D456982508D1A2000F9E5F /* Reed */ = {
 			isa = PBXGroup;
 			children = (
-				B8D456992508D1A2000F9E5F /* AppDelegate.swift */,
-				B8D4569B2508D1A2000F9E5F /* SceneDelegate.swift */,
-				B8D456A02508D1A2000F9E5F /* ContentView.swift */,
-				B8D456A22508D1A2000F9E5F /* Assets.xcassets */,
-				B8D456A72508D1A2000F9E5F /* LaunchScreen.storyboard */,
+				B8D456D12508D8E4000F9E5F /* SettingsTab */,
+				B8D456D02508D8DD000F9E5F /* DiscoverTab */,
+				B8D456CF2508D8D7000F9E5F /* CardsTab */,
+				B8D456CE2508D8D3000F9E5F /* Reader */,
+				B8D456CD2508D349000F9E5F /* LibraryTab */,
 				B8D456AA2508D1A2000F9E5F /* Info.plist */,
-				B8D4569D2508D1A2000F9E5F /* Reed.xcdatamodeld */,
+				B8D456CC2508D2E3000F9E5F /* Main */,
 				B8D456A42508D1A2000F9E5F /* Preview Content */,
 			);
 			path = Reed;
@@ -137,6 +137,54 @@
 				B8D456C02508D1A3000F9E5F /* Info.plist */,
 			);
 			path = ReedUITests;
+			sourceTree = "<group>";
+		};
+		B8D456CC2508D2E3000F9E5F /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				B8D456992508D1A2000F9E5F /* AppDelegate.swift */,
+				B8D4569B2508D1A2000F9E5F /* SceneDelegate.swift */,
+				B8D456A22508D1A2000F9E5F /* Assets.xcassets */,
+				B8D456A72508D1A2000F9E5F /* LaunchScreen.storyboard */,
+				B8D4569D2508D1A2000F9E5F /* Reed.xcdatamodeld */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		B8D456CD2508D349000F9E5F /* LibraryTab */ = {
+			isa = PBXGroup;
+			children = (
+				B8D456A02508D1A2000F9E5F /* LibraryView.swift */,
+			);
+			path = LibraryTab;
+			sourceTree = "<group>";
+		};
+		B8D456CE2508D8D3000F9E5F /* Reader */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Reader;
+			sourceTree = "<group>";
+		};
+		B8D456CF2508D8D7000F9E5F /* CardsTab */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CardsTab;
+			sourceTree = "<group>";
+		};
+		B8D456D02508D8DD000F9E5F /* DiscoverTab */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DiscoverTab;
+			sourceTree = "<group>";
+		};
+		B8D456D12508D8E4000F9E5F /* SettingsTab */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SettingsTab;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -272,7 +320,7 @@
 			files = (
 				B8D4569A2508D1A2000F9E5F /* AppDelegate.swift in Sources */,
 				B8D4569F2508D1A2000F9E5F /* Reed.xcdatamodeld in Sources */,
-				B8D456A12508D1A2000F9E5F /* ContentView.swift in Sources */,
+				B8D456A12508D1A2000F9E5F /* LibraryView.swift in Sources */,
 				B8D4569C2508D1A2000F9E5F /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
