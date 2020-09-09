@@ -7,15 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B89CD68625098C0100D7D8ED /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89CD68525098C0100D7D8ED /* DiscoverView.swift */; };
 		B8D4569A2508D1A2000F9E5F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D456992508D1A2000F9E5F /* AppDelegate.swift */; };
 		B8D4569C2508D1A2000F9E5F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4569B2508D1A2000F9E5F /* SceneDelegate.swift */; };
 		B8D4569F2508D1A2000F9E5F /* Reed.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B8D4569D2508D1A2000F9E5F /* Reed.xcdatamodeld */; };
 		B8D456A12508D1A2000F9E5F /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D456A02508D1A2000F9E5F /* LibraryView.swift */; };
 		B8D456A32508D1A2000F9E5F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8D456A22508D1A2000F9E5F /* Assets.xcassets */; };
 		B8D456A62508D1A2000F9E5F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8D456A52508D1A2000F9E5F /* Preview Assets.xcassets */; };
-		B8D456A92508D1A2000F9E5F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B8D456A72508D1A2000F9E5F /* LaunchScreen.storyboard */; };
 		B8D456B42508D1A2000F9E5F /* ReedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D456B32508D1A2000F9E5F /* ReedTests.swift */; };
 		B8D456BF2508D1A3000F9E5F /* ReedUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D456BE2508D1A3000F9E5F /* ReedUITests.swift */; };
+		B8D456D62508DD24000F9E5F /* LibraryEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D456D52508DD24000F9E5F /* LibraryEntryView.swift */; };
+		B8D456D82508DD46000F9E5F /* MockBooks.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D456D72508DD46000F9E5F /* MockBooks.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B89CD68525098C0100D7D8ED /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
 		B8D456962508D1A2000F9E5F /* Reed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8D456992508D1A2000F9E5F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B8D4569B2508D1A2000F9E5F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -43,7 +46,6 @@
 		B8D456A02508D1A2000F9E5F /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
 		B8D456A22508D1A2000F9E5F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B8D456A52508D1A2000F9E5F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		B8D456A82508D1A2000F9E5F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B8D456AA2508D1A2000F9E5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B8D456AF2508D1A2000F9E5F /* ReedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8D456B32508D1A2000F9E5F /* ReedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReedTests.swift; sourceTree = "<group>"; };
@@ -51,6 +53,8 @@
 		B8D456BA2508D1A3000F9E5F /* ReedUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReedUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8D456BE2508D1A3000F9E5F /* ReedUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReedUITests.swift; sourceTree = "<group>"; };
 		B8D456C02508D1A3000F9E5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B8D456D52508DD24000F9E5F /* LibraryEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryEntryView.swift; sourceTree = "<group>"; };
+		B8D456D72508DD46000F9E5F /* MockBooks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBooks.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +82,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B89CD68425098BE800D7D8ED /* views */ = {
+			isa = PBXGroup;
+			children = (
+				B89CD68525098C0100D7D8ED /* DiscoverView.swift */,
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
 		B8D4568D2508D1A2000F9E5F = {
 			isa = PBXGroup;
 			children = (
@@ -101,14 +113,14 @@
 		B8D456982508D1A2000F9E5F /* Reed */ = {
 			isa = PBXGroup;
 			children = (
-				B8D456D12508D8E4000F9E5F /* SettingsTab */,
-				B8D456D02508D8DD000F9E5F /* DiscoverTab */,
-				B8D456CF2508D8D7000F9E5F /* CardsTab */,
-				B8D456CE2508D8D3000F9E5F /* Reader */,
-				B8D456CD2508D349000F9E5F /* LibraryTab */,
 				B8D456AA2508D1A2000F9E5F /* Info.plist */,
+				B8D456CF2508D8D7000F9E5F /* CardsTab */,
+				B8D456D02508D8DD000F9E5F /* DiscoverTab */,
+				B8D456CD2508D349000F9E5F /* LibraryTab */,
 				B8D456CC2508D2E3000F9E5F /* Main */,
 				B8D456A42508D1A2000F9E5F /* Preview Content */,
+				B8D456CE2508D8D3000F9E5F /* Reader */,
+				B8D456D12508D8E4000F9E5F /* SettingsTab */,
 			);
 			path = Reed;
 			sourceTree = "<group>";
@@ -145,7 +157,6 @@
 				B8D456992508D1A2000F9E5F /* AppDelegate.swift */,
 				B8D4569B2508D1A2000F9E5F /* SceneDelegate.swift */,
 				B8D456A22508D1A2000F9E5F /* Assets.xcassets */,
-				B8D456A72508D1A2000F9E5F /* LaunchScreen.storyboard */,
 				B8D4569D2508D1A2000F9E5F /* Reed.xcdatamodeld */,
 			);
 			path = Main;
@@ -154,7 +165,7 @@
 		B8D456CD2508D349000F9E5F /* LibraryTab */ = {
 			isa = PBXGroup;
 			children = (
-				B8D456A02508D1A2000F9E5F /* LibraryView.swift */,
+				B8D456D22508DCB7000F9E5F /* views */,
 			);
 			path = LibraryTab;
 			sourceTree = "<group>";
@@ -176,6 +187,8 @@
 		B8D456D02508D8DD000F9E5F /* DiscoverTab */ = {
 			isa = PBXGroup;
 			children = (
+				B8D456D42508DCC7000F9E5F /* models */,
+				B89CD68425098BE800D7D8ED /* views */,
 			);
 			path = DiscoverTab;
 			sourceTree = "<group>";
@@ -185,6 +198,23 @@
 			children = (
 			);
 			path = SettingsTab;
+			sourceTree = "<group>";
+		};
+		B8D456D22508DCB7000F9E5F /* views */ = {
+			isa = PBXGroup;
+			children = (
+				B8D456D52508DD24000F9E5F /* LibraryEntryView.swift */,
+				B8D456A02508D1A2000F9E5F /* LibraryView.swift */,
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
+		B8D456D42508DCC7000F9E5F /* models */ = {
+			isa = PBXGroup;
+			children = (
+				B8D456D72508DD46000F9E5F /* MockBooks.swift */,
+			);
+			path = models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -291,7 +321,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B8D456A92508D1A2000F9E5F /* LaunchScreen.storyboard in Resources */,
 				B8D456A62508D1A2000F9E5F /* Preview Assets.xcassets in Resources */,
 				B8D456A32508D1A2000F9E5F /* Assets.xcassets in Resources */,
 			);
@@ -318,8 +347,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8D456D82508DD46000F9E5F /* MockBooks.swift in Sources */,
 				B8D4569A2508D1A2000F9E5F /* AppDelegate.swift in Sources */,
+				B8D456D62508DD24000F9E5F /* LibraryEntryView.swift in Sources */,
 				B8D4569F2508D1A2000F9E5F /* Reed.xcdatamodeld in Sources */,
+				B89CD68625098C0100D7D8ED /* DiscoverView.swift in Sources */,
 				B8D456A12508D1A2000F9E5F /* LibraryView.swift in Sources */,
 				B8D4569C2508D1A2000F9E5F /* SceneDelegate.swift in Sources */,
 			);
@@ -355,17 +387,6 @@
 			targetProxy = B8D456BB2508D1A3000F9E5F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		B8D456A72508D1A2000F9E5F /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B8D456A82508D1A2000F9E5F /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		B8D456C12508D1A3000F9E5F /* Debug */ = {
