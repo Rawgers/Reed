@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="DictionaryEntry" representedClassName="DictionaryEntry" syncable="YES" codeGenerationType="class">
+        <attribute name="definitions" optional="YES" attributeType="Transformable"/>
+        <attribute name="reading" optional="YES" attributeType="String"/>
+        <attribute name="term" optional="YES" attributeType="String"/>
+    </entity>
     <entity name="LibraryEntry" representedClassName="LibraryEntry" syncable="YES" codeGenerationType="class">
         <attribute name="author" attributeType="String"/>
         <attribute name="title" attributeType="String"/>
     </entity>
+    <entity name="VocabularyCard" representedClassName="VocabularyCard" syncable="YES" codeGenerationType="class">
+        <attribute name="contexts" optional="YES" attributeType="Transformable"/>
+        <attribute name="term" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="VocabularyList" representedClassName="VocabularyList" syncable="YES" codeGenerationType="class">
+        <attribute name="cards" optional="YES" attributeType="Transformable"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+    </entity>
     <elements>
         <element name="LibraryEntry" positionX="-63" positionY="-18" width="128" height="73"/>
+        <element name="VocabularyCard" positionX="-63" positionY="0" width="128" height="73"/>
+        <element name="VocabularyList" positionX="-54" positionY="27" width="128" height="73"/>
+        <element name="DictionaryEntry" positionX="-36" positionY="36" width="128" height="88"/>
     </elements>
 </model>
