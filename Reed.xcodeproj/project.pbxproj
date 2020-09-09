@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		B89CD68625098C0100D7D8ED /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89CD68525098C0100D7D8ED /* DiscoverView.swift */; };
+		B89CD68B2509900000D7D8ED /* MockReaderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89CD68A2509900000D7D8ED /* MockReaderData.swift */; };
+		B89CD68E2509928800D7D8ED /* ReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89CD68D2509928800D7D8ED /* ReaderView.swift */; };
+		B89CD6922509930100D7D8ED /* VocabularyListsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89CD6912509930100D7D8ED /* VocabularyListsView.swift */; };
+		B89CD6942509934700D7D8ED /* VocabularyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89CD6932509934700D7D8ED /* VocabularyListView.swift */; };
+		B89CD6962509938C00D7D8ED /* VocabularyCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89CD6952509938C00D7D8ED /* VocabularyCardView.swift */; };
+		B89CD698250993F800D7D8ED /* DefinitionModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89CD697250993F800D7D8ED /* DefinitionModal.swift */; };
+		B89CD69A2509944200D7D8ED /* MockCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89CD6992509944200D7D8ED /* MockCards.swift */; };
 		B8D4569A2508D1A2000F9E5F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D456992508D1A2000F9E5F /* AppDelegate.swift */; };
 		B8D4569C2508D1A2000F9E5F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4569B2508D1A2000F9E5F /* SceneDelegate.swift */; };
 		B8D4569F2508D1A2000F9E5F /* Reed.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B8D4569D2508D1A2000F9E5F /* Reed.xcdatamodeld */; };
@@ -39,6 +46,13 @@
 
 /* Begin PBXFileReference section */
 		B89CD68525098C0100D7D8ED /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
+		B89CD68A2509900000D7D8ED /* MockReaderData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockReaderData.swift; sourceTree = "<group>"; };
+		B89CD68D2509928800D7D8ED /* ReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderView.swift; sourceTree = "<group>"; };
+		B89CD6912509930100D7D8ED /* VocabularyListsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyListsView.swift; sourceTree = "<group>"; };
+		B89CD6932509934700D7D8ED /* VocabularyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyListView.swift; sourceTree = "<group>"; };
+		B89CD6952509938C00D7D8ED /* VocabularyCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyCardView.swift; sourceTree = "<group>"; };
+		B89CD697250993F800D7D8ED /* DefinitionModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionModal.swift; sourceTree = "<group>"; };
+		B89CD6992509944200D7D8ED /* MockCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCards.swift; sourceTree = "<group>"; };
 		B8D456962508D1A2000F9E5F /* Reed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8D456992508D1A2000F9E5F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B8D4569B2508D1A2000F9E5F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -86,6 +100,41 @@
 			isa = PBXGroup;
 			children = (
 				B89CD68525098C0100D7D8ED /* DiscoverView.swift */,
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
+		B89CD68725098FD600D7D8ED /* models */ = {
+			isa = PBXGroup;
+			children = (
+				B89CD68A2509900000D7D8ED /* MockReaderData.swift */,
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
+		B89CD68C2509927C00D7D8ED /* views */ = {
+			isa = PBXGroup;
+			children = (
+				B89CD68D2509928800D7D8ED /* ReaderView.swift */,
+				B89CD697250993F800D7D8ED /* DefinitionModal.swift */,
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
+		B89CD68F250992DD00D7D8ED /* models */ = {
+			isa = PBXGroup;
+			children = (
+				B89CD6992509944200D7D8ED /* MockCards.swift */,
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
+		B89CD690250992E800D7D8ED /* views */ = {
+			isa = PBXGroup;
+			children = (
+				B89CD6912509930100D7D8ED /* VocabularyListsView.swift */,
+				B89CD6932509934700D7D8ED /* VocabularyListView.swift */,
+				B89CD6952509938C00D7D8ED /* VocabularyCardView.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -173,6 +222,8 @@
 		B8D456CE2508D8D3000F9E5F /* Reader */ = {
 			isa = PBXGroup;
 			children = (
+				B89CD68725098FD600D7D8ED /* models */,
+				B89CD68C2509927C00D7D8ED /* views */,
 			);
 			path = Reader;
 			sourceTree = "<group>";
@@ -180,6 +231,8 @@
 		B8D456CF2508D8D7000F9E5F /* CardsTab */ = {
 			isa = PBXGroup;
 			children = (
+				B89CD68F250992DD00D7D8ED /* models */,
+				B89CD690250992E800D7D8ED /* views */,
 			);
 			path = CardsTab;
 			sourceTree = "<group>";
@@ -347,12 +400,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B89CD6922509930100D7D8ED /* VocabularyListsView.swift in Sources */,
+				B89CD68B2509900000D7D8ED /* MockReaderData.swift in Sources */,
+				B89CD68E2509928800D7D8ED /* ReaderView.swift in Sources */,
 				B8D456D82508DD46000F9E5F /* MockBooks.swift in Sources */,
 				B8D4569A2508D1A2000F9E5F /* AppDelegate.swift in Sources */,
 				B8D456D62508DD24000F9E5F /* LibraryEntryView.swift in Sources */,
 				B8D4569F2508D1A2000F9E5F /* Reed.xcdatamodeld in Sources */,
 				B89CD68625098C0100D7D8ED /* DiscoverView.swift in Sources */,
 				B8D456A12508D1A2000F9E5F /* LibraryView.swift in Sources */,
+				B89CD6962509938C00D7D8ED /* VocabularyCardView.swift in Sources */,
+				B89CD698250993F800D7D8ED /* DefinitionModal.swift in Sources */,
+				B89CD69A2509944200D7D8ED /* MockCards.swift in Sources */,
+				B89CD6942509934700D7D8ED /* VocabularyListView.swift in Sources */,
 				B8D4569C2508D1A2000F9E5F /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
