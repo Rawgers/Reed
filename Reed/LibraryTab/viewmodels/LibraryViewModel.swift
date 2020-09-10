@@ -13,6 +13,7 @@ class LibraryViewModel: ObservableObject {
     @Published var libraryEntries = [LibraryEntryViewModel]()
     
     init() {
+        insertMockCoreData()
         fetchEntries()
     }
     
@@ -25,8 +26,39 @@ class LibraryViewModel: ObservableObject {
                 LibraryEntryViewModel(entryData: $0 as! LibraryEntry)
             }
         } catch {
-            print("Fetch failed: LibraryEntry in LibraryViewModel")
+            print("Unable to fetch entity LibraryEntry in LibraryViewModel.")
             libraryEntries = []
         }
+    }
+    
+    func insertMockCoreData() {
+        if countNumCoreDataEntries() == 0 {
+            let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+            let n = MockLibraryEntryData.titles.count
+            for i in 0..<n {
+                let entry = LibraryEntry(context: context)
+                entry.title = MockLibraryEntryData.titles[i]
+                entry.author = MockLibraryEntryData.authors[i]
+                do {
+                    try context.save()
+                } catch {
+                    print("Unable to save LibraryEntry entity in LibraryViewModel.")
+                }
+            }
+        }
+    }
+    
+    func countNumCoreDataEntries() -> Int {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<LibraryEntry> = LibraryEntry.fetchRequest()
+        var numEntries = 0
+        
+        do {
+            numEntries = try context.count(for: fetchRequest)
+        } catch {
+            print("Unable to count entity LibraryEntry in LibraryViewModel.")
+        }
+        
+        return numEntries
     }
 }

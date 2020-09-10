@@ -15,8 +15,12 @@ struct LibraryEntryView: View {
         VStack(alignment: .leading) {
             Text(entry.title)
                 .font(.headline)
+                .lineLimit(1)
+                .truncationMode(.tail)
             Text(entry.author)
                 .font(.caption)
+                .lineLimit(1)
+                .truncationMode(.tail)
         }
     }
 }

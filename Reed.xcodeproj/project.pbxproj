@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		B81C86FD250A1370000B9E5F /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81C86FC250A1370000B9E5F /* LibraryViewModel.swift */; };
 		B81C86FF250A2207000B9E5F /* LibraryEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81C86FE250A2207000B9E5F /* LibraryEntryViewModel.swift */; };
+		B81C8702250A3675000B9E5F /* MockLibraryEntryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81C8701250A3675000B9E5F /* MockLibraryEntryData.swift */; };
 		B8667F102509C745001EABD4 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8667F0F2509C745001EABD4 /* AppView.swift */; };
 		B8667F132509CA68001EABD4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8667F122509CA68001EABD4 /* SettingsView.swift */; };
 		B89CD68625098C0100D7D8ED /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89CD68525098C0100D7D8ED /* DiscoverView.swift */; };
@@ -51,6 +52,7 @@
 /* Begin PBXFileReference section */
 		B81C86FC250A1370000B9E5F /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
 		B81C86FE250A2207000B9E5F /* LibraryEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryEntryViewModel.swift; sourceTree = "<group>"; };
+		B81C8701250A3675000B9E5F /* MockLibraryEntryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLibraryEntryData.swift; sourceTree = "<group>"; };
 		B8667F0F2509C745001EABD4 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		B8667F122509CA68001EABD4 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B89CD68525098C0100D7D8ED /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
@@ -111,6 +113,14 @@
 				B81C86FE250A2207000B9E5F /* LibraryEntryViewModel.swift */,
 			);
 			path = viewmodels;
+			sourceTree = "<group>";
+		};
+		B81C8700250A365F000B9E5F /* models */ = {
+			isa = PBXGroup;
+			children = (
+				B81C8701250A3675000B9E5F /* MockLibraryEntryData.swift */,
+			);
+			path = models;
 			sourceTree = "<group>";
 		};
 		B8667F112509CA5D001EABD4 /* views */ = {
@@ -240,6 +250,7 @@
 		B8D456CD2508D349000F9E5F /* LibraryTab */ = {
 			isa = PBXGroup;
 			children = (
+				B81C8700250A365F000B9E5F /* models */,
 				B81C86FB250A005C000B9E5F /* viewmodels */,
 				B8D456D22508DCB7000F9E5F /* views */,
 			);
@@ -444,6 +455,7 @@
 				B81C86FF250A2207000B9E5F /* LibraryEntryViewModel.swift in Sources */,
 				B89CD69A2509944200D7D8ED /* MockCards.swift in Sources */,
 				B89CD6942509934700D7D8ED /* VocabularyListView.swift in Sources */,
+				B81C8702250A3675000B9E5F /* MockLibraryEntryData.swift in Sources */,
 				B8D4569C2508D1A2000F9E5F /* SceneDelegate.swift in Sources */,
 				B81C86FD250A1370000B9E5F /* LibraryViewModel.swift in Sources */,
 			);
