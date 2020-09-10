@@ -9,13 +9,13 @@
 import SwiftUI
 
 struct LibraryEntryView: View {
-    var entry: LibraryEntry
+    var entry: LibraryEntryViewModel
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text(entry.title ?? "unknown")
+            Text(entry.title)
                 .font(.headline)
-            Text(entry.author ?? "unknown")
+            Text(entry.author)
                 .font(.caption)
         }
     }
@@ -26,9 +26,10 @@ struct LibraryViewController_Previews: PreviewProvider {
     static var previews: some View {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         
-        let entry = LibraryEntry(context: context)
-        entry.title = "無職転生　- 異世界行ったら本気だす -"
-        entry.author = "理不尽な孫の手"
+        let entryData = LibraryEntry(context: context)
+        entryData.title = "無職転生　- 異世界行ったら本気だす -"
+        entryData.author = "理不尽な孫の手"
+        let entry = LibraryEntryViewModel(entryData: entryData)
         
         return LibraryEntryView(entry: entry).environment(\.managedObjectContext, context)
     }

@@ -12,7 +12,7 @@ struct AppView: View {
     
     var body: some View {
         TabView {
-            LibraryView()
+            LibraryView(viewModel: LibraryViewModel())
                 .tabItem {
                     Image(systemName: "book")
                     Text("Library")
@@ -41,8 +41,6 @@ struct AppView: View {
 
 struct AppView_Previews: PreviewProvider {
     static var previews: some View {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        
-        return AppView().environment(\.managedObjectContext, context)
+        return AppView()
     }
 }
