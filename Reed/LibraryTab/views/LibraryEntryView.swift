@@ -19,6 +19,7 @@ struct LibraryEntryView: View {
                 .truncationMode(.tail)
             Text(entry.author)
                 .font(.caption)
+                .foregroundColor(.gray)
                 .lineLimit(1)
                 .truncationMode(.tail)
         }
