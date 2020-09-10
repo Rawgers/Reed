@@ -9,13 +9,12 @@
 import SwiftUI
 
 struct LibraryView: View {
-    @FetchRequest(entity: LibraryEntry.entity(), sortDescriptors: [])
-    var libraryEntries: FetchedResults<LibraryEntry>
+    @ObservedObject var viewModel: LibraryViewModel
     
     var body: some View {
         NavigationView {
             List {
-                ForEach(libraryEntries, id: \.self) { entry in
+                ForEach(viewModel.libraryEntries, id: \.self) { entry in
                     LibraryEntryView(entry: entry)
                 }
             }
@@ -26,7 +25,7 @@ struct LibraryView: View {
 
 struct LibraryView_Previews: PreviewProvider {
     static var previews: some View {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        return LibraryView().environment(\.managedObjectContext, context)
+        let viewModel = LibraryViewModel()
+        return LibraryView(viewModel: viewModel)
     }
 }
