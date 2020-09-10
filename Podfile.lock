@@ -1,0 +1,16 @@
+PODS:
+  - GzipSwift (5.1.1)
+
+DEPENDENCIES:
+  - GzipSwift
+
+SPEC REPOS:
+  trunk:
+    - GzipSwift
+
+SPEC CHECKSUMS:
+  GzipSwift: 893f3e48e597a1a4f62fafcb6514220fcf8287fa
+
+PODFILE CHECKSUM: b8d90a855c3082897bcde966f06f8c14c2081cb2
+
+COCOAPODS: 1.9.3
