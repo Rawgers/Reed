@@ -1,26 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="DictionaryEntry" representedClassName="DictionaryEntry" syncable="YES" codeGenerationType="class">
-        <attribute name="definitions" optional="YES" attributeType="Transformable"/>
-        <attribute name="reading" optional="YES" attributeType="String"/>
-        <attribute name="term" optional="YES" attributeType="String"/>
+    <entity name="DictionaryDefinition" representedClassName="DictionaryDefinition" syncable="YES">
+        <attribute name="defAntonyms" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
+        <attribute name="defCrossReferences" optional="YES" attributeType="Transformable" customClassName="[String]"/>
+        <attribute name="defDialects" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
+        <attribute name="defGlosses" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
+        <attribute name="defJargonUses" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
+        <attribute name="defMiscellanea" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
+        <attribute name="defPartsOfSpeech" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
+        <attribute name="defSpecificLexemes" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
+        <attribute name="defUsageInfo" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
+        <relationship name="defLanguageSources" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="DictionaryLanguageSource" inverseName="lsourceParentDefinition" inverseEntity="DictionaryLanguageSource"/>
+        <relationship name="defParentEntry" maxCount="1" deletionRule="Nullify" destinationEntity="DictionaryEntry" inverseName="entryDefinitions" inverseEntity="DictionaryEntry"/>
+    </entity>
+    <entity name="DictionaryEntry" representedClassName="DictionaryEntry" syncable="YES">
+        <attribute name="entryId" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="entryDefinitions" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="DictionaryDefinition" inverseName="defParentEntry" inverseEntity="DictionaryDefinition"/>
+        <relationship name="entryReadings" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="DictionaryReading" inverseName="readingParentEntry" inverseEntity="DictionaryReading"/>
+        <relationship name="entryTerms" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="DictionaryTerm" inverseName="termParentEntry" inverseEntity="DictionaryTerm"/>
+    </entity>
+    <entity name="DictionaryLanguageSource" representedClassName="DictionaryLanguageSource" syncable="YES">
+        <attribute name="lsourceIsWasei" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="lsourceLanguage" optional="YES" attributeType="String" customClassName="[String]"/>
+        <attribute name="lsourceMeaning" attributeType="String" valueTransformerName="NSSecureUnarchiveFromData" customClassName="String"/>
+        <relationship name="lsourceParentDefinition" maxCount="1" deletionRule="Nullify" destinationEntity="DictionaryDefinition" inverseName="defLanguageSources" inverseEntity="DictionaryDefinition"/>
+    </entity>
+    <entity name="DictionaryReading" representedClassName="DictionaryReading" syncable="YES">
+        <attribute name="readingFrequencyPriorities" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
+        <attribute name="readingReading" attributeType="String"/>
+        <attribute name="readingTerms" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
+        <attribute name="readingUnusualInfo" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
+        <relationship name="readingParentEntry" maxCount="1" deletionRule="Nullify" destinationEntity="DictionaryEntry" inverseName="entryReadings" inverseEntity="DictionaryEntry"/>
+    </entity>
+    <entity name="DictionaryTerm" representedClassName="DictionaryTerm" syncable="YES">
+        <attribute name="termFrequencyPriorities" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
+        <attribute name="termTerm" attributeType="String"/>
+        <attribute name="termUnusualInfo" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
+        <relationship name="termParentEntry" maxCount="1" deletionRule="Nullify" destinationEntity="DictionaryEntry" inverseName="entryTerms" inverseEntity="DictionaryEntry"/>
     </entity>
     <entity name="LibraryEntry" representedClassName="LibraryEntry" syncable="YES" codeGenerationType="class">
         <attribute name="author" attributeType="String"/>
         <attribute name="title" attributeType="String"/>
     </entity>
-    <entity name="VocabularyCard" representedClassName="VocabularyCard" syncable="YES" codeGenerationType="class">
-        <attribute name="contexts" optional="YES" attributeType="Transformable"/>
-        <attribute name="term" optional="YES" attributeType="String"/>
-    </entity>
-    <entity name="VocabularyList" representedClassName="VocabularyList" syncable="YES" codeGenerationType="class">
-        <attribute name="cards" optional="YES" attributeType="Transformable"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-    </entity>
     <elements>
+        <element name="DictionaryDefinition" positionX="-18" positionY="63" width="128" height="208"/>
+        <element name="DictionaryEntry" positionX="-36" positionY="36" width="128" height="103"/>
+        <element name="DictionaryLanguageSource" positionX="45" positionY="135" width="128" height="103"/>
+        <element name="DictionaryReading" positionX="160" positionY="192" width="128" height="118"/>
+        <element name="DictionaryTerm" positionX="160" positionY="192" width="128" height="103"/>
         <element name="LibraryEntry" positionX="-63" positionY="-18" width="128" height="73"/>
-        <element name="VocabularyCard" positionX="-63" positionY="0" width="128" height="73"/>
-        <element name="VocabularyList" positionX="-54" positionY="27" width="128" height="73"/>
-        <element name="DictionaryEntry" positionX="-36" positionY="36" width="128" height="88"/>
     </elements>
 </model>
