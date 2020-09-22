@@ -28,12 +28,16 @@ class DictionaryParserTest: XCTestCase {
         mockContainer = createMockPersistentContainer(model: managedObjectModel)
         let mockStorageManager = DictionaryStorageManager(container: mockContainer)
         mockParser = DictionaryParser(storageManager: mockStorageManager)
-        mockContext = mockParser.storageManager.backgroundContext
+        mockContext = mockParser.context
     }
     
     override func tearDown() {
-        flushData(mockContext: mockContext)
+        mockParser.storageManager.flushAll()
         super.tearDown()
+    }
+    
+    func testReadInDictionaryData() {
+        XCTAssertNotNil(try? mockParser.readInDictionaryData())
     }
     
     /// Test most basic entry with one <reb> and one <sense> tag.

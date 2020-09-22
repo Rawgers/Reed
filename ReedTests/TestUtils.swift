@@ -15,17 +15,17 @@ func createMockPersistentContainer(model: NSManagedObjectModel) -> NSPersistentC
         managedObjectModel: model
     )
     let description = NSPersistentStoreDescription()
-    description.type = NSInMemoryStoreType
+    description.type = NSSQLiteStoreType
     description.shouldAddStoreAsynchronously = false
     
     container.persistentStoreDescriptions = [description]
     container.loadPersistentStores { (description, error) in
         // Check if the data store is in memory
-        precondition( description.type == NSInMemoryStoreType )
+        precondition( description.type == NSSQLiteStoreType )
                                     
         // Check if creating container wrong
         if let error = error {
-            fatalError("Create an in-mem coordinator failed \(error)")
+            fatalError("Create coordinator failed \(error)")
         }
     }
     

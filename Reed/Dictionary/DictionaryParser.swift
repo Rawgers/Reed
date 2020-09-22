@@ -10,12 +10,15 @@ import CoreData
 import Foundation
 import SwiftUI
 
+import Gzip
 import SwiftyJSON
 
 
 enum DictionaryParserError: Error {
-    case invalidCompressionFormat
-    case gunzipFailed
+    case decompressFailure
+    case invalidContents
+    case incorrectDataFormat
+    case missingDictionary
 }
 
 class DictionaryParser: NSObject {
@@ -40,20 +43,34 @@ class DictionaryParser: NSObject {
         storageManager = DictionaryStorageManager()
     }
     
+    func readInDictionaryData() throws -> Data {
+        guard let dictionaryPath = Bundle.main.path(forResource: "JMdict_e.json", ofType: "gz") else {
+            throw DictionaryParserError.missingDictionary
+        }
+        guard let compressedContents = FileManager().contents(atPath: dictionaryPath) else {
+            throw DictionaryParserError.invalidContents
+        }
+        if !compressedContents.isGzipped {
+            throw DictionaryParserError.incorrectDataFormat
+        }
+        if let decompressedData = try? compressedContents.gunzipped() {
+            return decompressedData
+        } else {
+            throw DictionaryParserError.decompressFailure
+        }
+    }
+    
     func parseAndLoad(dictionaryData: Data) {
-//        let data = try decompress(data: dictionaryData)
-//        guard let stringifiedData = String(data: data, encoding: .utf8) else {
-//            throw DictionaryParserError.stringInitFailed
-//        }
-//        let dictDataByLines = stringifiedData.components(separatedBy: "\n")
-//        for line in dictDataByLines {}
         let dictionary = try! JSON(data: dictionaryData)
         parse(dictionary)
         storageManager.save()
     }
     
     private func parse(_ dictionary: JSON) {
-        for (_, entry) in dictionary {
+        for (i, entry) in dictionary {
+            if Int(i)! % 1000 == 0 {
+                storageManager.save()
+            }
             terms = [String]()
             partsOfSpeech = [String]()
             
@@ -64,6 +81,8 @@ class DictionaryParser: NSObject {
             parseReadings(entry["r_ele"], parentEntry: parsedEntry)
             parseDefinitions(entry["sense"], parentEntry: parsedEntry)
         }
+        
+        NotificationCenter.default.post(name: .didFinishLoadingDictionary, object: nil)
     }
     
     private func parseTerms(_ kEles: JSON, parentEntry: DictionaryEntry) {

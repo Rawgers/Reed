@@ -9,6 +9,7 @@
 import CoreData
 import SwiftUI
 
+
 class DictionaryStorageManager {
     
     let persistentContainer: NSPersistentContainer
@@ -18,7 +19,6 @@ class DictionaryStorageManager {
     
     init(container: NSPersistentContainer) {
         self.persistentContainer = container
-        self.persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
     }
     
     convenience init() {
@@ -28,8 +28,14 @@ class DictionaryStorageManager {
         self.init(container: appDelegate.persistentContainer)
     }
     
-    func insertDictionaryEntry(entry: DictionaryEntry) {
-        NSEntityDescription.insertNewObject(forEntityName: "DictionaryEntry", into: backgroundContext)
+    func flushAll() {
+        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "DictionaryEntry")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetch)
+        do {
+            try backgroundContext.execute(deleteRequest)
+        } catch {
+            print("Unable to delete entries.")
+        }
     }
 
     func fetchAll() -> [DictionaryEntry] {
@@ -43,7 +49,7 @@ class DictionaryStorageManager {
             do {
                 try backgroundContext.save()
             } catch {
-                print("Save error \(error)")
+                print("Save error.")
             }
         }
     }
