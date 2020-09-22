@@ -23,3 +23,7 @@ DerivedData/
 
 ## Cocoapods
 Pods/
+
+## Dictionary files
+JMdict_e.json
+JMdict_e.json.gz
