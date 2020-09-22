@@ -36,9 +36,9 @@ class DictionaryParserTest: XCTestCase {
         super.tearDown()
     }
     
-    func testReadInDictionaryData() {
-        XCTAssertNotNil(try? mockParser.readInDictionaryData())
-    }
+//    func testReadInDictionaryData() {
+//        XCTAssertNotNil(try? mockParser.readInDictionaryData())
+//    }
     
     /// Test most basic entry with one <reb> and one <sense> tag.
     func testBasicEntry() {
