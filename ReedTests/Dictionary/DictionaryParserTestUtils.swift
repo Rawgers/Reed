@@ -117,16 +117,6 @@ struct ExpectedLanguageSource {
     }
 }
 
-func flushData(mockContext: NSManagedObjectContext) {
-    let fetchRequest: NSFetchRequest<DictionaryEntry> = NSFetchRequest<DictionaryEntry>(entityName: "DictionaryEntry")
-    let entries = try! mockContext.fetch(fetchRequest)
-    
-    for entry in entries {
-        mockContext.delete(entry)
-    }
-    try! mockContext.save()
-}
-
 func formatTestData(_ testData: String) -> Data {
     return testData
         .replacingOccurrences(of: "    ", with: "")
@@ -137,8 +127,7 @@ func formatTestData(_ testData: String) -> Data {
 func testParse(mockParser: DictionaryParser, testData: Data, expected: ExpectedEntry) {
     mockParser.parseAndLoad(dictionaryData: testData)
     
-    let fetchRequest: NSFetchRequest<DictionaryEntry> = DictionaryEntry.fetchRequest()
-    let res = try! mockParser.context.fetch(fetchRequest)[0]
+    let res = mockParser.storageManager.fetchAll()[0]
     validateDictionaryEntry(created: res, expected: expected)
 }
 
@@ -254,7 +243,6 @@ func validateDictionaryDefinition(created: DictionaryDefinition, expected: Expec
         "DictionaryEntryDefinition does not have the correct value for property `crossReferences`."
     )
     
-    print(created.languageSources)
     for (i, lsource) in created.languageSources.enumerated() {
         validateDictionaryLanguageSource(created: lsource, expected: expected.languageSources![i])
         XCTAssertEqual(
@@ -262,7 +250,6 @@ func validateDictionaryDefinition(created: DictionaryDefinition, expected: Expec
             created,
             "DictionaryLanguageSource child does not reference current DictionaryDefinition as parent in `parentDefinition` property."
         )
-        print(lsource)
     }
  
 }
