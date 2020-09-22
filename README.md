@@ -4,9 +4,9 @@
 1. Clone the repo.
 2. `cd` to Reed and run `pod install`.
 3. Open Xcode and add a copy of a gzipped, jsonified JMdict file (see below) into the Dictionary group, enabling "copy".
-4. Build the project (CMD+B) and test targets (CMD+Shift+U).
+4. Build the project (`CMD+B`) and test targets (`CMD+Shift+U`).
 5. You can run the unit test `ReedTests/Dictionary/DictionaryParserTests: testReadInDictionaryData` to see if you have your dictionary set up correctly.
-6. Run the project (CMD+R) and wait at the splash screen to load the dictionary into Core Data (this may take 6+ minutes on Simulator).
+6. Run the project (`CMD+R`) and wait at the splash screen to load the dictionary into Core Data (this may take 6+ minutes on Simulator).
 
 ## How to get a dictionary file
 ### Option 1:
@@ -20,4 +20,4 @@
 3. Clone the JMdict-parser repo by tkshnwesper: https://github.com/tkshnwesper/JMdict-Parser#readme
 4. Install its dependencies: `npm i -g jmdict-parser`
 5. Convert the unzipped dictionary to json: `jmdict-parser <your_jmdict_xml_file>`
-6. Compress the json file: `gzip <your_jmdict_json_file>
+6. Compress the json file: `gzip <your_jmdict_json_file>`
