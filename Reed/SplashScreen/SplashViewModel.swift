@@ -10,6 +10,7 @@ import SwiftUI
 
 
 class SplashViewModel: ObservableObject {
+    
     @Published var loadingText: String = "Loading"
     @Published var isSplashActive: Bool = true
     
@@ -67,4 +68,5 @@ class SplashViewModel: ObservableObject {
             self.dismissSplash()
         }
     }
+    
 }

@@ -54,3 +54,25 @@ class DictionaryStorageManager {
         }
     }
 }
+
+/// Handles the retrieval of Dictionary objects.
+extension DictionaryStorageManager {
+    
+    func fetchEntries(key: String, isKana: Bool) -> [DictionaryEntry] {
+        if isKana {
+            return fetchReadings().map { $0.entry }
+        }
+        return fetchTerms().map { $0.entry }
+    }
+    
+    func fetchReadings() -> [DictionaryReading] {
+        let fetchRequest: NSFetchRequest<DictionaryReading> = DictionaryReading.fetchRequest()
+        return (try? backgroundContext.fetch(fetchRequest)) ?? []
+    }
+    
+    func fetchTerms() -> [DictionaryTerm] {
+        let fetchRequest: NSFetchRequest<DictionaryTerm> = DictionaryTerm.fetchRequest()
+        return (try? backgroundContext.fetch(fetchRequest)) ?? []
+    }
+    
+}
