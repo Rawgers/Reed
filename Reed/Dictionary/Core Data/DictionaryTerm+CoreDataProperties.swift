@@ -1,5 +1,5 @@
 //
-//  DictionaryEntryTerm+CoreDataProperties.swift
+//  DictionaryTerm+CoreDataProperties.swift
 //  Reed
 //
 //  Created by Roger Luo on 9/14/20.
@@ -14,7 +14,7 @@ import CoreData
 extension DictionaryTerm {
 
     @nonobjc class func fetchRequest() -> NSFetchRequest<DictionaryTerm> {
-        return NSFetchRequest<DictionaryTerm>(entityName: "DictionaryEntryTerm")
+        return NSFetchRequest<DictionaryTerm>(entityName: "DictionaryTerm")
     }
 
     /// Represents JMDict <keb> tag. Contains one term.
@@ -27,7 +27,7 @@ extension DictionaryTerm {
     @NSManaged private var termFrequencyPriorities: [String]?
     
     /// Represents JMDict <entry> tag. The entry to which this term belongs.
-    @NSManaged private var termParentEntry: DictionaryEntry?
+    @NSManaged var termParentEntry: DictionaryEntry?
 
     var term: String {
         get { termTerm ?? "" }

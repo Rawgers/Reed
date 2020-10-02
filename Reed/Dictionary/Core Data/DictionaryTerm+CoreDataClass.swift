@@ -1,5 +1,5 @@
 //
-//  DictionaryEntryTerm+CoreDataClass.swift
+//  DictionaryTerm+CoreDataClass.swift
 //  Reed
 //
 //  Created by Roger Luo on 9/13/20.
