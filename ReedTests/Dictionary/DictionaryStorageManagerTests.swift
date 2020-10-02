@@ -25,7 +25,7 @@ class DictionaryStorageManagerTest: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        mockContainer = createMockPersistentContainer(model: managedObjectModel)
+        mockContainer = createMockPersistentContainer(model: managedObjectModel, storeType: NSSQLiteStoreType)
         let mockStorageManager = DictionaryStorageManager(container: mockContainer)
         mockParser = DictionaryParser(storageManager: mockStorageManager)
         mockContext = mockParser.context

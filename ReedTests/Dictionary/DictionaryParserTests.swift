@@ -31,11 +31,6 @@ class DictionaryParserTest: XCTestCase {
         mockContext = mockParser.context
     }
     
-    override func tearDown() {
-        mockParser.storageManager.flushAll()
-        super.tearDown()
-    }
-    
 //    func testReadInDictionaryData() {
 //        XCTAssertNotNil(try? mockParser.readInDictionaryData())
 //    }

@@ -428,8 +428,8 @@
 			isa = PBXGroup;
 			children = (
 				B8D456B32508D1A2000F9E5F /* DictionaryParserTests.swift */,
-				B8939B8325152ED0000399E0 /* DictionaryParserTestUtils.swift */,
 				B8539EE42519755A000FF025 /* DictionaryStorageManagerTests.swift */,
+				B8939B8325152ED0000399E0 /* DictionaryParserTestUtils.swift */,
 			);
 			path = Dictionary;
 			sourceTree = "<group>";

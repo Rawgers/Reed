@@ -8,20 +8,23 @@
 
 import CoreData
 
-func createMockPersistentContainer(model: NSManagedObjectModel) -> NSPersistentContainer {
+func createMockPersistentContainer(
+    model: NSManagedObjectModel,
+    storeType: String = NSInMemoryStoreType
+) -> NSPersistentContainer {
     
     let container = NSPersistentContainer(
         name: "mockContainer",
         managedObjectModel: model
     )
     let description = NSPersistentStoreDescription()
-    description.type = NSSQLiteStoreType
+    description.type = storeType
     description.shouldAddStoreAsynchronously = false
     
     container.persistentStoreDescriptions = [description]
     container.loadPersistentStores { (description, error) in
         // Check if the data store is in memory
-        precondition( description.type == NSSQLiteStoreType )
+        precondition(description.type == storeType)
                                     
         // Check if creating container wrong
         if let error = error {
