@@ -14,7 +14,7 @@ import XCTest
 class DictionaryStorageManagerTest: XCTestCase {
     
     lazy var managedObjectModel: NSManagedObjectModel = {
-        let managedObjectModel = NSManagedObjectModel.mergedModel(from: [Bundle(for: type(of: self))] )!
+        let managedObjectModel = NSManagedObjectModel.mergedModel(from: [Bundle(for: type(of: self))])!
         return managedObjectModel
     }()
     

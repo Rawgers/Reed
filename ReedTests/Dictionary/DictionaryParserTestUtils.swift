@@ -143,7 +143,7 @@ func validateDictionaryEntry(created: DictionaryEntry, expected: ExpectedEntry) 
         XCTAssertEqual(
             reading.entry,
             created,
-            "DictionaryEntryReading child does not reference current DictionaryEntry as parent in `entry` property."
+            "DictionaryReading child does not reference current DictionaryEntry as parent in `entry` property."
         )
     }
     for (i, term) in created.terms.enumerated() {
@@ -151,7 +151,7 @@ func validateDictionaryEntry(created: DictionaryEntry, expected: ExpectedEntry) 
         XCTAssertEqual(
             term.entry,
             created,
-            "DictionaryEntryTerm child does not reference current DictionaryEntry as parent in `entry` property."
+            "DictionaryTerm child does not reference current DictionaryEntry as parent in `entry` property."
         )
     }
     
@@ -160,7 +160,7 @@ func validateDictionaryEntry(created: DictionaryEntry, expected: ExpectedEntry) 
         XCTAssertEqual(
             definition.entry,
             created,
-            "DictionaryEntryDefinition child does not reference current DictionaryEntry as parent in `entry` property."
+            "DictionaryDefinition child does not reference current DictionaryEntry as parent in `entry` property."
         )
     }
 }
@@ -169,22 +169,22 @@ func validateDictionaryReading(created: DictionaryReading, expected: ExpectedRea
     XCTAssertEqual(
         created.reading,
         expected.reading,
-        "DictionaryEntryReading does not have the correct value for property `reading`."
+        "DictionaryReading does not have the correct value for property `reading`."
     )
     XCTAssertEqual(
         created.terms,
         expected.terms,
-        "DictionaryEntryReading does not have the correct value for property `terms`."
+        "DictionaryReading does not have the correct value for property `terms`."
     )
     XCTAssertEqual(
         created.unusualInfo,
         expected.unusualInfo,
-        "DictionaryEntryReading does not have the correct value for property `unusualInfo`."
+        "DictionaryReading does not have the correct value for property `unusualInfo`."
     )
     XCTAssertEqual(
         created.frequencyPriorities,
         expected.frequencyPriorities,
-        "DictionaryEntryReading does not have the correct value for property `frequencyPriorities`."
+        "DictionaryReading does not have the correct value for property `frequencyPriorities`."
     )
 }
 
@@ -192,17 +192,17 @@ func validateDictionaryTerm(created: DictionaryTerm, expected: ExpectedTerm) {
     XCTAssertEqual(
         created.term,
         expected.term,
-        "DictionaryEntryTerm does not have the correct value for property `term`."
+        "DictionaryTerm does not have the correct value for property `term`."
     )
     XCTAssertEqual(
         created.unusualInfo,
         expected.unusualInfo,
-        "DictionaryEntryTerm does not have the correct value for property `unusualInfo`."
+        "DictionaryTerm does not have the correct value for property `unusualInfo`."
     )
     XCTAssertEqual(
         created.frequencyPriorities,
         expected.frequencyPriorities,
-        "DictionaryEntryTerm does not have the correct value for property `frequencyPriorities`."
+        "DictionaryTerm does not have the correct value for property `frequencyPriorities`."
     )
 }
 
@@ -210,37 +210,37 @@ func validateDictionaryDefinition(created: DictionaryDefinition, expected: Expec
     XCTAssertEqual(
         created.glosses,
         expected.glosses,
-        "DictionaryEntryDefinition does not have the correct value for property `glosses`."
+        "DictionaryDefinition does not have the correct value for property `glosses`."
     )
     XCTAssertEqual(
         created.partsOfSpeech,
         expected.partsOfSpeech,
-        "DictionaryEntryDefinition does not have the correct value for property `partsOfSpeech`."
+        "DictionaryDefinition does not have the correct value for property `partsOfSpeech`."
     )
     XCTAssertEqual(
         created.specificLexemes,
         expected.specificLexemes,
-        "DictionaryEntryDefinition does not have the correct value for property `specificLexemes`."
+        "DictionaryDefinition does not have the correct value for property `specificLexemes`."
     )
     XCTAssertEqual(
         created.dialects,
         expected.dialects,
-        "DictionaryEntryDefinition does not have the correct value for property `dialects`."
+        "DictionaryDefinition does not have the correct value for property `dialects`."
     )
     XCTAssertEqual(
         created.jargonUses,
         expected.jargonUses,
-        "DictionaryEntryDefinition does not have the correct value for property `jargonUses`."
+        "DictionaryDefinition does not have the correct value for property `jargonUses`."
     )
     XCTAssertEqual(
         created.miscellanea,
         expected.miscellanea,
-        "DictionaryEntryDefinition does not have the correct value for property `miscellanea`."
+        "DictionaryDefinition does not have the correct value for property `miscellanea`."
     )
     XCTAssertEqual(
         created.crossReferences,
         expected.crossReferences,
-        "DictionaryEntryDefinition does not have the correct value for property `crossReferences`."
+        "DictionaryDefinition does not have the correct value for property `crossReferences`."
     )
     
     for (i, lsource) in created.languageSources.enumerated() {
@@ -258,16 +258,16 @@ func validateDictionaryLanguageSource(created: DictionaryLanguageSource, expecte
     XCTAssertEqual(
         created.isWasei,
         expected.isWasei,
-        "DictionaryEntryDefinition does not have the correct value for property `isWasei`."
+        "DictionaryLanguageSource does not have the correct value for property `isWasei`."
     )
     XCTAssertEqual(
         created.language,
         expected.language,
-        "DictionaryEntryDefinition does not have the correct value for property `language`."
+        "DictionaryLanguageSource does not have the correct value for property `language`."
     )
     XCTAssertEqual(
         created.meaning,
         expected.meaning,
-        "DictionaryEntryDefinition does not have the correct value for property `meaning`."
+        "DictionaryLanguageSource does not have the correct value for property `meaning`."
     )
 }

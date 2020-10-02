@@ -18,15 +18,15 @@ extension DictionaryEntry {
     }
 
     /// Represents JMDict <ent_seq> tag. Uniquely identifies each <entry> with a number starting from 1,000,000.
-    @NSManaged private var entryId: Int32
+    @NSManaged var entryId: Int32
     
-    /// Represents JMDict <r_ele> tag. Contains one or more DictionaryEntryReading objects.
+    /// Represents JMDict <r_ele> tag. Contains one or more DictionaryReading objects.
     @NSManaged private var entryReadings: NSOrderedSet?
     
-    /// Represents JMDict <k_ele> tag. Contains zero or more DictionaryEntryTerm objects.
+    /// Represents JMDict <k_ele> tag. Contains zero or more DictionaryTerm objects.
     @NSManaged private var entryTerms: NSOrderedSet?
     
-    /// Represents JMDict <sense> tag. Contains one or more DictionaryEntryDefinition objects.
+    /// Represents JMDict <sense> tag. Contains one or more DictionaryDefinition objects.
     @NSManaged private var entryDefinitions: NSOrderedSet?
     
     var id: Int32 {

@@ -1,5 +1,5 @@
 //
-//  DictionaryEntryReading+CoreDataProperties.swift
+//  DictionaryReading+CoreDataProperties.swift
 //  Reed
 //
 //  Created by Roger Luo on 9/14/20.
@@ -14,7 +14,7 @@ import CoreData
 extension DictionaryReading {
 
     @nonobjc class func fetchRequest() -> NSFetchRequest<DictionaryReading> {
-        return NSFetchRequest<DictionaryReading>(entityName: "DictionaryEntryReading")
+        return NSFetchRequest<DictionaryReading>(entityName: "DictionaryReading")
     }
 
     /// Represents JMDict <reb> tag. Contains one reading.
@@ -30,7 +30,7 @@ extension DictionaryReading {
     @NSManaged private var readingFrequencyPriorities: [String]?
     
     /// Represents JMDict <entry> tag. The entry to which this reading belongs.
-    @NSManaged private var readingParentEntry: DictionaryEntry?
+    @NSManaged var readingParentEntry: DictionaryEntry?
     
     var reading: String {
         get { readingReading ?? "" }
