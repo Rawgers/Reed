@@ -1,20 +1,24 @@
 PODS:
   - GzipSwift (5.1.1)
+  - SwiftUIPager (1.11.0)
   - SwiftyJSON (4.3.0)
 
 DEPENDENCIES:
   - GzipSwift
+  - SwiftUIPager
   - SwiftyJSON (~> 4.0)
 
 SPEC REPOS:
   trunk:
     - GzipSwift
+    - SwiftUIPager
     - SwiftyJSON
 
 SPEC CHECKSUMS:
   GzipSwift: 893f3e48e597a1a4f62fafcb6514220fcf8287fa
+  SwiftUIPager: c4a891a61efc2b3bba53ec359d1470e85f064a1d
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: f7f3b2f269c1dc22aa6fd32024240090997529ed
+PODFILE CHECKSUM: 6ae9aaf32b3fc760bfc325e85895e1433c266532
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.9.1

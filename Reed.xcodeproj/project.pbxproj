@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		373DE8EC873977020586BA5D /* libPods-Reed.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB226BA52A6687FA59B7D4F0 /* libPods-Reed.a */; };
+		6D1A3A6D250DFD5300D389B1 /* ReaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1A3A6C250DFD5300D389B1 /* ReaderViewModel.swift */; };
 		A1D4D71735522B095DE86972 /* libPods-ReedTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CB34B8D1D66FEC309309B5A6 /* libPods-ReedTests.a */; };
 		B8093DD6251A988200D95DCF /* NotificationName+DictionaryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8093DD5251A988200D95DCF /* NotificationName+DictionaryParser.swift */; };
 		B81C86FD250A1370000B9E5F /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81C86FC250A1370000B9E5F /* LibraryViewModel.swift */; };
@@ -80,6 +81,7 @@
 		05F6AF7D4822634DEDD39684 /* Pods-Reed.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reed.release.xcconfig"; path = "Target Support Files/Pods-Reed/Pods-Reed.release.xcconfig"; sourceTree = "<group>"; };
 		09D60999940D335A7D74D917 /* Pods-ReedTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReedTests.debug.xcconfig"; path = "Target Support Files/Pods-ReedTests/Pods-ReedTests.debug.xcconfig"; sourceTree = "<group>"; };
 		4C9134A1E97C7A555EA7B8DB /* Pods-ReedTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReedTests.release.xcconfig"; path = "Target Support Files/Pods-ReedTests/Pods-ReedTests.release.xcconfig"; sourceTree = "<group>"; };
+		6D1A3A6C250DFD5300D389B1 /* ReaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ReaderViewModel.swift; path = ../../../../../Documents/ReaderViewModel.swift; sourceTree = "<group>"; };
 		B8093DD5251A988200D95DCF /* NotificationName+DictionaryParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+DictionaryParser.swift"; sourceTree = "<group>"; };
 		B81C86FC250A1370000B9E5F /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
 		B81C86FE250A2207000B9E5F /* LibraryEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryEntryViewModel.swift; sourceTree = "<group>"; };
@@ -172,6 +174,14 @@
 				CB34B8D1D66FEC309309B5A6 /* libPods-ReedTests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6D1A3A69250DFCC200D389B1 /* viewmodels */ = {
+			isa = PBXGroup;
+			children = (
+				6D1A3A6C250DFD5300D389B1 /* ReaderViewModel.swift */,
+			);
+			path = viewmodels;
 			sourceTree = "<group>";
 		};
 		AF0496628FC517FF3A2B0A80 /* Pods */ = {
@@ -394,6 +404,7 @@
 			isa = PBXGroup;
 			children = (
 				B89CD68725098FD600D7D8ED /* models */,
+				6D1A3A69250DFCC200D389B1 /* viewmodels */,
 				B89CD68C2509927C00D7D8ED /* views */,
 			);
 			path = Reader;
@@ -651,6 +662,7 @@
 				B898110B250F81600059F71F /* NSManagedObject+Init.swift in Sources */,
 				B8D4569F2508D1A2000F9E5F /* Reed.xcdatamodeld in Sources */,
 				B8B8F9912526C10400D6DF8B /* DictionaryFetcher.swift in Sources */,
+				6D1A3A6D250DFD5300D389B1 /* ReaderViewModel.swift in Sources */,
 				B89CD68625098C0100D7D8ED /* DiscoverView.swift in Sources */,
 				B8667F102509C745001EABD4 /* AppView.swift in Sources */,
 				B8F5C218250EDEEB000810F8 /* DictionaryTerm+CoreDataProperties.swift in Sources */,
@@ -835,6 +847,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Reed/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Reed/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -855,6 +868,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Reed/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Reed/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
