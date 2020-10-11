@@ -405,7 +405,6 @@
 			children = (
 				6D8D5337252DB083001FA054 /* viewmodels */,
 				B89CD68725098FD600D7D8ED /* models */,
-				6D1A3A69250DFCC200D389B1 /* viewmodels */,
 				B89CD68C2509927C00D7D8ED /* views */,
 			);
 			path = Reader;
@@ -663,7 +662,6 @@
 				B898110B250F81600059F71F /* NSManagedObject+Init.swift in Sources */,
 				B8D4569F2508D1A2000F9E5F /* Reed.xcdatamodeld in Sources */,
 				B8B8F9912526C10400D6DF8B /* DictionaryFetcher.swift in Sources */,
-				6D1A3A6D250DFD5300D389B1 /* ReaderViewModel.swift in Sources */,
 				B89CD68625098C0100D7D8ED /* DiscoverView.swift in Sources */,
 				B8667F102509C745001EABD4 /* AppView.swift in Sources */,
 				B8F5C218250EDEEB000810F8 /* DictionaryTerm+CoreDataProperties.swift in Sources */,
