@@ -10,13 +10,23 @@ import SwiftUI
 
 
 struct DefinitionModal: View {
+    @EnvironmentObject var wordSelection: Word
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            Color.gray
+            Text(self.wordSelection.word)
+        }
+        .edgesIgnoringSafeArea(.vertical)
     }
 }
 
 struct DefinitionModal_Previews: PreviewProvider {
     static var previews: some View {
-        DefinitionModal()
+        DefinitionModal().environmentObject(Word())
     }
+}
+
+class Word: ObservableObject {
+    @Published var word: String = ""
 }
