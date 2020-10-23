@@ -11,6 +11,8 @@
 		6DCF77DB252DB19B00CB3C5D /* ReaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCF77DA252DB19B00CB3C5D /* ReaderViewModel.swift */; };
 		A1D4D71735522B095DE86972 /* libPods-ReedTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CB34B8D1D66FEC309309B5A6 /* libPods-ReedTests.a */; };
 		B8093DD6251A988200D95DCF /* NotificationName+DictionaryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8093DD5251A988200D95DCF /* NotificationName+DictionaryParser.swift */; };
+		B80CBD272542887700C807CD /* TrendingListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80CBD262542887700C807CD /* TrendingListItemViewModel.swift */; };
+		B80F45BC25411271004F8A22 /* TrendingListSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80F45BB25411271004F8A22 /* TrendingListSectionViewModel.swift */; };
 		B81C86FD250A1370000B9E5F /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81C86FC250A1370000B9E5F /* LibraryViewModel.swift */; };
 		B81C86FF250A2207000B9E5F /* LibraryEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81C86FE250A2207000B9E5F /* LibraryEntryViewModel.swift */; };
 		B81C8702250A3675000B9E5F /* MockLibraryEntryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81C8701250A3675000B9E5F /* MockLibraryEntryData.swift */; };
@@ -38,6 +40,10 @@
 		B89CD69A2509944200D7D8ED /* MockCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89CD6992509944200D7D8ED /* MockCards.swift */; };
 		B8A2617F25268B5C00A2FBFD /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A2617E25268B5C00A2FBFD /* Utils.swift */; };
 		B8A5E50E2527BACE003BCF07 /* UtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A5E50D2527BACE003BCF07 /* UtilsTests.swift */; };
+		B8A78EE32542EBD000577974 /* TrendingListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A78EE22542EBD000577974 /* TrendingListViewModel.swift */; };
+		B8A78EE82542EC3B00577974 /* TrendingList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A78EE72542EC3B00577974 /* TrendingList.swift */; };
+		B8A78F072542F26700577974 /* TrendingListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A78F062542F26700577974 /* TrendingListSection.swift */; };
+		B8A78F0C2542F27200577974 /* TrendingListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A78F0B2542F27200577974 /* TrendingListItem.swift */; };
 		B8B8F9912526C10400D6DF8B /* DictionaryFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B8F9902526C10400D6DF8B /* DictionaryFetcher.swift */; };
 		B8D4569A2508D1A2000F9E5F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D456992508D1A2000F9E5F /* AppDelegate.swift */; };
 		B8D4569C2508D1A2000F9E5F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4569B2508D1A2000F9E5F /* SceneDelegate.swift */; };
@@ -48,7 +54,6 @@
 		B8D456B42508D1A2000F9E5F /* DictionaryParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D456B32508D1A2000F9E5F /* DictionaryParserTests.swift */; };
 		B8D456BF2508D1A3000F9E5F /* ReedUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D456BE2508D1A3000F9E5F /* ReedUITests.swift */; };
 		B8D456D62508DD24000F9E5F /* LibraryEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D456D52508DD24000F9E5F /* LibraryEntryView.swift */; };
-		B8D456D82508DD46000F9E5F /* MockBooks.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D456D72508DD46000F9E5F /* MockBooks.swift */; };
 		B8F04A892517F07500405599 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F04A882517F07500405599 /* SplashView.swift */; };
 		B8F5C20D250EDDB2000810F8 /* DictionaryEntry+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F5C209250EDDB2000810F8 /* DictionaryEntry+CoreDataClass.swift */; };
 		B8F5C20E250EDDB2000810F8 /* DictionaryEntry+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F5C20A250EDDB2000810F8 /* DictionaryEntry+CoreDataProperties.swift */; };
@@ -83,6 +88,8 @@
 		4C9134A1E97C7A555EA7B8DB /* Pods-ReedTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReedTests.release.xcconfig"; path = "Target Support Files/Pods-ReedTests/Pods-ReedTests.release.xcconfig"; sourceTree = "<group>"; };
 		6DCF77DA252DB19B00CB3C5D /* ReaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderViewModel.swift; sourceTree = "<group>"; };
 		B8093DD5251A988200D95DCF /* NotificationName+DictionaryParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+DictionaryParser.swift"; sourceTree = "<group>"; };
+		B80CBD262542887700C807CD /* TrendingListItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingListItemViewModel.swift; sourceTree = "<group>"; };
+		B80F45BB25411271004F8A22 /* TrendingListSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingListSectionViewModel.swift; sourceTree = "<group>"; };
 		B81C86FC250A1370000B9E5F /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
 		B81C86FE250A2207000B9E5F /* LibraryEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryEntryViewModel.swift; sourceTree = "<group>"; };
 		B81C8701250A3675000B9E5F /* MockLibraryEntryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLibraryEntryData.swift; sourceTree = "<group>"; };
@@ -109,6 +116,10 @@
 		B89CD6992509944200D7D8ED /* MockCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCards.swift; sourceTree = "<group>"; };
 		B8A2617E25268B5C00A2FBFD /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		B8A5E50D2527BACE003BCF07 /* UtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilsTests.swift; sourceTree = "<group>"; };
+		B8A78EE22542EBD000577974 /* TrendingListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingListViewModel.swift; sourceTree = "<group>"; };
+		B8A78EE72542EC3B00577974 /* TrendingList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingList.swift; sourceTree = "<group>"; };
+		B8A78F062542F26700577974 /* TrendingListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingListSection.swift; sourceTree = "<group>"; };
+		B8A78F0B2542F27200577974 /* TrendingListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingListItem.swift; sourceTree = "<group>"; };
 		B8B8F9902526C10400D6DF8B /* DictionaryFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryFetcher.swift; sourceTree = "<group>"; };
 		B8D456962508D1A2000F9E5F /* Reed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8D456992508D1A2000F9E5F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -125,7 +136,6 @@
 		B8D456BE2508D1A3000F9E5F /* ReedUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReedUITests.swift; sourceTree = "<group>"; };
 		B8D456C02508D1A3000F9E5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B8D456D52508DD24000F9E5F /* LibraryEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryEntryView.swift; sourceTree = "<group>"; };
-		B8D456D72508DD46000F9E5F /* MockBooks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBooks.swift; sourceTree = "<group>"; };
 		B8D91017B089018BE0AEBA19 /* Pods-Reed.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reed.debug.xcconfig"; path = "Target Support Files/Pods-Reed/Pods-Reed.debug.xcconfig"; sourceTree = "<group>"; };
 		B8F04A882517F07500405599 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		B8F5C209250EDDB2000810F8 /* DictionaryEntry+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DictionaryEntry+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -195,6 +205,16 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		B80F45BA25411110004F8A22 /* viewmodels */ = {
+			isa = PBXGroup;
+			children = (
+				B80F45BB25411271004F8A22 /* TrendingListSectionViewModel.swift */,
+				B80CBD262542887700C807CD /* TrendingListItemViewModel.swift */,
+				B8A78EE22542EBD000577974 /* TrendingListViewModel.swift */,
+			);
+			path = viewmodels;
+			sourceTree = "<group>";
+		};
 		B81C86FB250A005C000B9E5F /* viewmodels */ = {
 			isa = PBXGroup;
 			children = (
@@ -255,6 +275,9 @@
 			isa = PBXGroup;
 			children = (
 				B89CD68525098C0100D7D8ED /* DiscoverView.swift */,
+				B8A78EE72542EC3B00577974 /* TrendingList.swift */,
+				B8A78F062542F26700577974 /* TrendingListSection.swift */,
+				B8A78F0B2542F27200577974 /* TrendingListItem.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -422,7 +445,7 @@
 		B8D456D02508D8DD000F9E5F /* DiscoverTab */ = {
 			isa = PBXGroup;
 			children = (
-				B8D456D42508DCC7000F9E5F /* models */,
+				B80F45BA25411110004F8A22 /* viewmodels */,
 				B89CD68425098BE800D7D8ED /* views */,
 			);
 			path = DiscoverTab;
@@ -443,14 +466,6 @@
 				B8D456A02508D1A2000F9E5F /* LibraryView.swift */,
 			);
 			path = views;
-			sourceTree = "<group>";
-		};
-		B8D456D42508DCC7000F9E5F /* models */ = {
-			isa = PBXGroup;
-			children = (
-				B8D456D72508DD46000F9E5F /* MockBooks.swift */,
-			);
-			path = models;
 			sourceTree = "<group>";
 		};
 		B8F5C219250EF78E000810F8 /* Dictionary */ = {
@@ -653,18 +668,21 @@
 				B89CD68B2509900000D7D8ED /* MockReaderData.swift in Sources */,
 				B8F5C217250EDEEB000810F8 /* DictionaryTerm+CoreDataClass.swift in Sources */,
 				B89CD68E2509928800D7D8ED /* ReaderView.swift in Sources */,
-				B8D456D82508DD46000F9E5F /* MockBooks.swift in Sources */,
 				B8D4569A2508D1A2000F9E5F /* AppDelegate.swift in Sources */,
 				B8F5C210250EDDB2000810F8 /* DictionaryReading+CoreDataProperties.swift in Sources */,
 				B8A2617F25268B5C00A2FBFD /* Utils.swift in Sources */,
+				B80F45BC25411271004F8A22 /* TrendingListSectionViewModel.swift in Sources */,
 				B880D139251810F20097AF8D /* SplashViewModel.swift in Sources */,
 				B8D456D62508DD24000F9E5F /* LibraryEntryView.swift in Sources */,
+				B80CBD272542887700C807CD /* TrendingListItemViewModel.swift in Sources */,
 				B898110B250F81600059F71F /* NSManagedObject+Init.swift in Sources */,
+				B8A78EE32542EBD000577974 /* TrendingListViewModel.swift in Sources */,
 				B8D4569F2508D1A2000F9E5F /* Reed.xcdatamodeld in Sources */,
 				B8B8F9912526C10400D6DF8B /* DictionaryFetcher.swift in Sources */,
 				B89CD68625098C0100D7D8ED /* DiscoverView.swift in Sources */,
 				B8667F102509C745001EABD4 /* AppView.swift in Sources */,
 				B8F5C218250EDEEB000810F8 /* DictionaryTerm+CoreDataProperties.swift in Sources */,
+				B8A78EE82542EC3B00577974 /* TrendingList.swift in Sources */,
 				B8667F132509CA68001EABD4 /* SettingsView.swift in Sources */,
 				B8093DD6251A988200D95DCF /* NotificationName+DictionaryParser.swift in Sources */,
 				B87D30782516C537002E25FF /* DictionaryLanguageSource+CoreDataProperties.swift in Sources */,
@@ -676,8 +694,10 @@
 				B8F04A892517F07500405599 /* SplashView.swift in Sources */,
 				B8F5C216250EDEEB000810F8 /* DictionaryDefinition+CoreDataProperties.swift in Sources */,
 				B89CD698250993F800D7D8ED /* DefinitionModal.swift in Sources */,
+				B8A78F072542F26700577974 /* TrendingListSection.swift in Sources */,
 				B81C86FF250A2207000B9E5F /* LibraryEntryViewModel.swift in Sources */,
 				B89CD69A2509944200D7D8ED /* MockCards.swift in Sources */,
+				B8A78F0C2542F27200577974 /* TrendingListItem.swift in Sources */,
 				B89CD6942509934700D7D8ED /* VocabularyListView.swift in Sources */,
 				B81C8702250A3675000B9E5F /* MockLibraryEntryData.swift in Sources */,
 				B8D4569C2508D1A2000F9E5F /* SceneDelegate.swift in Sources */,
