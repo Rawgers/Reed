@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-
 class LibraryEntryViewModel: ObservableObject {
     let title: String
     let author: String
@@ -19,14 +18,12 @@ class LibraryEntryViewModel: ObservableObject {
     }
 }
 
-extension LibraryEntryViewModel: Hashable {
+extension LibraryEntryViewModel: Hashable, Equatable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(title)
         hasher.combine(author)
     }
-}
-
-extension LibraryEntryViewModel: Equatable {
+    
     static func == (lhs: LibraryEntryViewModel, rhs: LibraryEntryViewModel) -> Bool {
         return lhs.title == rhs.title && lhs.author == rhs.author
     }

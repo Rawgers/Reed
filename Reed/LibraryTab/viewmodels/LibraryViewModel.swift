@@ -9,7 +9,6 @@
 import CoreData
 import SwiftUI
 
-
 class LibraryViewModel: ObservableObject {
     @Published var libraryEntries = [LibraryEntryViewModel]()
     
@@ -61,11 +60,5 @@ class LibraryViewModel: ObservableObject {
         }
         
         return numEntries
-    }
-}
-
-struct LibraryViewModel_Previews: PreviewProvider {
-    static var previews: some View {
-        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
     }
 }

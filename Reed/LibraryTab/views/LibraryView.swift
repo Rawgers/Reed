@@ -14,11 +14,11 @@ struct LibraryView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(viewModel.libraryEntries, id: \.self) { entry in
-                    LibraryEntryView(entry: entry)
+                ForEach(viewModel.libraryEntries, id: \.self) {
+                    LibraryEntryView(entry: $0)
                 }
             }
-            .navigationBarTitle("Library", displayMode: .inline)
+            .navigationBarTitle("Library")
         }
     }
 }
