@@ -21,7 +21,7 @@ class ReaderViewModel: ObservableObject {
     
     func calcPages() {
         let userWidth  = UIScreen.main.bounds.width
-        let userHeight = UIScreen.main.bounds.height * 0.7
+        let userHeight = UIScreen.main.bounds.height * 0.6
         let rect = CGRect(x: 0, y: 0, width: userWidth, height: userHeight)
         let tempTextView = UITextView(frame: rect)
         tempTextView.font = font
