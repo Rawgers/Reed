@@ -41,15 +41,12 @@ class TrendingListSectionViewModel: ObservableObject {
     
     func createRequest(for category: TrendingListSectionCategory) -> NarouRequest {
         let genre: Genre?
-        let order: ResponseOrder?
         
         switch(category) {
         case .recent:
             genre = nil
-            order = .mostPopularWeek
         case .genre(let g):
             genre = g
-            order = .mostPointsWeek
         }
         
         return NarouRequest(
@@ -59,7 +56,7 @@ class TrendingListSectionViewModel: ObservableObject {
                 fileFormat: .JSON,
                 fields: [.ncode, .novelTitle, .author, .subgenre],
                 limit: 10,
-                order: order
+                order: .mostPopularWeek
             )
         )
     }

@@ -9,11 +9,16 @@
 import SwiftUI
 
 struct DiscoverView: View {
+    let searchBar = SearchBar(onClickSearch: nil)
     
     var body: some View {
         NavigationView {
             TrendingList(viewModel: TrendingListViewModel())
-            .navigationBarTitle("Discover")
+                .navigationBarTitle("Discover")
+                .navigationBarSearchController(
+                    from: self.searchBar,
+                    hidesWhenScrolling: false
+                )
         }
     }
 }

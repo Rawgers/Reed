@@ -16,9 +16,10 @@
 		B81C86FD250A1370000B9E5F /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81C86FC250A1370000B9E5F /* LibraryViewModel.swift */; };
 		B81C86FF250A2207000B9E5F /* LibraryEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81C86FE250A2207000B9E5F /* LibraryEntryViewModel.swift */; };
 		B81C8702250A3675000B9E5F /* MockLibraryEntryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81C8701250A3675000B9E5F /* MockLibraryEntryData.swift */; };
-		B82AF5C92547FB6300FAB2A8 /* ViewControllerResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AF5C62547FB6300FAB2A8 /* ViewControllerResolver.swift */; };
-		B82AF5CA2547FB6300FAB2A8 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AF5C72547FB6300FAB2A8 /* SearchBar.swift */; };
-		B82AF5CB2547FB6300FAB2A8 /* View+UIKitComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AF5C82547FB6300FAB2A8 /* View+UIKitComponents.swift */; };
+		B82AF5DE2548015B00FAB2A8 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		B82AF5DF2548015B00FAB2A8 /* View+UIKitComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AF5DC2548015B00FAB2A8 /* View+UIKitComponents.swift */; };
+		B82AF5FD2548031F00FAB2A8 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AF5FB2548031F00FAB2A8 /* SearchBar.swift */; };
+		B82AF5FE2548031F00FAB2A8 /* ViewControllerResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AF5FC2548031F00FAB2A8 /* ViewControllerResolver.swift */; };
 		B8462309250AF5A3002358A0 /* DictionaryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8462308250AF5A3002358A0 /* DictionaryParser.swift */; };
 		B846482F2526CB5000D5A76D /* DictionaryFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846482E2526CB5000D5A76D /* DictionaryFetcherTests.swift */; };
 		B8539EE52519755A000FF025 /* DictionaryStorageManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8539EE42519755A000FF025 /* DictionaryStorageManagerTests.swift */; };
@@ -96,9 +97,9 @@
 		B81C86FC250A1370000B9E5F /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
 		B81C86FE250A2207000B9E5F /* LibraryEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryEntryViewModel.swift; sourceTree = "<group>"; };
 		B81C8701250A3675000B9E5F /* MockLibraryEntryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLibraryEntryData.swift; sourceTree = "<group>"; };
-		B82AF5C62547FB6300FAB2A8 /* ViewControllerResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerResolver.swift; sourceTree = "<group>"; };
-		B82AF5C72547FB6300FAB2A8 /* SearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
-		B82AF5C82547FB6300FAB2A8 /* View+UIKitComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+UIKitComponents.swift"; sourceTree = "<group>"; };
+		B82AF5DC2548015B00FAB2A8 /* View+UIKitComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+UIKitComponents.swift"; sourceTree = "<group>"; };
+		B82AF5FB2548031F00FAB2A8 /* SearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		B82AF5FC2548031F00FAB2A8 /* ViewControllerResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerResolver.swift; sourceTree = "<group>"; };
 		B8462308250AF5A3002358A0 /* DictionaryParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryParser.swift; sourceTree = "<group>"; };
 		B846482E2526CB5000D5A76D /* DictionaryFetcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryFetcherTests.swift; sourceTree = "<group>"; };
 		B8539EE42519755A000FF025 /* DictionaryStorageManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryStorageManagerTests.swift; sourceTree = "<group>"; };
@@ -238,12 +239,12 @@
 			path = models;
 			sourceTree = "<group>";
 		};
-		B82AF5C52547FB6300FAB2A8 /* Components */ = {
+		B82AF5D92548015B00FAB2A8 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				B82AF5C62547FB6300FAB2A8 /* ViewControllerResolver.swift */,
-				B82AF5C72547FB6300FAB2A8 /* SearchBar.swift */,
-				B82AF5C82547FB6300FAB2A8 /* View+UIKitComponents.swift */,
+				B82AF5FB2548031F00FAB2A8 /* SearchBar.swift */,
+				B82AF5FC2548031F00FAB2A8 /* ViewControllerResolver.swift */,
+				B82AF5DC2548015B00FAB2A8 /* View+UIKitComponents.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -287,10 +288,18 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		B89CD68425098BE800D7D8ED /* views */ = {
+		B89AB0DD2544857F001FC480 /* TrendingView */ = {
 			isa = PBXGroup;
 			children = (
-				B89CD68525098C0100D7D8ED /* DiscoverView.swift */,
+				B80F45BA25411110004F8A22 /* viewmodels */,
+				B89AB0DE25448591001FC480 /* views */,
+			);
+			path = TrendingView;
+			sourceTree = "<group>";
+		};
+		B89AB0DE25448591001FC480 /* views */ = {
+			isa = PBXGroup;
+			children = (
 				B8A78EE72542EC3B00577974 /* TrendingList.swift */,
 				B8A78F062542F26700577974 /* TrendingListSection.swift */,
 				B8A78F0B2542F27200577974 /* TrendingListItem.swift */,
@@ -375,7 +384,7 @@
 		B8D456982508D1A2000F9E5F /* Reed */ = {
 			isa = PBXGroup;
 			children = (
-				B82AF5C52547FB6300FAB2A8 /* Components */,
+				B82AF5D92548015B00FAB2A8 /* Components */,
 				B880D135251810C90097AF8D /* SplashScreen */,
 				B8981109250F803F0059F71F /* Extensions */,
 				B8462307250AF4E4002358A0 /* Dictionary */,
@@ -462,8 +471,8 @@
 		B8D456D02508D8DD000F9E5F /* DiscoverTab */ = {
 			isa = PBXGroup;
 			children = (
-				B80F45BA25411110004F8A22 /* viewmodels */,
-				B89CD68425098BE800D7D8ED /* views */,
+				B89CD68525098C0100D7D8ED /* DiscoverView.swift */,
+				B89AB0DD2544857F001FC480 /* TrendingView */,
 			);
 			path = DiscoverTab;
 			sourceTree = "<group>";
@@ -686,6 +695,7 @@
 				B8F5C217250EDEEB000810F8 /* DictionaryTerm+CoreDataClass.swift in Sources */,
 				B89CD68E2509928800D7D8ED /* ReaderView.swift in Sources */,
 				B8D4569A2508D1A2000F9E5F /* AppDelegate.swift in Sources */,
+				B82AF5DF2548015B00FAB2A8 /* View+UIKitComponents.swift in Sources */,
 				B8F5C210250EDDB2000810F8 /* DictionaryReading+CoreDataProperties.swift in Sources */,
 				B8A2617F25268B5C00A2FBFD /* Utils.swift in Sources */,
 				B80F45BC25411271004F8A22 /* TrendingListSectionViewModel.swift in Sources */,
@@ -700,26 +710,26 @@
 				B8667F102509C745001EABD4 /* AppView.swift in Sources */,
 				B8F5C218250EDEEB000810F8 /* DictionaryTerm+CoreDataProperties.swift in Sources */,
 				B8A78EE82542EC3B00577974 /* TrendingList.swift in Sources */,
-				B82AF5CB2547FB6300FAB2A8 /* View+UIKitComponents.swift in Sources */,
 				B8667F132509CA68001EABD4 /* SettingsView.swift in Sources */,
 				B8093DD6251A988200D95DCF /* NotificationName+DictionaryParser.swift in Sources */,
 				B87D30782516C537002E25FF /* DictionaryLanguageSource+CoreDataProperties.swift in Sources */,
 				B8D456A12508D1A2000F9E5F /* LibraryView.swift in Sources */,
+				B82AF5FE2548031F00FAB2A8 /* ViewControllerResolver.swift in Sources */,
 				B89CD6962509938C00D7D8ED /* VocabularyCardView.swift in Sources */,
+				B82AF5DE2548015B00FAB2A8 /* (null) in Sources */,
 				B89810F8250F17210059F71F /* DictionaryStorageManager.swift in Sources */,
 				6DCF77DB252DB19B00CB3C5D /* ReaderViewModel.swift in Sources */,
 				B8462309250AF5A3002358A0 /* DictionaryParser.swift in Sources */,
 				B8F04A892517F07500405599 /* SplashView.swift in Sources */,
-				B82AF5CA2547FB6300FAB2A8 /* SearchBar.swift in Sources */,
 				B8F5C216250EDEEB000810F8 /* DictionaryDefinition+CoreDataProperties.swift in Sources */,
 				B89CD698250993F800D7D8ED /* DefinitionModal.swift in Sources */,
 				B8A78F072542F26700577974 /* TrendingListSection.swift in Sources */,
 				B81C86FF250A2207000B9E5F /* LibraryEntryViewModel.swift in Sources */,
 				B89CD69A2509944200D7D8ED /* MockCards.swift in Sources */,
+				B82AF5FD2548031F00FAB2A8 /* SearchBar.swift in Sources */,
 				B8A78F0C2542F27200577974 /* TrendingListItem.swift in Sources */,
 				B89CD6942509934700D7D8ED /* VocabularyListView.swift in Sources */,
 				B81C8702250A3675000B9E5F /* MockLibraryEntryData.swift in Sources */,
-				B82AF5C92547FB6300FAB2A8 /* ViewControllerResolver.swift in Sources */,
 				B8D4569C2508D1A2000F9E5F /* SceneDelegate.swift in Sources */,
 				B81C86FD250A1370000B9E5F /* LibraryViewModel.swift in Sources */,
 				B8F5C20D250EDDB2000810F8 /* DictionaryEntry+CoreDataClass.swift in Sources */,
