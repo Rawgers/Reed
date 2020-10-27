@@ -16,6 +16,9 @@
 		B81C86FD250A1370000B9E5F /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81C86FC250A1370000B9E5F /* LibraryViewModel.swift */; };
 		B81C86FF250A2207000B9E5F /* LibraryEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81C86FE250A2207000B9E5F /* LibraryEntryViewModel.swift */; };
 		B81C8702250A3675000B9E5F /* MockLibraryEntryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81C8701250A3675000B9E5F /* MockLibraryEntryData.swift */; };
+		B82AF5C92547FB6300FAB2A8 /* ViewControllerResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AF5C62547FB6300FAB2A8 /* ViewControllerResolver.swift */; };
+		B82AF5CA2547FB6300FAB2A8 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AF5C72547FB6300FAB2A8 /* SearchBar.swift */; };
+		B82AF5CB2547FB6300FAB2A8 /* View+UIKitComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AF5C82547FB6300FAB2A8 /* View+UIKitComponents.swift */; };
 		B8462309250AF5A3002358A0 /* DictionaryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8462308250AF5A3002358A0 /* DictionaryParser.swift */; };
 		B846482F2526CB5000D5A76D /* DictionaryFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846482E2526CB5000D5A76D /* DictionaryFetcherTests.swift */; };
 		B8539EE52519755A000FF025 /* DictionaryStorageManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8539EE42519755A000FF025 /* DictionaryStorageManagerTests.swift */; };
@@ -93,6 +96,9 @@
 		B81C86FC250A1370000B9E5F /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
 		B81C86FE250A2207000B9E5F /* LibraryEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryEntryViewModel.swift; sourceTree = "<group>"; };
 		B81C8701250A3675000B9E5F /* MockLibraryEntryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLibraryEntryData.swift; sourceTree = "<group>"; };
+		B82AF5C62547FB6300FAB2A8 /* ViewControllerResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerResolver.swift; sourceTree = "<group>"; };
+		B82AF5C72547FB6300FAB2A8 /* SearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		B82AF5C82547FB6300FAB2A8 /* View+UIKitComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+UIKitComponents.swift"; sourceTree = "<group>"; };
 		B8462308250AF5A3002358A0 /* DictionaryParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryParser.swift; sourceTree = "<group>"; };
 		B846482E2526CB5000D5A76D /* DictionaryFetcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryFetcherTests.swift; sourceTree = "<group>"; };
 		B8539EE42519755A000FF025 /* DictionaryStorageManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryStorageManagerTests.swift; sourceTree = "<group>"; };
@@ -232,6 +238,16 @@
 			path = models;
 			sourceTree = "<group>";
 		};
+		B82AF5C52547FB6300FAB2A8 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				B82AF5C62547FB6300FAB2A8 /* ViewControllerResolver.swift */,
+				B82AF5C72547FB6300FAB2A8 /* SearchBar.swift */,
+				B82AF5C82547FB6300FAB2A8 /* View+UIKitComponents.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		B8462307250AF4E4002358A0 /* Dictionary */ = {
 			isa = PBXGroup;
 			children = (
@@ -359,6 +375,7 @@
 		B8D456982508D1A2000F9E5F /* Reed */ = {
 			isa = PBXGroup;
 			children = (
+				B82AF5C52547FB6300FAB2A8 /* Components */,
 				B880D135251810C90097AF8D /* SplashScreen */,
 				B8981109250F803F0059F71F /* Extensions */,
 				B8462307250AF4E4002358A0 /* Dictionary */,
@@ -683,6 +700,7 @@
 				B8667F102509C745001EABD4 /* AppView.swift in Sources */,
 				B8F5C218250EDEEB000810F8 /* DictionaryTerm+CoreDataProperties.swift in Sources */,
 				B8A78EE82542EC3B00577974 /* TrendingList.swift in Sources */,
+				B82AF5CB2547FB6300FAB2A8 /* View+UIKitComponents.swift in Sources */,
 				B8667F132509CA68001EABD4 /* SettingsView.swift in Sources */,
 				B8093DD6251A988200D95DCF /* NotificationName+DictionaryParser.swift in Sources */,
 				B87D30782516C537002E25FF /* DictionaryLanguageSource+CoreDataProperties.swift in Sources */,
@@ -692,6 +710,7 @@
 				6DCF77DB252DB19B00CB3C5D /* ReaderViewModel.swift in Sources */,
 				B8462309250AF5A3002358A0 /* DictionaryParser.swift in Sources */,
 				B8F04A892517F07500405599 /* SplashView.swift in Sources */,
+				B82AF5CA2547FB6300FAB2A8 /* SearchBar.swift in Sources */,
 				B8F5C216250EDEEB000810F8 /* DictionaryDefinition+CoreDataProperties.swift in Sources */,
 				B89CD698250993F800D7D8ED /* DefinitionModal.swift in Sources */,
 				B8A78F072542F26700577974 /* TrendingListSection.swift in Sources */,
@@ -700,6 +719,7 @@
 				B8A78F0C2542F27200577974 /* TrendingListItem.swift in Sources */,
 				B89CD6942509934700D7D8ED /* VocabularyListView.swift in Sources */,
 				B81C8702250A3675000B9E5F /* MockLibraryEntryData.swift in Sources */,
+				B82AF5C92547FB6300FAB2A8 /* ViewControllerResolver.swift in Sources */,
 				B8D4569C2508D1A2000F9E5F /* SceneDelegate.swift in Sources */,
 				B81C86FD250A1370000B9E5F /* LibraryViewModel.swift in Sources */,
 				B8F5C20D250EDDB2000810F8 /* DictionaryEntry+CoreDataClass.swift in Sources */,
