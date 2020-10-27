@@ -17,6 +17,7 @@ struct TrendingList: View {
                 TrendingListSection(viewModel: $0)
             }
         }
+        .listStyle(PlainListStyle())
     }
 }
 
