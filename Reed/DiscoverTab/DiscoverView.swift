@@ -22,7 +22,11 @@ struct DiscoverView: View {
                     )
                 }
                 NavigationLink(
-                    destination: SearchResults(),
+                    destination: SearchResults(
+                        viewModel: DiscoverSearchResultsViewModel(
+                            keyword: searchViewModel.searchBar.searchText
+                        )
+                    ),
                     isActive: $searchViewModel.pushSearchResults
                 ) {
                     EmptyView()
