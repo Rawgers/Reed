@@ -10,6 +10,8 @@ import SwiftUI
 
 class DiscoverSearchViewModel: ObservableObject {
     let searchBar: SearchBar = SearchBar(shouldObscureBackground: false)
+    var searchResultsViewModel: DiscoverSearchResultsViewModel = DiscoverSearchResultsViewModel(keyword: "")
+    
     @Published var isSearching: Bool = false
     @Published var pushSearchResults = false
     @Published var searchHistory: [String] = [] // TODO: consider making this a queue
@@ -71,6 +73,7 @@ extension DiscoverSearchViewModel {
 /// Methods for the SearchBar
 extension DiscoverSearchViewModel {
     func onClickSearch(keyword: String) {
+        searchResultsViewModel = DiscoverSearchResultsViewModel(keyword: keyword)
         searchBar.searchController.searchBar.text = keyword
         appendToSearchHistory(keyword)
         pushSearchResults = true

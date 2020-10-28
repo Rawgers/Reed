@@ -32,6 +32,11 @@ struct SearchResults: View {
             ForEach(viewModel.searchResults, id: \.self) {
                 DiscoverListItem(viewModel: $0)
             }
+            Spacer()
+                .onAppear {
+                    let request = self.viewModel.createRequest()
+                    self.viewModel.fetchSearchResults(using: request)
+                }
         }
         .navigationBarTitle(viewModel.keyword, displayMode: .inline)
         .navigationBarBackButtonHidden(true)
@@ -41,7 +46,9 @@ struct SearchResults: View {
 
 struct SearchResults_Previews: PreviewProvider {
     static var previews: some View {
-        SearchResults(viewModel: DiscoverSearchResultsViewModel(keyword: "無職転生"))
+        SearchResults(
+            viewModel: DiscoverSearchResultsViewModel(keyword: "無職転生")
+        )
     }
 }
 
