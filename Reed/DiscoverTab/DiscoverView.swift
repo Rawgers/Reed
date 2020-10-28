@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct DiscoverView: View {
-    @ObservedObject var searchViewModel: DiscoverSearchViewModel = DiscoverSearchViewModel()
+    @ObservedObject var searchViewModel = DiscoverSearchViewModel()
     
     var body: some View {
         NavigationView {
@@ -23,9 +23,7 @@ struct DiscoverView: View {
                 }
                 NavigationLink(
                     destination: SearchResults(
-                        viewModel: DiscoverSearchResultsViewModel(
-                            keyword: searchViewModel.searchBar.searchText
-                        )
+                        viewModel: searchViewModel.searchResultsViewModel
                     ),
                     isActive: $searchViewModel.pushSearchResults
                 ) {
