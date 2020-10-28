@@ -14,7 +14,7 @@ struct TrendingListSection: View {
     var body: some View {
         Section(header: Text(viewModel.header)) {
             ForEach(viewModel.items, id: \.self) {
-                TrendingListItem(viewModel: $0)
+                DiscoverListItem(viewModel: $0)
             }
         }
     }

@@ -10,7 +10,7 @@ import SwiftUI
 import enum SwiftyNarou.Subgenre
 import struct SwiftyNarou.NarouResponse
 
-class TrendingListItemViewModel: ObservableObject {
+class DiscoverListItemViewModel: ObservableObject {
     let ncode: String
     let title: String
     let author: String
@@ -24,14 +24,14 @@ class TrendingListItemViewModel: ObservableObject {
     }
 }
 
-extension TrendingListItemViewModel: Hashable, Equatable {
+extension DiscoverListItemViewModel: Hashable, Equatable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(ncode)
     }
     
     static func == (
-        lhs: TrendingListItemViewModel,
-        rhs: TrendingListItemViewModel
+        lhs: DiscoverListItemViewModel,
+        rhs: DiscoverListItemViewModel
     ) -> Bool {
         return lhs.ncode == rhs.ncode
     }
