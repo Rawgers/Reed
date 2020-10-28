@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct TrendingList: View {
-    @ObservedObject var viewModel: TrendingListViewModel
+    @ObservedObject var viewModel: TrendingListViewModel = TrendingListViewModel()
     
     var body: some View {
         List {
