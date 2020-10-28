@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftyNarou
 
 class TrendingListSectionViewModel: ObservableObject {
-    @Published var items: [TrendingListItemViewModel] = []
+    @Published var items: [DiscoverListItemViewModel] = []
     let header: String
     var request: NarouRequest!
     
@@ -33,7 +33,7 @@ class TrendingListSectionViewModel: ObservableObject {
             }
             if let data = data {
                 for entry in data {
-                    self.items.append(TrendingListItemViewModel(from: entry))
+                    self.items.append(DiscoverListItemViewModel(from: entry))
                 }
             }
         }

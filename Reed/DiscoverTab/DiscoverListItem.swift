@@ -1,5 +1,5 @@
 //
-//  TrendingListItem.swift
+//  DiscoverListItem.swift
 //  Reed
 //
 //  Created by Roger Luo on 10/23/20.
@@ -9,8 +9,8 @@
 import SwiftUI
 import struct SwiftyNarou.NarouResponse
 
-struct TrendingListItem: View {
-    @ObservedObject var viewModel: TrendingListItemViewModel
+struct DiscoverListItem: View {
+    @ObservedObject var viewModel: DiscoverListItemViewModel
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -27,10 +27,10 @@ struct TrendingListItem: View {
     }
 }
 
-struct TrendingListSectionItem_Previews: PreviewProvider {
+struct DiscoverListItem_Previews: PreviewProvider {
     static var previews: some View {
-        TrendingListItem(
-            viewModel: TrendingListItemViewModel(
+        DiscoverListItem(
+            viewModel: DiscoverListItemViewModel(
                 from: NarouResponse(
                     title: "無職転生　- 異世界行ったら本気だす -",
                     ncode: "n9669bk",
