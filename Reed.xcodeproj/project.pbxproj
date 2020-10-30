@@ -72,6 +72,9 @@
 		B8F5C216250EDEEB000810F8 /* DictionaryDefinition+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F5C212250EDEEB000810F8 /* DictionaryDefinition+CoreDataProperties.swift */; };
 		B8F5C217250EDEEB000810F8 /* DictionaryTerm+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F5C213250EDEEB000810F8 /* DictionaryTerm+CoreDataClass.swift */; };
 		B8F5C218250EDEEB000810F8 /* DictionaryTerm+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F5C214250EDEEB000810F8 /* DictionaryTerm+CoreDataProperties.swift */; };
+		B8FA93B1254BAEEC00AE362C /* NovelDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FA93B0254BAEEC00AE362C /* NovelDetailsViewModel.swift */; };
+		B8FA93B9254BB08F00AE362C /* NovelDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FA93B8254BB08F00AE362C /* NovelDetailsView.swift */; };
+		B8FA93BE254BBE0D00AE362C /* NavigationLazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FA93BD254BBE0D00AE362C /* NavigationLazyView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -163,6 +166,9 @@
 		B8F5C212250EDEEB000810F8 /* DictionaryDefinition+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DictionaryDefinition+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B8F5C213250EDEEB000810F8 /* DictionaryTerm+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DictionaryTerm+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B8F5C214250EDEEB000810F8 /* DictionaryTerm+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DictionaryTerm+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B8FA93B0254BAEEC00AE362C /* NovelDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelDetailsViewModel.swift; sourceTree = "<group>"; };
+		B8FA93B8254BB08F00AE362C /* NovelDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelDetailsView.swift; sourceTree = "<group>"; };
+		B8FA93BD254BBE0D00AE362C /* NavigationLazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationLazyView.swift; sourceTree = "<group>"; };
 		CB34B8D1D66FEC309309B5A6 /* libPods-ReedTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReedTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB226BA52A6687FA59B7D4F0 /* libPods-Reed.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Reed.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -254,6 +260,7 @@
 				B82AF5FB2548031F00FAB2A8 /* SearchBar.swift */,
 				B82AF5FC2548031F00FAB2A8 /* ViewControllerResolver.swift */,
 				B82AF5DC2548015B00FAB2A8 /* View+UIKitComponents.swift */,
+				B8FA93BD254BBE0D00AE362C /* NavigationLazyView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -421,6 +428,7 @@
 			isa = PBXGroup;
 			children = (
 				B8D456AA2508D1A2000F9E5F /* Info.plist */,
+				B8D456CC2508D2E3000F9E5F /* Main */,
 				B82AF5D92548015B00FAB2A8 /* Components */,
 				B8981109250F803F0059F71F /* Extensions */,
 				B8462307250AF4E4002358A0 /* Dictionary */,
@@ -428,10 +436,10 @@
 				B8D456CF2508D8D7000F9E5F /* CardsTab */,
 				B8D456D02508D8DD000F9E5F /* DiscoverTab */,
 				B8D456CD2508D349000F9E5F /* LibraryTab */,
-				B8D456CC2508D2E3000F9E5F /* Main */,
-				B8D456A42508D1A2000F9E5F /* Preview Content */,
+				B8FA93AD254BAD4800AE362C /* NovelDetails */,
 				B8D456CE2508D8D3000F9E5F /* Reader */,
 				B8D456D12508D8E4000F9E5F /* SettingsTab */,
+				B8D456A42508D1A2000F9E5F /* Preview Content */,
 			);
 			path = Reed;
 			sourceTree = "<group>";
@@ -543,6 +551,31 @@
 				B8A5E50D2527BACE003BCF07 /* UtilsTests.swift */,
 			);
 			path = Dictionary;
+			sourceTree = "<group>";
+		};
+		B8FA93AD254BAD4800AE362C /* NovelDetails */ = {
+			isa = PBXGroup;
+			children = (
+				B8FA93AF254BAED900AE362C /* viewmodels */,
+				B8FA93AE254BAED000AE362C /* views */,
+			);
+			path = NovelDetails;
+			sourceTree = "<group>";
+		};
+		B8FA93AE254BAED000AE362C /* views */ = {
+			isa = PBXGroup;
+			children = (
+				B8FA93B8254BB08F00AE362C /* NovelDetailsView.swift */,
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
+		B8FA93AF254BAED900AE362C /* viewmodels */ = {
+			isa = PBXGroup;
+			children = (
+				B8FA93B0254BAEEC00AE362C /* NovelDetailsViewModel.swift */,
+			);
+			path = viewmodels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -737,10 +770,12 @@
 				B89CD68E2509928800D7D8ED /* ReaderView.swift in Sources */,
 				B8D4569A2508D1A2000F9E5F /* AppDelegate.swift in Sources */,
 				B82AF5DF2548015B00FAB2A8 /* View+UIKitComponents.swift in Sources */,
+				B8FA93B9254BB08F00AE362C /* NovelDetailsView.swift in Sources */,
 				B8F5C210250EDDB2000810F8 /* DictionaryReading+CoreDataProperties.swift in Sources */,
 				B8A2617F25268B5C00A2FBFD /* Utils.swift in Sources */,
 				B80F45BC25411271004F8A22 /* TrendingListSectionViewModel.swift in Sources */,
 				B880D139251810F20097AF8D /* SplashViewModel.swift in Sources */,
+				B8FA93B1254BAEEC00AE362C /* NovelDetailsViewModel.swift in Sources */,
 				B8D456D62508DD24000F9E5F /* LibraryEntryView.swift in Sources */,
 				B80CBD272542887700C807CD /* DiscoverListItemViewModel.swift in Sources */,
 				B80E0E7025497EBA009B0EE8 /* DiscoverSearchResultsViewModel.swift in Sources */,
@@ -754,6 +789,7 @@
 				B8A78EE82542EC3B00577974 /* TrendingList.swift in Sources */,
 				B8667F132509CA68001EABD4 /* SettingsView.swift in Sources */,
 				B8093DD6251A988200D95DCF /* NotificationName+DictionaryParser.swift in Sources */,
+				B8FA93BE254BBE0D00AE362C /* NavigationLazyView.swift in Sources */,
 				B87D30782516C537002E25FF /* DictionaryLanguageSource+CoreDataProperties.swift in Sources */,
 				B8D456A12508D1A2000F9E5F /* LibraryView.swift in Sources */,
 				B82AF5FE2548031F00FAB2A8 /* ViewControllerResolver.swift in Sources */,
