@@ -13,16 +13,27 @@ struct DiscoverListItem: View {
     @ObservedObject var viewModel: DiscoverListItemViewModel
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(viewModel.title)
-                .font(.headline)
-                .lineLimit(2)
-                .truncationMode(.tail)
-            Text(viewModel.author)
-                .font(.caption)
-                .foregroundColor(.gray)
-                .lineLimit(1)
-                .truncationMode(.tail)
+        ZStack(alignment: .leading) {
+            VStack(alignment: .leading) {
+                Text(viewModel.title)
+                    .font(.headline)
+                    .lineLimit(2)
+                    .truncationMode(.tail)
+                Text(viewModel.author)
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+            }
+            
+            NavigationLink(
+                destination: NavigationLazyView(
+                    NovelDetailsView(ncode: viewModel.ncode)
+                )
+            ) {
+                EmptyView()
+            }
+            .buttonStyle(PlainButtonStyle())
         }
     }
 }
