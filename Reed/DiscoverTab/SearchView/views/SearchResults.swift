@@ -29,14 +29,13 @@ struct SearchResults: View {
     
     var body: some View {
         List {
-            ForEach(viewModel.searchResults, id: \.self) {
-                DiscoverListItem(viewModel: $0)
-            }
-            Spacer()
-                .onAppear {
-                    let request = self.viewModel.createRequest()
-                    self.viewModel.fetchSearchResults(using: request)
+            ForEach(viewModel.searchResults, id: \.self) { result in
+                DiscoverListItem(viewModel: result).onAppear {
+                    if self.viewModel.searchResults.last == result {
+                        self.viewModel.updateSearchResults()
+                    }
                 }
+            }
         }
         .navigationBarTitle(viewModel.keyword, displayMode: .inline)
         .navigationBarBackButtonHidden(true)

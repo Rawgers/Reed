@@ -3,7 +3,7 @@ PODS:
   - SwiftSoup (2.3.2)
   - SwiftUIPager (1.12.0)
   - SwiftyJSON (5.0.0)
-  - SwiftyNarou (1.1.7):
+  - SwiftyNarou (1.1.8):
     - GzipSwift
     - SwiftSoup
     - SwiftyJSON
@@ -27,7 +27,7 @@ SPEC CHECKSUMS:
   SwiftSoup: f97bc4e988c7729d6457f9642f974c617a6e2510
   SwiftUIPager: 84ce7c56d42a70a8c1337de14207ab5ff11dc0a9
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
-  SwiftyNarou: 06dee2ab885c978a8c7ce63aa71b3c5cbd8eae6a
+  SwiftyNarou: f3be1a52ee6387cd54f9da798a3f72758786644d
 
 PODFILE CHECKSUM: 65a051bb19988195c9d1581d65c7c8a1679e01a5
 
