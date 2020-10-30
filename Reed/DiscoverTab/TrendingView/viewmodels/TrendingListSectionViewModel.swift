@@ -32,7 +32,7 @@ class TrendingListSectionViewModel: ObservableObject {
                 return
             }
             if let data = data {
-                for entry in data {
+                for entry in data.1 {
                     self.items.append(DiscoverListItemViewModel(from: entry))
                 }
             }
