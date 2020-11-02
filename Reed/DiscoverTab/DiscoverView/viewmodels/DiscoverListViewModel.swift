@@ -9,19 +9,31 @@
 import SwiftUI
 import SwiftyNarou
 
-class TrendingListSectionViewModel: ObservableObject {
+enum DiscoverListCategory: Equatable {
+    case recent
+    case genre(_ value: Genre)
+    
+    var id: String {
+        switch self {
+        case .recent: return "RE"
+        case .genre(let genre):
+            switch genre {
+            case .romance: return "RO"
+            case .fantasy: return "FY"
+            case .literature: return "LT"
+            case .scifi: return "SF"
+            case .other: return "OT"
+            case .none: return "NO"
+            }
+        }
+    }
+}
+
+class DiscoverListViewModel: ObservableObject {
     @Published var items: [DiscoverListItemViewModel] = []
-    let header: String
     var request: NarouRequest!
     
-    init(category: TrendingListSectionCategory) {
-        switch(category) {
-        case .recent:
-            header = String(describing: category)
-        case .genre(let genre):
-            header = String(describing: genre)
-        }
-        
+    init(category: DiscoverListCategory) {
         request = createRequest(for: category)
         fetchItems(with: request)
     }
@@ -39,7 +51,7 @@ class TrendingListSectionViewModel: ObservableObject {
         }
     }
     
-    func createRequest(for category: TrendingListSectionCategory) -> NarouRequest {
+    func createRequest(for category: DiscoverListCategory) -> NarouRequest {
         let genre: Genre?
         
         switch(category) {
@@ -59,18 +71,5 @@ class TrendingListSectionViewModel: ObservableObject {
                 order: .mostPopularWeek
             )
         )
-    }
-}
-
-extension TrendingListSectionViewModel: Hashable, Equatable {
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(header)
-    }
-    
-    static func == (
-        lhs: TrendingListSectionViewModel,
-        rhs: TrendingListSectionViewModel
-    ) -> Bool {
-        return lhs.header == rhs.header
     }
 }

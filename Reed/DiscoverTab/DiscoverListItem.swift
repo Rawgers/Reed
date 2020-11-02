@@ -13,7 +13,7 @@ struct DiscoverListItem: View {
     @ObservedObject var viewModel: DiscoverListItemViewModel
     
     var body: some View {
-        ZStack(alignment: .leading) {
+        HStack {
             VStack(alignment: .leading) {
                 Text(viewModel.title)
                     .font(.headline)
@@ -25,16 +25,18 @@ struct DiscoverListItem: View {
                     .lineLimit(1)
                     .truncationMode(.tail)
             }
-            
+            Spacer()
             NavigationLink(
                 destination: NavigationLazyView(
                     NovelDetailsView(ncode: viewModel.ncode)
                 )
             ) {
-                EmptyView()
+                Image(systemName: "chevron.right")
+                    .imageScale(.small)
+                    .foregroundColor(Color(.systemGray5))
             }
-            .buttonStyle(PlainButtonStyle())
         }
+        Divider()
     }
 }
 
