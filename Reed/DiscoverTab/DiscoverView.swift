@@ -18,7 +18,9 @@ struct DiscoverView: View {
                 ZStack {
                     VStack {
                         CategoryButtons(activeCategory: $activeCategory)
-                        DiscoverList(category: $activeCategory)
+                        DiscoverList(
+                            category: $activeCategory
+                        )
                     }
                     
                     if searchViewModel.isSearching {

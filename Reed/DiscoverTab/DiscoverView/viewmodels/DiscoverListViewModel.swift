@@ -30,28 +30,33 @@ enum DiscoverListCategory: Equatable {
 }
 
 class DiscoverListViewModel: ObservableObject {
-    @Published var items: [DiscoverListItemViewModel] = []
-    var request: NarouRequest!
+    @Published var rows: [DiscoverListItemViewModel] = []
+    let category: DiscoverListCategory
+    var startIndex: Int = -FetchNarouConstants.LOAD_INCREMENT.rawValue
+    var resultCount: Int = 0
     
     init(category: DiscoverListCategory) {
-        request = createRequest(for: category)
-        fetchItems(with: request)
+        self.category = category
+        updateRows()
     }
     
-    func fetchItems(with category: NarouRequest) {
+    func updateRows() {
+        guard let request = createRequest(for: category) else { return }
         Narou.fetchNarouApi(request: request) { data, error in
-            if error != nil {
-                return
-            }
+            if error != nil { return }
             if let data = data {
+                self.resultCount = min(
+                    data.0,
+                    FetchNarouConstants.MAX_RESULT_INDEX.rawValue
+                )
                 for entry in data.1 {
-                    self.items.append(DiscoverListItemViewModel(from: entry))
+                    self.rows.append(DiscoverListItemViewModel(from: entry))
                 }
             }
         }
     }
     
-    func createRequest(for category: DiscoverListCategory) -> NarouRequest {
+    func createRequest(for category: DiscoverListCategory) -> NarouRequest? {
         let genre: Genre?
         
         switch(category) {
@@ -61,13 +66,18 @@ class DiscoverListViewModel: ObservableObject {
             genre = g
         }
         
+        let increment = FetchNarouConstants.LOAD_INCREMENT.rawValue
+        if startIndex + increment > resultCount { return nil }
+        
+        startIndex += increment
         return NarouRequest(
             genre: genre == nil ? nil : [genre!],
             responseFormat: NarouResponseFormat(
                 gzipCompressionLevel: 5,
                 fileFormat: .JSON,
                 fields: [.ncode, .novelTitle, .author, .subgenre],
-                limit: 10,
+                limit: increment - 1,
+                startIndex: startIndex,
                 order: .mostPopularWeek
             )
         )

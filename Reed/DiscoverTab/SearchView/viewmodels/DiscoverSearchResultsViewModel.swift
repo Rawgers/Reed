@@ -9,17 +9,9 @@
 import SwiftUI
 import SwiftyNarou
 
-enum SearchResultsConstants: Int {
-    /* Must be a number large enough to make the screen scroll,
-     or else the pagination will fail because the Spacer
-     won't be able to move below new entries to "appear" again. */
-    case LOAD_INCREMENT = 20
-    case MAX_RESULT_INDEX = 2000
-}
-
 class DiscoverSearchResultsViewModel: ObservableObject {
     @Published var searchResults: [DiscoverListItemViewModel] = []
-    var startIndex: Int = -SearchResultsConstants.LOAD_INCREMENT.rawValue
+    var startIndex: Int = -FetchNarouConstants.LOAD_INCREMENT.rawValue
     var resultCount: Int = 0
     let keyword: String
     
@@ -35,7 +27,7 @@ class DiscoverSearchResultsViewModel: ObservableObject {
             if let data = data {
                 self.resultCount = min(
                     data.0,
-                    SearchResultsConstants.MAX_RESULT_INDEX.rawValue
+                    FetchNarouConstants.MAX_RESULT_INDEX.rawValue
                 )
                 for entry in data.1 {
                     self.searchResults.append(
@@ -49,7 +41,7 @@ class DiscoverSearchResultsViewModel: ObservableObject {
     private func createRequest() -> NarouRequest? {
         if keyword == "" { return nil }
         
-        let increment = SearchResultsConstants.LOAD_INCREMENT.rawValue
+        let increment = FetchNarouConstants.LOAD_INCREMENT.rawValue
         if startIndex + increment > resultCount { return nil }
         
         startIndex += increment
