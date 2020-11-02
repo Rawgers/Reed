@@ -72,6 +72,7 @@
 		B8F5C216250EDEEB000810F8 /* DictionaryDefinition+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F5C212250EDEEB000810F8 /* DictionaryDefinition+CoreDataProperties.swift */; };
 		B8F5C217250EDEEB000810F8 /* DictionaryTerm+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F5C213250EDEEB000810F8 /* DictionaryTerm+CoreDataClass.swift */; };
 		B8F5C218250EDEEB000810F8 /* DictionaryTerm+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F5C214250EDEEB000810F8 /* DictionaryTerm+CoreDataProperties.swift */; };
+		B8FA12612550B1E300ABE1D3 /* DiscoverTabConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FA12602550B1E300ABE1D3 /* DiscoverTabConstants.swift */; };
 		B8FA93B1254BAEEC00AE362C /* NovelDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FA93B0254BAEEC00AE362C /* NovelDetailsViewModel.swift */; };
 		B8FA93B9254BB08F00AE362C /* NovelDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FA93B8254BB08F00AE362C /* NovelDetailsView.swift */; };
 		B8FA93BE254BBE0D00AE362C /* NavigationLazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FA93BD254BBE0D00AE362C /* NavigationLazyView.swift */; };
@@ -166,6 +167,7 @@
 		B8F5C212250EDEEB000810F8 /* DictionaryDefinition+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DictionaryDefinition+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B8F5C213250EDEEB000810F8 /* DictionaryTerm+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DictionaryTerm+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B8F5C214250EDEEB000810F8 /* DictionaryTerm+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DictionaryTerm+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B8FA12602550B1E300ABE1D3 /* DiscoverTabConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverTabConstants.swift; sourceTree = "<group>"; };
 		B8FA93B0254BAEEC00AE362C /* NovelDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelDetailsViewModel.swift; sourceTree = "<group>"; };
 		B8FA93B8254BB08F00AE362C /* NovelDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelDetailsView.swift; sourceTree = "<group>"; };
 		B8FA93BD254BBE0D00AE362C /* NavigationLazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationLazyView.swift; sourceTree = "<group>"; };
@@ -520,6 +522,7 @@
 				B80CBD262542887700C807CD /* DiscoverListItemViewModel.swift */,
 				B89AB0DD2544857F001FC480 /* DiscoverView */,
 				B82AF63F2548148100FAB2A8 /* SearchView */,
+				B8FA12602550B1E300ABE1D3 /* DiscoverTabConstants.swift */,
 			);
 			path = DiscoverTab;
 			sourceTree = "<group>";
@@ -790,6 +793,7 @@
 				B8093DD6251A988200D95DCF /* NotificationName+DictionaryParser.swift in Sources */,
 				B8FA93BE254BBE0D00AE362C /* NavigationLazyView.swift in Sources */,
 				B87D30782516C537002E25FF /* DictionaryLanguageSource+CoreDataProperties.swift in Sources */,
+				B8FA12612550B1E300ABE1D3 /* DiscoverTabConstants.swift in Sources */,
 				B8D456A12508D1A2000F9E5F /* LibraryView.swift in Sources */,
 				B82AF5FE2548031F00FAB2A8 /* ViewControllerResolver.swift in Sources */,
 				B82AF65E2548187200FAB2A8 /* DiscoverSearchViewModel.swift in Sources */,
