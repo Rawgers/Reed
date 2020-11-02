@@ -10,24 +10,32 @@ import SwiftUI
 
 struct DiscoverView: View {
     @ObservedObject var searchViewModel = DiscoverSearchViewModel()
+    @State private var activeCategory: DiscoverListCategory = .recent
     
     var body: some View {
         NavigationView {
-            ZStack {
-                TrendingList()
-                if searchViewModel.isSearching {
-                    SearchHistory(
-                        searchHistory: searchViewModel.searchHistory,
-                        onTapRow: searchViewModel.onClickSearch
-                    )
-                }
-                NavigationLink(
-                    destination: SearchResults(
-                        viewModel: searchViewModel.searchResultsViewModel
-                    ),
-                    isActive: $searchViewModel.pushSearchResults
-                ) {
-                    EmptyView()
+            ScrollView {
+                ZStack {
+                    VStack {
+                        CategoryButtons(activeCategory: $activeCategory)
+                        DiscoverList(category: $activeCategory)
+                    }
+                    
+                    if searchViewModel.isSearching {
+                        SearchHistory(
+                            searchHistory: searchViewModel.searchHistory,
+                            onTapRow: searchViewModel.onClickSearch
+                        )
+                    }
+
+                    NavigationLink(
+                        destination: SearchResults(
+                            viewModel: searchViewModel.searchResultsViewModel
+                        ),
+                        isActive: $searchViewModel.pushSearchResults
+                    ) {
+                        EmptyView()
+                    }
                 }
             }
             .navigationBarTitle("Discover")

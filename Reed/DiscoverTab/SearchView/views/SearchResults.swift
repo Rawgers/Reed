@@ -28,14 +28,17 @@ struct SearchResults: View {
     }
     
     var body: some View {
-        List {
-            ForEach(viewModel.searchResults, id: \.self) { result in
-                DiscoverListItem(viewModel: result).onAppear {
-                    if self.viewModel.searchResults.last == result {
-                        self.viewModel.updateSearchResults()
+        ScrollView {
+            LazyVStack {
+                ForEach(viewModel.searchResults, id: \.self) { result in
+                    DiscoverListItem(viewModel: result).onAppear {
+                        if self.viewModel.searchResults.last == result {
+                            self.viewModel.updateSearchResults()
+                        }
                     }
                 }
             }
+            .padding(.horizontal)
         }
         .navigationBarTitle(viewModel.keyword, displayMode: .inline)
         .navigationBarBackButtonHidden(true)
