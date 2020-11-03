@@ -10,16 +10,20 @@ import SwiftUI
 
 struct DiscoverView: View {
     @ObservedObject var searchViewModel = DiscoverSearchViewModel()
-    @State private var activeCategory: DiscoverListCategory = .recent
+    @ObservedObject var viewModel = DiscoverViewModel()
     
     var body: some View {
         NavigationView {
             ScrollView {
                 ZStack {
                     VStack {
-                        CategoryButtons(activeCategory: $activeCategory)
+                        CategoryButtons(
+                            activeCategory: $viewModel.category,
+                            updateCategory: viewModel.updateCategory
+                        )
                         DiscoverList(
-                            category: $activeCategory
+                            rows: $viewModel.rows,
+                            updateRows: viewModel.updateRows
                         )
                     }
                     

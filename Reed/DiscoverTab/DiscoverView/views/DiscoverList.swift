@@ -9,23 +9,16 @@
 import SwiftUI
 
 struct DiscoverList: View {
-    @Binding var category: DiscoverListCategory
-    @ObservedObject var viewModel: DiscoverListViewModel
-    
-    init(
-        category: Binding<DiscoverListCategory>
-    ) {
-        self._category = category
-        viewModel = DiscoverListViewModel(category: category.wrappedValue)
-    }
+    @Binding var rows: [DiscoverListItemViewModel]
+    let updateRows: () -> Void
     
     var body: some View {
         LazyVStack(alignment: .leading) {
             Divider()
-            ForEach(viewModel.rows, id: \.self) { row in
+            ForEach(rows, id: \.self) { row in
                 DiscoverListItem(viewModel: row).onAppear {
-                    if row == self.viewModel.rows.last {
-                        self.viewModel.updateRows()
+                    if row == self.rows.last {
+                        self.updateRows()
                     }
                 }
             }
@@ -36,9 +29,6 @@ struct DiscoverList: View {
 
 struct DiscoverList_Previews: PreviewProvider {
     static var previews: some View {
-        DiscoverList(
-            category: .constant(.recent)
-//            isSearching: .constant(false)
-        )
+        DiscoverList(rows: .constant([]), updateRows: {} )
     }
 }
