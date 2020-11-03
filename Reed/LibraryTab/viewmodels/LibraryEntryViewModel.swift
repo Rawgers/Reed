@@ -9,10 +9,12 @@
 import SwiftUI
 
 class LibraryEntryViewModel: ObservableObject {
+    let ncode: String
     let title: String
     let author: String
     
     init(entryData: LibraryEntry) {
+        ncode = entryData.ncode!
         title = entryData.title ?? "unknown"
         author = entryData.author ?? "unknown"
     }

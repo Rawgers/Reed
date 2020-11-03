@@ -498,8 +498,8 @@
 		B8D456CE2508D8D3000F9E5F /* Reader */ = {
 			isa = PBXGroup;
 			children = (
-				6D8D5337252DB083001FA054 /* viewmodels */,
 				B89CD68725098FD600D7D8ED /* models */,
+				6D8D5337252DB083001FA054 /* viewmodels */,
 				B89CD68C2509927C00D7D8ED /* views */,
 			);
 			path = Reader;

@@ -37,6 +37,7 @@ class LibraryViewModel: ObservableObject {
             let n = MockLibraryEntryData.titles.count
             for i in 0..<n {
                 let entry = LibraryEntry(context: context)
+                entry.ncode = MockLibraryEntryData.ncodes[i]
                 entry.title = MockLibraryEntryData.titles[i]
                 entry.author = MockLibraryEntryData.authors[i]
                 do {

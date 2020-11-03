@@ -40,6 +40,7 @@
     </entity>
     <entity name="LibraryEntry" representedClassName="LibraryEntry" syncable="YES" codeGenerationType="class">
         <attribute name="author" attributeType="String"/>
+        <attribute name="ncode" attributeType="String"/>
         <attribute name="title" attributeType="String"/>
     </entity>
     <elements>
@@ -48,6 +49,6 @@
         <element name="DictionaryLanguageSource" positionX="45" positionY="135" width="128" height="103"/>
         <element name="DictionaryReading" positionX="160" positionY="192" width="128" height="118"/>
         <element name="DictionaryTerm" positionX="160" positionY="192" width="128" height="103"/>
-        <element name="LibraryEntry" positionX="-63" positionY="-18" width="128" height="73"/>
+        <element name="LibraryEntry" positionX="-63" positionY="-18" width="128" height="88"/>
     </elements>
 </model>

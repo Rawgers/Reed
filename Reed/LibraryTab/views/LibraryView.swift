@@ -9,13 +9,13 @@
 import SwiftUI
 
 struct LibraryView: View {
-    @ObservedObject var viewModel: LibraryViewModel
+    @ObservedObject var viewModel: LibraryViewModel = LibraryViewModel()
     
     var body: some View {
         NavigationView {
             List {
                 ForEach(viewModel.libraryEntries, id: \.self) {
-                    LibraryEntryView(entry: $0)
+                    LibraryEntryView(viewModel: $0)
                 }
             }
             .navigationBarTitle("Library")
