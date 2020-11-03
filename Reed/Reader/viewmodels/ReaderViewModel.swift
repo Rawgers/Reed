@@ -13,10 +13,15 @@ class ReaderViewModel: ObservableObject {
     
     var items = [String]()
     var font = UIFont.systemFont(ofSize: 18)
-    var content = MockReaderData.content[0]
+    var content: String = ""
     
-    init() {
+    init(ncode: String) {
+        fetchSectionContents()
         calcPages()
+    }
+    
+    func fetchSectionContents() {
+        content = MockReaderData.content[0]
     }
     
     func calcPages() {

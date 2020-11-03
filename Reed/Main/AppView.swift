@@ -12,7 +12,7 @@ struct AppView: View {
     
     var body: some View {
         TabView {
-            LibraryView(viewModel: LibraryViewModel())
+            LibraryView()
                 .tabItem {
                     Image(systemName: "books.vertical")
                     Text("Library")
@@ -29,7 +29,7 @@ struct AppView: View {
 //                    Image(systemName: "rectangle.grid.2x2")
 //                    Text("Cards")
 //                }
-//            
+//
 //            SettingsView()
 //                .tabItem {
 //                    Image(systemName: "wrench")

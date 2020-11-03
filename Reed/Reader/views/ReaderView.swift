@@ -16,6 +16,10 @@ struct ReaderView: View {
     @State private var currentPosition: CGSize = .zero
     @State private var newPosition: CGSize = .zero
 
+    init(ncode: String) {
+        viewModel = ReaderViewModel(ncode: ncode)
+    }
+    
     var body: some View {
         VStack(alignment: .center, content: {
             Pager(page: $page,
@@ -107,6 +111,6 @@ struct TextView: UIViewRepresentable {
 
 struct ReaderView_Previews: PreviewProvider {
     static var previews: some View {
-        ReaderView(viewModel: ReaderViewModel()).environmentObject(Word())
+        ReaderView(ncode: "n9669bk").environmentObject(Word())
     }
 }

@@ -9,24 +9,33 @@
 import SwiftUI
 
 struct LibraryEntryView: View {
-    var entry: LibraryEntryViewModel
+    var viewModel: LibraryEntryViewModel
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(entry.title)
-                .font(.headline)
-                .lineLimit(1)
-                .truncationMode(.tail)
-            Text(entry.author)
-                .font(.caption)
-                .foregroundColor(.gray)
-                .lineLimit(1)
-                .truncationMode(.tail)
+        ZStack(alignment: .leading) {
+            VStack(alignment: .leading) {
+                Text(viewModel.title)
+                    .font(.headline)
+                    .lineLimit(2)
+                    .truncationMode(.tail)
+                Text(viewModel.author)
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+            }
+            NavigationLink(
+                destination: NavigationLazyView(
+                    ReaderView(ncode: viewModel.ncode)
+                )
+            ) {
+                EmptyView()
+            }
         }
     }
 }
 
-struct LibraryViewController_Previews: PreviewProvider {
+struct LibraryEntryViewController_Previews: PreviewProvider {
     
     static var previews: some View {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -36,6 +45,6 @@ struct LibraryViewController_Previews: PreviewProvider {
         entryData.author = "理不尽な孫の手"
         let entry = LibraryEntryViewModel(entryData: entryData)
         
-        return LibraryEntryView(entry: entry).environment(\.managedObjectContext, context)
+        return LibraryEntryView(viewModel: entry).environment(\.managedObjectContext, context)
     }
 }
