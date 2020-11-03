@@ -29,18 +29,18 @@ enum DiscoverListCategory: Equatable {
     }
 }
 
-class DiscoverListViewModel: ObservableObject {
+class DiscoverViewModel: ObservableObject {
     @Published var rows: [DiscoverListItemViewModel] = []
-    let category: DiscoverListCategory
+    @Published var category: DiscoverListCategory = .recent
     var startIndex: Int = -FetchNarouConstants.LOAD_INCREMENT.rawValue
     var resultCount: Int = 0
     
-    init(category: DiscoverListCategory) {
-        self.category = category
+    init() {
         updateRows()
     }
     
     func updateRows() {
+        print(startIndex)
         guard let request = createRequest(for: category) else { return }
         Narou.fetchNarouApi(request: request) { data, error in
             if error != nil { return }
@@ -81,5 +81,17 @@ class DiscoverListViewModel: ObservableObject {
                 order: .mostPopularWeek
             )
         )
+    }
+    
+    func updateCategory(newCategory: DiscoverListCategory) {
+        category = newCategory
+        resetData()
+    }
+    
+    private func resetData() {
+        rows = []
+        startIndex = -FetchNarouConstants.LOAD_INCREMENT.rawValue
+        resultCount = 0
+        updateRows()
     }
 }

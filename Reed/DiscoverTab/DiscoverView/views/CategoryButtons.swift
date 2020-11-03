@@ -9,13 +9,14 @@
 import SwiftUI
 
 struct CategoryButtons: View {
-    @Binding var activeCategory: DiscoverListCategory
     @ObservedObject var viewModel = CategoryButtonsViewModel()
+    @Binding var activeCategory: DiscoverListCategory
+    let updateCategory: (DiscoverListCategory) -> Void
     
     var body: some View {
         HStack {
             ForEach(viewModel.buttonCategories, id: \.self.id) { category in
-                Button(category.id) { activeCategory = category }
+                Button(category.id) { updateCategory(category) }
                 .padding(.horizontal, 4)
                 .padding(4)
                 .background(
@@ -33,6 +34,9 @@ struct CategoryButtons: View {
 
 struct CategoryButtons_Previews: PreviewProvider {
     static var previews: some View {
-        CategoryButtons(activeCategory: .constant(.recent))
+        CategoryButtons(
+            activeCategory: .constant(.recent),
+            updateCategory: { _ in }
+        )
     }
 }
