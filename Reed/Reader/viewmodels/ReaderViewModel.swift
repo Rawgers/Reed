@@ -7,31 +7,32 @@
 //
 
 import SwiftUI
-
+import SwiftyNarou
 
 class ReaderViewModel: ObservableObject {
-    
-    var items = [String]()
     var font = UIFont.systemFont(ofSize: 18)
     var content: String = ""
+    @Published var items = [String]()
     
     init(ncode: String) {
-        fetchSectionContents()
-        calcPages()
+        fetchNarouData(ncode: ncode)
     }
     
-    func fetchSectionContents() {
-        content = MockReaderData.content[0]
+    func fetchNarouData(ncode: String) {
+        Narou.fetchSectionContent(ncode: ncode) { content, error in
+            self.content = content!.content
+            self.calcPages()
+        }
     }
     
     func calcPages() {
         let userWidth  = UIScreen.main.bounds.width
-        let userHeight = UIScreen.main.bounds.height * 0.6
+        let userHeight = UIScreen.main.bounds.height * 0.55
         let rect = CGRect(x: 0, y: 0, width: userWidth, height: userHeight)
         let tempTextView = UITextView(frame: rect)
         tempTextView.font = font
         
-        while (content.count > 0) {
+        while (content != "") {
             tempTextView.text = content
             
             let layoutManager = tempTextView.layoutManager
@@ -47,5 +48,4 @@ class ReaderViewModel: ObservableObject {
             content = String(content[stringRange.upperBound..<content.endIndex])
         }
     }
-    
 }

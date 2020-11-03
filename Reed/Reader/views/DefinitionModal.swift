@@ -8,25 +8,26 @@
 
 import SwiftUI
 
-
 struct DefinitionModal: View {
-    @EnvironmentObject var wordSelection: Word
-
+    @ObservedObject var viewModel: DefinitionModalViewModel
+    
     var body: some View {
         ZStack {
             Color.gray
-            Text(self.wordSelection.word)
+            ScrollView {
+                Spacer()
+                Text(viewModel.content)
+                    .frame(width: UIScreen.main.bounds.width * 0.6, alignment: .topLeading)
+                    .lineLimit(nil)
+                    .fixedSize(horizontal: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/, vertical: false)
+                Spacer()
+            }
         }
-        .edgesIgnoringSafeArea(.vertical)
     }
 }
 
 struct DefinitionModal_Previews: PreviewProvider {
     static var previews: some View {
-        DefinitionModal().environmentObject(Word())
+        DefinitionModal(viewModel: DefinitionModalViewModel())
     }
-}
-
-class Word: ObservableObject {
-    @Published var word: String = ""
 }

@@ -7,6 +7,7 @@
 //
 
 import CoreData
+import SwiftyNarou
 import SwiftUI
 
 class LibraryViewModel: ObservableObject {
