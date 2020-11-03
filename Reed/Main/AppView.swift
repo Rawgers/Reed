@@ -14,7 +14,7 @@ struct AppView: View {
         TabView {
             LibraryView(viewModel: LibraryViewModel())
                 .tabItem {
-                    Image(systemName: "book")
+                    Image(systemName: "books.vertical")
                     Text("Library")
                 }
 
@@ -24,17 +24,17 @@ struct AppView: View {
                     Text("Discover")
                 }
 
-            VocabularyListsView()
-                .tabItem {
-                    Image(systemName: "rectangle.grid.2x2")
-                    Text("Cards")
-                }
-            
-            SettingsView()
-                .tabItem {
-                    Image(systemName: "wrench")
-                    Text("Settings")
-                }
+//            VocabularyListsView()
+//                .tabItem {
+//                    Image(systemName: "rectangle.grid.2x2")
+//                    Text("Cards")
+//                }
+//            
+//            SettingsView()
+//                .tabItem {
+//                    Image(systemName: "wrench")
+//                    Text("Settings")
+//                }
         }
     }
 }

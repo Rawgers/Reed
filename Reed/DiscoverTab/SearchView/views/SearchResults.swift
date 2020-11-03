@@ -14,22 +14,22 @@ struct SearchResults: View {
     @ObservedObject var viewModel: DiscoverSearchResultsViewModel
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    var btnBack : some View { Button(action: {
+    var backButton : some View { Button(action: {
         self.presentationMode.wrappedValue.dismiss()
-        }) {
-            HStack {
-                Image(systemName: "chevron.backward")
-                    .imageScale(.large)
-                Text("Search")
-                    .font(.callout)
-                    .fontWeight(.regular)
-            }
+    }) {
+        HStack {
+            Image(systemName: "chevron.backward")
+                .imageScale(.large)
+            Text("Search")
+                .font(.callout)
+                .fontWeight(.regular)
         }
-    }
+    }}
     
     var body: some View {
         ScrollView {
             LazyVStack {
+                Divider()
                 ForEach(viewModel.searchResults, id: \.self) { result in
                     DiscoverListItem(viewModel: result).onAppear {
                         if self.viewModel.searchResults.last == result {
@@ -42,7 +42,7 @@ struct SearchResults: View {
         }
         .navigationBarTitle(viewModel.keyword, displayMode: .inline)
         .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: btnBack)
+        .navigationBarItems(leading: backButton)
     }
 }
 
@@ -53,4 +53,3 @@ struct SearchResults_Previews: PreviewProvider {
         )
     }
 }
-
