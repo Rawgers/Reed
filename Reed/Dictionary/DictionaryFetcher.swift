@@ -40,7 +40,6 @@ class DictionaryFetcher {
     func fetchTerms(with term: String) -> [DictionaryTerm] {
         let fetchRequest: NSFetchRequest<DictionaryTerm> = DictionaryTerm.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "termTerm == %@", term)
-        print("swag")
         return (try? persistentContainer.viewContext.fetch(fetchRequest)) ?? []
     }
     

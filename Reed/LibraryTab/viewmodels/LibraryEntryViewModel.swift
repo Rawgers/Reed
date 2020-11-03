@@ -14,7 +14,7 @@ class LibraryEntryViewModel: ObservableObject {
     let author: String
     
     init(entryData: LibraryEntry) {
-        ncode = entryData.ncode!
+        ncode = entryData.ncode ?? "unknown"
         title = entryData.title ?? "unknown"
         author = entryData.author ?? "unknown"
     }
@@ -22,11 +22,12 @@ class LibraryEntryViewModel: ObservableObject {
 
 extension LibraryEntryViewModel: Hashable, Equatable {
     func hash(into hasher: inout Hasher) {
+        hasher.combine(ncode)
         hasher.combine(title)
         hasher.combine(author)
     }
     
     static func == (lhs: LibraryEntryViewModel, rhs: LibraryEntryViewModel) -> Bool {
-        return lhs.title == rhs.title && lhs.author == rhs.author
+        return lhs.ncode == rhs.ncode && lhs.title == rhs.title && lhs.author == rhs.author
     }
 }
