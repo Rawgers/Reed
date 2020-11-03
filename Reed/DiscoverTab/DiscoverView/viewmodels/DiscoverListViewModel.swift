@@ -9,21 +9,21 @@
 import SwiftUI
 import SwiftyNarou
 
-enum DiscoverListCategory: Equatable {
+enum DiscoverListCategory: Equatable, Hashable {
     case recent
     case genre(_ value: Genre)
     
     var id: String {
         switch self {
-        case .recent: return "RE"
+        case .recent: return "Recent"
         case .genre(let genre):
             switch genre {
-            case .romance: return "RO"
-            case .fantasy: return "FY"
-            case .literature: return "LT"
-            case .scifi: return "SF"
-            case .other: return "OT"
-            case .none: return "NO"
+            case .romance: return "Romance"
+            case .fantasy: return "Fantasy"
+            case .literature: return "Literature"
+            case .scifi: return "Sci-Fi"
+            case .other: return "Other"
+            case .none: return "Misc."
             }
         }
     }

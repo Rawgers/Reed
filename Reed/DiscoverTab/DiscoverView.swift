@@ -16,11 +16,18 @@ struct DiscoverView: View {
         NavigationView {
             ScrollView {
                 ZStack {
-                    VStack {
+                    VStack(alignment: .center) {
                         CategoryButtons(
                             activeCategory: $viewModel.category,
                             updateCategory: viewModel.updateCategory
                         )
+                        HStack {
+                            Text(viewModel.category.id)
+                                .font(.title)
+                                .fontWeight(.semibold)
+                                .padding(.horizontal)
+                            Spacer()
+                        }
                         DiscoverList(
                             rows: $viewModel.rows,
                             updateRows: viewModel.updateRows
