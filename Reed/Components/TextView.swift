@@ -16,6 +16,7 @@ struct TextView: UIViewRepresentable {
         let textView = UITextView()
         textView.text = text
         textView.font = .systemFont(ofSize: 18)
+        textView.textAlignment = .justified
         textView.addGestureRecognizer(UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.wordTapped(gesture:))))
         return textView
     }
