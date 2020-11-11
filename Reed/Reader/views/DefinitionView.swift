@@ -8,12 +8,12 @@
 
 import SwiftUI
 
-struct DefinitionModal: View {
-    @ObservedObject var viewModel: DefinitionModalViewModel
+struct DefinitionView: View {
+    @ObservedObject var viewModel: DefinitionViewModel
     
     var body: some View {
         ZStack {
-            Color.gray
+            Color.white
             ScrollView {
                 Spacer()
                 Text(viewModel.content)
@@ -28,6 +28,6 @@ struct DefinitionModal: View {
 
 struct DefinitionModal_Previews: PreviewProvider {
     static var previews: some View {
-        DefinitionModal(viewModel: DefinitionModalViewModel())
+        DefinitionView(viewModel: DefinitionViewModel())
     }
 }

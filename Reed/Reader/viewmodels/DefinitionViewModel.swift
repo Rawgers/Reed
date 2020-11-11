@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-class DefinitionModalViewModel: ObservableObject {
+class DefinitionViewModel: ObservableObject {
     @Published var content = ""
     let dictionaryFetcher = DictionaryFetcher()
     
