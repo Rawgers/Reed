@@ -18,6 +18,7 @@ struct LibraryView: View {
                     LibraryEntryView(entryData: $0)
                 }
             }
+            .onAppear { viewModel.fetchEntries() }
             .navigationBarTitle("Library")
         }
     }
