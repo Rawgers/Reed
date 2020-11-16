@@ -28,7 +28,7 @@ public class LibraryNovel: NSManagedObject {
         libraryNovel.isFavorite = isFavorite
         
         let librarySection = LibrarySection(using: context)
-        librarySection.id = 0
+        librarySection.id = 1
         librarySection.novel = libraryNovel
         libraryNovel.lastReadSection = librarySection
         do {
