@@ -18,15 +18,20 @@ struct NovelDetailsView: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(alignment: .leading, spacing: .zero) {
-                Text(viewModel.title)
+                Text(viewModel.novelTitle)
                     .font(.title3)
                     .fontWeight(.medium)
                 Spacer()
                 
                 Text("Synopsis")
                     .font(.headline)
-                Text(viewModel.synopsis)
+                Text(viewModel.novelSynopsis)
                     .font(.subheadline)
+                
+                Button(action: viewModel.toggleFavorite) {
+                    Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
+                }
+                .disabled(viewModel.isLibraryDataLoading)
             }
         }
         .navigationBarTitle("", displayMode: .inline)

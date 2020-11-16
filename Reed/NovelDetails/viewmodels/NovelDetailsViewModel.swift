@@ -6,40 +6,89 @@
 //  Copyright © 2020 Roger Luo. All rights reserved.
 //
 
+import CoreData
 import SwiftUI
 import SwiftyNarou
 
 class NovelDetailsViewModel: ObservableObject {
-    @Published var bookData: NarouResponse = NarouResponse()
+    let model: NovelDetailsModel
+    let persistentContainer: NSPersistentContainer
+    
+    @Published var bookData: NarouResponse?
+    @Published var isLibraryDataLoading: Bool = true
+    @Published var isFavorite: Bool = false
+    var libraryEntry: LibraryNovel?
     
     init(ncode: String) {
-        fetchNovelDetails(for: ncode)
-    }
-    
-    func fetchNovelDetails(for ncode: String) {
-        let request = NarouRequest(
-            ncode: [ncode],
-            responseFormat: NarouResponseFormat(
-                gzipCompressionLevel: 5,
-                fileFormat: .JSON
-            )
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            fatalError("Could not get shared app delegate.")
+        }
+        self.persistentContainer = appDelegate.persistentContainer
+        model = NovelDetailsModel(
+            persistentContainer: persistentContainer,
+            ncode: ncode
         )
         
-        Narou.fetchNarouApi(request: request) { data, error in
-            if error != nil { return }
-            guard let data = data else { return }
-            self.bookData = data.1[0]
+        model.fetchNovelDetails { data in
+            self.bookData = data
+        }
+        
+        model.fetchLibraryData { libraryEntryId in
+            if let libraryEntryId = libraryEntryId {
+                let libraryEntry = try? (
+                    self.persistentContainer.viewContext.existingObject(
+                        with: libraryEntryId
+                    ) as? LibraryNovel
+                )
+                self.libraryEntry = libraryEntry
+                self.isFavorite = libraryEntry?.isFavorite ?? self.isFavorite
+            }
+            self.isLibraryDataLoading = false
+        }
+    }
+    
+    func toggleFavorite() {
+        if let libraryEntry = libraryEntry {
+            libraryEntry.isFavorite.toggle()
+            isFavorite = libraryEntry.isFavorite
+            do {
+                try persistentContainer.viewContext.save()
+            } catch {
+                print("Failed to save changes.")
+                libraryEntry.isFavorite.toggle()
+            }
+        } else {
+            model.addFavorite(
+                title: novelTitle,
+                author: novelAuthor,
+                subgenre: novelSubgenre
+            ) { libraryEntry in
+                self.libraryEntry = libraryEntry
+                self.isFavorite = true
+            }
         }
     }
 }
 
 // Unwrap and postprocess NarouResponse optionals for readability
 extension NovelDetailsViewModel {
-    var title: String {
-        bookData.title ?? ""
+    var novelAuthor: String {
+        bookData?.author ?? ""
     }
     
-    var synopsis: String {
-        bookData.synopsis?.trimmingCharacters(in: ["\n"]) ?? ""
+    var novelNcode: String {
+        bookData?.ncode ?? ""
+    }
+    
+    var novelTitle: String {
+        bookData?.title ?? ""
+    }
+    
+    var novelSubgenre: Int {
+        bookData?.subgenre?.rawValue ?? Subgenre.none.rawValue
+    }
+    
+    var novelSynopsis: String {
+        bookData?.synopsis?.trimmingCharacters(in: ["\n"]) ?? ""
     }
 }
