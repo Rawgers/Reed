@@ -15,12 +15,13 @@ class LibraryViewModel: ObservableObject {
     
     init() {
 //        insertMockCoreData()
-        fetchEntries()
+//        fetchEntries()
     }
     
     func fetchEntries() {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<LibraryNovel> = LibraryNovel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "novelIsFavorite == true")
         do {
             let entriesCoreData: [NSFetchRequestResult] = try context.fetch(fetchRequest)
             novels = entriesCoreData.map {
