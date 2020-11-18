@@ -40,4 +40,28 @@ public class LibraryNovel: NSManagedObject {
         
         return libraryNovel
     }
+    
+    static func fetch(
+        persistentContainer: NSPersistentContainer,
+        ncode: String,
+        completion: @escaping (NSManagedObjectID?
+    ) -> Void) {
+        let fetchRequest: NSFetchRequest<LibraryNovel> = LibraryNovel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "novelNcode == %@", ncode)
+        
+        persistentContainer.performBackgroundTask { context in
+            do {
+                let result = try context.fetch(fetchRequest)
+                DispatchQueue.main.async {
+                    if result.indices.contains(0) {
+                        completion(result[0].objectID)
+                    } else {
+                        completion(nil)
+                    }
+                }
+            } catch {
+                print("Error fetching library data.")
+            }
+        }
+    }
 }
