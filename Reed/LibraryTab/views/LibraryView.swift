@@ -14,8 +14,8 @@ struct LibraryView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(viewModel.libraryEntries, id: \.self) {
-                    LibraryEntryView(viewModel: $0)
+                ForEach(viewModel.novels, id: \.self) {
+                    LibraryEntryView(entryData: $0)
                 }
             }
             .navigationBarTitle("Library")
