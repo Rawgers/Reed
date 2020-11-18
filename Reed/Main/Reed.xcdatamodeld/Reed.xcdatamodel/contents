@@ -44,10 +44,19 @@
             <fetchIndexElement property="termTerm" type="Binary" order="ascending"/>
         </fetchIndex>
     </entity>
-    <entity name="LibraryEntry" representedClassName="LibraryEntry" syncable="YES" codeGenerationType="class">
-        <attribute name="author" attributeType="String"/>
-        <attribute name="ncode" attributeType="String"/>
-        <attribute name="title" attributeType="String"/>
+    <entity name="LibraryNovel" representedClassName="LibraryNovel" syncable="YES">
+        <attribute name="novelAuthor" attributeType="String"/>
+        <attribute name="novelIsFavorite" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="novelNcode" attributeType="String"/>
+        <attribute name="novelSubgenre" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="novelTitle" attributeType="String"/>
+        <relationship name="novelLastReadSection" maxCount="1" deletionRule="Cascade" destinationEntity="LibrarySection" inverseName="sectionNovel" inverseEntity="LibrarySection"/>
+    </entity>
+    <entity name="LibrarySection" representedClassName="LibrarySection" syncable="YES">
+        <attribute name="sectionId" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="sectionLastEdit" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="sectionTitle" optional="YES" attributeType="String"/>
+        <relationship name="sectionNovel" maxCount="1" deletionRule="Nullify" destinationEntity="LibraryNovel" inverseName="novelLastReadSection" inverseEntity="LibraryNovel"/>
     </entity>
     <elements>
         <element name="DictionaryDefinition" positionX="-18" positionY="63" width="128" height="208"/>
@@ -55,6 +64,7 @@
         <element name="DictionaryLanguageSource" positionX="45" positionY="135" width="128" height="103"/>
         <element name="DictionaryReading" positionX="160" positionY="192" width="128" height="118"/>
         <element name="DictionaryTerm" positionX="160" positionY="192" width="128" height="103"/>
-        <element name="LibraryEntry" positionX="-63" positionY="-18" width="128" height="88"/>
+        <element name="LibraryNovel" positionX="-63" positionY="-18" width="128" height="133"/>
+        <element name="LibrarySection" positionX="45" positionY="135" width="128" height="103"/>
     </elements>
 </model>

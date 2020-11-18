@@ -10,6 +10,10 @@ import SwiftUI
 
 struct LibraryEntryView: View {
     var viewModel: LibraryEntryViewModel
+    
+    init(entryData: LibraryNovel) {
+        viewModel = LibraryEntryViewModel(entryData: entryData)
+    }
 
     var body: some View {
         ZStack(alignment: .leading) {
@@ -40,11 +44,11 @@ struct LibraryEntryViewController_Previews: PreviewProvider {
     static var previews: some View {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         
-        let entryData = LibraryEntry(context: context)
+        let entryData = LibraryNovel(context: context)
+        entryData.ncode = "n9669bk"
         entryData.title = "無職転生　- 異世界行ったら本気だす -"
         entryData.author = "理不尽な孫の手"
-        let entry = LibraryEntryViewModel(entryData: entryData)
         
-        return LibraryEntryView(viewModel: entry).environment(\.managedObjectContext, context)
+        return LibraryEntryView(entryData: entryData)
     }
 }

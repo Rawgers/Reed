@@ -13,10 +13,10 @@ class LibraryEntryViewModel: ObservableObject {
     let title: String
     let author: String
     
-    init(entryData: LibraryEntry) {
-        ncode = entryData.ncode ?? "unknown"
-        title = entryData.title ?? "unknown"
-        author = entryData.author ?? "unknown"
+    init(entryData: LibraryNovel) {
+        ncode = entryData.ncode
+        title = entryData.title
+        author = entryData.author
     }
 }
 

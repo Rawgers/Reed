@@ -40,11 +40,16 @@
 		B82E94CA256658A8004A6F85 /* FuriganaMakerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E94C6256658A8004A6F85 /* FuriganaMakerTests.swift */; };
 		B82E94CB256658A8004A6F85 /* TokenizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E94C7256658A8004A6F85 /* TokenizerTests.swift */; };
 		B82E94CC256658A8004A6F85 /* PartOfSpeechMatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E94C8256658A8004A6F85 /* PartOfSpeechMatcherTests.swift */; };
+		B844F2BD256119060097F5EF /* NovelDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B844F2BC256119060097F5EF /* NovelDetailsModel.swift */; };
+		B844F2C825611CD80097F5EF /* NovelDetailsModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B844F2C725611CD80097F5EF /* NovelDetailsModelTest.swift */; };
 		B8462309250AF5A3002358A0 /* DictionaryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8462308250AF5A3002358A0 /* DictionaryParser.swift */; };
 		B846482F2526CB5000D5A76D /* DictionaryFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846482E2526CB5000D5A76D /* DictionaryFetcherTests.swift */; };
 		B8465D3E2566FD0C00967841 /* DefinitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8465D3D2566FD0C00967841 /* DefinitionView.swift */; };
 		B8539EE52519755A000FF025 /* DictionaryStorageManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8539EE42519755A000FF025 /* DictionaryStorageManagerTests.swift */; };
 		B860B7122518207900F48FBE /* JMdict_e.json.gz in Resources */ = {isa = PBXBuildFile; fileRef = B860B7112518207800F48FBE /* JMdict_e.json.gz */; };
+		B86550CD255A08D800E4786F /* LibraryNovel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86550CA255A08D800E4786F /* LibraryNovel+CoreDataProperties.swift */; };
+		B86550CE255A08D800E4786F /* LibrarySection+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86550CB255A08D800E4786F /* LibrarySection+CoreDataClass.swift */; };
+		B86550CF255A08D800E4786F /* LibraryNovel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86550CC255A08D800E4786F /* LibraryNovel+CoreDataClass.swift */; };
 		B8667F102509C745001EABD4 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8667F0F2509C745001EABD4 /* AppView.swift */; };
 		B8667F132509CA68001EABD4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8667F122509CA68001EABD4 /* SettingsView.swift */; };
 		B87D30772516C537002E25FF /* DictionaryLanguageSource+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87D30752516C537002E25FF /* DictionaryLanguageSource+CoreDataClass.swift */; };
@@ -78,6 +83,7 @@
 		B8D456B42508D1A2000F9E5F /* DictionaryParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D456B32508D1A2000F9E5F /* DictionaryParserTests.swift */; };
 		B8D456BF2508D1A3000F9E5F /* ReedUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D456BE2508D1A3000F9E5F /* ReedUITests.swift */; };
 		B8D456D62508DD24000F9E5F /* LibraryEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D456D52508DD24000F9E5F /* LibraryEntryView.swift */; };
+		B8E4EF542559F86D0079EFB2 /* LibrarySection+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E4EF532559F86D0079EFB2 /* LibrarySection+CoreDataProperties.swift */; };
 		B8F04A892517F07500405599 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F04A882517F07500405599 /* SplashView.swift */; };
 		B8F5C20D250EDDB2000810F8 /* DictionaryEntry+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F5C209250EDDB2000810F8 /* DictionaryEntry+CoreDataClass.swift */; };
 		B8F5C20E250EDDB2000810F8 /* DictionaryEntry+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F5C20A250EDDB2000810F8 /* DictionaryEntry+CoreDataProperties.swift */; };
@@ -147,11 +153,16 @@
 		B82E94C6256658A8004A6F85 /* FuriganaMakerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FuriganaMakerTests.swift; sourceTree = "<group>"; };
 		B82E94C7256658A8004A6F85 /* TokenizerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenizerTests.swift; sourceTree = "<group>"; };
 		B82E94C8256658A8004A6F85 /* PartOfSpeechMatcherTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartOfSpeechMatcherTests.swift; sourceTree = "<group>"; };
+		B844F2BC256119060097F5EF /* NovelDetailsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelDetailsModel.swift; sourceTree = "<group>"; };
+		B844F2C725611CD80097F5EF /* NovelDetailsModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelDetailsModelTest.swift; sourceTree = "<group>"; };
 		B8462308250AF5A3002358A0 /* DictionaryParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryParser.swift; sourceTree = "<group>"; };
 		B846482E2526CB5000D5A76D /* DictionaryFetcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryFetcherTests.swift; sourceTree = "<group>"; };
 		B8465D3D2566FD0C00967841 /* DefinitionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefinitionView.swift; sourceTree = "<group>"; };
 		B8539EE42519755A000FF025 /* DictionaryStorageManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryStorageManagerTests.swift; sourceTree = "<group>"; };
 		B860B7112518207800F48FBE /* JMdict_e.json.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = JMdict_e.json.gz; sourceTree = "<group>"; };
+		B86550CA255A08D800E4786F /* LibraryNovel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LibraryNovel+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B86550CB255A08D800E4786F /* LibrarySection+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LibrarySection+CoreDataClass.swift"; sourceTree = "<group>"; };
+		B86550CC255A08D800E4786F /* LibraryNovel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LibraryNovel+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B8667F0F2509C745001EABD4 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		B8667F122509CA68001EABD4 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B87D30752516C537002E25FF /* DictionaryLanguageSource+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DictionaryLanguageSource+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -192,6 +203,7 @@
 		B8D456D52508DD24000F9E5F /* LibraryEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryEntryView.swift; sourceTree = "<group>"; };
 		B8D91017B089018BE0AEBA19 /* Pods-Reed.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reed.debug.xcconfig"; path = "Target Support Files/Pods-Reed/Pods-Reed.debug.xcconfig"; sourceTree = "<group>"; };
 		B8E25B8C25661B97007B492E /* Reed-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Reed-Bridging-Header.h"; sourceTree = "<group>"; };
+		B8E4EF532559F86D0079EFB2 /* LibrarySection+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "LibrarySection+CoreDataProperties.swift"; path = "/Users/rogerluo/Repos/Reed/Reed/LibraryTab/models/LibrarySection+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
 		B8F04A882517F07500405599 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		B8F5C209250EDDB2000810F8 /* DictionaryEntry+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DictionaryEntry+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B8F5C20A250EDDB2000810F8 /* DictionaryEntry+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DictionaryEntry+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -286,6 +298,10 @@
 		B81C8700250A365F000B9E5F /* models */ = {
 			isa = PBXGroup;
 			children = (
+				B86550CC255A08D800E4786F /* LibraryNovel+CoreDataClass.swift */,
+				B86550CA255A08D800E4786F /* LibraryNovel+CoreDataProperties.swift */,
+				B86550CB255A08D800E4786F /* LibrarySection+CoreDataClass.swift */,
+				B8E4EF532559F86D0079EFB2 /* LibrarySection+CoreDataProperties.swift */,
 				B81C8701250A3675000B9E5F /* MockLibraryEntryData.swift */,
 			);
 			path = models;
@@ -333,6 +349,22 @@
 			name = Tokenizer;
 			path = ReedTests/Tokenizer;
 			sourceTree = SOURCE_ROOT;
+		};
+		B844F2A22560B9480097F5EF /* NovelDetails */ = {
+			isa = PBXGroup;
+			children = (
+				B844F2C725611CD80097F5EF /* NovelDetailsModelTest.swift */,
+			);
+			path = NovelDetails;
+			sourceTree = "<group>";
+		};
+		B844F2BB256118F40097F5EF /* models */ = {
+			isa = PBXGroup;
+			children = (
+				B844F2BC256119060097F5EF /* NovelDetailsModel.swift */,
+			);
+			path = models;
+			sourceTree = "<group>";
 		};
 		B8462307250AF4E4002358A0 /* Dictionary */ = {
 			isa = PBXGroup;
@@ -523,6 +555,7 @@
 			isa = PBXGroup;
 			children = (
 				B82E94C4256658A8004A6F85 /* Tokenizer */,
+				B844F2A22560B9480097F5EF /* NovelDetails */,
 				B8F5C219250EF78E000810F8 /* Dictionary */,
 				B8D456B52508D1A2000F9E5F /* Info.plist */,
 				B89810F9250F504E0059F71F /* TestUtils.swift */,
@@ -626,6 +659,7 @@
 		B8FA93AD254BAD4800AE362C /* NovelDetails */ = {
 			isa = PBXGroup;
 			children = (
+				B844F2BB256118F40097F5EF /* models */,
 				B8FA93AF254BAED900AE362C /* viewmodels */,
 				B8FA93AE254BAED000AE362C /* views */,
 			);
@@ -847,6 +881,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B86550CF255A08D800E4786F /* LibraryNovel+CoreDataClass.swift in Sources */,
 				B8F5C20E250EDDB2000810F8 /* DictionaryEntry+CoreDataProperties.swift in Sources */,
 				B8F5C20F250EDDB2000810F8 /* DictionaryReading+CoreDataClass.swift in Sources */,
 				B80E0E6B25497E13009B0EE8 /* SearchResults.swift in Sources */,
@@ -857,6 +892,7 @@
 				B89CD68B2509900000D7D8ED /* MockReaderData.swift in Sources */,
 				B8F5C217250EDEEB000810F8 /* DictionaryTerm+CoreDataClass.swift in Sources */,
 				B80E0E75254A225B009B0EE8 /* UINavigationController+UIGestureRecognizerDelegate.swift in Sources */,
+				B8E4EF542559F86D0079EFB2 /* LibrarySection+CoreDataProperties.swift in Sources */,
 				B89CD68E2509928800D7D8ED /* ReaderView.swift in Sources */,
 				B8D4569A2508D1A2000F9E5F /* AppDelegate.swift in Sources */,
 				B82AF5DF2548015B00FAB2A8 /* View+UIKitComponents.swift in Sources */,
@@ -868,12 +904,14 @@
 				B80F45BC25411271004F8A22 /* DiscoverListViewModel.swift in Sources */,
 				B880D139251810F20097AF8D /* SplashViewModel.swift in Sources */,
 				B8FA93B1254BAEEC00AE362C /* NovelDetailsViewModel.swift in Sources */,
+				B86550CD255A08D800E4786F /* LibraryNovel+CoreDataProperties.swift in Sources */,
 				B8D456D62508DD24000F9E5F /* LibraryEntryView.swift in Sources */,
 				B80CBD272542887700C807CD /* DiscoverListItemViewModel.swift in Sources */,
 				B80E0E7025497EBA009B0EE8 /* DiscoverSearchResultsViewModel.swift in Sources */,
 				B898110B250F81600059F71F /* NSManagedObject+Init.swift in Sources */,
 				B8D4569F2508D1A2000F9E5F /* Reed.xcdatamodeld in Sources */,
 				B8B8F9912526C10400D6DF8B /* DictionaryFetcher.swift in Sources */,
+				B86550CE255A08D800E4786F /* LibrarySection+CoreDataClass.swift in Sources */,
 				B89CD68625098C0100D7D8ED /* DiscoverView.swift in Sources */,
 				B8667F102509C745001EABD4 /* AppView.swift in Sources */,
 				B82E94A42566332D004A6F85 /* MecabWordNode.swift in Sources */,
@@ -892,6 +930,7 @@
 				6D4F99942551619300CC0DF6 /* TextView.swift in Sources */,
 				B82E94AD25663890004A6F85 /* Deinflector.swift in Sources */,
 				B89CD6962509938C00D7D8ED /* VocabularyCardView.swift in Sources */,
+				B844F2BD256119060097F5EF /* NovelDetailsModel.swift in Sources */,
 				B82AF6472548148200FAB2A8 /* SearchHistory.swift in Sources */,
 				B89810F8250F17210059F71F /* DictionaryStorageManager.swift in Sources */,
 				B82E94B3256643C2004A6F85 /* Tokenizer.swift in Sources */,
@@ -931,6 +970,7 @@
 				B89810FA250F504E0059F71F /* TestUtils.swift in Sources */,
 				B8D041C125667C18003F1E05 /* DeinflectorTests.swift in Sources */,
 				B8539EE52519755A000FF025 /* DictionaryStorageManagerTests.swift in Sources */,
+				B844F2C825611CD80097F5EF /* NovelDetailsModelTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
