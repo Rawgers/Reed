@@ -13,35 +13,35 @@ import SwiftyNarou
 class NovelDetailsViewModel: ObservableObject {
     let model: NovelDetailsModel
     let persistentContainer: NSPersistentContainer
+    let ncode: String
     
-    @Published var bookData: NarouResponse?
+    @Published var novelData: NarouResponse?
     @Published var isLibraryDataLoading: Bool = true
     @Published var isFavorite: Bool = false
     var libraryEntry: LibraryNovel?
     
     init(ncode: String) {
+        self.ncode = ncode
+        
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             fatalError("Could not get shared app delegate.")
         }
         self.persistentContainer = appDelegate.persistentContainer
-        model = NovelDetailsModel(
+        self.model = NovelDetailsModel(
             persistentContainer: persistentContainer,
             ncode: ncode
         )
         
-        model.fetchNovelDetails { data in
-            self.bookData = data
+        model.fetchNovelDetails { novelData in
+            self.novelData = novelData
         }
         
-        model.fetchLibraryData { libraryEntryId in
+        LibraryNovel.fetch(persistentContainer: persistentContainer, ncode: ncode) { libraryEntryId in
             if let libraryEntryId = libraryEntryId {
-                let libraryEntry = try? (
-                    self.persistentContainer.viewContext.existingObject(
-                        with: libraryEntryId
-                    ) as? LibraryNovel
-                )
-                self.libraryEntry = libraryEntry
-                self.isFavorite = libraryEntry?.isFavorite ?? self.isFavorite
+                self.libraryEntry = try? self.persistentContainer.viewContext.existingObject(
+                    with: libraryEntryId
+                ) as? LibraryNovel
+                self.isFavorite = self.libraryEntry?.isFavorite ?? self.isFavorite
             }
             self.isLibraryDataLoading = false
         }
@@ -73,22 +73,22 @@ class NovelDetailsViewModel: ObservableObject {
 // Unwrap and postprocess NarouResponse optionals for readability
 extension NovelDetailsViewModel {
     var novelAuthor: String {
-        bookData?.author ?? ""
+        novelData?.author ?? ""
     }
     
     var novelNcode: String {
-        bookData?.ncode ?? ""
+        novelData?.ncode ?? ""
     }
     
     var novelTitle: String {
-        bookData?.title ?? ""
+        novelData?.title ?? ""
     }
     
     var novelSubgenre: Int {
-        bookData?.subgenre?.rawValue ?? Subgenre.none.rawValue
+        novelData?.subgenre?.rawValue ?? Subgenre.none.rawValue
     }
     
     var novelSynopsis: String {
-        bookData?.synopsis?.trimmingCharacters(in: ["\n"]) ?? ""
+        novelData?.synopsis?.trimmingCharacters(in: ["\n"]) ?? ""
     }
 }

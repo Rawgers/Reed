@@ -49,12 +49,17 @@ extension LibraryNovel {
         set { novelIsFavorite = newValue }
     }
     
-    var lastReadSection: LibrarySection? {
-        get { novelLastReadSection }
+    var lastReadSection: LibrarySection {
+        get { novelLastReadSection! }
         set { novelLastReadSection = newValue }
+    }
+    
+    var sectionNcode: String {
+        get {
+            let ret = "\(ncode)/\(lastReadSection.id)"
+            return ret
+        }
     }
 }
 
-extension LibraryNovel : Identifiable {
-
-}
+extension LibraryNovel : Identifiable {}
