@@ -34,6 +34,7 @@
 		B82E94AD25663890004A6F85 /* Deinflector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E94AB25663890004A6F85 /* Deinflector.swift */; };
 		B82E94AE25663890004A6F85 /* DeinflectionRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E94AC25663890004A6F85 /* DeinflectionRules.swift */; };
 		B82E950E256673D5004A6F85 /* DeinflectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E950D256673D5004A6F85 /* DeinflectorTests.swift */; };
+		B82E94B3256643C2004A6F85 /* Tokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E94B2256643C2004A6F85 /* Tokenizer.swift */; };
 		B8462309250AF5A3002358A0 /* DictionaryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8462308250AF5A3002358A0 /* DictionaryParser.swift */; };
 		B846482F2526CB5000D5A76D /* DictionaryFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846482E2526CB5000D5A76D /* DictionaryFetcherTests.swift */; };
 		B8465D3E2566FD0C00967841 /* DefinitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8465D3D2566FD0C00967841 /* DefinitionView.swift */; };
@@ -134,6 +135,7 @@
 		B82E94AB25663890004A6F85 /* Deinflector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Deinflector.swift; sourceTree = "<group>"; };
 		B82E94AC25663890004A6F85 /* DeinflectionRules.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeinflectionRules.swift; sourceTree = "<group>"; };
 		B82E950D256673D5004A6F85 /* DeinflectorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeinflectorTests.swift; sourceTree = "<group>"; };
+		B82E94B2256643C2004A6F85 /* Tokenizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tokenizer.swift; sourceTree = "<group>"; };
 		B8462308250AF5A3002358A0 /* DictionaryParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryParser.swift; sourceTree = "<group>"; };
 		B846482E2526CB5000D5A76D /* DictionaryFetcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryFetcherTests.swift; sourceTree = "<group>"; };
 		B8465D3D2566FD0C00967841 /* DefinitionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefinitionView.swift; sourceTree = "<group>"; };
@@ -357,6 +359,7 @@
 		B8977921256626D400DF1B79 /* Tokenizer */ = {
 			isa = PBXGroup;
 			children = (
+				B82E94B2256643C2004A6F85 /* Tokenizer.swift */,
 				B82E94AC25663890004A6F85 /* DeinflectionRules.swift */,
 				B82E94AB25663890004A6F85 /* Deinflector.swift */,
 				B8977923256626D400DF1B79 /* MecabWrapper.swift */,
@@ -870,6 +873,7 @@
 				B89CD6962509938C00D7D8ED /* VocabularyCardView.swift in Sources */,
 				B82AF6472548148200FAB2A8 /* SearchHistory.swift in Sources */,
 				B89810F8250F17210059F71F /* DictionaryStorageManager.swift in Sources */,
+				B82E94B3256643C2004A6F85 /* Tokenizer.swift in Sources */,
 				6DCF77DB252DB19B00CB3C5D /* ReaderViewModel.swift in Sources */,
 				B8462309250AF5A3002358A0 /* DictionaryParser.swift in Sources */,
 				B8F04A892517F07500405599 /* SplashView.swift in Sources */,
