@@ -10,20 +10,23 @@ let RESOURCES_BUNDLE_NAME = "mecab-naist-jdic-utf-8"
 
 class MecabWrapper {
     let mecab: Mecab
+    let furiganaMaker: FuriganaMaker
 
     init() {
         let bundlePath = Bundle.main.path(forResource: RESOURCES_BUNDLE_NAME, ofType: "bundle")
         let bundleResourcePath = Bundle.init(path: bundlePath!)!.resourcePath
         self.mecab = Mecab.init(dicDirPath: bundleResourcePath!)
+        self.furiganaMaker = FuriganaMaker()
     }
     
     func tokenize(_ text: String) -> [MecabWordNode] {
         guard let nodes: [MecabNode] = mecab.parseToNode(with: text) else {
             return [MecabWordNode(
                 surface: text,
-                featureString: nil,
+                features: [],
                 partOfSpeech: nil,
-                range: (0, text.count)
+                range: (0, text.count),
+                furiganas: []
             )]
         }
         var wordNodes = [MecabWordNode]()
@@ -32,13 +35,18 @@ class MecabWrapper {
             let wordLength = node.surface.count
             let leadingWhitespaceLength = Int(node.leadingWhitespaceLength)
             let trailingWhitespaceLength = node.trailingWhitespace?.count ?? 0
+            let features = node.feature?.split(separator: ",").map { String($0) } ?? []
             wordNodes.append(MecabWordNode(
                 surface: node.surface,
-                featureString: node.feature,
+                features: features,
                 partOfSpeech: convertFeatureStringToPartOfSpeech(node.feature),
                 range: (
                     index + leadingWhitespaceLength,
-                    index + leadingWhitespaceLength + wordLength)
+                    index + leadingWhitespaceLength + wordLength
+                ),
+                furiganas: features.count >= 8
+                    ? furiganaMaker.makeFurigana(text: node.surface, reading: features[7])
+                    : []
             ))
             index += leadingWhitespaceLength + wordLength + trailingWhitespaceLength
         }

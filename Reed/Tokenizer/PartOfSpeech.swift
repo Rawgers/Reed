@@ -22,6 +22,7 @@ enum PartOfSpeech: String {
 }
 
 struct PartOfSpeechInfo {
+    let isYougen: Bool
     let canMakeCompoundWord: Bool
     let canStartCompoundWord: Bool
     let canEndCompoundWord: Bool
@@ -29,61 +30,73 @@ struct PartOfSpeechInfo {
 
 let partOfSpeechInfo: [PartOfSpeech: PartOfSpeechInfo] = [
     PartOfSpeech.Adjective: PartOfSpeechInfo(
+        isYougen: true,
         canMakeCompoundWord: true,
         canStartCompoundWord: true,
         canEndCompoundWord: true
     ),
     PartOfSpeech.Adnominal: PartOfSpeechInfo(
+        isYougen: false,
         canMakeCompoundWord: true,
         canStartCompoundWord: true,
         canEndCompoundWord: false
     ),
     PartOfSpeech.Adverb: PartOfSpeechInfo(
+        isYougen: false,
         canMakeCompoundWord: true,
         canStartCompoundWord: true,
         canEndCompoundWord: true
     ),
     PartOfSpeech.Auxiliary: PartOfSpeechInfo(
+        isYougen: false,
         canMakeCompoundWord: true,
         canStartCompoundWord: false,
         canEndCompoundWord: true
     ),
     PartOfSpeech.Conjunction: PartOfSpeechInfo(
+        isYougen: false,
         canMakeCompoundWord: true,
         canStartCompoundWord: true,
         canEndCompoundWord: true
     ),
     PartOfSpeech.Filler: PartOfSpeechInfo(
+        isYougen: false,
         canMakeCompoundWord: true,
         canStartCompoundWord: true,
         canEndCompoundWord: true
     ),
     PartOfSpeech.Interjection: PartOfSpeechInfo(
+        isYougen: false,
         canMakeCompoundWord: true,
         canStartCompoundWord: true,
         canEndCompoundWord: true
     ),
     PartOfSpeech.Noun: PartOfSpeechInfo(
+        isYougen: false,
         canMakeCompoundWord: true,
         canStartCompoundWord: true,
         canEndCompoundWord: true
     ),
     PartOfSpeech.PostpositionalParticle: PartOfSpeechInfo(
+        isYougen: false,
         canMakeCompoundWord: true,
         canStartCompoundWord: false,
         canEndCompoundWord: false
     ),
     PartOfSpeech.Prefix: PartOfSpeechInfo(
+        isYougen: false,
         canMakeCompoundWord: true,
         canStartCompoundWord: true,
         canEndCompoundWord: false
     ),
     PartOfSpeech.Symbol: PartOfSpeechInfo(
+        isYougen: false,
         canMakeCompoundWord: false,
         canStartCompoundWord: false,
         canEndCompoundWord: false
     ),
     PartOfSpeech.Verb: PartOfSpeechInfo(
+        isYougen: true,
         canMakeCompoundWord: true,
         canStartCompoundWord: true,
         canEndCompoundWord: true
