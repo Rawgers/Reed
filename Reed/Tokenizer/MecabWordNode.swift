@@ -14,28 +14,16 @@ class MecabWordNode {
     let furiganas: [Furigana]
     
     var canMakeCompoundWord: Bool {
-        guard let partOfSpeech = self.partOfSpeech,
-              let info = partOfSpeechInfo[partOfSpeech]
-        else { return false }
-        return info.canMakeCompoundWord
+        return partOfSpeech?.canMakeCompoundWord ?? false
     }
     var canStartCompoundWord: Bool {
-        guard let partOfSpeech = self.partOfSpeech,
-              let info = partOfSpeechInfo[partOfSpeech]
-        else { return false }
-        return info.canStartCompoundWord
+        return partOfSpeech?.canStartCompoundWord ?? false
     }
     var canEndCompoundWord: Bool {
-        guard let partOfSpeech = self.partOfSpeech,
-              let info = partOfSpeechInfo[partOfSpeech]
-        else { return false }
-        return info.canEndCompoundWord
+        return partOfSpeech?.canEndCompoundWord ?? false
     }
     var isYougen: Bool {
-        guard let partOfSpeech = self.partOfSpeech,
-              let info = partOfSpeechInfo[partOfSpeech]
-        else { return false }
-        return info.isYougen
+        return partOfSpeech?.isYougen ?? false
     }
     
     init(surface: String, features: [String], partOfSpeech: PartOfSpeech?, range: (Int, Int), furiganas: [Furigana]) {
