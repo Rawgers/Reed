@@ -30,6 +30,7 @@
 		B82D3D95254D2DA200F06836 /* CategoryButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82D3D94254D2DA200F06836 /* CategoryButtons.swift */; };
 		B82D3D9A254D2E7700F06836 /* CategoryButtonsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82D3D99254D2E7700F06836 /* CategoryButtonsViewModel.swift */; };
 		B82E949325662E98004A6F85 /* PartOfSpeech.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E949225662E98004A6F85 /* PartOfSpeech.swift */; };
+		B82E94A42566332D004A6F85 /* MecabWordNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E94A32566332D004A6F85 /* MecabWordNode.swift */; };
 		B8462309250AF5A3002358A0 /* DictionaryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8462308250AF5A3002358A0 /* DictionaryParser.swift */; };
 		B846482F2526CB5000D5A76D /* DictionaryFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846482E2526CB5000D5A76D /* DictionaryFetcherTests.swift */; };
 		B8539EE52519755A000FF025 /* DictionaryStorageManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8539EE42519755A000FF025 /* DictionaryStorageManagerTests.swift */; };
@@ -126,6 +127,7 @@
 		B82D3D94254D2DA200F06836 /* CategoryButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryButtons.swift; sourceTree = "<group>"; };
 		B82D3D99254D2E7700F06836 /* CategoryButtonsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryButtonsViewModel.swift; sourceTree = "<group>"; };
 		B82E949225662E98004A6F85 /* PartOfSpeech.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartOfSpeech.swift; sourceTree = "<group>"; };
+		B82E94A32566332D004A6F85 /* MecabWordNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MecabWordNode.swift; sourceTree = "<group>"; };
 		B8462308250AF5A3002358A0 /* DictionaryParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryParser.swift; sourceTree = "<group>"; };
 		B846482E2526CB5000D5A76D /* DictionaryFetcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryFetcherTests.swift; sourceTree = "<group>"; };
 		B8539EE42519755A000FF025 /* DictionaryStorageManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryStorageManagerTests.swift; sourceTree = "<group>"; };
@@ -343,6 +345,7 @@
 			children = (
 				B8977923256626D400DF1B79 /* MecabWrapper.swift */,
 				B82E949225662E98004A6F85 /* PartOfSpeech.swift */,
+				B82E94A32566332D004A6F85 /* MecabWordNode.swift */,
 			);
 			path = Tokenizer;
 			sourceTree = "<group>";
@@ -832,6 +835,7 @@
 				B8B8F9912526C10400D6DF8B /* DictionaryFetcher.swift in Sources */,
 				B89CD68625098C0100D7D8ED /* DiscoverView.swift in Sources */,
 				B8667F102509C745001EABD4 /* AppView.swift in Sources */,
+				B82E94A42566332D004A6F85 /* MecabWordNode.swift in Sources */,
 				B8F5C218250EDEEB000810F8 /* DictionaryTerm+CoreDataProperties.swift in Sources */,
 				B8667F132509CA68001EABD4 /* SettingsView.swift in Sources */,
 				B82D3D9A254D2E7700F06836 /* CategoryButtonsViewModel.swift in Sources */,
