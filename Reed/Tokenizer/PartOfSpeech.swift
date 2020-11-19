@@ -19,86 +19,40 @@ enum PartOfSpeech: String {
     case Prefix = "接頭詞"
     case Symbol = "記号"
     case Verb = "動詞"
+    
+    var canMakeCompoundWord: Bool {
+        switch self {
+        case .Symbol:
+            return false
+        default:
+            return true
+        }
+    }
+    
+    var canStartCompoundWord: Bool {
+        switch self {
+        case .Auxiliary, .PostpositionalParticle, .Symbol:
+            return false
+        default:
+            return true
+        }
+    }
+    
+    var canEndCompoundWord: Bool {
+        switch self {
+        case .Adnominal, .PostpositionalParticle, .Prefix, .Symbol:
+            return false
+        default:
+            return true
+        }
+    }
+    
+    var isYougen: Bool {
+        switch self {
+        case .Adjective, .Verb:
+            return true
+        default:
+            return false
+        }
+    }
 }
-
-struct PartOfSpeechInfo {
-    let isYougen: Bool
-    let canMakeCompoundWord: Bool
-    let canStartCompoundWord: Bool
-    let canEndCompoundWord: Bool
-}
-
-let partOfSpeechInfo: [PartOfSpeech: PartOfSpeechInfo] = [
-    PartOfSpeech.Adjective: PartOfSpeechInfo(
-        isYougen: true,
-        canMakeCompoundWord: true,
-        canStartCompoundWord: true,
-        canEndCompoundWord: true
-    ),
-    PartOfSpeech.Adnominal: PartOfSpeechInfo(
-        isYougen: false,
-        canMakeCompoundWord: true,
-        canStartCompoundWord: true,
-        canEndCompoundWord: false
-    ),
-    PartOfSpeech.Adverb: PartOfSpeechInfo(
-        isYougen: false,
-        canMakeCompoundWord: true,
-        canStartCompoundWord: true,
-        canEndCompoundWord: true
-    ),
-    PartOfSpeech.Auxiliary: PartOfSpeechInfo(
-        isYougen: false,
-        canMakeCompoundWord: true,
-        canStartCompoundWord: false,
-        canEndCompoundWord: true
-    ),
-    PartOfSpeech.Conjunction: PartOfSpeechInfo(
-        isYougen: false,
-        canMakeCompoundWord: true,
-        canStartCompoundWord: true,
-        canEndCompoundWord: true
-    ),
-    PartOfSpeech.Filler: PartOfSpeechInfo(
-        isYougen: false,
-        canMakeCompoundWord: true,
-        canStartCompoundWord: true,
-        canEndCompoundWord: true
-    ),
-    PartOfSpeech.Interjection: PartOfSpeechInfo(
-        isYougen: false,
-        canMakeCompoundWord: true,
-        canStartCompoundWord: true,
-        canEndCompoundWord: true
-    ),
-    PartOfSpeech.Noun: PartOfSpeechInfo(
-        isYougen: false,
-        canMakeCompoundWord: true,
-        canStartCompoundWord: true,
-        canEndCompoundWord: true
-    ),
-    PartOfSpeech.PostpositionalParticle: PartOfSpeechInfo(
-        isYougen: false,
-        canMakeCompoundWord: true,
-        canStartCompoundWord: false,
-        canEndCompoundWord: false
-    ),
-    PartOfSpeech.Prefix: PartOfSpeechInfo(
-        isYougen: false,
-        canMakeCompoundWord: true,
-        canStartCompoundWord: true,
-        canEndCompoundWord: false
-    ),
-    PartOfSpeech.Symbol: PartOfSpeechInfo(
-        isYougen: false,
-        canMakeCompoundWord: false,
-        canStartCompoundWord: false,
-        canEndCompoundWord: false
-    ),
-    PartOfSpeech.Verb: PartOfSpeechInfo(
-        isYougen: true,
-        canMakeCompoundWord: true,
-        canStartCompoundWord: true,
-        canEndCompoundWord: true
-    )
-]
