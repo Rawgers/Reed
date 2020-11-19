@@ -8,24 +8,20 @@
 
 struct Token {
     let surface: String
-    let dictionaryEntry: DictionaryEntry?
+    let dictionaryDefinitions: [DictionaryDefinition]
     let mecabWordNodes: [MecabWordNode]
     let deinflectionResult: DeinflectionResult?
     let range: (Int, Int)
+    let furiganas: [Furigana]
 }
 
 class Tokenizer {
-    let MAXIMUM_CONCATENATION = 4
-    
-    let dictionaryFetcher: DictionaryFetcher
-    let mecabWrapper: MecabWrapper
-    let deinflector: Deinflector
-    
-    init() {
-        dictionaryFetcher = DictionaryFetcher()
-        mecabWrapper = MecabWrapper()
-        deinflector = Deinflector()
-    }
+    let MAXIMUM_CONCATENATION = 6
+
+    let dictionaryFetcher: DictionaryFetcher = DictionaryFetcher()
+    let mecabWrapper: MecabWrapper = MecabWrapper()
+    let deinflector: Deinflector = Deinflector()
+    let partOfSpeechMatcher: PartOfSpeechMatcher = PartOfSpeechMatcher()
     
     func tokenize(_ text: String) -> [Token] {
         let mecabWordNodes = mecabWrapper.tokenize(text)
@@ -64,38 +60,22 @@ class Tokenizer {
         while startIndex < tokenCount {
             let firstNode = nodes[startIndex]
             if !firstNode.canStartCompoundWord {
-                let (dictionaryEntry, deinflectionResult) = fetchDictionaryEntry(
-                    text: firstNode.surface
-                )
-                tokens.append(Token(
-                    surface: firstNode.surface,
-                    dictionaryEntry: dictionaryEntry,
-                    mecabWordNodes: [firstNode],
-                    deinflectionResult: deinflectionResult,
-                    range: firstNode.range
-                ))
+                let token = getToken(mecabWordNodes: [firstNode], forceCreateToken: true)
+                tokens.append(token!)
                 startIndex += 1
                 continue
             }
             for concatenationCount in stride(from: MAXIMUM_CONCATENATION, to: 0, by: -1) {
-                let endIndex = min(startIndex + concatenationCount, tokenCount)
-                let lastNode = nodes[endIndex - 1]
+                let endIndex = startIndex + concatenationCount
+                if tokenCount < endIndex { continue }
                 
+                let lastNode = nodes[endIndex - 1]
                 if !lastNode.canEndCompoundWord && concatenationCount > 1 { continue }
                 
                 let nodesToBeConcatenated = Array(nodes[startIndex ..< endIndex])
-                let concatenatedToken = MecabWordNode.concatenate(nodesToBeConcatenated)
-                let (dictionaryEntry, deinflectionResult) = fetchDictionaryEntry(
-                    text: concatenatedToken.surface
-                )
-                if concatenationCount == 1 || dictionaryEntry != nil {
-                    tokens.append(Token(
-                        surface: concatenatedToken.surface,
-                        dictionaryEntry: dictionaryEntry,
-                        mecabWordNodes: nodesToBeConcatenated,
-                        deinflectionResult: deinflectionResult,
-                        range: concatenatedToken.range
-                    ))
+                let token = getToken(mecabWordNodes: nodesToBeConcatenated, forceCreateToken: concatenationCount == 1)
+                if token != nil {
+                    tokens.append(token!)
                     startIndex += concatenationCount
                     break
                 }
@@ -105,25 +85,68 @@ class Tokenizer {
         return tokens
     }
 
-    // TODO: The entry with least deinflection and most characters should be picked
-    func fetchDictionaryEntry(text: String) -> (DictionaryEntry?, DeinflectionResult?) {
-        var entry: DictionaryEntry?
-        var deinflectionResult: DeinflectionResult?
-        
+    func getToken(mecabWordNodes: [MecabWordNode], forceCreateToken: Bool) -> Token? {
+        let concatenatedToken = MecabWordNode.concatenate(mecabWordNodes)
+        let text = concatenatedToken.surface
         let deinflectionResults = deinflector.deinflect(text: text)
-        for result in deinflectionResults {
-            let entries = dictionaryFetcher.fetchEntries(of: result.text)
-            if entries.isEmpty { continue }
-            let bestEntry = entries.first
-            if entry == nil {
-                entry = bestEntry
-                deinflectionResult = result
-            } else {
-                entry = bestEntry
-                deinflectionResult = result
+        for deinflectionResult in deinflectionResults {
+            let definitions = searchDictionaryDefinitions(
+                nodes: mecabWordNodes,
+                deinflectionResult: deinflectionResult
+            )
+            if !definitions.isEmpty {
+                return Token(
+                    surface: concatenatedToken.surface,
+                    dictionaryDefinitions: definitions,
+                    mecabWordNodes: mecabWordNodes,
+                    deinflectionResult: deinflectionResult,
+                    range: concatenatedToken.range,
+                    furiganas: concatenatedToken.furiganas
+                )
             }
         }
-        
-        return (entry, deinflectionResult)
+        return forceCreateToken ? Token(
+            surface: concatenatedToken.surface,
+            dictionaryDefinitions: [],
+            mecabWordNodes: mecabWordNodes,
+            deinflectionResult: nil,
+            range: concatenatedToken.range,
+            furiganas: concatenatedToken.furiganas
+        ) : nil
+    }
+    
+    func searchDictionaryDefinitions(nodes: [MecabWordNode], deinflectionResult: DeinflectionResult) -> [DictionaryDefinition] {
+        if nodes.endIndex == 1 {
+            var definitionsWithPrimaryPartOfSpeechMatch = [DictionaryDefinition]()
+            var definitionsWithSecondaryPartOfSpeechMatch = [DictionaryDefinition]()
+            let entries = dictionaryFetcher.fetchEntries(of: deinflectionResult.text)
+            for entry in entries {
+                for definition in entry.definitions {
+                    let partsOfSpeech = definition.partsOfSpeech
+                    let matchLevel = partOfSpeechMatcher.match(
+                        features: nodes.first!.features,
+                        jmdictPartsOfSpeech: partsOfSpeech
+                    )
+                    switch matchLevel {
+                    case PartOfSpeechMatchLevel.Primary:
+                        definitionsWithPrimaryPartOfSpeechMatch.append(definition)
+                    case PartOfSpeechMatchLevel.Secondary:
+                        definitionsWithSecondaryPartOfSpeechMatch.append(definition)
+                    case PartOfSpeechMatchLevel.None:
+                        break
+                    }
+                }
+            }
+            return definitionsWithPrimaryPartOfSpeechMatch.isEmpty
+                ? definitionsWithSecondaryPartOfSpeechMatch
+                : definitionsWithPrimaryPartOfSpeechMatch
+        } else {
+            var definitions = [DictionaryDefinition]()
+            let entries = dictionaryFetcher.fetchEntries(of: deinflectionResult.text)
+            for entry in entries {
+                definitions.append(contentsOf: entry.definitions)
+            }
+            return definitions
+        }
     }
 }
