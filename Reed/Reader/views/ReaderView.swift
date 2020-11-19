@@ -9,11 +9,9 @@
 import SwiftUI
 import SwiftUIPager
 
-
 struct ReaderView: View {
     @ObservedObject var viewModel: ReaderViewModel
     @ObservedObject var definitionViewModel: DefinitionViewModel = DefinitionViewModel()
-    @State var page: Int = 0
     @State private var currentPosition: CGSize = .zero
     @State private var newPosition: CGSize = .zero
     @State private var isBottomSheetExpanded = false
@@ -26,18 +24,23 @@ struct ReaderView: View {
         ZStack {
             VStack(alignment: .center) {
                 Pager(
-                    page: $page,
-                    data: viewModel.items,
+                    page: $viewModel.curPage,
+                    data: viewModel.pages,
                     id: \.self,
                     content: { text in
                         VStack(alignment: .center, spacing: /*@START_MENU_TOKEN@*/nil/*@END_MENU_TOKEN@*/) {
                             TextView(text: text, defineSelection: definitionViewModel.generateContent)
                         }
-                }).alignment(.start).preferredItemSize(CGSize(
+                    }
+                )
+                .onPageChanged { page in
+                    self.viewModel.handlePageFlip(isInit: page == -1)
+                }
+                .alignment(.start).preferredItemSize(CGSize(
                     width: UIScreen.main.bounds.width,
                     height: UIScreen.main.bounds.height * 0.6
                 ))
-                Text("\(page + 1) of \(viewModel.items.count)")
+                Text("\(viewModel.curPage + 1) of \(viewModel.pages.endIndex)")
                 Spacer()
                     .frame(height: UIScreen.main.bounds.height * 0.15)
             }
@@ -53,8 +56,6 @@ struct ReaderView: View {
         .navigationBarHidden(true)
      }
 }
-
-
 
 struct ReaderView_Previews: PreviewProvider {
     static var previews: some View {
