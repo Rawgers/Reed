@@ -31,12 +31,18 @@
         <attribute name="readingTerms" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
         <attribute name="readingUnusualInfo" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
         <relationship name="readingParentEntry" maxCount="1" deletionRule="Nullify" destinationEntity="DictionaryEntry" inverseName="entryReadings" inverseEntity="DictionaryEntry"/>
+        <fetchIndex name="byPropertyIndex">
+            <fetchIndexElement property="readingReading" type="Binary" order="ascending"/>
+        </fetchIndex>
     </entity>
     <entity name="DictionaryTerm" representedClassName="DictionaryTerm" syncable="YES">
         <attribute name="termFrequencyPriorities" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
         <attribute name="termTerm" attributeType="String"/>
         <attribute name="termUnusualInfo" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
         <relationship name="termParentEntry" maxCount="1" deletionRule="Nullify" destinationEntity="DictionaryEntry" inverseName="entryTerms" inverseEntity="DictionaryEntry"/>
+        <fetchIndex name="byPropertyIndex">
+            <fetchIndexElement property="termTerm" type="Binary" order="ascending"/>
+        </fetchIndex>
     </entity>
     <entity name="LibraryEntry" representedClassName="LibraryEntry" syncable="YES" codeGenerationType="class">
         <attribute name="author" attributeType="String"/>
