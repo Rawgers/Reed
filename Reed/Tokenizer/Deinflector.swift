@@ -36,16 +36,18 @@ class Deinflector {
         return indexedRules
     }
     
-    // Returns an empty list if the text cannot be further deinflected
+    // When the text cannot be deinflected, returns one DeinflectionResult with no rules applied
     func deinflect(text: String) -> [DeinflectionResult] {
-        return recursivelyDeinflect(result: DeinflectionResult(
+        let initialResult = DeinflectionResult(
             originalText: text,
             text: text,
             conjugationGroupValue: ConjugationGroup.Anything,
             appliedRules: []
-        ))
+        )
+        return recursivelyDeinflect(result: initialResult)
     }
     
+    // Returns an empty list if the text cannot be further deinflected
     // TODO: Set the maximum number of recursive deinflections to avoid infinite loop
     func recursivelyDeinflect(result: DeinflectionResult) -> [DeinflectionResult] {
         let text = result.text
@@ -54,13 +56,10 @@ class Deinflector {
             if text.count < sourceLength { continue }
             
             let suffix = String(text.suffix(sourceLength))
-            guard let rules = indexedRules[sourceLength]![suffix] else {
-                continue
-            }
+            guard let rules = indexedRules[sourceLength]![suffix] else { continue }
             
-            // Filter applicable rules by possible conjugation groups
             let applicableRules = rules.filter {
-                $0.sourceConjugationGroupValue & result.conjugationGroupValue > 0
+                canApplyRule(result: result, rule: $0)
             }
             let results = applyRules(result: result, applicableRules: applicableRules)
             
@@ -72,11 +71,27 @@ class Deinflector {
         return allResults
     }
     
+    func canApplyRule(result: DeinflectionResult, rule: Rule) -> Bool {
+        if rule.sourceConjugationGroupValue & result.conjugationGroupValue > 0 {
+            if result.appliedRules.isEmpty { return true }
+            let previousRule = result.appliedRules.last
+            
+            // Some sequences of rules should not be applied
+            // "て" -> "てる" -> "る" etc.
+            if previousRule!.target == "てる" && rule.source == "てる" {
+                return false
+            }
+            
+            return true
+        }
+        return false
+    }
+    
     func applyRules(result: DeinflectionResult, applicableRules: [Rule]) -> [DeinflectionResult] {
         let text = result.text
         return applicableRules.map {
             DeinflectionResult(
-                originalText: text,
+                originalText: result.originalText,
                 text: String(text.prefix(text.count - $0.source.count)) + $0.target,
                 conjugationGroupValue: $0.targetConjugationGroupValue,
                 appliedRules: result.appliedRules + [$0]
