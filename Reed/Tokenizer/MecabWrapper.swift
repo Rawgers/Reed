@@ -8,13 +8,6 @@
 
 let RESOURCES_BUNDLE_NAME = "mecab-naist-jdic-utf-8"
 
-struct MecabWordNode {
-    let surface: String
-    let featureString: String?
-    let partOfSpeech: PartOfSpeech?
-    let range: (Int, Int) // [start, end)
-}
-
 class MecabWrapper {
     let mecab: Mecab
 
