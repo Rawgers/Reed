@@ -8,26 +8,20 @@
 
 let RESOURCES_BUNDLE_NAME = "mecab-naist-jdic-utf-8"
 
-enum WordType {
-    case ContentWord
-    case GrammaticalWord
-    case UnknownWord // TODO: Is it needed?
-    case Punctuation
-}
-
 struct MecabWordNode {
-    var surface: String
-    var featureString: String?
-    var range: (Int, Int) // [start, end)
+    let surface: String
+    let featureString: String?
+    let partOfSpeech: PartOfSpeech?
+    let range: (Int, Int) // [start, end)
 }
 
 class MecabWrapper {
-    var mecab: Mecab!
+    let mecab: Mecab
 
     init() {
         let bundlePath = Bundle.main.path(forResource: RESOURCES_BUNDLE_NAME, ofType: "bundle")
         let bundleResourcePath = Bundle.init(path: bundlePath!)!.resourcePath
-        mecab = Mecab.init(dicDirPath: bundleResourcePath!)
+        self.mecab = Mecab.init(dicDirPath: bundleResourcePath!)
     }
     
     func tokenize(_ text: String) -> [MecabWordNode] {
@@ -35,6 +29,7 @@ class MecabWrapper {
             return [MecabWordNode(
                 surface: text,
                 featureString: nil,
+                partOfSpeech: nil,
                 range: (0, text.count)
             )]
         }
@@ -43,12 +38,11 @@ class MecabWrapper {
         for node in nodes {
             let wordLength = node.surface.count
             let leadingWhitespaceLength = Int(node.leadingWhitespaceLength)
-            let trailingWhitespaceLength = node.trailingWhitespace != nil
-                ? node.trailingWhitespace!.count
-                : 0
+            let trailingWhitespaceLength = node.trailingWhitespace?.count ?? 0
             wordNodes.append(MecabWordNode(
                 surface: node.surface,
                 featureString: node.feature,
+                partOfSpeech: convertFeatureStringToPartOfSpeech(node.feature),
                 range: (
                     index + leadingWhitespaceLength,
                     index + leadingWhitespaceLength + wordLength)
@@ -56,5 +50,11 @@ class MecabWrapper {
             index += leadingWhitespaceLength + wordLength + trailingWhitespaceLength
         }
         return wordNodes
+    }
+    
+    func convertFeatureStringToPartOfSpeech(_ featureString: String?) -> PartOfSpeech? {
+        guard let featureString = featureString else { return nil }
+        let description = String(featureString.split(separator: ",")[0])
+        return PartOfSpeech(rawValue: description)
     }
 }
