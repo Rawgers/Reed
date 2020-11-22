@@ -15,6 +15,8 @@ class ReaderViewModel: ObservableObject {
     let model: ReaderModel
     var historyEntry: HistoryEntry?
     var section: SectionContent?
+    var content: String = ""
+    @Published var items = [String]()
     
     @Published var pages: [String] = []
     @Published var curPage: Int = 0
@@ -71,11 +73,11 @@ class ReaderViewModel: ObservableObject {
     }
     
     func calcPages(content: String) -> [String] {
-        let userWidth = UIScreen.main.bounds.width
-        let userHeight = UIScreen.main.bounds.height * 0.55
+        let userWidth = UIScreen.main.bounds.width * 0.95
+        let userHeight = UIScreen.main.bounds.height * 0.5
         let rect = CGRect(x: 0, y: 0, width: userWidth, height: userHeight)
         let tempTextView = UITextView(frame: rect)
-        tempTextView.font = UIFont.systemFont(ofSize: 18)
+        tempTextView.font = .systemFont(ofSize: 17)
         
         var remainingContent = content
         var pages = [String]()
