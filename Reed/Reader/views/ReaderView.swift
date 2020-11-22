@@ -11,10 +11,8 @@ import SwiftUIPager
 
 struct ReaderView: View {
     @ObservedObject var viewModel: ReaderViewModel
-    @ObservedObject var definitionViewModel: DefinitionViewModel = DefinitionViewModel()
-    @State private var currentPosition: CGSize = .zero
-    @State private var newPosition: CGSize = .zero
-    @State private var isBottomSheetExpanded = false
+    @State private var entries = [DefinitionDetails]()
+    @State private var page: Int = 0
 
     init(ncode: String) {
         self.viewModel = ReaderViewModel(ncode: ncode)
@@ -28,33 +26,31 @@ struct ReaderView: View {
                     data: viewModel.pages,
                     id: \.self,
                     content: { text in
-                        VStack(alignment: .center, spacing: /*@START_MENU_TOKEN@*/nil/*@END_MENU_TOKEN@*/) {
-                            TextView(text: text, defineSelection: definitionViewModel.generateContent)
-                        }
+                        DefinableTextView(text: text, definerResultHandler: definerResultHandler)
                     }
                 )
                 .onPageChanged { page in
                     self.viewModel.handlePageFlip(isInit: page == -1)
                 }
-                .alignment(.start).preferredItemSize(CGSize(
+                .alignment(.start)
+                .preferredItemSize(CGSize(
                     width: UIScreen.main.bounds.width,
-                    height: UIScreen.main.bounds.height * 0.6
+                    height: UIScreen.main.bounds.height * 0.65
                 ))
                 Text("\(viewModel.curPage + 1) of \(viewModel.pages.endIndex)")
                 Spacer()
                     .frame(height: UIScreen.main.bounds.height * 0.15)
             }
-            GeometryReader { geometry in
-                BottomSheetView (
-                    isOpen: self.$isBottomSheetExpanded,
-                    maxHeight: geometry.size.height * 0.4) {
-                        DefinitionView(viewModel: definitionViewModel)
-                    }
-            }
-            .edgesIgnoringSafeArea(.all)
+            .padding(.horizontal)
+            
+            DefinerView(entries: $entries)
         }
         .navigationBarHidden(true)
-     }
+    }
+    
+    func definerResultHandler(newEntries: [DefinitionDetails]) {
+        self.entries = newEntries
+    }
 }
 
 struct ReaderView_Previews: PreviewProvider {

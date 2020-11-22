@@ -8,9 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		535DAAFAD261F3FD515DE20D /* libPods-ReedTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B202909C8BC7C48879B3AFF /* libPods-ReedTests.a */; };
-		6D4F99942551619300CC0DF6 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4F99932551619300CC0DF6 /* TextView.swift */; };
-		6D4F99992551620200CC0DF6 /* DefinitionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4F99982551620200CC0DF6 /* DefinitionViewModel.swift */; };
+		6D12985A256E1BB500E873F4 /* DefinerTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D129859256E1BB500E873F4 /* DefinerTab.swift */; };
+		6D1298EE257239E400E873F4 /* HistorySection+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1298ED257239E400E873F4 /* HistorySection+CoreDataProperties.swift */; };
 		6D4F99B82556A0C900CC0DF6 /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4F99B72556A0C900CC0DF6 /* BottomSheetView.swift */; };
+		6D9EC86725723B8B00CD4833 /* DefinableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9EC86625723B8B00CD4833 /* DefinableTextView.swift */; };
 		6DCF77DB252DB19B00CB3C5D /* ReaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCF77DA252DB19B00CB3C5D /* ReaderViewModel.swift */; };
 		8AFA1B8EBEB7590252ECB58B /* libPods-ReedTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FED962AB0C24D51C5D53286 /* libPods-ReedTests.a */; };
 		AB7A1C88AECCC47C55B834C9 /* libPods-Reed.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 94F3E3D17D6E8ABD1BBAC599 /* libPods-Reed.a */; };
@@ -46,7 +47,6 @@
 		B844F2C825611CD80097F5EF /* NovelDetailsModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B844F2C725611CD80097F5EF /* NovelDetailsModelTests.swift */; };
 		B8462309250AF5A3002358A0 /* DictionaryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8462308250AF5A3002358A0 /* DictionaryParser.swift */; };
 		B846482F2526CB5000D5A76D /* DictionaryFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846482E2526CB5000D5A76D /* DictionaryFetcherTests.swift */; };
-		B8465D3E2566FD0C00967841 /* DefinitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8465D3D2566FD0C00967841 /* DefinitionView.swift */; };
 		B8539EE52519755A000FF025 /* DictionaryStorageManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8539EE42519755A000FF025 /* DictionaryStorageManagerTests.swift */; };
 		B860B7122518207900F48FBE /* JMdict_e.json.gz in Resources */ = {isa = PBXBuildFile; fileRef = B860B7112518207800F48FBE /* JMdict_e.json.gz */; };
 		B86550CD255A08D800E4786F /* HistoryEntry+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86550CA255A08D800E4786F /* HistoryEntry+CoreDataProperties.swift */; };
@@ -68,6 +68,7 @@
 		B89CD6922509930100D7D8ED /* VocabularyListsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89CD6912509930100D7D8ED /* VocabularyListsView.swift */; };
 		B89CD6942509934700D7D8ED /* VocabularyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89CD6932509934700D7D8ED /* VocabularyListView.swift */; };
 		B89CD6962509938C00D7D8ED /* VocabularyCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89CD6952509938C00D7D8ED /* VocabularyCardView.swift */; };
+		B89CD698250993F800D7D8ED /* DefinerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89CD697250993F800D7D8ED /* DefinerView.swift */; };
 		B89CD69A2509944200D7D8ED /* MockCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89CD6992509944200D7D8ED /* MockCards.swift */; };
 		B8A5E50E2527BACE003BCF07 /* UtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A5E50D2527BACE003BCF07 /* UtilsTests.swift */; };
 		B8A78F072542F26700577974 /* DiscoverList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A78F062542F26700577974 /* DiscoverList.swift */; };
@@ -86,7 +87,6 @@
 		B8D456D62508DD24000F9E5F /* LibraryEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D456D52508DD24000F9E5F /* LibraryEntryView.swift */; };
 		B8E25AC52564D164007B492E /* ReaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E25AC42564D164007B492E /* ReaderModel.swift */; };
 		B8E25ACA256505F3007B492E /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E25AC9256505F3007B492E /* Utils.swift */; };
-		B8E4EF542559F86D0079EFB2 /* HistorySection+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E4EF532559F86D0079EFB2 /* HistorySection+CoreDataProperties.swift */; };
 		B8F04A892517F07500405599 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F04A882517F07500405599 /* SplashView.swift */; };
 		B8F5C20D250EDDB2000810F8 /* DictionaryEntry+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F5C209250EDDB2000810F8 /* DictionaryEntry+CoreDataClass.swift */; };
 		B8F5C20E250EDDB2000810F8 /* DictionaryEntry+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F5C20A250EDDB2000810F8 /* DictionaryEntry+CoreDataProperties.swift */; };
@@ -124,9 +124,10 @@
 		09D60999940D335A7D74D917 /* Pods-ReedTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReedTests.debug.xcconfig"; path = "Target Support Files/Pods-ReedTests/Pods-ReedTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2B202909C8BC7C48879B3AFF /* libPods-ReedTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReedTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C9134A1E97C7A555EA7B8DB /* Pods-ReedTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReedTests.release.xcconfig"; path = "Target Support Files/Pods-ReedTests/Pods-ReedTests.release.xcconfig"; sourceTree = "<group>"; };
-		6D4F99932551619300CC0DF6 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
-		6D4F99982551620200CC0DF6 /* DefinitionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionViewModel.swift; sourceTree = "<group>"; };
+		6D129859256E1BB500E873F4 /* DefinerTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinerTab.swift; sourceTree = "<group>"; };
+		6D1298ED257239E400E873F4 /* HistorySection+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HistorySection+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		6D4F99B72556A0C900CC0DF6 /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
+		6D9EC86625723B8B00CD4833 /* DefinableTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefinableTextView.swift; sourceTree = "<group>"; };
 		6DCF77DA252DB19B00CB3C5D /* ReaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderViewModel.swift; sourceTree = "<group>"; };
 		7FED962AB0C24D51C5D53286 /* libPods-ReedTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReedTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94F3E3D17D6E8ABD1BBAC599 /* libPods-Reed.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Reed.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -162,7 +163,6 @@
 		B844F2C725611CD80097F5EF /* NovelDetailsModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelDetailsModelTests.swift; sourceTree = "<group>"; };
 		B8462308250AF5A3002358A0 /* DictionaryParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryParser.swift; sourceTree = "<group>"; };
 		B846482E2526CB5000D5A76D /* DictionaryFetcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryFetcherTests.swift; sourceTree = "<group>"; };
-		B8465D3D2566FD0C00967841 /* DefinitionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefinitionView.swift; sourceTree = "<group>"; };
 		B8539EE42519755A000FF025 /* DictionaryStorageManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryStorageManagerTests.swift; sourceTree = "<group>"; };
 		B860B7112518207800F48FBE /* JMdict_e.json.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = JMdict_e.json.gz; sourceTree = "<group>"; };
 		B86550CA255A08D800E4786F /* HistoryEntry+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HistoryEntry+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -183,6 +183,7 @@
 		B89CD6912509930100D7D8ED /* VocabularyListsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyListsView.swift; sourceTree = "<group>"; };
 		B89CD6932509934700D7D8ED /* VocabularyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyListView.swift; sourceTree = "<group>"; };
 		B89CD6952509938C00D7D8ED /* VocabularyCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyCardView.swift; sourceTree = "<group>"; };
+		B89CD697250993F800D7D8ED /* DefinerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinerView.swift; sourceTree = "<group>"; };
 		B89CD6992509944200D7D8ED /* MockCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCards.swift; sourceTree = "<group>"; };
 		B8A5E50D2527BACE003BCF07 /* UtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilsTests.swift; sourceTree = "<group>"; };
 		B8A78F062542F26700577974 /* DiscoverList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverList.swift; sourceTree = "<group>"; };
@@ -209,7 +210,6 @@
 		B8E25AC42564D164007B492E /* ReaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderModel.swift; sourceTree = "<group>"; };
 		B8E25AC9256505F3007B492E /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		B8E25B8C25661B97007B492E /* Reed-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Reed-Bridging-Header.h"; sourceTree = "<group>"; };
-		B8E4EF532559F86D0079EFB2 /* HistorySection+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "HistorySection+CoreDataProperties.swift"; path = "/Users/rogerluo/Repos/Reed/Reed/LibraryTab/models/HistorySection+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
 		B8F04A882517F07500405599 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		B8F5C209250EDDB2000810F8 /* DictionaryEntry+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DictionaryEntry+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B8F5C20A250EDDB2000810F8 /* DictionaryEntry+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DictionaryEntry+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -263,11 +263,27 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		6D86DA41255DB9D100806E12 /* Definer */ = {
+			isa = PBXGroup;
+			children = (
+				6D86DA43255DBA1A00806E12 /* views */,
+			);
+			path = Definer;
+			sourceTree = "<group>";
+		};
+		6D86DA43255DBA1A00806E12 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				B89CD697250993F800D7D8ED /* DefinerView.swift */,
+				6D129859256E1BB500E873F4 /* DefinerTab.swift */,
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
 		6D8D5337252DB083001FA054 /* viewmodels */ = {
 			isa = PBXGroup;
 			children = (
 				6DCF77DA252DB19B00CB3C5D /* ReaderViewModel.swift */,
-				6D4F99982551620200CC0DF6 /* DefinitionViewModel.swift */,
 			);
 			path = viewmodels;
 			sourceTree = "<group>";
@@ -307,7 +323,7 @@
 				B86550CC255A08D800E4786F /* HistoryEntry+CoreDataClass.swift */,
 				B86550CA255A08D800E4786F /* HistoryEntry+CoreDataProperties.swift */,
 				B86550CB255A08D800E4786F /* HistorySection+CoreDataClass.swift */,
-				B8E4EF532559F86D0079EFB2 /* HistorySection+CoreDataProperties.swift */,
+				6D1298ED257239E400E873F4 /* HistorySection+CoreDataProperties.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -319,7 +335,7 @@
 				B82AF5FC2548031F00FAB2A8 /* ViewControllerResolver.swift */,
 				B82AF5DC2548015B00FAB2A8 /* View+UIKitComponents.swift */,
 				B8FA93BD254BBE0D00AE362C /* NavigationLazyView.swift */,
-				6D4F99932551619300CC0DF6 /* TextView.swift */,
+				6D9EC86625723B8B00CD4833 /* DefinableTextView.swift */,
 				6D4F99B72556A0C900CC0DF6 /* BottomSheetView.swift */,
 			);
 			path = Components;
@@ -474,7 +490,6 @@
 			isa = PBXGroup;
 			children = (
 				B89CD68D2509928800D7D8ED /* ReaderView.swift */,
-				B8465D3D2566FD0C00967841 /* DefinitionView.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -551,6 +566,7 @@
 				B8D456CD2508D349000F9E5F /* LibraryTab */,
 				B8FA93AD254BAD4800AE362C /* NovelDetails */,
 				B8D456CE2508D8D3000F9E5F /* Reader */,
+				6D86DA41255DB9D100806E12 /* Definer */,
 				B8D456D12508D8E4000F9E5F /* SettingsTab */,
 				B8D456A42508D1A2000F9E5F /* Preview Content */,
 			);
@@ -909,16 +925,15 @@
 				B87D30772516C537002E25FF /* DictionaryLanguageSource+CoreDataClass.swift in Sources */,
 				B8F5C217250EDEEB000810F8 /* DictionaryTerm+CoreDataClass.swift in Sources */,
 				B80E0E75254A225B009B0EE8 /* UINavigationController+UIGestureRecognizerDelegate.swift in Sources */,
-				B8E4EF542559F86D0079EFB2 /* HistorySection+CoreDataProperties.swift in Sources */,
 				B89CD68E2509928800D7D8ED /* ReaderView.swift in Sources */,
 				B8D4569A2508D1A2000F9E5F /* AppDelegate.swift in Sources */,
 				B82AF5DF2548015B00FAB2A8 /* View+UIKitComponents.swift in Sources */,
 				B8FA93B9254BB08F00AE362C /* NovelDetailsView.swift in Sources */,
-				6D4F99992551620200CC0DF6 /* DefinitionViewModel.swift in Sources */,
 				B8F5C210250EDDB2000810F8 /* DictionaryReading+CoreDataProperties.swift in Sources */,
 				B82E94BD25665601004A6F85 /* PartOfSpeechMatcher.swift in Sources */,
 				B80F45BC25411271004F8A22 /* DiscoverListViewModel.swift in Sources */,
 				B880D139251810F20097AF8D /* SplashViewModel.swift in Sources */,
+				6D12985A256E1BB500E873F4 /* DefinerTab.swift in Sources */,
 				B8FA93B1254BAEEC00AE362C /* NovelDetailsViewModel.swift in Sources */,
 				B86550CD255A08D800E4786F /* HistoryEntry+CoreDataProperties.swift in Sources */,
 				B8C88D7C256F9FC0006CD768 /* DictionaryUtils.swift in Sources */,
@@ -927,6 +942,7 @@
 				B80E0E7025497EBA009B0EE8 /* DiscoverSearchResultsViewModel.swift in Sources */,
 				B898110B250F81600059F71F /* NSManagedObject+Init.swift in Sources */,
 				B8D4569F2508D1A2000F9E5F /* Reed.xcdatamodeld in Sources */,
+				6D1298EE257239E400E873F4 /* HistorySection+CoreDataProperties.swift in Sources */,
 				B8B8F9912526C10400D6DF8B /* DictionaryFetcher.swift in Sources */,
 				B86550CE255A08D800E4786F /* HistorySection+CoreDataClass.swift in Sources */,
 				B89CD68625098C0100D7D8ED /* DiscoverView.swift in Sources */,
@@ -936,15 +952,14 @@
 				B8667F132509CA68001EABD4 /* SettingsView.swift in Sources */,
 				B82D3D9A254D2E7700F06836 /* CategoryButtonsViewModel.swift in Sources */,
 				B8093DD6251A988200D95DCF /* NotificationName+DictionaryParser.swift in Sources */,
-				B8465D3E2566FD0C00967841 /* DefinitionView.swift in Sources */,
 				B8FA93BE254BBE0D00AE362C /* NavigationLazyView.swift in Sources */,
 				B87D30782516C537002E25FF /* DictionaryLanguageSource+CoreDataProperties.swift in Sources */,
 				B8FA12612550B1E300ABE1D3 /* DiscoverTabConstants.swift in Sources */,
+				6D9EC86725723B8B00CD4833 /* DefinableTextView.swift in Sources */,
 				6D4F99B82556A0C900CC0DF6 /* BottomSheetView.swift in Sources */,
 				B8D456A12508D1A2000F9E5F /* LibraryView.swift in Sources */,
 				B82AF5FE2548031F00FAB2A8 /* ViewControllerResolver.swift in Sources */,
 				B82AF65E2548187200FAB2A8 /* DiscoverSearchViewModel.swift in Sources */,
-				6D4F99942551619300CC0DF6 /* TextView.swift in Sources */,
 				B82E94AD25663890004A6F85 /* Deinflector.swift in Sources */,
 				B89CD6962509938C00D7D8ED /* VocabularyCardView.swift in Sources */,
 				B844F2BD256119060097F5EF /* NovelDetailsModel.swift in Sources */,
@@ -956,6 +971,7 @@
 				B8462309250AF5A3002358A0 /* DictionaryParser.swift in Sources */,
 				B8F04A892517F07500405599 /* SplashView.swift in Sources */,
 				B8F5C216250EDEEB000810F8 /* DictionaryDefinition+CoreDataProperties.swift in Sources */,
+				B89CD698250993F800D7D8ED /* DefinerView.swift in Sources */,
 				B82D3D95254D2DA200F06836 /* CategoryButtons.swift in Sources */,
 				B8A78F072542F26700577974 /* DiscoverList.swift in Sources */,
 				B82E949325662E98004A6F85 /* PartOfSpeech.swift in Sources */,
