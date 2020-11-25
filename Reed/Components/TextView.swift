@@ -33,7 +33,7 @@ struct TextView: UIViewRepresentable {
         @objc func wordTapped(gesture: UITapGestureRecognizer) {
             let textView = gesture.view as! UITextView
             let location = gesture.location(in: textView)
-            let position = CGPoint(x: location.x, y: location.y)
+            let position = CGPoint(x: location.x + textView.font!.pointSize / 2, y: location.y)
             let tapPosition = textView.closestPosition(to: position)
             tappedRange = textView.tokenizer.rangeEnclosingPosition(tapPosition!, with: UITextGranularity.word, inDirection: UITextDirection(rawValue: 1))
             if let tappedRange = tappedRange {
