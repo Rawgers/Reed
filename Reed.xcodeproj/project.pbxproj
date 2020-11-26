@@ -42,6 +42,7 @@
 		B82E94CC256658A8004A6F85 /* PartOfSpeechMatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E94C8256658A8004A6F85 /* PartOfSpeechMatcherTests.swift */; };
 		B83F4B87256F49E60057CFC9 /* NovelDetailsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83F4B86256F49E60057CFC9 /* NovelDetailsViewModelTests.swift */; };
 		B83F4B8C256F524D0057CFC9 /* XCTest+busyAssert.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83F4B8B256F524D0057CFC9 /* XCTest+busyAssert.swift */; };
+		B83F4BAC256F88CC0057CFC9 /* ReaderViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83F4BAB256F88CC0057CFC9 /* ReaderViewModelTests.swift */; };
 		B844F2BD256119060097F5EF /* NovelDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B844F2BC256119060097F5EF /* NovelDetailsModel.swift */; };
 		B844F2C825611CD80097F5EF /* NovelDetailsModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B844F2C725611CD80097F5EF /* NovelDetailsModelTests.swift */; };
 		B8462309250AF5A3002358A0 /* DictionaryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8462308250AF5A3002358A0 /* DictionaryParser.swift */; };
@@ -158,6 +159,7 @@
 		B82E94C8256658A8004A6F85 /* PartOfSpeechMatcherTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartOfSpeechMatcherTests.swift; sourceTree = "<group>"; };
 		B83F4B86256F49E60057CFC9 /* NovelDetailsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelDetailsViewModelTests.swift; sourceTree = "<group>"; };
 		B83F4B8B256F524D0057CFC9 /* XCTest+busyAssert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTest+busyAssert.swift"; sourceTree = "<group>"; };
+		B83F4BAB256F88CC0057CFC9 /* ReaderViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderViewModelTests.swift; sourceTree = "<group>"; };
 		B844F2BC256119060097F5EF /* NovelDetailsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelDetailsModel.swift; sourceTree = "<group>"; };
 		B844F2C725611CD80097F5EF /* NovelDetailsModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelDetailsModelTests.swift; sourceTree = "<group>"; };
 		B8462308250AF5A3002358A0 /* DictionaryParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryParser.swift; sourceTree = "<group>"; };
@@ -356,9 +358,10 @@
 			path = ReedTests/Tokenizer;
 			sourceTree = SOURCE_ROOT;
 		};
-		B83F4B90256F84060057CFC9 /* Reader */ = {
+		B83F4BAA256F88C10057CFC9 /* Reader */ = {
 			isa = PBXGroup;
 			children = (
+				B83F4BAB256F88CC0057CFC9 /* ReaderViewModelTests.swift */,
 			);
 			path = Reader;
 			sourceTree = "<group>";
@@ -570,6 +573,7 @@
 			children = (
 				B82E94C4256658A8004A6F85 /* Tokenizer */,
 				B83F4B90256F84060057CFC9 /* Reader */,
+				B83F4BAA256F88C10057CFC9 /* Reader */,
 				B844F2A22560B9480097F5EF /* NovelDetails */,
 				B8F5C219250EF78E000810F8 /* Dictionary */,
 				B8D456B52508D1A2000F9E5F /* Info.plist */,
@@ -981,6 +985,7 @@
 				B82E94CC256658A8004A6F85 /* PartOfSpeechMatcherTests.swift in Sources */,
 				B8A5E50E2527BACE003BCF07 /* UtilsTests.swift in Sources */,
 				B83F4B87256F49E60057CFC9 /* NovelDetailsViewModelTests.swift in Sources */,
+				B83F4BAC256F88CC0057CFC9 /* ReaderViewModelTests.swift in Sources */,
 				B8D456B42508D1A2000F9E5F /* DictionaryParserTests.swift in Sources */,
 				B846482F2526CB5000D5A76D /* DictionaryFetcherTests.swift in Sources */,
 				B8981108250F6D140059F71F /* Reed.xcdatamodeld in Sources */,

@@ -6,21 +6,23 @@
 //  Copyright © 2020 Roger Luo. All rights reserved.
 //
 
+import CoreData
 import SwiftUI
 import SwiftyNarou
 
 class ReaderViewModel: ObservableObject {
+    let persistentContainer: NSPersistentContainer
     let model: ReaderModel
     var libraryEntry: LibraryNovel?
     var section: SectionContent?
+    
     @Published var pages: [String] = []
     @Published var curPage: Int = 0
     var lastPage: Int = 0
     
-    init(ncode: String) {
+    init(persistentContainer: NSPersistentContainer, ncode: String) {
+        self.persistentContainer = persistentContainer
         self.model = ReaderModel(ncode: ncode)
-        let persistentContainer = getSharedPersistentContainer()
-        
         LibraryNovel.fetch(
             persistentContainer: persistentContainer,
             ncode: ncode
@@ -37,6 +39,11 @@ class ReaderViewModel: ObservableObject {
             self.fetchNextSection(sectionNcode: libraryEntry.sectionNcode)
             print(libraryEntry.sectionNcode)
         }
+    }
+    
+    convenience init(ncode: String) {
+        let persistentContainer = getSharedPersistentContainer()
+        self.init(persistentContainer: persistentContainer, ncode: ncode)
     }
     
     func fetchNextSection(sectionNcode: String) {
@@ -99,11 +106,11 @@ class ReaderViewModel: ObservableObject {
     }
     
     func handlePageFlip(isInit: Bool) {
-        // Always update the previous page.
-        defer { lastPage = curPage }
-        
         // Pager calls this function on init. Allow that first call to pass.
         if isInit { return }
+        
+        // Always update the previous page.
+        defer { lastPage = curPage }
         
         guard let libraryEntry = self.libraryEntry,
               let section = self.section
