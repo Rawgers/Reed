@@ -18,7 +18,7 @@ class NovelDetailsModel {
         self.ncode = ncode
     }
     
-    func fetchNovelDetails(completion: @escaping (NarouResponse) -> Void) {
+    func fetchNovelDetails(completion: @escaping (NarouResponse?) -> Void) {
         let request = NarouRequest(
             ncode: [ncode],
             responseFormat: NarouResponseFormat(
@@ -27,10 +27,21 @@ class NovelDetailsModel {
             )
         )
         
-        Narou.fetchNarouApi(request: request) { data, error in
-            if error != nil { return }
-            guard let data = data else { return }
-            completion(data.1[0])
+        Narou.fetchNarouApi(request: request) { res, error in
+            if error != nil {
+                completion(nil)
+                return
+            }
+            guard let res = res else {
+                completion(nil)
+                return
+            }
+            let (_, data) = res
+            if !data.indices.contains(0) {
+                completion(nil)
+                return
+            }
+            completion(data[0])
         }
     }
     
@@ -38,10 +49,12 @@ class NovelDetailsModel {
         title: String,
         author: String,
         subgenre: Int,
-        completion: @escaping (LibraryNovel?) -> Void
+        completion: @escaping (NSManagedObjectID?) -> Void
     ) {
+        // TODO: When we introduce error banners, check that this ncode
+        // doesn't already exist in Core Data.
+        
         persistentContainer.performBackgroundTask { context in
-            context.retainsRegisteredObjects = true
             let libraryEntry = LibraryNovel.create(
                 context: self.persistentContainer.viewContext,
                 ncode: self.ncode,
@@ -51,7 +64,7 @@ class NovelDetailsModel {
                 isFavorite: true
             )
             DispatchQueue.main.async {
-                completion(libraryEntry)
+                completion(libraryEntry?.objectID)
             }
         }
     }

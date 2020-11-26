@@ -40,8 +40,10 @@
 		B82E94CA256658A8004A6F85 /* FuriganaMakerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E94C6256658A8004A6F85 /* FuriganaMakerTests.swift */; };
 		B82E94CB256658A8004A6F85 /* TokenizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E94C7256658A8004A6F85 /* TokenizerTests.swift */; };
 		B82E94CC256658A8004A6F85 /* PartOfSpeechMatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E94C8256658A8004A6F85 /* PartOfSpeechMatcherTests.swift */; };
+		B83F4B87256F49E60057CFC9 /* NovelDetailsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83F4B86256F49E60057CFC9 /* NovelDetailsViewModelTests.swift */; };
+		B83F4B8C256F524D0057CFC9 /* XCTest+busyAssert.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83F4B8B256F524D0057CFC9 /* XCTest+busyAssert.swift */; };
 		B844F2BD256119060097F5EF /* NovelDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B844F2BC256119060097F5EF /* NovelDetailsModel.swift */; };
-		B844F2C825611CD80097F5EF /* NovelDetailsModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B844F2C725611CD80097F5EF /* NovelDetailsModelTest.swift */; };
+		B844F2C825611CD80097F5EF /* NovelDetailsModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B844F2C725611CD80097F5EF /* NovelDetailsModelTests.swift */; };
 		B8462309250AF5A3002358A0 /* DictionaryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8462308250AF5A3002358A0 /* DictionaryParser.swift */; };
 		B846482F2526CB5000D5A76D /* DictionaryFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846482E2526CB5000D5A76D /* DictionaryFetcherTests.swift */; };
 		B8465D3E2566FD0C00967841 /* DefinitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8465D3D2566FD0C00967841 /* DefinitionView.swift */; };
@@ -154,8 +156,10 @@
 		B82E94C6256658A8004A6F85 /* FuriganaMakerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FuriganaMakerTests.swift; sourceTree = "<group>"; };
 		B82E94C7256658A8004A6F85 /* TokenizerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenizerTests.swift; sourceTree = "<group>"; };
 		B82E94C8256658A8004A6F85 /* PartOfSpeechMatcherTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartOfSpeechMatcherTests.swift; sourceTree = "<group>"; };
+		B83F4B86256F49E60057CFC9 /* NovelDetailsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelDetailsViewModelTests.swift; sourceTree = "<group>"; };
+		B83F4B8B256F524D0057CFC9 /* XCTest+busyAssert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTest+busyAssert.swift"; sourceTree = "<group>"; };
 		B844F2BC256119060097F5EF /* NovelDetailsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelDetailsModel.swift; sourceTree = "<group>"; };
-		B844F2C725611CD80097F5EF /* NovelDetailsModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelDetailsModelTest.swift; sourceTree = "<group>"; };
+		B844F2C725611CD80097F5EF /* NovelDetailsModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelDetailsModelTests.swift; sourceTree = "<group>"; };
 		B8462308250AF5A3002358A0 /* DictionaryParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryParser.swift; sourceTree = "<group>"; };
 		B846482E2526CB5000D5A76D /* DictionaryFetcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryFetcherTests.swift; sourceTree = "<group>"; };
 		B8465D3D2566FD0C00967841 /* DefinitionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefinitionView.swift; sourceTree = "<group>"; };
@@ -352,10 +356,18 @@
 			path = ReedTests/Tokenizer;
 			sourceTree = SOURCE_ROOT;
 		};
+		B83F4B90256F84060057CFC9 /* Reader */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Reader;
+			sourceTree = "<group>";
+		};
 		B844F2A22560B9480097F5EF /* NovelDetails */ = {
 			isa = PBXGroup;
 			children = (
-				B844F2C725611CD80097F5EF /* NovelDetailsModelTest.swift */,
+				B844F2C725611CD80097F5EF /* NovelDetailsModelTests.swift */,
+				B83F4B86256F49E60057CFC9 /* NovelDetailsViewModelTests.swift */,
 			);
 			path = NovelDetails;
 			sourceTree = "<group>";
@@ -557,10 +569,12 @@
 			isa = PBXGroup;
 			children = (
 				B82E94C4256658A8004A6F85 /* Tokenizer */,
+				B83F4B90256F84060057CFC9 /* Reader */,
 				B844F2A22560B9480097F5EF /* NovelDetails */,
 				B8F5C219250EF78E000810F8 /* Dictionary */,
 				B8D456B52508D1A2000F9E5F /* Info.plist */,
 				B89810F9250F504E0059F71F /* TestUtils.swift */,
+				B83F4B8B256F524D0057CFC9 /* XCTest+busyAssert.swift */,
 			);
 			path = ReedTests;
 			sourceTree = "<group>";
@@ -966,15 +980,17 @@
 				B82E94CA256658A8004A6F85 /* FuriganaMakerTests.swift in Sources */,
 				B82E94CC256658A8004A6F85 /* PartOfSpeechMatcherTests.swift in Sources */,
 				B8A5E50E2527BACE003BCF07 /* UtilsTests.swift in Sources */,
+				B83F4B87256F49E60057CFC9 /* NovelDetailsViewModelTests.swift in Sources */,
 				B8D456B42508D1A2000F9E5F /* DictionaryParserTests.swift in Sources */,
 				B846482F2526CB5000D5A76D /* DictionaryFetcherTests.swift in Sources */,
 				B8981108250F6D140059F71F /* Reed.xcdatamodeld in Sources */,
+				B83F4B8C256F524D0057CFC9 /* XCTest+busyAssert.swift in Sources */,
 				B8939B8425152ED0000399E0 /* DictionaryParserTestUtils.swift in Sources */,
 				B82E94CB256658A8004A6F85 /* TokenizerTests.swift in Sources */,
 				B89810FA250F504E0059F71F /* TestUtils.swift in Sources */,
 				B8D041C125667C18003F1E05 /* DeinflectorTests.swift in Sources */,
 				B8539EE52519755A000FF025 /* DictionaryStorageManagerTests.swift in Sources */,
-				B844F2C825611CD80097F5EF /* NovelDetailsModelTest.swift in Sources */,
+				B844F2C825611CD80097F5EF /* NovelDetailsModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

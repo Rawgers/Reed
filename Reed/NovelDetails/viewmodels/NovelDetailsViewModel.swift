@@ -11,8 +11,8 @@ import SwiftUI
 import SwiftyNarou
 
 class NovelDetailsViewModel: ObservableObject {
-    let model: NovelDetailsModel
     let persistentContainer: NSPersistentContainer
+    let model: NovelDetailsModel
     let ncode: String
     
     @Published var novelData: NarouResponse?
@@ -20,22 +20,20 @@ class NovelDetailsViewModel: ObservableObject {
     @Published var isFavorite: Bool = false
     var libraryEntry: LibraryNovel?
     
-    init(ncode: String) {
-        self.ncode = ncode
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            fatalError("Could not get shared app delegate.")
-        }
-        self.persistentContainer = appDelegate.persistentContainer
+    init(persistentContainer: NSPersistentContainer, ncode: String) {
+        self.persistentContainer = persistentContainer
         self.model = NovelDetailsModel(
             persistentContainer: persistentContainer,
             ncode: ncode
         )
+        self.ncode = ncode
         
+        // Fetch metadata from Narou.
         model.fetchNovelDetails { novelData in
             self.novelData = novelData
         }
         
+        // Fetch LibraryNovel if it exists.
         LibraryNovel.fetch(persistentContainer: persistentContainer, ncode: ncode) { libraryEntryId in
             if let libraryEntryId = libraryEntryId {
                 self.libraryEntry = try? self.persistentContainer.viewContext.existingObject(
@@ -47,10 +45,15 @@ class NovelDetailsViewModel: ObservableObject {
         }
     }
     
+    convenience init(ncode: String) {
+        let persistentContainer = getSharedPersistentContainer()
+        self.init(persistentContainer: persistentContainer, ncode: ncode)
+    }
+    
     func toggleFavorite() {
         if let libraryEntry = libraryEntry {
             libraryEntry.isFavorite.toggle()
-            isFavorite = libraryEntry.isFavorite
+            self.isFavorite = libraryEntry.isFavorite
             do {
                 try persistentContainer.viewContext.save()
             } catch {
@@ -62,9 +65,13 @@ class NovelDetailsViewModel: ObservableObject {
                 title: novelTitle,
                 author: novelAuthor,
                 subgenre: novelSubgenre
-            ) { libraryEntry in
-                self.libraryEntry = libraryEntry
-                self.isFavorite = true
+            ) { libraryEntryId in
+                if let libraryEntryId = libraryEntryId {
+                    self.libraryEntry = try? self.persistentContainer.viewContext.existingObject(
+                        with: libraryEntryId
+                    ) as? LibraryNovel
+                    self.isFavorite = true
+                }
             }
         }
     }
