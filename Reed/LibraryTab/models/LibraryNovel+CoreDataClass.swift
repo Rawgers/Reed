@@ -44,8 +44,8 @@ public class LibraryNovel: NSManagedObject {
     static func fetch(
         persistentContainer: NSPersistentContainer,
         ncode: String,
-        completion: @escaping (NSManagedObjectID?
-    ) -> Void) {
+        completion: @escaping (NSManagedObjectID?) -> Void
+    ) {
         let fetchRequest: NSFetchRequest<LibraryNovel> = LibraryNovel.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "novelNcode == %@", ncode)
         
