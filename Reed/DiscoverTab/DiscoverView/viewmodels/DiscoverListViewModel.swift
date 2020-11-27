@@ -40,7 +40,6 @@ class DiscoverViewModel: ObservableObject {
     }
     
     func updateRows() {
-        print(startIndex)
         guard let request = createRequest(for: category) else { return }
         Narou.fetchNarouApi(request: request) { data, error in
             if error != nil { return }
