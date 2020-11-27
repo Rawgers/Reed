@@ -13,7 +13,7 @@ import SwiftyNarou
 class ReaderViewModel: ObservableObject {
     let persistentContainer: NSPersistentContainer
     let model: ReaderModel
-    var libraryEntry: LibraryNovel?
+    var historyEntry: HistoryEntry?
     var section: SectionContent?
     
     @Published var pages: [String] = []
@@ -23,21 +23,20 @@ class ReaderViewModel: ObservableObject {
     init(persistentContainer: NSPersistentContainer, ncode: String) {
         self.persistentContainer = persistentContainer
         self.model = ReaderModel(ncode: ncode)
-        LibraryNovel.fetch(
+        HistoryEntry.fetch(
             persistentContainer: persistentContainer,
             ncode: ncode
-        ) { libraryEntryId in
-            guard let libraryEntryId = libraryEntryId,
-                  let libraryEntry = try? persistentContainer.viewContext.existingObject(
-                    with: libraryEntryId
-                ) as? LibraryNovel
+        ) { historyEntryId in
+            guard let historyEntryId = historyEntryId,
+                  let historyEntry = try? persistentContainer.viewContext.existingObject(
+                    with: historyEntryId
+                ) as? HistoryEntry
             else {
                 // TODO: Add novel to library before continuing?
-                fatalError("Unable to retrieve LibraryNovel.")
+                fatalError("Unable to retrieve HistoryEntry.")
             }
-            self.libraryEntry = libraryEntry
-            self.fetchNextSection(sectionNcode: libraryEntry.sectionNcode)
-            print(libraryEntry.sectionNcode)
+            self.historyEntry = historyEntry
+            self.fetchNextSection(sectionNcode: historyEntry.sectionNcode)
         }
     }
     
@@ -61,10 +60,10 @@ class ReaderViewModel: ObservableObject {
     }
     
     private func fetchSection(sectionNcode: String, completion: @escaping () -> Void) {
-        guard let libraryEntry = self.libraryEntry else {
-            fatalError("Unable to retrieve LibraryNovel.")
+        guard let historyEntry = self.historyEntry else {
+            fatalError("Unable to retrieve HistoryEntry.")
         }
-        self.model.fetchSectionContent(sectionNcode: libraryEntry.sectionNcode) { section in
+        self.model.fetchSectionContent(sectionNcode: historyEntry.sectionNcode) { section in
             self.section = section
             self.pages = self.calcPages(content: section?.content ?? "")
             completion()
@@ -112,27 +111,27 @@ class ReaderViewModel: ObservableObject {
         // Always update the previous page.
         defer { lastPage = curPage }
         
-        guard let libraryEntry = self.libraryEntry,
+        guard let historyEntry = self.historyEntry,
               let section = self.section
         else {
-            fatalError("Unable to retrieve LibraryNovel.")
+            fatalError("Unable to retrieve HistoryEntry.")
         }
         if lastPage == 0 && curPage == 0 && section.prevNcode != nil {
-            libraryEntry.lastReadSection.id -= 1
-            fetchPrevSection(sectionNcode: libraryEntry.sectionNcode)
+            historyEntry.lastReadSection.id -= 1
+            fetchPrevSection(sectionNcode: historyEntry.sectionNcode)
         } else if lastPage == pages.endIndex - 1
                     && curPage == pages.endIndex - 1
                     && section.nextNcode != nil
         {
-            libraryEntry.lastReadSection.id += 1
-            fetchNextSection(sectionNcode: libraryEntry.sectionNcode)
+            historyEntry.lastReadSection.id += 1
+            fetchNextSection(sectionNcode: historyEntry.sectionNcode)
         } else { return }
         
         do {
             let persistentContainer = getSharedPersistentContainer()
             try persistentContainer.viewContext.save()
         } catch {
-            print("Unable to save LibraryNovel.")
+            print("Unable to save HistoryEntry.")
             return
         }
     }

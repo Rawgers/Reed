@@ -28,18 +28,18 @@ class NovelDetailsViewModelTest: XCTestCase {
     }
 
     func testToggleFavorite() {
-        let fetchRequest: NSFetchRequest<LibraryNovel> = LibraryNovel.fetchRequest()
+        let fetchRequest: NSFetchRequest<HistoryEntry> = HistoryEntry.fetchRequest()
         do {
             let numEntries = try mockContainer.viewContext.count(for: fetchRequest)
             XCTAssertEqual(
                 numEntries, 0,
-                "There should be no LibraryNovel entries at the start of this test."
+                "There should be no HistoryEntry entries at the start of this test."
             )
         } catch {
             XCTFail("Failed to count CoreData entries.")
         }
         
-        // First call to toggleFavorite to create a new LibraryNovel entry
+        // First call to toggleFavorite to create a new HistoryEntry
         mockViewModel.toggleFavorite()
         busyAssert(
             mockViewModel.isFavorite == true,
@@ -50,18 +50,18 @@ class NovelDetailsViewModelTest: XCTestCase {
             let numEntries = try mockContainer.viewContext.count(for: fetchRequest)
             XCTAssertEqual(
                 numEntries, 1,
-                "Toggling the favorite button when the novel does not exist in the reading history creates a new LibraryNovel entry."
+                "Toggling the favorite button when the novel does not exist in the reading history creates a new HistoryEntry."
             )
         } catch {
             XCTFail("Failed to count CoreData entries.")
         }
         XCTAssertNotNil(
-            mockViewModel.libraryEntry,
-            "The view model should have reference to the LibraryNovel entry created by toggleFavorite."
+            mockViewModel.historyEntry,
+            "The view model should have reference to the HistoryEntry created by toggleFavorite."
         )
         XCTAssertTrue(
-            mockViewModel.libraryEntry!.isFavorite,
-            "When toggleFavorite creates a new LibraryNovel entry it should automatically be favorited."
+            mockViewModel.historyEntry!.isFavorite,
+            "When toggleFavorite creates a new HistoryEntry it should automatically be favorited."
         )
         
         // Second call to toggleFavorite to un-favorite the entry.
@@ -69,11 +69,11 @@ class NovelDetailsViewModelTest: XCTestCase {
         busyAssert(
             mockViewModel.isFavorite == false,
             timeout: 1,
-            message: "The view model's isFavorite property should reflect the false state of its libraryEntry."
+            message: "The view model's isFavorite property should reflect the false state of its historyEntry."
         )
         XCTAssertFalse(
-            mockViewModel.libraryEntry!.isFavorite,
-            "This call should un-favorite the LibraryNovel entry."
+            mockViewModel.historyEntry!.isFavorite,
+            "This call should un-favorite the HistoryEntry."
         )
         
         // Third call to toggleFavorite should re-favorite the entry.
@@ -81,18 +81,18 @@ class NovelDetailsViewModelTest: XCTestCase {
         busyAssert(
             mockViewModel.isFavorite == true,
             timeout: 1,
-            message: "The view model's isFavorite property should reflect the true state of its libraryEntry."
+            message: "The view model's isFavorite property should reflect the true state of its historyEntry."
         )
         XCTAssertTrue(
-            mockViewModel.libraryEntry!.isFavorite,
-            "This call should un-favorite the LibraryNovel entry."
+            mockViewModel.historyEntry!.isFavorite,
+            "This call should un-favorite the HistoryEntry."
         )
         
         do {
             let numEntries = try mockContainer.viewContext.count(for: fetchRequest)
             XCTAssertEqual(
                 numEntries, 1,
-                "toggleFavorite should have only created one new LibraryNovel entry."
+                "toggleFavorite should have only created one new HistoryEntry."
             )
         } catch {
             XCTFail("Failed to count CoreData entries.")

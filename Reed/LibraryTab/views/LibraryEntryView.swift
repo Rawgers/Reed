@@ -11,7 +11,7 @@ import SwiftUI
 struct LibraryEntryView: View {
     var viewModel: LibraryEntryViewModel
     
-    init(entryData: LibraryNovel) {
+    init(entryData: HistoryEntry) {
         viewModel = LibraryEntryViewModel(entryData: entryData)
     }
 
@@ -44,7 +44,7 @@ struct LibraryEntryViewController_Previews: PreviewProvider {
     static var previews: some View {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         
-        let entryData = LibraryNovel(context: context)
+        let entryData = HistoryEntry(context: context)
         entryData.ncode = "n9669bk"
         entryData.title = "無職転生　- 異世界行ったら本気だす -"
         entryData.author = "理不尽な孫の手"

@@ -1,5 +1,5 @@
 //
-//  LibraryNovel+CoreDataClass.swift
+//  HistoryEntry+CoreDataClass.swift
 //  Reed
 //
 //  Created by Roger Luo on 11/5/20.
@@ -10,8 +10,8 @@
 import Foundation
 import CoreData
 
-@objc(LibraryNovel)
-public class LibraryNovel: NSManagedObject {
+@objc(HistoryEntry)
+public class HistoryEntry: NSManagedObject {
     static func create(
         context: NSManagedObjectContext,
         ncode: String,
@@ -19,18 +19,18 @@ public class LibraryNovel: NSManagedObject {
         author: String,
         subgenre: Int,
         isFavorite: Bool
-    ) -> LibraryNovel? {
-        let libraryNovel = LibraryNovel(using: context)
-        libraryNovel.ncode = ncode
-        libraryNovel.title = title
-        libraryNovel.author = author
-        libraryNovel.subgenre = subgenre
-        libraryNovel.isFavorite = isFavorite
+    ) -> HistoryEntry? {
+        let historyEntry = HistoryEntry(using: context)
+        historyEntry.ncode = ncode
+        historyEntry.title = title
+        historyEntry.author = author
+        historyEntry.subgenre = subgenre
+        historyEntry.isFavorite = isFavorite
         
-        let librarySection = LibrarySection(using: context)
-        librarySection.id = 1
-        librarySection.novel = libraryNovel
-        libraryNovel.lastReadSection = librarySection
+        let historySection = HistorySection(using: context)
+        historySection.id = 1
+        historySection.novel = historyEntry
+        historyEntry.lastReadSection = historySection
         do {
             try context.save()
         } catch {
@@ -38,7 +38,7 @@ public class LibraryNovel: NSManagedObject {
             return nil
         }
         
-        return libraryNovel
+        return historyEntry
     }
     
     static func fetch(
@@ -46,7 +46,7 @@ public class LibraryNovel: NSManagedObject {
         ncode: String,
         completion: @escaping (NSManagedObjectID?) -> Void
     ) {
-        let fetchRequest: NSFetchRequest<LibraryNovel> = LibraryNovel.fetchRequest()
+        let fetchRequest: NSFetchRequest<HistoryEntry> = HistoryEntry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "novelNcode == %@", ncode)
         
         persistentContainer.performBackgroundTask { context in

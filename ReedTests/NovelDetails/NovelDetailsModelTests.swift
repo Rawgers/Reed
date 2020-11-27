@@ -64,27 +64,27 @@ class NovelDetailsModelTest: XCTestCase {
         let subgenre = 201
         
         let expectation = XCTestExpectation(
-            description: "Creating a new LibraryNovel with isFavorite set to true."
+            description: "Creating a new HistoryEntry with isFavorite set to true."
         )
         mockModel.addFavorite(
             title: title,
             author: author,
             subgenre: subgenre
-        ) { libraryNovelId in
-            XCTAssertNotNil(libraryNovelId, "Failed to get NSManagedObjectId of LibraryNovel.")
+        ) { historyEntryId in
+            XCTAssertNotNil(historyEntryId, "Failed to get NSManagedObjectId of HistoryEntry.")
             
-            guard let libraryEntry = try? self.mockContainer.viewContext.existingObject(
-                with: libraryNovelId!
-            ) as? LibraryNovel else {
-                XCTAssertNotNil("Failed to get new LibraryNovel from its id.")
+            guard let historyEntry = try? self.mockContainer.viewContext.existingObject(
+                with: historyEntryId!
+            ) as? HistoryEntry else {
+                XCTAssertNotNil("Failed to get new HistoryEntry from its id.")
                 return
             }
             
-            XCTAssertEqual(libraryEntry.ncode, "n9669bk")
-            XCTAssertEqual(libraryEntry.title, title)
-            XCTAssertEqual(libraryEntry.author, author)
-            XCTAssertEqual(libraryEntry.subgenre, subgenre)
-            XCTAssertTrue(libraryEntry.isFavorite)
+            XCTAssertEqual(historyEntry.ncode, "n9669bk")
+            XCTAssertEqual(historyEntry.title, title)
+            XCTAssertEqual(historyEntry.author, author)
+            XCTAssertEqual(historyEntry.subgenre, subgenre)
+            XCTAssertTrue(historyEntry.isFavorite)
             
             expectation.fulfill()
         }
