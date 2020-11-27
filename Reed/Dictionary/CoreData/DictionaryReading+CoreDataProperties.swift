@@ -30,7 +30,7 @@ extension DictionaryReading {
     @NSManaged private var readingFrequencyPriorities: [String]?
     
     /// Represents JMDict <entry> tag. The entry to which this reading belongs.
-    @NSManaged var readingParentEntry: DictionaryEntry?
+    @NSManaged private var readingParentEntry: DictionaryEntry?
     
     var reading: String {
         get { readingReading ?? "" }

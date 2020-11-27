@@ -27,7 +27,7 @@ extension DictionaryTerm {
     @NSManaged private var termFrequencyPriorities: [String]?
     
     /// Represents JMDict <entry> tag. The entry to which this term belongs.
-    @NSManaged var termParentEntry: DictionaryEntry?
+    @NSManaged private var termParentEntry: DictionaryEntry?
 
     var term: String {
         get { termTerm ?? "" }

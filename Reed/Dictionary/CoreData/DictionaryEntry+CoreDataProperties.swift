@@ -18,7 +18,7 @@ extension DictionaryEntry {
     }
 
     /// Represents JMDict <ent_seq> tag. Uniquely identifies each <entry> with a number starting from 1,000,000.
-    @NSManaged var entryId: Int32
+    @NSManaged private var entryId: Int32
     
     /// Represents JMDict <r_ele> tag. Contains one or more DictionaryReading objects.
     @NSManaged private var entryReadings: NSOrderedSet?
