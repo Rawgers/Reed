@@ -21,7 +21,7 @@ class ReaderViewModelTests: XCTestCase {
 
     override func setUp() {
         mockContainer = createMockPersistentContainer(model: managedObjectModel)
-        let _ = LibraryNovel.create(
+        let _ = HistoryEntry.create(
             context: mockContainer.viewContext,
             ncode: "n9669bk",
             title: "無職転生　- 異世界行ったら本気だす -",
@@ -80,7 +80,7 @@ class ReaderViewModelTests: XCTestCase {
             timeout: 5
         )
         XCTAssertEqual(mockViewModel.section?.prevNcode, "n9669bk/1")
-        XCTAssertEqual(mockViewModel.libraryEntry?.lastReadSection.id, 2)
+        XCTAssertEqual(mockViewModel.historyEntry?.lastReadSection.id, 2)
         
         // test flipping to the previous section
         mockViewModel.handlePageFlip(isInit: false)
@@ -90,7 +90,7 @@ class ReaderViewModelTests: XCTestCase {
             timeout: 5
         )
         XCTAssertNil(mockViewModel.section?.prevNcode)
-        XCTAssertEqual(mockViewModel.libraryEntry?.lastReadSection.id, 1)
+        XCTAssertEqual(mockViewModel.historyEntry?.lastReadSection.id, 1)
         
         // TODO: nothing should happen if we try to flip to a next section that doesn't exist
     }

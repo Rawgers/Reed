@@ -1,5 +1,5 @@
 //
-//  LibrarySection+CoreDataProperties.swift
+//  HistorySection+CoreDataProperties.swift
 //  
 //
 //  Created by Roger Luo on 11/5/20.
@@ -9,16 +9,16 @@
 import Foundation
 import CoreData
 
-extension LibrarySection {
+extension HistorySection {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<LibrarySection> {
-        return NSFetchRequest<LibrarySection>(entityName: "LibrarySection")
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<HistorySection> {
+        return NSFetchRequest<HistorySection>(entityName: "HistorySection")
     }
 
     @NSManaged private var sectionId: Int64
     @NSManaged private var sectionTitle: String?
     @NSManaged private var sectionLastEdit: Date?
-    @NSManaged private var sectionNovel: LibraryNovel?
+    @NSManaged private var sectionNovel: HistoryEntry?
 
     var id: Int {
         get { Int(sectionId) }
@@ -35,7 +35,7 @@ extension LibrarySection {
         set { sectionLastEdit = newValue }
     }
     
-    var novel: LibraryNovel {
+    var novel: HistoryEntry {
         get { sectionNovel! }
         set { sectionNovel = newValue }
     }

@@ -18,7 +18,7 @@ class NovelDetailsViewModel: ObservableObject {
     @Published var novelData: NarouResponse?
     @Published var isLibraryDataLoading: Bool = true
     @Published var isFavorite: Bool = false
-    var libraryEntry: LibraryNovel?
+    var historyEntry: HistoryEntry?
     
     init(persistentContainer: NSPersistentContainer, ncode: String) {
         self.persistentContainer = persistentContainer
@@ -33,13 +33,13 @@ class NovelDetailsViewModel: ObservableObject {
             self.novelData = novelData
         }
         
-        // Fetch LibraryNovel if it exists.
-        LibraryNovel.fetch(persistentContainer: persistentContainer, ncode: ncode) { libraryEntryId in
-            if let libraryEntryId = libraryEntryId {
-                self.libraryEntry = try? self.persistentContainer.viewContext.existingObject(
-                    with: libraryEntryId
-                ) as? LibraryNovel
-                self.isFavorite = self.libraryEntry?.isFavorite ?? self.isFavorite
+        // Fetch HistoryEntry if it exists.
+        HistoryEntry.fetch(persistentContainer: persistentContainer, ncode: ncode) { historyEntryId in
+            if let historyEntryId = historyEntryId {
+                self.historyEntry = try? self.persistentContainer.viewContext.existingObject(
+                    with: historyEntryId
+                ) as? HistoryEntry
+                self.isFavorite = self.historyEntry?.isFavorite ?? self.isFavorite
             }
             self.isLibraryDataLoading = false
         }
@@ -51,25 +51,25 @@ class NovelDetailsViewModel: ObservableObject {
     }
     
     func toggleFavorite() {
-        if let libraryEntry = libraryEntry {
-            libraryEntry.isFavorite.toggle()
-            self.isFavorite = libraryEntry.isFavorite
+        if let historyEntry = historyEntry {
+            historyEntry.isFavorite.toggle()
+            self.isFavorite = historyEntry.isFavorite
             do {
                 try persistentContainer.viewContext.save()
             } catch {
                 print("Failed to save changes.")
-                libraryEntry.isFavorite.toggle()
+                historyEntry.isFavorite.toggle()
             }
         } else {
             model.addFavorite(
                 title: novelTitle,
                 author: novelAuthor,
                 subgenre: novelSubgenre
-            ) { libraryEntryId in
-                if let libraryEntryId = libraryEntryId {
-                    self.libraryEntry = try? self.persistentContainer.viewContext.existingObject(
-                        with: libraryEntryId
-                    ) as? LibraryNovel
+            ) { historyEntryId in
+                if let historyEntryId = historyEntryId {
+                    self.historyEntry = try? self.persistentContainer.viewContext.existingObject(
+                        with: historyEntryId
+                    ) as? HistoryEntry
                     self.isFavorite = true
                 }
             }

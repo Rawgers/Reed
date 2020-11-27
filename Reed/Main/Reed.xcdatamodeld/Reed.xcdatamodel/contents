@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17511" systemVersion="20B50" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="DictionaryDefinition" representedClassName="DictionaryDefinition" syncable="YES">
         <attribute name="defAntonyms" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
         <attribute name="defCrossReferences" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
@@ -44,19 +44,19 @@
             <fetchIndexElement property="termTerm" type="Binary" order="ascending"/>
         </fetchIndex>
     </entity>
-    <entity name="LibraryNovel" representedClassName="LibraryNovel" syncable="YES">
+    <entity name="HistoryEntry" representedClassName="HistoryEntry" syncable="YES">
         <attribute name="novelAuthor" attributeType="String"/>
         <attribute name="novelIsFavorite" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="novelNcode" attributeType="String"/>
         <attribute name="novelSubgenre" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="novelTitle" attributeType="String"/>
-        <relationship name="novelLastReadSection" maxCount="1" deletionRule="Cascade" destinationEntity="LibrarySection" inverseName="sectionNovel" inverseEntity="LibrarySection"/>
+        <relationship name="novelLastReadSection" maxCount="1" deletionRule="Cascade" destinationEntity="HistorySection" inverseName="sectionNovel" inverseEntity="HistorySection"/>
     </entity>
-    <entity name="LibrarySection" representedClassName="LibrarySection" syncable="YES">
+    <entity name="HistorySection" representedClassName="HistorySection" syncable="YES">
         <attribute name="sectionId" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="sectionLastEdit" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="sectionTitle" optional="YES" attributeType="String"/>
-        <relationship name="sectionNovel" maxCount="1" deletionRule="Nullify" destinationEntity="LibraryNovel" inverseName="novelLastReadSection" inverseEntity="LibraryNovel"/>
+        <relationship name="sectionNovel" maxCount="1" deletionRule="Nullify" destinationEntity="HistoryEntry" inverseName="novelLastReadSection" inverseEntity="HistoryEntry"/>
     </entity>
     <elements>
         <element name="DictionaryDefinition" positionX="-18" positionY="63" width="128" height="208"/>
@@ -64,7 +64,7 @@
         <element name="DictionaryLanguageSource" positionX="45" positionY="135" width="128" height="103"/>
         <element name="DictionaryReading" positionX="160" positionY="192" width="128" height="118"/>
         <element name="DictionaryTerm" positionX="160" positionY="192" width="128" height="103"/>
-        <element name="LibraryNovel" positionX="-63" positionY="-18" width="128" height="133"/>
-        <element name="LibrarySection" positionX="45" positionY="135" width="128" height="103"/>
+        <element name="HistoryEntry" positionX="-63" positionY="-18" width="128" height="119"/>
+        <element name="HistorySection" positionX="45" positionY="135" width="128" height="89"/>
     </elements>
 </model>

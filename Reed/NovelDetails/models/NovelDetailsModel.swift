@@ -55,7 +55,7 @@ class NovelDetailsModel {
         // doesn't already exist in Core Data.
         
         persistentContainer.performBackgroundTask { context in
-            let libraryEntry = LibraryNovel.create(
+            let historyEntry = HistoryEntry.create(
                 context: self.persistentContainer.viewContext,
                 ncode: self.ncode,
                 title: title,
@@ -64,7 +64,7 @@ class NovelDetailsModel {
                 isFavorite: true
             )
             DispatchQueue.main.async {
-                completion(libraryEntry?.objectID)
+                completion(historyEntry?.objectID)
             }
         }
     }

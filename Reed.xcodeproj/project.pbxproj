@@ -22,7 +22,6 @@
 		B80F45BC25411271004F8A22 /* DiscoverListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80F45BB25411271004F8A22 /* DiscoverListViewModel.swift */; };
 		B81C86FD250A1370000B9E5F /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81C86FC250A1370000B9E5F /* LibraryViewModel.swift */; };
 		B81C86FF250A2207000B9E5F /* LibraryEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81C86FE250A2207000B9E5F /* LibraryEntryViewModel.swift */; };
-		B81C8702250A3675000B9E5F /* MockLibraryEntryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81C8701250A3675000B9E5F /* MockLibraryEntryData.swift */; };
 		B82AF5DF2548015B00FAB2A8 /* View+UIKitComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AF5DC2548015B00FAB2A8 /* View+UIKitComponents.swift */; };
 		B82AF5FD2548031F00FAB2A8 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AF5FB2548031F00FAB2A8 /* SearchBar.swift */; };
 		B82AF5FE2548031F00FAB2A8 /* ViewControllerResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AF5FC2548031F00FAB2A8 /* ViewControllerResolver.swift */; };
@@ -50,9 +49,9 @@
 		B8465D3E2566FD0C00967841 /* DefinitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8465D3D2566FD0C00967841 /* DefinitionView.swift */; };
 		B8539EE52519755A000FF025 /* DictionaryStorageManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8539EE42519755A000FF025 /* DictionaryStorageManagerTests.swift */; };
 		B860B7122518207900F48FBE /* JMdict_e.json.gz in Resources */ = {isa = PBXBuildFile; fileRef = B860B7112518207800F48FBE /* JMdict_e.json.gz */; };
-		B86550CD255A08D800E4786F /* LibraryNovel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86550CA255A08D800E4786F /* LibraryNovel+CoreDataProperties.swift */; };
-		B86550CE255A08D800E4786F /* LibrarySection+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86550CB255A08D800E4786F /* LibrarySection+CoreDataClass.swift */; };
-		B86550CF255A08D800E4786F /* LibraryNovel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86550CC255A08D800E4786F /* LibraryNovel+CoreDataClass.swift */; };
+		B86550CD255A08D800E4786F /* HistoryEntry+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86550CA255A08D800E4786F /* HistoryEntry+CoreDataProperties.swift */; };
+		B86550CE255A08D800E4786F /* HistorySection+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86550CB255A08D800E4786F /* HistorySection+CoreDataClass.swift */; };
+		B86550CF255A08D800E4786F /* HistoryEntry+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86550CC255A08D800E4786F /* HistoryEntry+CoreDataClass.swift */; };
 		B8667F102509C745001EABD4 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8667F0F2509C745001EABD4 /* AppView.swift */; };
 		B8667F132509CA68001EABD4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8667F122509CA68001EABD4 /* SettingsView.swift */; };
 		B87D30772516C537002E25FF /* DictionaryLanguageSource+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87D30752516C537002E25FF /* DictionaryLanguageSource+CoreDataClass.swift */; };
@@ -87,7 +86,7 @@
 		B8D456D62508DD24000F9E5F /* LibraryEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D456D52508DD24000F9E5F /* LibraryEntryView.swift */; };
 		B8E25AC52564D164007B492E /* ReaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E25AC42564D164007B492E /* ReaderModel.swift */; };
 		B8E25ACA256505F3007B492E /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E25AC9256505F3007B492E /* Utils.swift */; };
-		B8E4EF542559F86D0079EFB2 /* LibrarySection+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E4EF532559F86D0079EFB2 /* LibrarySection+CoreDataProperties.swift */; };
+		B8E4EF542559F86D0079EFB2 /* HistorySection+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E4EF532559F86D0079EFB2 /* HistorySection+CoreDataProperties.swift */; };
 		B8F04A892517F07500405599 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F04A882517F07500405599 /* SplashView.swift */; };
 		B8F5C20D250EDDB2000810F8 /* DictionaryEntry+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F5C209250EDDB2000810F8 /* DictionaryEntry+CoreDataClass.swift */; };
 		B8F5C20E250EDDB2000810F8 /* DictionaryEntry+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F5C20A250EDDB2000810F8 /* DictionaryEntry+CoreDataProperties.swift */; };
@@ -139,7 +138,6 @@
 		B80F45BB25411271004F8A22 /* DiscoverListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverListViewModel.swift; sourceTree = "<group>"; };
 		B81C86FC250A1370000B9E5F /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
 		B81C86FE250A2207000B9E5F /* LibraryEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryEntryViewModel.swift; sourceTree = "<group>"; };
-		B81C8701250A3675000B9E5F /* MockLibraryEntryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLibraryEntryData.swift; sourceTree = "<group>"; };
 		B82AF5DC2548015B00FAB2A8 /* View+UIKitComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+UIKitComponents.swift"; sourceTree = "<group>"; };
 		B82AF5FB2548031F00FAB2A8 /* SearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		B82AF5FC2548031F00FAB2A8 /* ViewControllerResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerResolver.swift; sourceTree = "<group>"; };
@@ -167,9 +165,9 @@
 		B8465D3D2566FD0C00967841 /* DefinitionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefinitionView.swift; sourceTree = "<group>"; };
 		B8539EE42519755A000FF025 /* DictionaryStorageManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryStorageManagerTests.swift; sourceTree = "<group>"; };
 		B860B7112518207800F48FBE /* JMdict_e.json.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = JMdict_e.json.gz; sourceTree = "<group>"; };
-		B86550CA255A08D800E4786F /* LibraryNovel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LibraryNovel+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		B86550CB255A08D800E4786F /* LibrarySection+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LibrarySection+CoreDataClass.swift"; sourceTree = "<group>"; };
-		B86550CC255A08D800E4786F /* LibraryNovel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LibraryNovel+CoreDataClass.swift"; sourceTree = "<group>"; };
+		B86550CA255A08D800E4786F /* HistoryEntry+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HistoryEntry+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B86550CB255A08D800E4786F /* HistorySection+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HistorySection+CoreDataClass.swift"; sourceTree = "<group>"; };
+		B86550CC255A08D800E4786F /* HistoryEntry+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HistoryEntry+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B8667F0F2509C745001EABD4 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		B8667F122509CA68001EABD4 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B87D30752516C537002E25FF /* DictionaryLanguageSource+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DictionaryLanguageSource+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -211,7 +209,7 @@
 		B8E25AC42564D164007B492E /* ReaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderModel.swift; sourceTree = "<group>"; };
 		B8E25AC9256505F3007B492E /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		B8E25B8C25661B97007B492E /* Reed-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Reed-Bridging-Header.h"; sourceTree = "<group>"; };
-		B8E4EF532559F86D0079EFB2 /* LibrarySection+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "LibrarySection+CoreDataProperties.swift"; path = "/Users/rogerluo/Repos/Reed/Reed/LibraryTab/models/LibrarySection+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
+		B8E4EF532559F86D0079EFB2 /* HistorySection+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "HistorySection+CoreDataProperties.swift"; path = "/Users/rogerluo/Repos/Reed/Reed/LibraryTab/models/HistorySection+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
 		B8F04A882517F07500405599 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		B8F5C209250EDDB2000810F8 /* DictionaryEntry+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DictionaryEntry+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B8F5C20A250EDDB2000810F8 /* DictionaryEntry+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DictionaryEntry+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -306,11 +304,10 @@
 		B81C8700250A365F000B9E5F /* models */ = {
 			isa = PBXGroup;
 			children = (
-				B86550CC255A08D800E4786F /* LibraryNovel+CoreDataClass.swift */,
-				B86550CA255A08D800E4786F /* LibraryNovel+CoreDataProperties.swift */,
-				B86550CB255A08D800E4786F /* LibrarySection+CoreDataClass.swift */,
-				B8E4EF532559F86D0079EFB2 /* LibrarySection+CoreDataProperties.swift */,
-				B81C8701250A3675000B9E5F /* MockLibraryEntryData.swift */,
+				B86550CC255A08D800E4786F /* HistoryEntry+CoreDataClass.swift */,
+				B86550CA255A08D800E4786F /* HistoryEntry+CoreDataProperties.swift */,
+				B86550CB255A08D800E4786F /* HistorySection+CoreDataClass.swift */,
+				B8E4EF532559F86D0079EFB2 /* HistorySection+CoreDataProperties.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -572,7 +569,6 @@
 			isa = PBXGroup;
 			children = (
 				B82E94C4256658A8004A6F85 /* Tokenizer */,
-				B83F4B90256F84060057CFC9 /* Reader */,
 				B83F4BAA256F88C10057CFC9 /* Reader */,
 				B844F2A22560B9480097F5EF /* NovelDetails */,
 				B8F5C219250EF78E000810F8 /* Dictionary */,
@@ -598,10 +594,10 @@
 				B8667F0F2509C745001EABD4 /* AppView.swift */,
 				B8D456992508D1A2000F9E5F /* AppDelegate.swift */,
 				B8D4569B2508D1A2000F9E5F /* SceneDelegate.swift */,
-				B8D456A22508D1A2000F9E5F /* Assets.xcassets */,
+				B8E25AC9256505F3007B492E /* Utils.swift */,
 				B8D4569D2508D1A2000F9E5F /* Reed.xcdatamodeld */,
 				B8E25B8C25661B97007B492E /* Reed-Bridging-Header.h */,
-				B8E25AC9256505F3007B492E /* Utils.swift */,
+				B8D456A22508D1A2000F9E5F /* Assets.xcassets */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -902,7 +898,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B86550CF255A08D800E4786F /* LibraryNovel+CoreDataClass.swift in Sources */,
+				B86550CF255A08D800E4786F /* HistoryEntry+CoreDataClass.swift in Sources */,
 				B8F5C20E250EDDB2000810F8 /* DictionaryEntry+CoreDataProperties.swift in Sources */,
 				B8F5C20F250EDDB2000810F8 /* DictionaryReading+CoreDataClass.swift in Sources */,
 				B80E0E6B25497E13009B0EE8 /* SearchResults.swift in Sources */,
@@ -913,7 +909,7 @@
 				B87D30772516C537002E25FF /* DictionaryLanguageSource+CoreDataClass.swift in Sources */,
 				B8F5C217250EDEEB000810F8 /* DictionaryTerm+CoreDataClass.swift in Sources */,
 				B80E0E75254A225B009B0EE8 /* UINavigationController+UIGestureRecognizerDelegate.swift in Sources */,
-				B8E4EF542559F86D0079EFB2 /* LibrarySection+CoreDataProperties.swift in Sources */,
+				B8E4EF542559F86D0079EFB2 /* HistorySection+CoreDataProperties.swift in Sources */,
 				B89CD68E2509928800D7D8ED /* ReaderView.swift in Sources */,
 				B8D4569A2508D1A2000F9E5F /* AppDelegate.swift in Sources */,
 				B82AF5DF2548015B00FAB2A8 /* View+UIKitComponents.swift in Sources */,
@@ -924,7 +920,7 @@
 				B80F45BC25411271004F8A22 /* DiscoverListViewModel.swift in Sources */,
 				B880D139251810F20097AF8D /* SplashViewModel.swift in Sources */,
 				B8FA93B1254BAEEC00AE362C /* NovelDetailsViewModel.swift in Sources */,
-				B86550CD255A08D800E4786F /* LibraryNovel+CoreDataProperties.swift in Sources */,
+				B86550CD255A08D800E4786F /* HistoryEntry+CoreDataProperties.swift in Sources */,
 				B8C88D7C256F9FC0006CD768 /* DictionaryUtils.swift in Sources */,
 				B8D456D62508DD24000F9E5F /* LibraryEntryView.swift in Sources */,
 				B80CBD272542887700C807CD /* DiscoverListItemViewModel.swift in Sources */,
@@ -932,7 +928,7 @@
 				B898110B250F81600059F71F /* NSManagedObject+Init.swift in Sources */,
 				B8D4569F2508D1A2000F9E5F /* Reed.xcdatamodeld in Sources */,
 				B8B8F9912526C10400D6DF8B /* DictionaryFetcher.swift in Sources */,
-				B86550CE255A08D800E4786F /* LibrarySection+CoreDataClass.swift in Sources */,
+				B86550CE255A08D800E4786F /* HistorySection+CoreDataClass.swift in Sources */,
 				B89CD68625098C0100D7D8ED /* DiscoverView.swift in Sources */,
 				B8667F102509C745001EABD4 /* AppView.swift in Sources */,
 				B82E94A42566332D004A6F85 /* MecabWordNode.swift in Sources */,
@@ -968,7 +964,6 @@
 				B82AF5FD2548031F00FAB2A8 /* SearchBar.swift in Sources */,
 				B8A78F0C2542F27200577974 /* DiscoverListItem.swift in Sources */,
 				B89CD6942509934700D7D8ED /* VocabularyListView.swift in Sources */,
-				B81C8702250A3675000B9E5F /* MockLibraryEntryData.swift in Sources */,
 				B8D4569C2508D1A2000F9E5F /* SceneDelegate.swift in Sources */,
 				B82E94B825664EA0004A6F85 /* FuriganaMaker.swift in Sources */,
 				B81C86FD250A1370000B9E5F /* LibraryViewModel.swift in Sources */,

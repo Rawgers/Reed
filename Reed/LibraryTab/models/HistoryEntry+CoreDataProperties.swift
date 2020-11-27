@@ -1,5 +1,5 @@
 //
-//  LibraryNovel+CoreDataProperties.swift
+//  HistoryEntry+CoreDataProperties.swift
 //  Reed
 //
 //  Created by Roger Luo on 11/9/20.
@@ -10,11 +10,10 @@
 import Foundation
 import CoreData
 
+extension HistoryEntry {
 
-extension LibraryNovel {
-
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<LibraryNovel> {
-        return NSFetchRequest<LibraryNovel>(entityName: "LibraryNovel")
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<HistoryEntry> {
+        return NSFetchRequest<HistoryEntry>(entityName: "HistoryEntry")
     }
 
     @NSManaged private var novelAuthor: String?
@@ -22,7 +21,7 @@ extension LibraryNovel {
     @NSManaged private var novelNcode: String?
     @NSManaged private var novelSubgenre: Int16
     @NSManaged private var novelTitle: String?
-    @NSManaged private var novelLastReadSection: LibrarySection?
+    @NSManaged private var novelLastReadSection: HistorySection?
     
     var ncode: String {
         get { novelNcode ?? "" }
@@ -49,7 +48,7 @@ extension LibraryNovel {
         set { novelIsFavorite = newValue }
     }
     
-    var lastReadSection: LibrarySection {
+    var lastReadSection: HistorySection {
         get { novelLastReadSection! }
         set { novelLastReadSection = newValue }
     }
@@ -62,4 +61,4 @@ extension LibraryNovel {
     }
 }
 
-extension LibraryNovel : Identifiable {}
+extension HistoryEntry : Identifiable {}

@@ -1,5 +1,5 @@
 //
-//  LibrarySection+CoreDataClass.swift
+//  HistorySection+CoreDataClass.swift
 //  Reed
 //
 //  Created by Roger Luo on 11/5/20.
@@ -10,7 +10,7 @@
 import Foundation
 import CoreData
 
-@objc(LibrarySection)
-public class LibrarySection: NSManagedObject {
+@objc(HistorySection)
+public class HistorySection: NSManagedObject {
 
 }
