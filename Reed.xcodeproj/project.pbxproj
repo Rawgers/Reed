@@ -73,6 +73,8 @@
 		B8A5E50E2527BACE003BCF07 /* UtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A5E50D2527BACE003BCF07 /* UtilsTests.swift */; };
 		B8A78F072542F26700577974 /* DiscoverList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A78F062542F26700577974 /* DiscoverList.swift */; };
 		B8A78F0C2542F27200577974 /* DiscoverListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A78F0B2542F27200577974 /* DiscoverListItem.swift */; };
+		B8ADEAB52570E0CC007C3D28 /* View+readSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8ADEAB42570E0CC007C3D28 /* View+readSize.swift */; };
+		B8ADEABA2570E205007C3D28 /* FlexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8ADEAB92570E205007C3D28 /* FlexView.swift */; };
 		B8B8F9912526C10400D6DF8B /* DictionaryFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B8F9902526C10400D6DF8B /* DictionaryFetcher.swift */; };
 		B8C88D7C256F9FC0006CD768 /* DictionaryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C88D7B256F9FC0006CD768 /* DictionaryUtils.swift */; };
 		B8D041C125667C18003F1E05 /* DeinflectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D041C025667C18003F1E05 /* DeinflectorTests.swift */; };
@@ -188,6 +190,8 @@
 		B8A5E50D2527BACE003BCF07 /* UtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilsTests.swift; sourceTree = "<group>"; };
 		B8A78F062542F26700577974 /* DiscoverList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverList.swift; sourceTree = "<group>"; };
 		B8A78F0B2542F27200577974 /* DiscoverListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverListItem.swift; sourceTree = "<group>"; };
+		B8ADEAB42570E0CC007C3D28 /* View+readSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+readSize.swift"; sourceTree = "<group>"; };
+		B8ADEAB92570E205007C3D28 /* FlexView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexView.swift; sourceTree = "<group>"; };
 		B8B8F9902526C10400D6DF8B /* DictionaryFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryFetcher.swift; sourceTree = "<group>"; };
 		B8C88D7B256F9FC0006CD768 /* DictionaryUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryUtils.swift; sourceTree = "<group>"; };
 		B8D041C025667C18003F1E05 /* DeinflectorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeinflectorTests.swift; sourceTree = "<group>"; };
@@ -332,11 +336,12 @@
 			isa = PBXGroup;
 			children = (
 				B82AF5FB2548031F00FAB2A8 /* SearchBar.swift */,
-				B82AF5FC2548031F00FAB2A8 /* ViewControllerResolver.swift */,
-				B82AF5DC2548015B00FAB2A8 /* View+UIKitComponents.swift */,
 				B8FA93BD254BBE0D00AE362C /* NavigationLazyView.swift */,
 				6D9EC86625723B8B00CD4833 /* DefinableTextView.swift */,
 				6D4F99B72556A0C900CC0DF6 /* BottomSheetView.swift */,
+				B82AF5FC2548031F00FAB2A8 /* ViewControllerResolver.swift */,
+				B82AF5DC2548015B00FAB2A8 /* View+UIKitComponents.swift */,
+				B8ADEAB92570E205007C3D28 /* FlexView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -454,6 +459,7 @@
 		B8981109250F803F0059F71F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				B8ADEAB42570E0CC007C3D28 /* View+readSize.swift */,
 				B898110A250F81600059F71F /* NSManagedObject+Init.swift */,
 				B80E0E74254A225B009B0EE8 /* UINavigationController+UIGestureRecognizerDelegate.swift */,
 			);
@@ -914,6 +920,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8ADEABA2570E205007C3D28 /* FlexView.swift in Sources */,
 				B86550CF255A08D800E4786F /* HistoryEntry+CoreDataClass.swift in Sources */,
 				B8F5C20E250EDDB2000810F8 /* DictionaryEntry+CoreDataProperties.swift in Sources */,
 				B8F5C20F250EDDB2000810F8 /* DictionaryReading+CoreDataClass.swift in Sources */,
@@ -940,6 +947,7 @@
 				B8D456D62508DD24000F9E5F /* LibraryEntryView.swift in Sources */,
 				B80CBD272542887700C807CD /* DiscoverListItemViewModel.swift in Sources */,
 				B80E0E7025497EBA009B0EE8 /* DiscoverSearchResultsViewModel.swift in Sources */,
+				B8ADEAB52570E0CC007C3D28 /* View+readSize.swift in Sources */,
 				B898110B250F81600059F71F /* NSManagedObject+Init.swift in Sources */,
 				B8D4569F2508D1A2000F9E5F /* Reed.xcdatamodeld in Sources */,
 				6D1298EE257239E400E873F4 /* HistorySection+CoreDataProperties.swift in Sources */,
