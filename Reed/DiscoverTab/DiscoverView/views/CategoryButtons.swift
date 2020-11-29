@@ -21,7 +21,7 @@ struct CategoryButtons: View {
         }
         .padding(.horizontal)
         .padding(.vertical, 8)
-        .background(Color(.systemGray5))
+        .background(Color(.secondarySystemBackground))
         .cornerRadius(10)
         .padding(.vertical)
     }
