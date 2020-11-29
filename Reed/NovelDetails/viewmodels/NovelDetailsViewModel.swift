@@ -75,6 +75,20 @@ class NovelDetailsViewModel: ObservableObject {
             }
         }
     }
+    
+    // TODO: Perhaps pass the historyEntry directly to Reader?
+    func onPushToReader() {
+        if historyEntry != nil { return }
+        
+        historyEntry = HistoryEntry.create(
+            context: persistentContainer.viewContext,
+            ncode: novelNcode,
+            title: novelTitle,
+            author: novelAuthor,
+            subgenre: novelSubgenre!.rawValue,
+            isFavorite: false
+        )
+    }
 }
 
 // Unwrap and postprocess NarouResponse optionals for readability

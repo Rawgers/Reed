@@ -12,6 +12,7 @@ struct NovelDetailsView: View {
     @ObservedObject var viewModel: NovelDetailsViewModel
     @State private var topExpanded: Bool = true
     @State private var entries: [DefinitionDetails] = []
+    @State private var isPushedToReader: Bool = false
     
     init(ncode: String) {
         viewModel = NovelDetailsViewModel(ncode: ncode)
@@ -35,14 +36,26 @@ struct NovelDetailsView: View {
                     .padding(.bottom, 16)
                     
                     HStack(spacing: 8) {
-                        Button(action: {}) {
-                            Text("Read")
-                                .frame(width: 72, height: 32)
-                                .foregroundColor(.white)
-                                .background(Color(.systemBlue))
-                                .cornerRadius(4)
+                        Button(action: {
+                            viewModel.onPushToReader()
+                            isPushedToReader = true
+                        }) {
+                            ZStack {
+                                NavigationLink(
+                                    destination: NavigationLazyView(ReaderView(ncode: viewModel.ncode)),
+                                    isActive: $isPushedToReader
+                                ) { EmptyView() }
+                                
+                                Text("Read")
+                                    .frame(width: 72, height: 32)
+                                    .foregroundColor(.white)
+                                    .background(Color(.systemBlue))
+                                    .cornerRadius(4)
+                            }
                         }
                         .buttonStyle(PlainButtonStyle())
+                        .disabled(viewModel.isLibraryDataLoading)
+                        
                         Button(action: viewModel.toggleFavorite) {
                             Image(systemName: viewModel.isFavorite ? "star.fill" : "star")
                         }

@@ -57,6 +57,7 @@ struct DiscoverView: View {
                 hidesWhenScrolling: false
             )
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
