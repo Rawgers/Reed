@@ -10,29 +10,77 @@ import SwiftUI
 
 struct NovelDetailsView: View {
     @ObservedObject var viewModel: NovelDetailsViewModel
+    @State private var topExpanded: Bool = true
+    @State private var entries: [DefinitionDetails] = []
     
     init(ncode: String) {
         viewModel = NovelDetailsViewModel(ncode: ncode)
     }
     
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            VStack(alignment: .leading, spacing: .zero) {
-                Text(viewModel.novelTitle)
-                    .font(.title3)
-                    .fontWeight(.medium)
-                Spacer()
-                
-                Text("Synopsis")
-                    .font(.headline)
-                Text(viewModel.novelSynopsis)
-                    .font(.subheadline)
-                
-                Button(action: viewModel.toggleFavorite) {
-                    Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
+        ZStack {
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(viewModel.novelTitle)
+                        .font(.title)
+                        .padding(.top, 12)
+                        .padding(.bottom, 4)
+
+                    HStack(spacing: .zero) {
+                        Text(viewModel.novelAuthor)
+                        Text("｜")
+                            .foregroundColor(.gray)
+                        Text(viewModel.novelSubgenre?.nameJp ?? "")
+                    }
+                    .padding(.bottom, 16)
+                    
+                    HStack(spacing: 8) {
+                        Button(action: {}) {
+                            Text("Read")
+                                .frame(width: 72, height: 32)
+                                .foregroundColor(.white)
+                                .background(Color(.systemBlue))
+                                .cornerRadius(4)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        Button(action: viewModel.toggleFavorite) {
+                            Image(systemName: viewModel.isFavorite ? "star.fill" : "star")
+                        }
+                        .disabled(viewModel.isLibraryDataLoading)
+                    }
+                    .padding(.bottom, 24)
+                    
+                    Group {
+                        Text("SYNOPSIS")
+                            .font(.subheadline).bold()
+                            .foregroundColor(Color(.systemGray4))
+                            .padding(.bottom, 4)
+                        Text(viewModel.novelSynopsis)
+                    }
+                    .padding(.bottom, 8)
+                    
+                    FlexView(
+                        data: viewModel.novelKeywords,
+                        spacing: 8,
+                        alignment: .leading,
+                        content: { keyword in
+                            Text(keyword)
+                                .font(.body)
+                                .foregroundColor(Color(.systemBlue))
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .stroke(Color(.systemBlue))
+                                )
+                        }
+                    )
+                    .padding(.leading, 1)
                 }
-                .disabled(viewModel.isLibraryDataLoading)
             }
+            .padding(.horizontal)
+
+            DefinerView(entries: self.$entries)
         }
         .navigationBarTitle("", displayMode: .inline)
     }

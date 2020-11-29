@@ -64,7 +64,7 @@ class NovelDetailsViewModel: ObservableObject {
             model.addFavorite(
                 title: novelTitle,
                 author: novelAuthor,
-                subgenre: novelSubgenre
+                subgenre: novelSubgenre!.rawValue
             ) { historyEntryId in
                 if let historyEntryId = historyEntryId {
                     self.historyEntry = try? self.persistentContainer.viewContext.existingObject(
@@ -79,10 +79,6 @@ class NovelDetailsViewModel: ObservableObject {
 
 // Unwrap and postprocess NarouResponse optionals for readability
 extension NovelDetailsViewModel {
-    var novelAuthor: String {
-        novelData?.author ?? ""
-    }
-    
     var novelNcode: String {
         novelData?.ncode ?? ""
     }
@@ -91,11 +87,19 @@ extension NovelDetailsViewModel {
         novelData?.title ?? ""
     }
     
-    var novelSubgenre: Int {
-        novelData?.subgenre?.rawValue ?? Subgenre.none.rawValue
+    var novelAuthor: String {
+        novelData?.author ?? ""
+    }
+    
+    var novelSubgenre: Subgenre? {
+        novelData?.subgenre
     }
     
     var novelSynopsis: String {
         novelData?.synopsis?.trimmingCharacters(in: ["\n"]) ?? ""
+    }
+    
+    var novelKeywords: [String] {
+        novelData?.keyword ?? []
     }
 }
