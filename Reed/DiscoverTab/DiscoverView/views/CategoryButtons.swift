@@ -21,7 +21,7 @@ struct CategoryButtons: View {
         }
         .padding(.horizontal)
         .padding(.vertical, 8)
-        .background(Color(.systemGray5))
+        .background(Color(.secondarySystemBackground))
         .cornerRadius(10)
         .padding(.vertical)
     }
@@ -42,11 +42,7 @@ struct CategoryButtons: View {
                     .font(.system(size: 8))
             }
         }
-//        .padding(.horizontal, 4)
         .padding(4)
-//        .background(
-//            Color(category == activeCategory ? .systemGray3 : .clear)
-//        )
         .cornerRadius(10)
     }
 }
