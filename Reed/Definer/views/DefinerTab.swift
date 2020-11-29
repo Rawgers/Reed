@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct DefinerTab: View {
-    var entry: DefinitionDetails
+    let entry: DefinitionDetails
     
     var body: some View {
         ScrollView {
@@ -23,7 +23,8 @@ struct DefinerTab: View {
                         .foregroundColor(.gray)
                         .padding(.trailing)
                     Spacer()
-                }.padding(.vertical)
+                }
+                .padding(.vertical)
                 
                 ForEach(0..<entry.definitions.endIndex, id: \.self) { i in
                     HStack(alignment: .firstTextBaseline) {

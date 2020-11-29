@@ -12,7 +12,6 @@ import SwiftUIPager
 struct ReaderView: View {
     @ObservedObject var viewModel: ReaderViewModel
     @State private var entries = [DefinitionDetails]()
-    @State private var page: Int = 0
 
     init(ncode: String) {
         self.viewModel = ReaderViewModel(ncode: ncode)
