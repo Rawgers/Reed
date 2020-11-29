@@ -25,7 +25,10 @@ struct ReaderView: View {
                     data: viewModel.pages,
                     id: \.self,
                     content: { text in
-                        DefinableTextView(text: text, definerResultHandler: definerResultHandler)
+                        DefinableTextView(
+                            text: .constant(text),
+                            definerResultHandler: definerResultHandler
+                        )
                     }
                 )
                 .onPageChanged { page in
