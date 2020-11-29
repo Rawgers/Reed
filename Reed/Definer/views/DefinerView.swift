@@ -32,6 +32,7 @@ struct DefinerView: View {
                     tabViewId = UUID()
                 }
                 .id(tabViewId)
+                .padding(.horizontal)
             }
         }
         .ignoresSafeArea()
