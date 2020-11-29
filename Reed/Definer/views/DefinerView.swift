@@ -20,17 +20,19 @@ struct DefinerView: View {
             isOpen: self.$isBottomSheetExpanded,
             maxHeight: 400)
         {
-            TabView(selection: $definitionEntryIndex) {
-                ForEach(entries, id: \.self) { entry in
-                    DefinerTab(entry: entry)
+            if !entries.isEmpty {
+                TabView(selection: $definitionEntryIndex) {
+                    ForEach(entries, id: \.self) { entry in
+                        DefinerTab(entry: entry)
+                    }
                 }
+                .tabViewStyle(PageTabViewStyle())
+                .onChange(of: entries) { value in
+                    definitionEntryIndex = 0
+                    tabViewId = UUID()
+                }
+                .id(tabViewId)
             }
-            .tabViewStyle(PageTabViewStyle())
-            .onChange(of: entries) { value in
-                definitionEntryIndex = 0
-                tabViewId = UUID()
-            }
-            .id(tabViewId)
         }
         .ignoresSafeArea()
     }
