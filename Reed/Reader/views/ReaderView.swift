@@ -30,7 +30,9 @@ struct ReaderView: View {
                         DefinableTextView(
                             text: .constant(page.content),
                             tokens: page.tokens,
-                            definerResultHandler: definerResultHandler
+                            definerResultHandler: definerResultHandler,
+                            width: viewModel.pagerWidth,
+                            height: viewModel.pagerHeight
                         )
                     }
                 )
@@ -38,15 +40,15 @@ struct ReaderView: View {
                     self.viewModel.handlePageFlip(isInit: page == -1)
                 }
                 .alignment(.start)
-                .preferredItemSize(CGSize(
-                    width: UIScreen.main.bounds.width,
-                    height: UIScreen.main.bounds.height * 0.65
-                ))
+                
                 Text("\(viewModel.curPage + 1) of \(viewModel.pages.endIndex)")
-                Spacer()
-                    .frame(height: UIScreen.main.bounds.height * 0.15)
+                
+                Rectangle()
+                    .frame(height: BottomSheetConstants.minHeight)
+                    .opacity(0)
             }
             .padding(.horizontal)
+            .ignoresSafeArea(edges: .bottom)
             
             DefinerView(entries: $entries)
         }

@@ -28,16 +28,25 @@ class ReaderViewModel: ObservableObject {
     let model: ReaderModel
     var historyEntry: HistoryEntry?
     var section: SectionContent?
-    var content: String = ""
     @Published var items = [String]()
     
     @Published var pages: [Page] = []
     @Published var curPage: Int = 0
     var lastPage: Int = 0
     
+    let pagerWidth: CGFloat = {
+        let edgeInsets = EdgeInsets()
+        return UIScreen.main.bounds.width - 32
+    }()
+    let pagerHeight: CGFloat = {
+        let definerOffset = BottomSheetConstants.maxHeight - BottomSheetConstants.minHeight
+        return UIScreen.main.bounds.height - definerOffset - 32
+    }()
+    
     init(persistentContainer: NSPersistentContainer, ncode: String) {
         self.persistentContainer = persistentContainer
         self.model = ReaderModel(ncode: ncode)
+        
         HistoryEntry.fetch(
             persistentContainer: persistentContainer,
             ncode: ncode
@@ -86,11 +95,10 @@ class ReaderViewModel: ObservableObject {
     }
     
     func calcPages(content: String) -> [Page] {
-        let userWidth = UIScreen.main.bounds.width * 0.95
-        let userHeight = UIScreen.main.bounds.height * 0.5
-        let rect = CGRect(x: 0, y: 0, width: userWidth, height: userHeight)
+        let rect = CGRect(x: 0, y: 0, width: pagerWidth, height: pagerHeight)
         let tempTextView = UITextView(frame: rect)
-        tempTextView.font = .systemFont(ofSize: 17)
+        tempTextView.font = .systemFont(ofSize: 20)
+        tempTextView.textAlignment = .justified
         
         var remainingContent = content
         var pages = [Page]()
