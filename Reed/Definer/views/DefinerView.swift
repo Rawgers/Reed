@@ -16,10 +16,7 @@ struct DefinerView: View {
     @State private var tabViewId = UUID()
     
     var body: some View {
-        BottomSheetView (
-            isOpen: self.$isBottomSheetExpanded,
-            maxHeight: 400)
-        {
+        BottomSheetView (isOpen: self.$isBottomSheetExpanded) {
             if !entries.isEmpty {
                 TabView(selection: $definitionEntryIndex) {
                     ForEach(entries, id: \.self) { entry in
