@@ -2,6 +2,7 @@ platform :ios, '14.0'
 
 target 'Reed' do
   pod 'GzipSwift'
+  pod 'Introspect'
   pod 'SwiftyJSON'
   pod 'SwiftUIPager'
   pod 'SwiftyNarou'
