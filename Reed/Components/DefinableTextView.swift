@@ -36,15 +36,22 @@ struct DefinableTextView: UIViewRepresentable {
     @Binding var text: String
     var tokens: [Token]
     let definerResultHandler: ([DefinitionDetails]) -> Void
+    let width: CGFloat
+    let height: CGFloat
     
-    func makeUIView(context: UIViewRepresentableContext<DefinableTextView>) -> UITextView {
-        let textView = UITextView()
+    func makeUIView(
+        context: UIViewRepresentableContext<DefinableTextView>
+    ) -> UITextView {
+        let textView = UITextView(frame: CGRect.zero)
+        
+        textView.text = text
+        textView.font = .systemFont(ofSize: 20)
+        textView.textAlignment = .justified
+        
         textView.isEditable = false
         textView.isSelectable = false
-        textView.text = text
-        textView.contentSize = CGSize(width: UIScreen.main.bounds.width * 0.9, height: UIScreen.main.bounds.height * 0.6)
-        textView.font = .systemFont(ofSize: 17)
-        textView.textAlignment = .justified
+        textView.sizeToFit()
+        
         textView.addGestureRecognizer(
             UITapGestureRecognizer(
                 target: context.coordinator,
@@ -54,7 +61,10 @@ struct DefinableTextView: UIViewRepresentable {
         return textView
     }
     
-    func updateUIView(_ textView: UITextView, context: UIViewRepresentableContext<DefinableTextView>) {
+    func updateUIView(
+        _ textView: UITextView,
+        context: UIViewRepresentableContext<DefinableTextView>
+    ) {
         textView.text = text
     }
     

@@ -8,25 +8,25 @@
 
 import SwiftUI
 
-fileprivate enum Constants {
-    static let radius: CGFloat = 16
-    static let indicatorHeight: CGFloat = 2
-    static let indicatorWidth: CGFloat = 32
-    static let snapRatio: CGFloat = 0.25
+enum BottomSheetConstants {
     static let minHeight: CGFloat = 120
     static let maxHeight: CGFloat = UIScreen.main.bounds.height * 0.4
+    fileprivate static let radius: CGFloat = 16
+    fileprivate static let indicatorHeight: CGFloat = 2
+    fileprivate static let indicatorWidth: CGFloat = 32
+    fileprivate static let snapRatio: CGFloat = 0.25
 }
 
 struct BottomSheetView<Content: View>: View {
     @Binding var isOpen: Bool
     
-    let maxHeight: CGFloat
     let minHeight: CGFloat
+    let maxHeight: CGFloat
     let content: Content
     
     init(isOpen: Binding<Bool>, @ViewBuilder content: () -> Content) {
-        self.minHeight = Constants.minHeight
-        self.maxHeight = Constants.maxHeight
+        self.minHeight = BottomSheetConstants.minHeight
+        self.maxHeight = BottomSheetConstants.maxHeight
         self.content = content()
         self._isOpen = isOpen
     }
@@ -36,11 +36,11 @@ struct BottomSheetView<Content: View>: View {
     }
     
     private var indicator: some View {
-        RoundedRectangle(cornerRadius: Constants.radius)
+        RoundedRectangle(cornerRadius: BottomSheetConstants.radius)
             .fill(Color(.systemGray4))
             .frame(
-                width: Constants.indicatorWidth,
-                height: Constants.indicatorHeight
+                width: BottomSheetConstants.indicatorWidth,
+                height: BottomSheetConstants.indicatorHeight
             )
     }
     
@@ -54,8 +54,12 @@ struct BottomSheetView<Content: View>: View {
                 self.content
             }
             .frame(width: geometry.size.width, height: self.maxHeight, alignment: .top)
-            .background(colorScheme == .dark ? Color(.secondarySystemBackground) : Color.white)
-            .cornerRadius(Constants.radius)
+            .background(
+                colorScheme == .dark
+                    ? Color(.secondarySystemBackground)
+                    : Color.white
+            )
+            .cornerRadius(BottomSheetConstants.radius)
             .shadow(radius: 4)
             .frame(height: geometry.size.height, alignment: .bottom)
             .offset(y: max(self.offset + self.translation, 0))
@@ -64,7 +68,7 @@ struct BottomSheetView<Content: View>: View {
                 DragGesture().updating(self.$translation) { value, state, _ in
                     state = value.translation.height
                 }.onEnded { value in
-                    let snapDistance = self.maxHeight * Constants.snapRatio
+                    let snapDistance = self.maxHeight * BottomSheetConstants.snapRatio
                     guard abs(value.translation.height) > snapDistance else {
                         return
                     }
