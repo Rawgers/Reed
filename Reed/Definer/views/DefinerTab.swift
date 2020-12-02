@@ -17,6 +17,7 @@ struct DefinerTab: View {
                 HStack(alignment: .lastTextBaseline, spacing: 16) {
                     Text(entry.title)
                         .font(.title2)
+                        .bold()
                     Text("\(entry.primaryReading)")
                         .font(.footnote)
                         .padding(.trailing)
