@@ -7,11 +7,13 @@
 //
 
 import SwiftUI
+import Introspect
 import SwiftUIPager
 
 struct ReaderView: View {
     @ObservedObject var viewModel: ReaderViewModel
     @State private var entries = [DefinitionDetails]()
+    @State private var tabBar: UITabBar?
 
     init(ncode: String) {
         self.viewModel = ReaderViewModel(ncode: ncode)
@@ -48,6 +50,11 @@ struct ReaderView: View {
             DefinerView(entries: $entries)
         }
         .navigationBarHidden(true)
+        .introspectTabBarController { tabBarController in
+            tabBar = tabBarController.tabBar
+            self.tabBar?.isHidden = true
+        }
+        .onDisappear { self.tabBar?.isHidden = false }
     }
     
     func definerResultHandler(newEntries: [DefinitionDetails]) {
