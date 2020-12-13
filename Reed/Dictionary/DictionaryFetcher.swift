@@ -43,4 +43,22 @@ class DictionaryFetcher {
         return (try? persistentContainer.viewContext.fetch(fetchRequest)) ?? []
     }
     
+    func countEntries(of key: String) -> Int {
+        return isKana(key)
+            ? countReadings(with: key)
+            : countTerms(with: key)
+    }
+    
+    func countReadings(with reading: String) -> Int {
+        let fetchRequest: NSFetchRequest<DictionaryReading> = DictionaryReading.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "readingReading == %@", reading)
+        return (try? persistentContainer.viewContext.count(for: fetchRequest)) ?? 0
+    }
+    
+    func countTerms(with term: String) -> Int {
+        let fetchRequest: NSFetchRequest<DictionaryTerm> = DictionaryTerm.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "termTerm == %@", term)
+        return (try? persistentContainer.viewContext.count(for: fetchRequest)) ?? 0
+    }
+    
 }
