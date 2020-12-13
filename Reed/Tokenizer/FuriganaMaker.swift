@@ -82,7 +82,7 @@ class FuriganaMaker {
     }
     
     func containsKanji(text: String) -> Bool {
-        let range = "[\u{3005}\u{3007}\u{303b}\u{3400}-\u{9fff}\u{f900}-\u{faff}\u{20000}-\u{2ffff}]"
+        let range = ".*[\u{3005}\u{3007}\u{303b}\u{3400}-\u{9fff}\u{f900}-\u{faff}\u{20000}-\u{2ffff}].*"
         return NSPredicate(format: "SELF MATCHES %@", range).evaluate(with: text)
     }
     
