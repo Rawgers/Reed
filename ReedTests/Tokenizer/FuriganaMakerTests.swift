@@ -20,14 +20,14 @@ class FuriganaMakerTests: XCTestCase {
     
     func testMakeFurigana() {
         let allKanjiFuriganas = furiganaMaker.makeFurigana(text: "洗浄", reading: "センジョウ")
-        XCTAssertTrue(allKanjiFuriganas[0].range == (0, 2))
+        XCTAssertTrue(NSEqualRanges(allKanjiFuriganas[0].range, NSMakeRange(0, 2)))
         XCTAssertEqual(allKanjiFuriganas[0].reading, "せんじょう")
         
         let noKanjiFuriganas = furiganaMaker.makeFurigana(text: "たれパンダ", reading: "タレパンダ")
         XCTAssertTrue(noKanjiFuriganas.isEmpty)
         
         let partiallyKanjiFuriganas = furiganaMaker.makeFurigana(text: "手伝う", reading: "テツダウ")
-        XCTAssertTrue(partiallyKanjiFuriganas[0].range == (0, 2))
+        XCTAssertTrue(NSEqualRanges(partiallyKanjiFuriganas[0].range, NSMakeRange(0, 2)))
         XCTAssertEqual(partiallyKanjiFuriganas[0].reading, "てつだ")
         
         let symbolFuriganas = furiganaMaker.makeFurigana(text: "(", reading: "\"(\"")
@@ -37,18 +37,18 @@ class FuriganaMakerTests: XCTestCase {
     func testGetReadingPatternAndCount() {
         let (pattern, ranges) = furiganaMaker.getReadingPatternAndRanges(text: "百聞は一見に如かず")
         XCTAssertEqual(pattern, "(.+)は(.+)に(.+)かず")
-        XCTAssertTrue(ranges[0] == (0, 2))
-        XCTAssertTrue(ranges[1] == (3, 5))
-        XCTAssertTrue(ranges[2] == (6, 7))
+        XCTAssertTrue(NSEqualRanges(ranges[0], NSMakeRange(0, 2)))
+        XCTAssertTrue(NSEqualRanges(ranges[1], NSMakeRange(3, 2)))
+        XCTAssertTrue(NSEqualRanges(ranges[2], NSMakeRange(6, 1)))
     }
     
     func testExtractReading() {
         let furiganas = furiganaMaker.extractReading(text: "百聞は一見に如かず", reading: "ひゃくぶんはいっけんにしかず")
-        XCTAssertTrue(furiganas[0].range == (0, 2))
+        XCTAssertTrue(NSEqualRanges(furiganas[0].range, NSMakeRange(0, 2)))
         XCTAssertEqual(furiganas[0].reading, "ひゃくぶん")
-        XCTAssertTrue(furiganas[1].range == (3, 5))
+        XCTAssertTrue(NSEqualRanges(furiganas[1].range, NSMakeRange(3, 2)))
         XCTAssertEqual(furiganas[1].reading, "いっけん")
-        XCTAssertTrue(furiganas[2].range == (6, 7))
+        XCTAssertTrue(NSEqualRanges(furiganas[2].range, NSMakeRange(6, 1)))
         XCTAssertEqual(furiganas[2].reading, "し")
     }
 

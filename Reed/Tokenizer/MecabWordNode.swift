@@ -10,7 +10,7 @@ class MecabWordNode {
     let surface: String
     let features: [String]
     let partOfSpeech: PartOfSpeech?
-    let range: (Int, Int) // [start, end)
+    let range: NSRange
     let furiganas: [Furigana]
     
     var canMakeCompoundWord: Bool {
@@ -26,7 +26,7 @@ class MecabWordNode {
         return partOfSpeech?.isYougen ?? false
     }
     
-    init(surface: String, features: [String], partOfSpeech: PartOfSpeech?, range: (Int, Int), furiganas: [Furigana]) {
+    init(surface: String, features: [String], partOfSpeech: PartOfSpeech?, range: NSRange, furiganas: [Furigana]) {
         self.surface = surface
         self.features = features
         self.partOfSpeech = partOfSpeech
@@ -40,7 +40,7 @@ class MecabWordNode {
                 surface: "",
                 features: [],
                 partOfSpeech: nil,
-                range: (0, 0),
+                range: NSMakeRange(0, 0),
                 furiganas: []
             )
         }
@@ -52,7 +52,7 @@ class MecabWordNode {
             surface: concatenatedSurface,
             features: [],
             partOfSpeech: nil,
-            range: (nodes.first!.range.0, nodes.last!.range.1),
+            range: NSUnionRange(nodes.first!.range, nodes.last!.range),
             furiganas: concatenateFuriganas(of: nodes)
         )
     }
@@ -64,12 +64,12 @@ class MecabWordNode {
             concatenatedFuriganas.append(
                 contentsOf: node.furiganas.map {
                     Furigana(
-                        range: ($0.range.0 + offset, $0.range.1 + offset),
+                        range: NSMakeRange($0.range.location + offset, $0.range.length),
                         reading: $0.reading
                     )
                 }
             )
-            offset += node.range.1 - node.range.0
+            offset += node.range.length
         }
         return concatenatedFuriganas
     }
