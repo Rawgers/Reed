@@ -181,4 +181,75 @@ class DictionaryFetcherTests: XCTestCase {
         res = mockFetcher.fetchEntries(of: "御")
         XCTAssertEqual(res.count, 0)
     }
+    
+    func testCountReadings() {
+        let testData = formatTestData(
+            """
+            [
+                {
+                    "ent_seq": [
+                        "1"
+                    ],
+                    "r_ele": [
+                        {
+                            "reb": [
+                                "あ"
+                            ]
+                        }
+                    ],
+                    "sense": [
+                        {
+                            "gloss": [
+                                "test"
+                            ]
+                        }
+                    ]
+                },
+            ]
+            """
+        )
+        
+        mockParser.parseAndLoad(dictionaryData: testData)
+        XCTAssertEqual(mockFetcher.countEntries(of: "あ"), 1)
+        XCTAssertEqual(mockFetcher.countEntries(of: "い"), 0)
+    }
+    
+    func testCountTerms() {
+        let testData = formatTestData(
+            """
+            [
+                {
+                    "ent_seq": [
+                        "1"
+                    ],
+                    "k_ele": [
+                        {
+                            "keb": [
+                                "阿"
+                            ]
+                        }
+                    ],
+                    "r_ele": [
+                        {
+                            "reb": [
+                                "あ"
+                            ]
+                        }
+                    ],
+                    "sense": [
+                        {
+                            "gloss": [
+                                "test"
+                            ]
+                        }
+                    ]
+                },
+            ]
+            """
+        )
+        
+        mockParser.parseAndLoad(dictionaryData: testData)
+        XCTAssertEqual(mockFetcher.countEntries(of: "阿"), 1)
+        XCTAssertEqual(mockFetcher.countEntries(of: "位"), 0)
+    }
 }
