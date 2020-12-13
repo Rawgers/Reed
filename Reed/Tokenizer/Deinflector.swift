@@ -14,6 +14,8 @@ struct DeinflectionResult {
 }
 
 class Deinflector {
+    let MAXIMUM_RECURSIVE_DEINFLECTION = 10 // To avoid infinite loop
+    
     lazy var indexedRules: [Int: [String: [Rule]]] = {
         buildIndexedRules(rules: deinflectionRules)
     }()
@@ -44,12 +46,11 @@ class Deinflector {
             conjugationGroupValue: ConjugationGroup.Anything,
             appliedRules: []
         )
-        return recursivelyDeinflect(result: initialResult)
+        return recursivelyDeinflect(result: initialResult, depth: 0)
     }
     
     // Returns an empty list if the text cannot be further deinflected
-    // TODO: Set the maximum number of recursive deinflections to avoid infinite loop
-    func recursivelyDeinflect(result: DeinflectionResult) -> [DeinflectionResult] {
+    func recursivelyDeinflect(result: DeinflectionResult, depth: Int) -> [DeinflectionResult] {
         let text = result.text
         var allResults = [result]
         for sourceLength in indexedRules.keys {
@@ -64,8 +65,10 @@ class Deinflector {
             let results = applyRules(result: result, applicableRules: applicableRules)
             
             // Try to deinflect further
-            for result in results {
-                allResults.append(contentsOf: recursivelyDeinflect(result: result))
+            if depth < MAXIMUM_RECURSIVE_DEINFLECTION {
+                for result in results {
+                    allResults.append(contentsOf: recursivelyDeinflect(result: result, depth: depth + 1))
+                }
             }
         }
         return allResults
