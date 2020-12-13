@@ -118,6 +118,9 @@ class Tokenizer {
     // Instead, filter plausible definitions when actually displaying them.
     func searchDictionaryDefinitions(nodes: [MecabWordNode], deinflectionResult: DeinflectionResult) -> [DictionaryDefinition] {
         var definitions = [DictionaryDefinition]()
+        if dictionaryFetcher.countEntries(of: deinflectionResult.text) == 0 {
+            return []
+        }
         let entries = dictionaryFetcher.fetchEntries(of: deinflectionResult.text)
         for entry in entries {
             definitions.append(contentsOf: entry.definitions)
