@@ -115,38 +115,14 @@ class Tokenizer {
         ) : nil
     }
     
+    // This function does not filter dictionary definitions by possible parts of speech.
+    // Instead, filter plausible definitions when actually displaying them.
     func searchDictionaryDefinitions(nodes: [MecabWordNode], deinflectionResult: DeinflectionResult) -> [DictionaryDefinition] {
-        if nodes.endIndex == 1 {
-            var definitionsWithPrimaryPartOfSpeechMatch = [DictionaryDefinition]()
-            var definitionsWithSecondaryPartOfSpeechMatch = [DictionaryDefinition]()
-            let entries = dictionaryFetcher.fetchEntries(of: deinflectionResult.text)
-            for entry in entries {
-                for definition in entry.definitions {
-                    let partsOfSpeech = definition.partsOfSpeech
-                    let matchLevel = partOfSpeechMatcher.match(
-                        features: nodes.first!.features,
-                        jmdictPartsOfSpeech: partsOfSpeech
-                    )
-                    switch matchLevel {
-                    case PartOfSpeechMatchLevel.Primary:
-                        definitionsWithPrimaryPartOfSpeechMatch.append(definition)
-                    case PartOfSpeechMatchLevel.Secondary:
-                        definitionsWithSecondaryPartOfSpeechMatch.append(definition)
-                    case PartOfSpeechMatchLevel.None:
-                        break
-                    }
-                }
-            }
-            return definitionsWithPrimaryPartOfSpeechMatch.isEmpty
-                ? definitionsWithSecondaryPartOfSpeechMatch
-                : definitionsWithPrimaryPartOfSpeechMatch
-        } else {
-            var definitions = [DictionaryDefinition]()
-            let entries = dictionaryFetcher.fetchEntries(of: deinflectionResult.text)
-            for entry in entries {
-                definitions.append(contentsOf: entry.definitions)
-            }
-            return definitions
+        var definitions = [DictionaryDefinition]()
+        let entries = dictionaryFetcher.fetchEntries(of: deinflectionResult.text)
+        for entry in entries {
+            definitions.append(contentsOf: entry.definitions)
         }
+        return definitions
     }
 }
