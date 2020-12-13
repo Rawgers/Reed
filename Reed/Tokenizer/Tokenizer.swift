@@ -11,7 +11,7 @@ struct Token {
     let dictionaryDefinitions: [DictionaryDefinition]
     let mecabWordNodes: [MecabWordNode]
     let deinflectionResult: DeinflectionResult?
-    let range: (Int, Int)
+    let range: NSRange
     let furiganas: [Furigana]
 }
 

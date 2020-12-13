@@ -25,7 +25,7 @@ class MecabWrapper {
                 surface: text,
                 features: [],
                 partOfSpeech: nil,
-                range: (0, text.count),
+                range: NSMakeRange(0, text.count),
                 furiganas: []
             )]
         }
@@ -40,10 +40,7 @@ class MecabWrapper {
                 surface: node.surface,
                 features: features,
                 partOfSpeech: convertFeatureStringToPartOfSpeech(node.feature),
-                range: (
-                    index + leadingWhitespaceLength,
-                    index + leadingWhitespaceLength + wordLength
-                ),
+                range: NSMakeRange(index + leadingWhitespaceLength, wordLength),
                 furiganas: features.count >= 8
                     ? furiganaMaker.makeFurigana(text: node.surface, reading: features[7])
                     : []

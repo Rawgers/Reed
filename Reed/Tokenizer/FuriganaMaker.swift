@@ -9,7 +9,7 @@
 import Foundation
 
 struct Furigana {
-    let range: (Int, Int)
+    let range: NSRange
     let reading: String
 }
 
@@ -25,7 +25,7 @@ class FuriganaMaker {
         }
         if isAllKanji(text: text) {
             return [Furigana(
-                range: (0, text.count),
+                range: NSMakeRange(0, text.count),
                 reading: readingInHiragana
             )]
         }
@@ -34,16 +34,14 @@ class FuriganaMaker {
     
     // Replace non-hiragana part with "(.+)" and return the replaced ranges
     // Example: "犬猿の仲" -> ("(.+)の(.+)", [(0, 2), (3, 4)])
-    func getReadingPatternAndRanges(text: String) -> (String, [(Int, Int)]) {
+    func getReadingPatternAndRanges(text: String) -> (String, [NSRange]) {
         let regex = try! NSRegularExpression(pattern: "[^ぁ-ん]+")
         let range = NSRange(text.startIndex..., in: text)
         let matches = regex.matches(
             in: text,
             range: range
         )
-        let ranges = matches.map {
-            ($0.range.location, $0.range.location + $0.range.length)
-        }
+        let ranges = matches.map { $0.range }
         let pattern = regex.stringByReplacingMatches(
             in: text,
             options: [],

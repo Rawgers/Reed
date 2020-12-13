@@ -26,7 +26,7 @@ class TokenizerTests: XCTestCase {
         for token in tokens {
             print("=============================")
             print(token.surface)
-            print("range: " + String(token.range.0) + "-" + String(token.range.1))
+            print("range: " + String(token.range.location) + "-" + String(NSMaxRange(token.range)))
             print("------- mecabWordNodes ------")
             dump(token.mecabWordNodes)
             print("----- deinflectionResult ----")
