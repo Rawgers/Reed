@@ -10,11 +10,11 @@ import CoreData
 import SwiftUI
 import SwiftyNarou
 
-struct page: Equatable, Hashable, Identifiable {
+struct Page: Equatable, Hashable, Identifiable {
     var id = UUID()
     var content: String
     var tokens: [Token]
-    static func == (lhs: page, rhs: page) -> Bool {
+    static func == (lhs: Page, rhs: Page) -> Bool {
         return lhs.content == rhs.content
     }
 
@@ -31,7 +31,7 @@ class ReaderViewModel: ObservableObject {
     var content: String = ""
     @Published var items = [String]()
     
-    @Published var pages: [page] = []
+    @Published var pages: [Page] = []
     @Published var curPage: Int = 0
     var lastPage: Int = 0
     
@@ -85,7 +85,7 @@ class ReaderViewModel: ObservableObject {
         }
     }
     
-    func calcPages(content: String) -> [page] {
+    func calcPages(content: String) -> [Page] {
         let userWidth = UIScreen.main.bounds.width * 0.95
         let userHeight = UIScreen.main.bounds.height * 0.5
         let rect = CGRect(x: 0, y: 0, width: userWidth, height: userHeight)
@@ -93,7 +93,7 @@ class ReaderViewModel: ObservableObject {
         tempTextView.font = .systemFont(ofSize: 17)
         
         var remainingContent = content
-        var pages = [page]()
+        var pages = [Page]()
         let tokenizer = Tokenizer()
         while remainingContent != "" {
             tempTextView.text = remainingContent
@@ -113,8 +113,8 @@ class ReaderViewModel: ObservableObject {
                 return pages
             }
             
-            let str = String(remainingContent[stringRange])
-            pages.append(page(content: str, tokens: tokenizer.tokenize(str)))
+            let contentStr = String(remainingContent[stringRange])
+            pages.append(Page(content: contentStr, tokens: tokenizer.tokenize(contentStr)))
             remainingContent = String(remainingContent[stringRange.upperBound..<remainingContent.endIndex])
         }
         
