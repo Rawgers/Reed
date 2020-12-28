@@ -26,9 +26,10 @@ struct ReaderView: View {
                     page: $viewModel.curPage,
                     data: viewModel.pages,
                     id: \.self,
-                    content: { text in
+                    content: { page in
                         DefinableTextView(
-                            text: .constant(text),
+                            text: .constant(page.content),
+                            tokens: page.tokens,
                             definerResultHandler: definerResultHandler
                         )
                     }

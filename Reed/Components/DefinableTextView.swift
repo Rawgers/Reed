@@ -34,6 +34,7 @@ struct DefinitionDetails: Equatable, Hashable, Identifiable {
 
 struct DefinableTextView: UIViewRepresentable {
     @Binding var text: String
+    var tokens: [Token]
     let definerResultHandler: ([DefinitionDetails]) -> Void
     
     func makeUIView(context: UIViewRepresentableContext<DefinableTextView>) -> UITextView {
@@ -58,16 +59,18 @@ struct DefinableTextView: UIViewRepresentable {
     }
     
     func makeCoordinator() -> DefinableTextView.Coordinator {
-        return Coordinator(definerResultHandler: definerResultHandler)
+        return Coordinator(tokens: tokens, definerResultHandler: definerResultHandler)
     }
     
     class Coordinator: NSObject {
-        var tappedRange: UITextRange!
+        var tappedRange: NSRange!
         var selectedRange: NSRange!
         let dictionaryFetcher = DictionaryFetcher()
+        let tokens: [Token]
         let definerResultHandler: ([DefinitionDetails]) -> Void
         
-        init(definerResultHandler: @escaping ([DefinitionDetails]) -> Void) {
+        init(tokens: [Token], definerResultHandler: @escaping ([DefinitionDetails]) -> Void) {
+            self.tokens = tokens
             self.definerResultHandler = definerResultHandler
         }
         
@@ -76,16 +79,25 @@ struct DefinableTextView: UIViewRepresentable {
             let location = gesture.location(in: textView)
             let position = CGPoint(x: location.x + textView.font!.pointSize / 2, y: location.y)
             let tapPosition = textView.closestPosition(to: position)
-            tappedRange = textView.tokenizer.rangeEnclosingPosition(
-                tapPosition!,
-                with: UITextGranularity.word,
-                inDirection: UITextDirection(rawValue: 1)
-            )
-            if let tappedRange = tappedRange {
-                if let tappedWord = textView.text(in: tappedRange) {
-                    highlightSelection(textView: textView)
-                    defineSelection(from: tappedWord)
+            let tappedIndex = textView.offset(from: textView.beginningOfDocument, to: tapPosition!) - 1
+                        let token = tokens[getToken(l: 0, r: tokens.count - 1, x: tappedIndex)]
+            tappedRange = token.range
+                        highlightSelection(textView: textView)
+                        defineSelection(from: token.surface)
+                    }
+
+        func getToken(l: Int, r: Int, x: Int) -> Int {
+            if r >= l {
+                let mid = l + (r - l) / 2
+                if tokens[mid].range.lowerBound <= x && tokens[mid].range.upperBound > x {
+                    return mid
+                } else if tokens[mid].range.lowerBound > x {
+                    return getToken(l: l, r: mid-1, x: x)
+                } else {
+                    return getToken(l: mid + 1, r: r, x: x)
                 }
+            } else {
+                return -1
             }
         }
         
@@ -130,12 +142,10 @@ struct DefinableTextView: UIViewRepresentable {
         }
         
         func highlightSelection(textView: UITextView) {
-            let locInt = textView.offset(from: textView.beginningOfDocument, to: tappedRange.start)
-            let length = textView.offset(from: tappedRange.start, to: tappedRange.end)
             if selectedRange != nil {
                 textView.textStorage.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.clear, range: selectedRange!)
             }
-            selectedRange = NSRange(location: locInt, length: length)
+            selectedRange = tappedRange
             textView.textStorage.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.lightGray, range: selectedRange!)
         }
     }
