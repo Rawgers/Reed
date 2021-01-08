@@ -1,12 +1,12 @@
 PODS:
   - GzipSwift (5.1.1)
-  - Introspect (0.1.1)
+  - Introspect (0.1.2)
   - mecab-ko (0.4.0)
   - mecab-naist-jdic-utf-8 (0.1.3)
   - SwiftSoup (2.3.2)
-  - SwiftUIPager (1.13.0)
+  - SwiftUIPager (1.14.1)
   - SwiftyJSON (5.0.0)
-  - SwiftyNarou (1.1.11):
+  - SwiftyNarou (1.1.12):
     - GzipSwift
     - SwiftSoup
     - SwiftyJSON
@@ -33,13 +33,13 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   GzipSwift: 893f3e48e597a1a4f62fafcb6514220fcf8287fa
-  Introspect: 50c17d6b1f091f4cfd678ea8a4157ac071808fe3
+  Introspect: 85a29d2c5ee4d3d15469ad0b75fd8839f3e72674
   mecab-ko: 45633c9b839e8e1f025cd1895ca943de5b3e0efa
   mecab-naist-jdic-utf-8: 0df05453d30e5774bf28f019eb45507fc8a4f740
   SwiftSoup: f97bc4e988c7729d6457f9642f974c617a6e2510
-  SwiftUIPager: 022f9043921d75053c4a8f3eea0b298b6846ee3e
+  SwiftUIPager: 8ecefbab2f6c0ec95a780d6e4dc5fc8d7be68402
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
-  SwiftyNarou: 216efd79d945f2a7f0d98b843ccf1f35680ffe94
+  SwiftyNarou: bf6894c4bd35978324af45222b070187e430ad17
 
 PODFILE CHECKSUM: 142f4fbbdd16e1fa598e549f8752e3846261b915
 

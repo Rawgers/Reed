@@ -52,12 +52,12 @@ struct DefinableTextView: UIViewRepresentable {
         textView.isSelectable = false
         textView.sizeToFit()
         
-        textView.addGestureRecognizer(
-            UITapGestureRecognizer(
-                target: context.coordinator,
-                action: #selector(Coordinator.wordTapped(gesture:))
-            )
+        let singleTapGesture = UITapGestureRecognizer(
+            target: context.coordinator,
+            action: #selector(Coordinator.wordTapped(gesture:))
         )
+        singleTapGesture.numberOfTapsRequired = 1
+        textView.addGestureRecognizer(singleTapGesture)
         return textView
     }
     
@@ -90,12 +90,15 @@ struct DefinableTextView: UIViewRepresentable {
             let position = CGPoint(x: location.x + textView.font!.pointSize / 2, y: location.y)
             let tapPosition = textView.closestPosition(to: position)
             let tappedIndex = textView.offset(from: textView.beginningOfDocument, to: tapPosition!) - 1
-            let token = tokens[getToken(l: 0, r: tokens.count - 1, x: tappedIndex)]
-            tappedRange = token.range
-                        highlightSelection(textView: textView)
-                        defineSelection(from: token.surface)
-                    }
-
+            let index = getToken(l: 0, r: tokens.count - 1, x: tappedIndex)
+            if index > -1 {
+                let token = tokens[index]
+                tappedRange = token.range
+                highlightSelection(textView: textView)
+                defineSelection(from: token.surface)
+            }
+        }
+        
         func getToken(l: Int, r: Int, x: Int) -> Int {
             if r >= l {
                 let mid = l + (r - l) / 2

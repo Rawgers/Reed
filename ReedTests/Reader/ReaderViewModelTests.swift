@@ -9,6 +9,7 @@
 import CoreData
 import XCTest
 @testable import Reed
+import SwiftyNarou
 
 class ReaderViewModelTests: XCTestCase {
     lazy var managedObjectModel: NSManagedObjectModel = {
@@ -34,38 +35,34 @@ class ReaderViewModelTests: XCTestCase {
             persistentContainer: mockContainer,
             ncode: "n9669bk"
         )
+        print("finished init")
     }
 
     func testFlippingPages() {
         // Wait until the view model finishes initializing.
-        busyAssert(!mockViewModel.pages.isEmpty, timeout: 5)
+        busyAssert(mockViewModel.curPage > -1, timeout: 20)
         
         // Pager automatically calls handlePageFlip once on init, and it should do nothing.
         mockViewModel.handlePageFlip(isInit: true)
         XCTAssertEqual(mockViewModel.curPage, 0)
-        XCTAssertEqual(mockViewModel.lastPage, 0)
         
         // flip to the next page
         mockViewModel.curPage += 1
         XCTAssertEqual(mockViewModel.curPage, 1)
-        XCTAssertEqual(mockViewModel.lastPage, 0)
         mockViewModel.handlePageFlip(isInit: false)
         XCTAssertEqual(mockViewModel.curPage, 1)
-        XCTAssertEqual(mockViewModel.lastPage, 1)
         
         // flip back to the previous page
         mockViewModel.curPage -= 1
         XCTAssertEqual(mockViewModel.curPage, 0)
-        XCTAssertEqual(mockViewModel.lastPage, 1)
         mockViewModel.handlePageFlip(isInit: false)
         XCTAssertEqual(mockViewModel.curPage, 0)
-        XCTAssertEqual(mockViewModel.lastPage, 0)
         
         // nothing should happen if we try to go back past the very first section
         XCTAssertNil(mockViewModel.section!.prevNcode)
         XCTAssertEqual(mockViewModel.curPage, 0)
-        XCTAssertEqual(mockViewModel.lastPage, 0)
- 
+        XCTAssertTrue(mockViewModel.pages[0].content != "/n")
+        
         // test flipping to the next section
         let numPages = mockViewModel.pages.endIndex
         while mockViewModel.curPage < numPages - 1 {
@@ -73,25 +70,27 @@ class ReaderViewModelTests: XCTestCase {
             mockViewModel.handlePageFlip(isInit: false)
         }
         XCTAssertEqual(mockViewModel.curPage, numPages - 1)
-        XCTAssertEqual(mockViewModel.lastPage, numPages - 1)
-        mockViewModel.handlePageFlip(isInit: false)
+        XCTAssertEqual(mockViewModel.pages[numPages - 1], Page(content: "\n", tokens: []))
         busyAssert(
-            mockViewModel.lastPage == 0 && mockViewModel.curPage == 0,
-            timeout: 5
+            mockViewModel.curPage == 1,
+            timeout: 20
         )
         XCTAssertEqual(mockViewModel.section?.prevNcode, "n9669bk/1")
         XCTAssertEqual(mockViewModel.historyEntry?.lastReadSection.id, 2)
         
         // test flipping to the previous section
+        mockViewModel.curPage = 0
         mockViewModel.handlePageFlip(isInit: false)
         busyAssert(
-            mockViewModel.lastPage == mockViewModel.pages.endIndex - 1
-                && mockViewModel.curPage == mockViewModel.pages.endIndex - 1,
-            timeout: 5
+            mockViewModel.curPage == mockViewModel.pages.endIndex - 2,
+            timeout: 20
         )
         XCTAssertNil(mockViewModel.section?.prevNcode)
         XCTAssertEqual(mockViewModel.historyEntry?.lastReadSection.id, 1)
         
         // TODO: nothing should happen if we try to flip to a next section that doesn't exist
+        mockViewModel.section = SectionContent(sectionTitle: "test last section", chapterTitle: "last chapter", novelTitle: "last novel", writer: "last writer", content: "last content", format: [NSRange: String](), prevNcode: nil, nextNcode: nil, progress: "last progress")
+        mockViewModel.pages  = mockViewModel.calcPages(content: "last writer")
+        XCTAssertTrue(mockViewModel.pages.endIndex == 1)
     }
 }
