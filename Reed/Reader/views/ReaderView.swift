@@ -56,6 +56,7 @@ struct ReaderView: View {
                     .opacity(0)
             }
             .padding(.horizontal)
+            .ignoresSafeArea(edges: .bottom)
         
             DefinerView(entries: $entries)
         }
