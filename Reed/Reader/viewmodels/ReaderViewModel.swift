@@ -19,7 +19,7 @@ struct Page: Equatable, Hashable, Identifiable {
     }
 
     func hash(into hasher: inout Hasher) {
-        hasher.combine(content)
+        hasher.combine(id)
     }
 }
 
@@ -29,10 +29,8 @@ class ReaderViewModel: ObservableObject {
     var historyEntry: HistoryEntry?
     var section: SectionContent?
     @Published var items = [String]()
-    
     @Published var pages: [Page] = []
-    @Published var curPage: Int = 0
-    var lastPage: Int = 0
+    @Published var curPage: Int = -1
     
     let pagerWidth: CGFloat = {
         let edgeInsets = EdgeInsets()
@@ -71,15 +69,13 @@ class ReaderViewModel: ObservableObject {
     
     func fetchNextSection(sectionNcode: String) {
         fetchSection(sectionNcode: sectionNcode) {
-            self.lastPage = 0
-            self.curPage = 0
+            self.curPage = self.section?.prevNcode == nil ? 0 : 1
         }
     }
     
     func fetchPrevSection(sectionNcode: String) {
         fetchSection(sectionNcode: sectionNcode) {
-            self.lastPage = self.pages.endIndex - 1
-            self.curPage = self.pages.endIndex - 1
+            self.curPage = self.pages.endIndex - 2
         }
     }
     
@@ -101,7 +97,7 @@ class ReaderViewModel: ObservableObject {
         tempTextView.textAlignment = .justified
         
         var remainingContent = content
-        var pages = [Page]()
+        var pages = section?.prevNcode == nil ? [] : [Page(content: "", tokens: [])]
         let tokenizer = Tokenizer()
         while remainingContent != "" {
             tempTextView.text = remainingContent
@@ -125,7 +121,9 @@ class ReaderViewModel: ObservableObject {
             pages.append(Page(content: contentStr, tokens: tokenizer.tokenize(contentStr)))
             remainingContent = String(remainingContent[stringRange.upperBound..<remainingContent.endIndex])
         }
-        
+        if section?.nextNcode != nil {
+            pages.append(Page(content: "\n", tokens: []))
+        }
         return pages
     }
     
@@ -134,20 +132,15 @@ class ReaderViewModel: ObservableObject {
         if isInit { return }
         
         // Always update the previous page.
-        defer { lastPage = curPage }
-        
         guard let historyEntry = self.historyEntry,
               let section = self.section
         else {
             fatalError("Unable to retrieve HistoryEntry.")
         }
-        if lastPage == 0 && curPage == 0 && section.prevNcode != nil {
+        if curPage == 0 && section.prevNcode != nil {
             historyEntry.lastReadSection.id -= 1
             fetchPrevSection(sectionNcode: historyEntry.sectionNcode)
-        } else if lastPage == pages.endIndex - 1
-                    && curPage == pages.endIndex - 1
-                    && section.nextNcode != nil
-        {
+        } else if curPage == pages.endIndex - 1 && section.nextNcode != nil {
             historyEntry.lastReadSection.id += 1
             fetchNextSection(sectionNcode: historyEntry.sectionNcode)
         } else { return }
@@ -158,6 +151,18 @@ class ReaderViewModel: ObservableObject {
         } catch {
             print("Unable to save HistoryEntry.")
             return
+        }
+    }
+    
+    func getPageNumberDisplay() -> String {
+        if section?.prevNcode == nil && section?.nextNcode == nil {
+            return curPage == -1 ? "" : "\(curPage + 1) of \(pages.endIndex)"
+        } else if section?.prevNcode == nil {
+            return curPage == -1 || curPage + 1 > pages.endIndex - 1 ? "" : "\(curPage + 1) of \(pages.endIndex - 1)"
+        } else if section?.nextNcode == nil {
+            return curPage <= 0 ? "" : "\(curPage) of \(pages.endIndex - 1)"
+        } else {
+            return curPage <= 0 || curPage > pages.endIndex - 2 ? "" : "\(curPage) of \(pages.endIndex - 2)"
         }
     }
 }

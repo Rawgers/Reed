@@ -27,29 +27,36 @@ struct ReaderView: View {
                     data: viewModel.pages,
                     id: \.self,
                     content: { page in
-                        DefinableTextView(
-                            text: .constant(page.content),
-                            tokens: page.tokens,
-                            definerResultHandler: definerResultHandler,
-                            width: viewModel.pagerWidth,
-                            height: viewModel.pagerHeight
-                        )
+                        if viewModel.curPage == -1
+                            || (viewModel.section?.nextNcode != nil && viewModel.curPage == viewModel.pages.endIndex - 1)
+                            || (viewModel.section?.prevNcode != nil && viewModel.curPage == 0) {
+                            ProgressView()
+                        } else {
+                            DefinableTextView(
+                                text: .constant(page.content),
+                                tokens: page.tokens,
+                                definerResultHandler: definerResultHandler,
+                                width: viewModel.pagerWidth,
+                                height: viewModel.pagerHeight
+                            )
+                        }
                     }
                 )
+                .allowsDragging((viewModel.section?.prevNcode == nil || viewModel.curPage != 0)
+                                    && (viewModel.section?.nextNcode == nil || viewModel.curPage != viewModel.pages.endIndex - 1))
                 .onPageChanged { page in
                     self.viewModel.handlePageFlip(isInit: page == -1)
                 }
                 .alignment(.start)
                 
-                Text("\(viewModel.curPage + 1) of \(viewModel.pages.endIndex)")
+                Text(viewModel.getPageNumberDisplay())
                 
                 Rectangle()
                     .frame(height: BottomSheetConstants.minHeight)
                     .opacity(0)
             }
             .padding(.horizontal)
-            .ignoresSafeArea(edges: .bottom)
-            
+        
             DefinerView(entries: $entries)
         }
         .navigationBarHidden(true)
