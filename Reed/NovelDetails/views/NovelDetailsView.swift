@@ -14,7 +14,6 @@ struct NovelDetailsView: View {
     @State private var topExpanded: Bool = true
     @State private var entries: [DefinitionDetails] = []
     @State private var isPushedToReader: Bool = false
-    @State private var tabBar: UITabBar?
     
     init(ncode: String) {
         viewModel = NovelDetailsViewModel(ncode: ncode)
@@ -95,10 +94,8 @@ struct NovelDetailsView: View {
             }
             .padding(.horizontal)
             .introspectTabBarController { tabBarController in
-                tabBar = tabBarController.tabBar
-                self.tabBar?.isHidden = true
+                tabBarController.tabBar.isHidden = true
             }
-            .onDisappear { self.tabBar?.isHidden = false }
 
             DefinerView(entries: self.$entries)
         }
