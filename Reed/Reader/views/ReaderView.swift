@@ -13,7 +13,7 @@ import SwiftUIPager
 struct ReaderView: View {
     @ObservedObject var viewModel: ReaderViewModel
     @State private var entries = [DefinitionDetails]()
-    @State private var tabBar: UITabBar?
+    @State private var navBar: UINavigationBar?
 
     init(ncode: String) {
         self.viewModel = ReaderViewModel(ncode: ncode)
@@ -36,6 +36,7 @@ struct ReaderView: View {
                                 text: .constant(page.content),
                                 tokens: page.tokens,
                                 definerResultHandler: definerResultHandler,
+                                hideNavHandler: hideNavHandler,
                                 width: viewModel.pagerWidth,
                                 height: viewModel.pagerHeight
                             )
@@ -60,16 +61,26 @@ struct ReaderView: View {
         
             DefinerView(entries: $entries)
         }
-        .navigationBarHidden(true)
-        .introspectTabBarController { tabBarController in
-            tabBar = tabBarController.tabBar
-            self.tabBar?.isHidden = true
+        .navigationBarTitle("", displayMode: .inline)
+        .introspectNavigationController { navigationController in
+            self.navBar = navigationController.navigationBar
+            self.navBar?.isHidden = true
+            self.navBar?.backgroundColor = .systemBackground
         }
-        .onDisappear { self.tabBar?.isHidden = false }
+        .introspectTabBarController { tabBarController in
+            tabBarController.tabBar.isHidden = true
+        }
+        .onTapGesture(count: 2) {
+            hideNavHandler()
+        }
     }
     
     func definerResultHandler(newEntries: [DefinitionDetails]) {
         self.entries = newEntries
+    }
+    
+    func hideNavHandler() {
+        navBar?.isHidden = !(navBar?.isHidden ?? true)
     }
 }
 

@@ -36,6 +36,7 @@ struct DefinableTextView: UIViewRepresentable {
     @Binding var text: String
     var tokens: [Token]
     let definerResultHandler: ([DefinitionDetails]) -> Void
+    let hideNavHandler: () -> Void
     let width: CGFloat
     let height: CGFloat
     
@@ -58,6 +59,14 @@ struct DefinableTextView: UIViewRepresentable {
         )
         singleTapGesture.numberOfTapsRequired = 1
         textView.addGestureRecognizer(singleTapGesture)
+        
+        let doubleTapGesture = UITapGestureRecognizer(
+            target: context.coordinator,
+            action: #selector(Coordinator.doubleTapped)
+        )
+        doubleTapGesture.numberOfTapsRequired = 2
+        textView.addGestureRecognizer(doubleTapGesture)
+        singleTapGesture.require(toFail: doubleTapGesture)
         return textView
     }
     
@@ -69,7 +78,7 @@ struct DefinableTextView: UIViewRepresentable {
     }
     
     func makeCoordinator() -> DefinableTextView.Coordinator {
-        return Coordinator(tokens: tokens, definerResultHandler: definerResultHandler)
+        return Coordinator(tokens: tokens, definerResultHandler: definerResultHandler, hideNavHandler: hideNavHandler)
     }
     
     class Coordinator: NSObject {
@@ -78,10 +87,20 @@ struct DefinableTextView: UIViewRepresentable {
         let dictionaryFetcher = DictionaryFetcher()
         let tokens: [Token]
         let definerResultHandler: ([DefinitionDetails]) -> Void
+        let hideNavHandler: () -> Void
         
-        init(tokens: [Token], definerResultHandler: @escaping ([DefinitionDetails]) -> Void) {
+        init(
+            tokens: [Token],
+            definerResultHandler: @escaping ([DefinitionDetails]) -> Void,
+            hideNavHandler: @escaping () -> Void
+        ) {
             self.tokens = tokens
             self.definerResultHandler = definerResultHandler
+            self.hideNavHandler = hideNavHandler
+        }
+        
+        @objc func doubleTapped() {
+            hideNavHandler()
         }
         
         @objc func wordTapped(gesture: UITapGestureRecognizer) {

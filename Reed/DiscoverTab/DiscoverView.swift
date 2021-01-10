@@ -11,7 +11,8 @@ import SwiftUI
 struct DiscoverView: View {
     @ObservedObject var searchViewModel = DiscoverSearchViewModel()
     @ObservedObject var viewModel = DiscoverViewModel()
-    
+    @State private var tabBar: UITabBar?
+
     var body: some View {
         NavigationView {
             ScrollView {
@@ -56,6 +57,12 @@ struct DiscoverView: View {
                 from: searchViewModel.searchBar,
                 hidesWhenScrolling: false
             )
+            .introspectTabBarController { tabBarController in
+                self.tabBar = tabBarController.tabBar
+            }
+            .onAppear {
+                tabBar?.isHidden = false
+            }
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
