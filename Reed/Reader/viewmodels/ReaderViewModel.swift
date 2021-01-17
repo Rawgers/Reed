@@ -27,7 +27,7 @@ class ReaderViewModel: ObservableObject {
     let persistentContainer: NSPersistentContainer
     let model: ReaderModel
     var historyEntry: HistoryEntry?
-    var section: SectionContent?
+    var section: SectionData?
     @Published var items = [String]()
     @Published var pages: [Page] = []
     @Published var curPage: Int = -1
@@ -83,7 +83,7 @@ class ReaderViewModel: ObservableObject {
         guard let historyEntry = self.historyEntry else {
             fatalError("Unable to retrieve HistoryEntry.")
         }
-        self.model.fetchSectionContent(sectionNcode: historyEntry.sectionNcode) { section in
+        self.model.fetchSectionData(sectionNcode: historyEntry.sectionNcode) { section in
             self.section = section
             self.pages = self.calcPages(content: section?.content ?? "")
             completion()
