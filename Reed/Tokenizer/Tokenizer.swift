@@ -21,7 +21,6 @@ class Tokenizer {
     let dictionaryFetcher: DictionaryFetcher = DictionaryFetcher()
     let mecabWrapper: MecabWrapper = MecabWrapper()
     let deinflector: Deinflector = Deinflector()
-    let furiganaMaker: FuriganaMaker = FuriganaMaker()
     
     func tokenize(_ text: String) -> [Token] {
         let mecabWordNodes = mecabWrapper.tokenize(text)
@@ -101,12 +100,7 @@ class Tokenizer {
                     mecabWordNodes: mecabWordNodes,
                     deinflectionResult: deinflectionResult,
                     range: concatenatedToken.range,
-                    furiganas: makeFurigana(
-                        mecabWordNodes: mecabWordNodes,
-                        concatenatedToken: concatenatedToken,
-                        deinflectionResult: deinflectionResult,
-                        definition: definitions.first!
-                    )
+                    furiganas: concatenatedToken.furiganas
                 )
             }
         }
@@ -132,23 +126,5 @@ class Tokenizer {
             definitions.append(contentsOf: entry.definitions)
         }
         return definitions
-    }
-    
-    func makeFurigana(mecabWordNodes: [MecabWordNode], concatenatedToken: MecabWordNode, deinflectionResult: DeinflectionResult, definition: DictionaryDefinition) -> [Furigana] {
-        // Because fetching readings from JMDict is expensive, use JMDict's furigana only when:
-        // - More than two MecabWordNodes are concatenated (Otherwise, MeCab's furigana should be correct)
-        // - No deinflection applied (JMDict only knows how to read words in their dictionary forms)
-        // - The text contains kanji
-        let shouldUseJmdictFurigana = mecabWordNodes.count > 1
-            && deinflectionResult.appliedRules.isEmpty
-            && furiganaMaker.containsKanji(text: concatenatedToken.surface)
-        if !shouldUseJmdictFurigana {
-            return concatenatedToken.furiganas
-        }
-        let jmdictReading = definition.entry.readings.first?.reading
-        if jmdictReading == nil {
-            return concatenatedToken.furiganas
-        }
-        return furiganaMaker.makeFurigana(text: concatenatedToken.surface, reading: jmdictReading!)
     }
 }
