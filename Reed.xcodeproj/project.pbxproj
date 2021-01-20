@@ -11,8 +11,9 @@
 		6D12985A256E1BB500E873F4 /* DefinerTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D129859256E1BB500E873F4 /* DefinerTab.swift */; };
 		6D1298EE257239E400E873F4 /* HistorySection+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1298ED257239E400E873F4 /* HistorySection+CoreDataProperties.swift */; };
 		6D4F99B82556A0C900CC0DF6 /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4F99B72556A0C900CC0DF6 /* BottomSheetView.swift */; };
-		6D9EC86725723B8B00CD4833 /* DefinableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9EC86625723B8B00CD4833 /* DefinableTextView.swift */; };
+		6D9EC86725723B8B00CD4833 /* DefinableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9EC86625723B8B00CD4833 /* DefinableText.swift */; };
 		6DCF77DB252DB19B00CB3C5D /* ReaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCF77DA252DB19B00CB3C5D /* ReaderViewModel.swift */; };
+		6DDF675825B5240200100965 /* DefinableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDF675725B5240200100965 /* DefinableTextView.swift */; };
 		8AFA1B8EBEB7590252ECB58B /* libPods-ReedTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FED962AB0C24D51C5D53286 /* libPods-ReedTests.a */; };
 		AB7A1C88AECCC47C55B834C9 /* libPods-Reed.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 94F3E3D17D6E8ABD1BBAC599 /* libPods-Reed.a */; };
 		B8093DD6251A988200D95DCF /* NotificationName+DictionaryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8093DD5251A988200D95DCF /* NotificationName+DictionaryParser.swift */; };
@@ -129,8 +130,9 @@
 		6D129859256E1BB500E873F4 /* DefinerTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinerTab.swift; sourceTree = "<group>"; };
 		6D1298ED257239E400E873F4 /* HistorySection+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HistorySection+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		6D4F99B72556A0C900CC0DF6 /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
-		6D9EC86625723B8B00CD4833 /* DefinableTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefinableTextView.swift; sourceTree = "<group>"; };
+		6D9EC86625723B8B00CD4833 /* DefinableText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefinableText.swift; sourceTree = "<group>"; };
 		6DCF77DA252DB19B00CB3C5D /* ReaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderViewModel.swift; sourceTree = "<group>"; };
+		6DDF675725B5240200100965 /* DefinableTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinableTextView.swift; sourceTree = "<group>"; };
 		7FED962AB0C24D51C5D53286 /* libPods-ReedTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReedTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94F3E3D17D6E8ABD1BBAC599 /* libPods-Reed.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Reed.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8093DD5251A988200D95DCF /* NotificationName+DictionaryParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+DictionaryParser.swift"; sourceTree = "<group>"; };
@@ -337,11 +339,12 @@
 			children = (
 				B82AF5FB2548031F00FAB2A8 /* SearchBar.swift */,
 				B8FA93BD254BBE0D00AE362C /* NavigationLazyView.swift */,
-				6D9EC86625723B8B00CD4833 /* DefinableTextView.swift */,
+				6D9EC86625723B8B00CD4833 /* DefinableText.swift */,
 				6D4F99B72556A0C900CC0DF6 /* BottomSheetView.swift */,
 				B82AF5FC2548031F00FAB2A8 /* ViewControllerResolver.swift */,
 				B82AF5DC2548015B00FAB2A8 /* View+UIKitComponents.swift */,
 				B8ADEAB92570E205007C3D28 /* FlexView.swift */,
+				6DDF675725B5240200100965 /* DefinableTextView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -946,6 +949,7 @@
 				B8C88D7C256F9FC0006CD768 /* DictionaryUtils.swift in Sources */,
 				B8D456D62508DD24000F9E5F /* LibraryEntryView.swift in Sources */,
 				B80CBD272542887700C807CD /* DiscoverListItemViewModel.swift in Sources */,
+				6DDF675825B5240200100965 /* DefinableTextView.swift in Sources */,
 				B80E0E7025497EBA009B0EE8 /* DiscoverSearchResultsViewModel.swift in Sources */,
 				B8ADEAB52570E0CC007C3D28 /* View+readSize.swift in Sources */,
 				B898110B250F81600059F71F /* NSManagedObject+Init.swift in Sources */,
@@ -963,7 +967,7 @@
 				B8FA93BE254BBE0D00AE362C /* NavigationLazyView.swift in Sources */,
 				B87D30782516C537002E25FF /* DictionaryLanguageSource+CoreDataProperties.swift in Sources */,
 				B8FA12612550B1E300ABE1D3 /* DiscoverTabConstants.swift in Sources */,
-				6D9EC86725723B8B00CD4833 /* DefinableTextView.swift in Sources */,
+				6D9EC86725723B8B00CD4833 /* DefinableText.swift in Sources */,
 				6D4F99B82556A0C900CC0DF6 /* BottomSheetView.swift in Sources */,
 				B8D456A12508D1A2000F9E5F /* LibraryView.swift in Sources */,
 				B82AF5FE2548031F00FAB2A8 /* ViewControllerResolver.swift in Sources */,
