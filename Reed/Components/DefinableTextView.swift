@@ -1,184 +1,188 @@
 //
-//  TextView.swift
+//  DefinableTextView.swift
 //  Reed
 //
-//  Created by Hugo Zhan on 11/3/20.
-//  Copyright © 2020 Roger Luo. All rights reserved.
+//  Created by Hugo Zhan on 1/17/21.
+//  Copyright © 2021 Roger Luo. All rights reserved.
 //
 
-import SwiftUI
+import UIKit
 
-struct Term: Equatable, Hashable, Identifiable {
-    var id = UUID()
-    var reading: String
-    var term: String
-}
-
-struct Definition: Equatable, Hashable, Identifiable {
-    var id = UUID()
-    var specicificLexemes: String
-    var definition: String
-}
-
-struct DefinitionDetails: Equatable, Hashable, Identifiable {
-    var id = UUID()
-    var title: String
-    var primaryReading: String
-    var terms: [Term]
-    var definitions: [Definition]
+class DefinableTextView: UIView {
+    var font = UIFont(name: "Hiragino Maru Gothic ProN W4", size: 20)
+    var attributedString: NSMutableAttributedString
+    var ctFrame: CTFrame?
+    var lineY: [CGFloat]?
     
-    static func == (lhs: DefinitionDetails, rhs: DefinitionDetails) -> Bool {
-        return lhs.definitions == rhs.definitions
+    init(frame: CGRect, content attributedString: NSMutableAttributedString) {
+        self.attributedString = attributedString
+        super.init(frame: frame)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    public enum TextOrientation {
+        case horizontal
+        case vertical
+    }
+
+    public var orientation:TextOrientation = .horizontal
+
+    // Only override draw() if you perform custom drawing.
+    // An empty implementation adversely affects performance during animation.
+    // ルビを表示
+    override func draw(_ rect: CGRect) {
+        // context allows you to manipulate the drawing context (setup to draw or bail out)
+        guard let context: CGContext = UIGraphicsGetCurrentContext() else {
+            return
+        }
+        let attributed = attributedString
+
+        let path = CGMutablePath()
+        switch orientation {
+        case .horizontal:
+            context.textMatrix = CGAffineTransform.identity;
+            context.translateBy(x: 0, y: self.bounds.size.height);
+            context.scaleBy(x: 1.0, y: -1.0);
+            path.addRect(self.bounds)
+            attributed.addAttribute(
+                NSAttributedString.Key.verticalGlyphForm,
+                value: false,
+                range: NSMakeRange(0, attributed.length)
+            )
+                
+        case .vertical:
+            context.rotate(by: .pi / 2)
+            context.scaleBy(x: 1.0, y: -1.0)
+            path.addRect(CGRect(x: self.bounds.origin.y, y: self.bounds.origin.x, width: self.bounds.height, height: self.bounds.width))
+            attributed.addAttribute(
+                NSAttributedString.Key.verticalGlyphForm,
+                value: true,
+                range: NSMakeRange(0, attributed.length)
+            )
+        }
+
+        attributed.addAttributes([NSAttributedString.Key.font : self.font as Any], range: NSMakeRange(0, attributed.length))
+
+        let frameSetter = CTFramesetterCreateWithAttributedString(attributed)
+        ctFrame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0,attributed.length), path, nil)
+        
+        let lines  = CTFrameGetLines(ctFrame!) as! [CTLine]
+        var lineOrigins = Array<CGPoint>(repeating: CGPoint.zero, count: lines.count)
+        CTFrameGetLineOrigins(ctFrame!, CFRange(location: 0, length: lines.count), &lineOrigins)
+        var yCoordinates = [CGFloat]()
+        for (index, _) in lines.enumerated() {
+            yCoordinates.append(bounds.height - lineOrigins[index].y)
+        }
+        lineY = yCoordinates
+        CTFrameDraw(ctFrame!, context)
+    }
+    
+    func lengthThatFits() -> Int {
+        if ctFrame == nil {
+            let attributed = attributedString
+
+            let path = CGMutablePath()
+            switch orientation {
+            case .horizontal:
+                path.addRect(self.bounds)
+                attributed.addAttribute(NSAttributedString.Key.verticalGlyphForm, value: false, range: NSMakeRange(0, attributed.length))
+                
+            case .vertical:
+                path.addRect(CGRect(x: self.bounds.origin.y, y: self.bounds.origin.x, width: self.bounds.height, height: self.bounds.width))
+                attributed.addAttribute(NSAttributedString.Key.verticalGlyphForm, value: true, range: NSMakeRange(0, attributed.length))
+            }
+
+            attributed.addAttributes([NSAttributedString.Key.font : self.font as Any], range: NSMakeRange(0, attributed.length))
+
+            let frameSetter = CTFramesetterCreateWithAttributedString(attributed)
+
+            ctFrame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0,0), path, nil)
+        }
+        return CTFrameGetVisibleStringRange(ctFrame!).length as Int
     }
 }
 
-struct DefinableTextView: UIViewRepresentable {
-    @Binding var text: String
-    var tokens: [Token]
-    let definerResultHandler: ([DefinitionDetails]) -> Void
-    let hideNavHandler: () -> Void
-    let width: CGFloat
-    let height: CGFloat
-    
-    func makeUIView(
-        context: UIViewRepresentableContext<DefinableTextView>
-    ) -> UITextView {
-        let textView = UITextView(frame: CGRect.zero)
-        
-        textView.text = text
-        textView.font = .systemFont(ofSize: 20)
-        textView.textAlignment = .justified
-        
-        textView.isEditable = false
-        textView.isSelectable = false
-        textView.sizeToFit()
-        
-        let singleTapGesture = UITapGestureRecognizer(
-            target: context.coordinator,
-            action: #selector(Coordinator.wordTapped(gesture:))
-        )
-        singleTapGesture.numberOfTapsRequired = 1
-        textView.addGestureRecognizer(singleTapGesture)
-        
-        let doubleTapGesture = UITapGestureRecognizer(
-            target: context.coordinator,
-            action: #selector(Coordinator.doubleTapped)
-        )
-        doubleTapGesture.numberOfTapsRequired = 2
-        textView.addGestureRecognizer(doubleTapGesture)
-        singleTapGesture.require(toFail: doubleTapGesture)
-        return textView
+extension String {
+    // 文字列の範囲
+    private var stringRange: NSRange {
+        return NSMakeRange(0, self.utf16.count)
     }
     
-    func updateUIView(
-        _ textView: UITextView,
-        context: UIViewRepresentableContext<DefinableTextView>
-    ) {
-        textView.text = text
+    // 特定の正規表現を検索
+    private func searchRegex(of pattern: String) -> NSTextCheckingResult? {
+        do {
+            let patternToSearch = try NSRegularExpression(pattern: pattern)
+            return patternToSearch.firstMatch(in: self, range: stringRange)
+        } catch { return nil }
     }
     
-    func makeCoordinator() -> DefinableTextView.Coordinator {
-        return Coordinator(tokens: tokens, definerResultHandler: definerResultHandler, hideNavHandler: hideNavHandler)
+    // 特定の正規表現を置換
+    private func replaceRegex(of pattern: String, with templete: String) -> String {
+        do {
+            let patternToReplace = try NSRegularExpression(pattern: pattern)
+            return patternToReplace.stringByReplacingMatches(in: self, range: stringRange, withTemplate: templete)
+        } catch { return self }
     }
     
-    class Coordinator: NSObject {
-        var tappedRange: NSRange!
-        var selectedRange: NSRange!
-        let dictionaryFetcher = DictionaryFetcher()
-        let tokens: [Token]
-        let definerResultHandler: ([DefinitionDetails]) -> Void
-        let hideNavHandler: () -> Void
-        
-        init(
-            tokens: [Token],
-            definerResultHandler: @escaping ([DefinitionDetails]) -> Void,
-            hideNavHandler: @escaping () -> Void
-        ) {
-            self.tokens = tokens
-            self.definerResultHandler = definerResultHandler
-            self.hideNavHandler = hideNavHandler
-        }
-        
-        @objc func doubleTapped() {
-            hideNavHandler()
-        }
-        
-        @objc func wordTapped(gesture: UITapGestureRecognizer) {
-            let textView = gesture.view as! UITextView
-            let location = gesture.location(in: textView)
-            let position = CGPoint(x: location.x + textView.font!.pointSize / 2, y: location.y)
-            let tapPosition = textView.closestPosition(to: position)
-            let tappedIndex = textView.offset(from: textView.beginningOfDocument, to: tapPosition!) - 1
-            let index = getToken(l: 0, r: tokens.count - 1, x: tappedIndex)
-            if index > -1 {
-                let token = tokens[index]
-                tappedRange = token.range
-                highlightSelection(textView: textView)
-                defineSelection(from: token.surface)
+    // ルビを生成
+    func createRuby() -> NSMutableAttributedString {
+        let textWithRuby = self
+            // ルビ付文字(「｜紅玉《ルビー》」)を特定し文字列を分割
+            .replaceRegex(of: "(｜.+?《.+?》)", with: ",$1,")
+            .components(separatedBy: ",")
+            // ルビ付文字のルビを設定
+            .map { component -> NSAttributedString in
+                // ベース文字(漢字など)とルビをそれぞれ取得
+                guard let pair = component.searchRegex(of: "｜(.+?)《(.+?)》") else {
+                    return NSAttributedString(string: component)
+                }
+                let component = component as NSString
+                let baseText = component.substring(with: pair.range(at: 1))
+                let rubyText = component.substring(with: pair.range(at: 2))
+                
+                // ルビの表示に関する設定
+                let rubyAttribute: [CFString: Any] =  [
+                    kCTRubyAnnotationSizeFactorAttributeName: 0.5,
+                    kCTForegroundColorAttributeName: UIColor.darkGray
+                ]
+                let rubyAnnotation = CTRubyAnnotationCreateWithAttributes(
+                    .center,    // center furigana over base
+                    .none,      // when furigana is longer than base, pad base
+                    .before,    // places furigana on top of base
+                    rubyText as CFString,
+                    rubyAttribute as CFDictionary
+                )
+                
+                return NSAttributedString(
+                    string: baseText,
+                    attributes: [kCTRubyAnnotationAttributeName as NSAttributedString.Key: rubyAnnotation]
+                )
             }
-        }
-        
-        func getToken(l: Int, r: Int, x: Int) -> Int {
-            if r >= l {
-                let mid = l + (r - l) / 2
-                if tokens[mid].range.lowerBound <= x && tokens[mid].range.upperBound > x {
-                    return mid
-                } else if tokens[mid].range.lowerBound > x {
-                    return getToken(l: l, r: mid-1, x: x)
-                } else {
-                    return getToken(l: mid + 1, r: r, x: x)
-                }
-            } else {
-                return -1
+            
+            // 分割されていた文字列を結合
+            .reduce(NSMutableAttributedString()) {
+                $0.append($1)
+                return $0
             }
-        }
         
-        func defineSelection(from tappedWord: String) {
-            let fetchResults = self.dictionaryFetcher.fetchEntries(of: tappedWord)
-            var entries = [DefinitionDetails]()
-            for result in fetchResults {
-                var terms = [Term]()
-                var definitions = [Definition]()
-                var primaryReading = ""
-                if result.readings[0].terms.endIndex > 0
-                    && result.readings[0].terms[0] == tappedWord
-                {
-                    primaryReading = result.readings[0].reading
-                }
-                for reading in result.readings {
-                    for term in reading.terms {
-                        terms.append(Term(reading: reading.reading, term: term))
-                    }
-                }
-                if primaryReading != "" {
-                    terms.removeFirst()
-                }
-                for sense in result.definitions {
-                    var definition = ""
-                    for gloss in sense.glosses {
-                        definition += gloss + ", "
-                    }
-                    definition.removeLast(2)
-                    var specicificLexemes = ""
-                    if !sense.specificLexemes.isEmpty {
-                        for specific in sense.specificLexemes {
-                            specicificLexemes += specific + ", "
-                        }
-                        specicificLexemes.removeLast(2)
-                    }
-                    definitions.append(Definition(specicificLexemes: specicificLexemes, definition: definition))
-                }
-                entries.append(DefinitionDetails(title: tappedWord, primaryReading: primaryReading, terms: terms, definitions: definitions))
-            }
-            self.definerResultHandler(entries)
-        }
-        
-        func highlightSelection(textView: UITextView) {
-            if selectedRange != nil {
-                textView.textStorage.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.clear, range: selectedRange!)
-            }
-            selectedRange = tappedRange
-            textView.textStorage.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.lightGray, range: selectedRange!)
-        }
+        return textWithRuby
+    }
+}
+
+extension NSAttributedString.Key {
+    static let rubyAnnotation: NSAttributedString.Key = kCTRubyAnnotationAttributeName as NSAttributedString.Key
+}
+
+extension NSMutableAttributedString {
+    func addAttributes(_ attrs: [NSAttributedString.Key: Any] = [:]) {
+        addAttributes(attrs, range: NSRange(string.startIndex ..< string.endIndex, in: string))
+    }
+}
+
+extension NSRegularExpression {
+    func matches(in string: String, options: NSRegularExpression.MatchingOptions = []) -> [NSTextCheckingResult] {
+        return matches(in: string, options: options, range: NSRange(string.startIndex ..< string.endIndex, in: string))
     }
 }
