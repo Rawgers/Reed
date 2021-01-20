@@ -15,11 +15,11 @@ class ReaderModel {
         self.ncode = ncode
     }
     
-    func fetchSectionContent(
+    func fetchSectionData(
         sectionNcode: String,
-        completion: @escaping (SectionContent?) -> Void
+        completion: @escaping (SectionData?) -> Void
     ) {
-        Narou.fetchSectionContent(ncode: sectionNcode) { data, error in
+        Narou.fetchSectionData(ncode: sectionNcode) { data, error in
             if error != nil {
                 print("Failed to retrieve section content due to: \(error.debugDescription)")
                 completion(nil)

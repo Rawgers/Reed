@@ -34,7 +34,7 @@ struct DefinitionDetails: Equatable, Hashable, Identifiable {
 }
 
 struct DefinableText: UIViewRepresentable {
-    @Binding var attributedString: NSMutableAttributedString
+    @Binding var content: NSMutableAttributedString
     var tokensRange: [Int]
     let definerResultHandler: ([DefinitionDetails]) -> Void
     let hideNavHandler: () -> Void
@@ -45,8 +45,12 @@ struct DefinableText: UIViewRepresentable {
     func makeUIView(
         context: UIViewRepresentableContext<DefinableText>
     ) -> DefinableTextView {
-        let textView = DefinableTextView(frame: CGRect(x: 0, y: 0, width: width, height: height), attributedString: attributedString)
+        let textView = DefinableTextView(
+            frame: CGRect(x: 0, y: 0, width: width, height: height),
+            content: content
+        )
         textView.backgroundColor = .systemBackground
+        
         let singleTapGesture = UITapGestureRecognizer(
             target: context.coordinator,
             action: #selector(Coordinator.wordTapped(gesture:))
@@ -61,6 +65,7 @@ struct DefinableText: UIViewRepresentable {
         doubleTapGesture.numberOfTapsRequired = 2
         textView.addGestureRecognizer(doubleTapGesture)
         singleTapGesture.require(toFail: doubleTapGesture)
+        
         return textView
     }
     
@@ -76,13 +81,13 @@ struct DefinableText: UIViewRepresentable {
     }
     
     class Coordinator: NSObject {
-        var tappedRange: NSRange!
-        var selectedRange: NSRange!
-        let dictionaryFetcher = DictionaryFetcher()
-        let tokensRange: [Int]
-        let definerResultHandler: ([DefinitionDetails]) -> Void
-        let hideNavHandler: () -> Void
-        let getTokenHandler: (Int, Int, Int) -> Token?
+        private var tappedRange: NSRange!
+        private var selectedRange: NSRange!
+        private let dictionaryFetcher = DictionaryFetcher()
+        private let tokensRange: [Int]
+        private let definerResultHandler: ([DefinitionDetails]) -> Void
+        private let hideNavHandler: () -> Void
+        private let getTokenHandler: (Int, Int, Int) -> Token?
         
         init(
             tokensRange: [Int],
@@ -105,14 +110,12 @@ struct DefinableText: UIViewRepresentable {
             let location = gesture.location(in: textView)
             let position = CGPoint(x: location.x + textView.font!.pointSize / 2, y: location.y)
             let lineArray = CTFrameGetLines(textView.ctFrame!) as! Array<CTLine>
-            let tappedIndex = getLine(lineY: textView.lineY!, l: 0, r: textView.lineY!.count - 1, y: position.y)
-            if tappedIndex > -1 {
-                print(tappedIndex)
-                let stringIndex = CTLineGetStringIndexForPosition(lineArray[tappedIndex], position) - 1
-                print(stringIndex)
-                if let token = getTokenHandler(tokensRange[1], tokensRange[2], stringIndex + tokensRange[0]) {
+            let tappedLine = getLine(lineY: textView.linesYCoordinates!, l: 0, r: textView.linesYCoordinates!.count - 1, y: position.y)
+            if tappedLine > -1 {
+                let tappedIndex = CTLineGetStringIndexForPosition(lineArray[tappedLine], position) - 1
+                if let token = getTokenHandler(tokensRange[1], tokensRange[2], tappedIndex + tokensRange[0]) {
                     let location = token.range.location - tokensRange[0]
-                    let length = min(token.range.length, textView.attributedString.length - location)
+                    let length = min(token.range.length, textView.content.length - location)
                     tappedRange = location < 0
                         ? NSRange(location: 0, length: length + location)
                         : NSRange(location: location, length: length)
@@ -122,22 +125,23 @@ struct DefinableText: UIViewRepresentable {
             }
         }
         
-        func getLine(lineY: [CGFloat], l: Int, r: Int, y: CGFloat) -> Int {
-            if r >= l {
-                let mid = l + (r - l) / 2
+        fileprivate func getLine(lineY: [CGFloat], l: Int, r: Int, y: CGFloat) -> Int {
+            var i = l
+            var j = r
+            while j >= i {
+                let mid = i + (j - i) / 2
                 if lineY[mid] >= y && lineY[mid] - 20 <= y{
                     return mid
                 } else if lineY[mid] - 20 > y {
-                    return getLine(lineY: lineY, l: l, r: mid - 1, y: y)
+                    j = mid - 1
                 } else {
-                    return getLine(lineY: lineY, l: mid + 1, r: r, y: y)
+                    i = mid + 1
                 }
-            } else {
-                return -1
             }
+            return -1
         }
         
-        func defineSelection(from tappedWord: String) {
+        fileprivate func defineSelection(from tappedWord: String) {
             let fetchResults = self.dictionaryFetcher.fetchEntries(of: tappedWord)
             var entries = [DefinitionDetails]()
             for result in fetchResults {
@@ -177,12 +181,12 @@ struct DefinableText: UIViewRepresentable {
             self.definerResultHandler(entries)
         }
         
-        func highlightSelection(textView: DefinableTextView) {
+        fileprivate func highlightSelection(textView: DefinableTextView) {
             if selectedRange != nil {
-                textView.attributedString.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.clear, range: selectedRange!)
+                textView.content.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.clear, range: selectedRange!)
             }
             selectedRange = tappedRange
-            textView.attributedString.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.lightGray, range: selectedRange!)
+            textView.content.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.systemYellow.withAlphaComponent(0.3), range: selectedRange!)
             textView.setNeedsDisplay()
         }
     }

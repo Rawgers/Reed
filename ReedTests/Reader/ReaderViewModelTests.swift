@@ -8,8 +8,10 @@
 
 import CoreData
 import XCTest
-@testable import Reed
+
 import SwiftyNarou
+
+@testable import Reed
 
 class ReaderViewModelTests: XCTestCase {
     lazy var managedObjectModel: NSManagedObjectModel = {
@@ -88,8 +90,17 @@ class ReaderViewModelTests: XCTestCase {
         XCTAssertNil(mockViewModel.section?.prevNcode)
         XCTAssertEqual(mockViewModel.historyEntry?.lastReadSection.id, 1)
         
-        // TODO: nothing should happen if we try to flip to a next section that doesn't exist
-        mockViewModel.section = SectionContent(sectionTitle: "test last section", chapterTitle: "last chapter", novelTitle: "last novel", writer: "last writer", content: "last content", format: [NSRange: String](), prevNcode: nil, nextNcode: nil, progress: "last progress")
+        mockViewModel.section = SectionData(
+            sectionTitle: "test last section",
+            chapterTitle: "last chapter",
+            novelTitle: "last novel",
+            writer: "last writer",
+            content: "last content",
+            format: [NSRange: String](),
+            prevNcode: nil,
+            nextNcode: nil,
+            progress: "last progress"
+        )
         mockViewModel.pages  = mockViewModel.calcPages(content: "last writer")
         XCTAssertTrue(mockViewModel.pages.endIndex == 1)
     }

@@ -8,26 +8,42 @@
 
 import UIKit
 
+private enum TextOrientation {
+    case horizontal
+    case vertical
+}
+
 class DefinableTextView: UIView {
     var font = UIFont(name: "Hiragino Maru Gothic ProN W4", size: 20)
-    var attributedString: NSMutableAttributedString
+    var content: NSMutableAttributedString
     var ctFrame: CTFrame?
-    var lineY: [CGFloat]?
+    var linesYCoordinates: [CGFloat]?
+    private let orientation: TextOrientation
     
-    init(frame: CGRect, attributedString: NSMutableAttributedString) {
-        self.attributedString = attributedString
+    init(
+        frame: CGRect,
+        content: NSMutableAttributedString,
+        isVerticalOrientation: Bool = false
+    ) {
+        self.content = content
+        self.orientation = isVerticalOrientation ? .vertical : .horizontal
         super.init(frame: frame)
+        formatContent()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    public enum TextOrientation {
-        case horizontal
-        case vertical
-    }
 
-    public var orientation:TextOrientation = .horizontal
+    private func formatContent() {
+        content.addAttributes(
+            [
+                NSAttributedString.Key.font: font as Any,
+                NSAttributedString.Key.verticalGlyphForm: orientation == .vertical,
+            ],
+            range: NSRangeFromString(content.string)
+        )
+    }
 
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
@@ -37,28 +53,29 @@ class DefinableTextView: UIView {
         guard let context: CGContext = UIGraphicsGetCurrentContext() else {
             return
         }
-        let attributed = attributedString
+        let attributed = content
 
         let path = CGMutablePath()
         switch orientation {
-            case .horizontal:
+        case .horizontal:
             context.textMatrix = CGAffineTransform.identity;
             context.translateBy(x: 0, y: self.bounds.size.height);
             context.scaleBy(x: 1.0, y: -1.0);
             path.addRect(self.bounds)
-            attributed.addAttribute(NSAttributedString.Key.verticalGlyphForm, value: false, range: NSMakeRange(0, attributed.length))
-            case .vertical:
+                
+        case .vertical:
             context.rotate(by: .pi / 2)
             context.scaleBy(x: 1.0, y: -1.0)
             path.addRect(CGRect(x: self.bounds.origin.y, y: self.bounds.origin.x, width: self.bounds.height, height: self.bounds.width))
-            attributed.addAttribute(NSAttributedString.Key.verticalGlyphForm, value: true, range: NSMakeRange(0, attributed.length))
         }
 
-        attributed.addAttributes([NSAttributedString.Key.font : self.font as Any], range: NSMakeRange(0, attributed.length))
-
         let frameSetter = CTFramesetterCreateWithAttributedString(attributed)
-
-        ctFrame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0,attributed.length), path, nil)
+        ctFrame = CTFramesetterCreateFrame(
+            frameSetter,
+            CFRangeMake(0, attributed.length),
+            path,
+            nil
+        )
         
         let lines  = CTFrameGetLines(ctFrame!) as! [CTLine]
         var lineOrigins = Array<CGPoint>(repeating: CGPoint.zero, count: lines.count)
@@ -67,25 +84,26 @@ class DefinableTextView: UIView {
         for (index, _) in lines.enumerated() {
             yCoordinates.append(bounds.height - lineOrigins[index].y)
         }
-        lineY = yCoordinates
+        linesYCoordinates = yCoordinates
         CTFrameDraw(ctFrame!, context)
     }
     
     func lengthThatFits() -> Int {
         if ctFrame == nil {
-            let attributed = attributedString
+            let attributed = content
 
             let path = CGMutablePath()
             switch orientation {
-                case .horizontal:
+            case .horizontal:
                 path.addRect(self.bounds)
                 attributed.addAttribute(NSAttributedString.Key.verticalGlyphForm, value: false, range: NSMakeRange(0, attributed.length))
-                case .vertical:
+                
+            case .vertical:
                 path.addRect(CGRect(x: self.bounds.origin.y, y: self.bounds.origin.x, width: self.bounds.height, height: self.bounds.width))
                 attributed.addAttribute(NSAttributedString.Key.verticalGlyphForm, value: true, range: NSMakeRange(0, attributed.length))
             }
 
-            attributed.addAttributes([NSAttributedString.Key.font : self.font], range: NSMakeRange(0, attributed.length))
+            attributed.addAttributes([NSAttributedString.Key.font : self.font as Any, NSAttributedString.Key.foregroundColor : UIColor.label], range: NSMakeRange(0, attributed.length))
 
             let frameSetter = CTFramesetterCreateWithAttributedString(attributed)
 
@@ -136,17 +154,28 @@ extension String {
                 // ルビの表示に関する設定
                 let rubyAttribute: [CFString: Any] =  [
                     kCTRubyAnnotationSizeFactorAttributeName: 0.5,
-                    kCTForegroundColorAttributeName: UIColor.darkGray
+                    kCTForegroundColorAttributeName: UIColor.secondaryLabel
                 ]
                 let rubyAnnotation = CTRubyAnnotationCreateWithAttributes(
-                    .auto, .auto, .before, rubyText as CFString, rubyAttribute as CFDictionary
+                    .center,    // center furigana over base
+                    .none,      // when furigana is longer than base, pad base
+                    .before,    // places furigana on top of base
+                    rubyText as CFString,
+                    rubyAttribute as CFDictionary
                 )
                 
-                
-                return NSAttributedString(string: baseText, attributes: [kCTRubyAnnotationAttributeName as NSAttributedString.Key: rubyAnnotation])
+                return NSAttributedString(
+                    string: baseText,
+                    attributes: [kCTRubyAnnotationAttributeName as NSAttributedString.Key: rubyAnnotation]
+                )
             }
+            
             // 分割されていた文字列を結合
-            .reduce(NSMutableAttributedString()) { $0.append($1); return $0 }
+            .reduce(NSMutableAttributedString()) {
+                $0.append($1)
+                return $0
+            }
+        
         return textWithRuby
     }
 }
