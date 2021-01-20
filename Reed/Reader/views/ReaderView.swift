@@ -63,11 +63,12 @@ struct ReaderView: View {
                             || (viewModel.section?.prevNcode != nil && viewModel.curPage == 0) {
                             ProgressView()
                         } else {
-                            DefinableTextView(
-                                text: .constant(page.content),
-                                tokens: page.tokens,
+                            DefinableText(
+                                content: .constant(page.content),
+                                tokensRange: page.tokensRange,
                                 definerResultHandler: definerResultHandler,
                                 hideNavHandler: hideNavHandler,
+                                getTokenHandler: viewModel.getToken,
                                 width: viewModel.pagerWidth,
                                 height: viewModel.pagerHeight
                             )

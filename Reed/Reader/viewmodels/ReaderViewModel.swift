@@ -12,9 +12,9 @@ import SwiftyNarou
 
 struct Page: Equatable, Hashable, Identifiable {
     var id = UUID()
-    var content: String
-    var tokens: [Token]
-    
+    var content: NSMutableAttributedString
+    var tokensRange: [Int]
+
     static func == (lhs: Page, rhs: Page) -> Bool {
         return lhs.content == rhs.content
     }
@@ -29,7 +29,7 @@ class ReaderViewModel: ObservableObject {
     let ncode: String
     let model: ReaderModel
     var section: SectionData?
-    @Published var items = [String]()
+    var tokens: [Token] = []
     @Published var pages: [Page] = []
     @Published var curPage: Int = -1
     
@@ -59,60 +59,145 @@ class ReaderViewModel: ObservableObject {
         self.init(persistentContainer: persistentContainer, ncode: ncode)
     }
     
-    func fetchNextSection(sectionNcode: String) {
-        fetchSection(sectionNcode: sectionNcode) {
-            self.curPage = self.section?.prevNcode == nil ? 0 : 1
+    private func findClosest(first: Int, second: Int, x: Int) -> Int {
+        if x - tokens[first].range.upperBound < tokens[second].range.lowerBound - x {
+            return second
         }
+        return first
     }
     
-    func fetchPrevSection(sectionNcode: String) {
-        fetchSection(sectionNcode: sectionNcode) {
-            self.curPage = self.pages.endIndex - 2
+    private func getLastToken(l: Int, r: Int, x: Int) -> Int {
+        if tokens.isEmpty {
+            return -1
         }
-    }
-    
-    func fetchSection(sectionNcode: String, completion: @escaping () -> Void) {
-        self.model.fetchSectionData(sectionNcode: sectionNcode) { section in
-            self.section = section
-            self.pages = self.calcPages(content: section?.content ?? "")
-            completion()
-        }
-    }
-    
-    func calcPages(content: String) -> [Page] {
-        let rect = CGRect(x: 0, y: 0, width: pagerWidth, height: pagerHeight)
-        let tempTextView = UITextView(frame: rect)
-        tempTextView.font = .systemFont(ofSize: 20)
-        tempTextView.textAlignment = .justified
         
-        var remainingContent = content
-        var pages = section?.prevNcode == nil ? [] : [Page(content: "", tokens: [])]
-        let tokenizer = Tokenizer()
-        while remainingContent != "" {
-            tempTextView.text = remainingContent
-            
-            let layoutManager = tempTextView.layoutManager
-            layoutManager.ensureLayout(for: tempTextView.textContainer)
+        if x >= tokens[tokens.endIndex - 1].range.upperBound {
+            return tokens.endIndex - 1
+        }
 
-            let rangeThatFits = layoutManager.glyphRange(
-                forBoundingRect: rect,
-                in: tempTextView.textContainer
-            )
-            guard let stringRange = Range(
-                rangeThatFits,
-                in: remainingContent
-            ) else {
-                print("Problem paginating section content.")
-                return pages
+        var i = l
+        var j = r
+        var mid = 0
+        while i < j {
+            mid = (i + j) / 2
+            if tokens[mid].range.lowerBound <= x && tokens[mid].range.upperBound > x {
+                return mid
+            } else if tokens[mid].range.lowerBound > x {
+                if mid > 0 && x > tokens[mid - 1].range.upperBound {
+                    return findClosest(first: mid - 1, second: mid, x: x)
+                }
+                j = mid
+            } else {
+                if mid < tokens.endIndex - 1 && tokens[mid + 1].range.lowerBound > x {
+                    return findClosest(first: mid, second: mid + 1, x: x)
+                }
+                i = mid + 1
             }
+        }
+        return mid
+    }
+    
+    func getToken(l: Int, r: Int, x: Int) -> Token? {
+        var i = l
+        var j = r
+        while j >= i {
+            let mid = i + (j - i) / 2
+            if tokens[mid].range.lowerBound <= x && tokens[mid].range.upperBound > x {
+                return tokens[mid]
+            } else if tokens[mid].range.lowerBound > x {
+                j = mid - 1
+            } else {
+                i = mid + 1
+            }
+        }
+        return nil
+    }
+}
+
+// MARK: Layout logic
+extension ReaderViewModel {
+    private func annotateWithFurigana(content: String) -> NSMutableAttributedString {
+        let tokenizer = Tokenizer()
+        tokens = tokenizer.tokenize(content)
+        
+        var annotatedContent = content as NSString
+        var contentIndex = 0
+        for token in tokens {
+            if !token.furiganas.isEmpty {
+                let start = token.range.location
+                for furigana in token.furiganas {
+                    annotatedContent = annotatedContent.replacingCharacters(
+                        in: NSRange(
+                            location: start + contentIndex + furigana.range.location,
+                            length: furigana.range.length
+                        ),
+                        with: "｜\(token.surface[String.Index(utf16Offset: furigana.range.location, in: token.surface)..<String.Index(utf16Offset: furigana.range.location + furigana.range.length, in: token.surface)])《\(furigana.reading)》"
+                    ) as NSString
+                    contentIndex += furigana.reading.count + 3
+                }
+            } else {
+                annotatedContent = annotatedContent.replacingCharacters(
+                    in: NSRange(location: token.range.location + contentIndex, length: 1),
+                    with: "｜\(token.surface[String.Index(utf16Offset: 0, in: token.surface)..<String.Index(utf16Offset: 1, in: token.surface)])《 》"
+                ) as NSString
+                contentIndex += 4
+            }
+        }
+        
+        return (annotatedContent as String).createRuby()
+    }
+}
+
+// MARK: Pagination logic
+extension ReaderViewModel {
+    private func paginate(annotatedContent: NSMutableAttributedString) -> [Page] {
+        let rect = CGRect(x: 0, y: 0, width: pagerWidth, height: pagerHeight)
+        var tokensSoFar = 0
+        var lengthSoFar = 0
+        var content = annotatedContent.mutableCopy() as! NSMutableAttributedString
+        var pages = [Page]()
+        if section?.prevNcode != nil {
+            pages.append(Page(
+                content: NSMutableAttributedString(string: "\n"),
+                tokensRange: [0, 0, 0]
+            ))
+        }
+        
+        while content.length > 0 {
+            let tempTextView = DefinableTextView(frame: rect, content: content)
             
-            let contentStr = String(remainingContent[stringRange])
-            pages.append(Page(content: contentStr, tokens: tokenizer.tokenize(contentStr)))
-            remainingContent = String(remainingContent[stringRange.upperBound..<remainingContent.endIndex])
+            let lengthThatFits = min(tempTextView.lengthThatFits(), content.length)
+            let contentStr = content.attributedSubstring(
+                from: NSRange(location: 0, length: lengthThatFits)
+            ).mutableCopy() as! NSMutableAttributedString
+            let lastToken = getLastToken(
+                l: tokensSoFar,
+                r: tokens.endIndex,
+                x: lengthSoFar + lengthThatFits
+            )
+            
+            pages.append(Page(
+                content: contentStr,
+                tokensRange: [lengthSoFar, tokensSoFar, lastToken]
+            ))
+            
+            tokensSoFar = lastToken
+            lengthSoFar += lengthThatFits
+            content = content.attributedSubstring(
+                from: NSRange(
+                    location: lengthThatFits,
+                    length: content.length - lengthThatFits
+                )
+            ).mutableCopy() as! NSMutableAttributedString
         }
+        
         if section?.nextNcode != nil {
-            pages.append(Page(content: "\n", tokens: []))
+            pages.append(Page(
+                content: NSMutableAttributedString(string: "\n"),
+                tokensRange: [0, 0, 0]
+            ))
         }
+        
         return pages
     }
     
@@ -141,6 +226,33 @@ class ReaderViewModel: ObservableObject {
             return curPage <= 0 ? "" : "\(curPage) of \(pages.endIndex - 1)"
         } else {
             return curPage <= 0 || curPage > pages.endIndex - 2 ? "" : "\(curPage) of \(pages.endIndex - 2)"
+        }
+    }
+}
+
+// MARK: Section logic
+extension ReaderViewModel {
+    private func fetchSection(sectionNcode: String, completion: @escaping () -> Void) {
+        guard let historyEntry = self.historyEntry else {
+            fatalError("Unable to retrieve HistoryEntry.")
+        }
+        self.model.fetchSectionData(sectionNcode: historyEntry.sectionNcode) { section in
+            self.section = section
+            let annotatedContent = self.annotateWithFurigana(content: section?.content ?? "")
+            self.pages = self.paginate(annotatedContent: annotatedContent)
+            completion()
+        }
+    }
+    
+    private func fetchNextSection(sectionNcode: String) {
+        fetchSection(sectionNcode: sectionNcode) {
+            self.curPage = self.section?.prevNcode == nil ? 0 : 1
+        }
+    }
+    
+    private func fetchPrevSection(sectionNcode: String) {
+        fetchSection(sectionNcode: sectionNcode) {
+            self.curPage = self.pages.endIndex - 2
         }
     }
 }
