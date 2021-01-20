@@ -34,7 +34,7 @@ struct DefinitionDetails: Equatable, Hashable, Identifiable {
 }
 
 struct DefinableText: UIViewRepresentable {
-    @Binding var attributedString: NSMutableAttributedString
+    @Binding var content: NSMutableAttributedString
     var tokensRange: [Int]
     let definerResultHandler: ([DefinitionDetails]) -> Void
     let hideNavHandler: () -> Void
@@ -47,7 +47,7 @@ struct DefinableText: UIViewRepresentable {
     ) -> DefinableTextView {
         let textView = DefinableTextView(
             frame: CGRect(x: 0, y: 0, width: width, height: height),
-            content: attributedString
+            content: content
         )
         textView.backgroundColor = .systemBackground
         
@@ -115,7 +115,7 @@ struct DefinableText: UIViewRepresentable {
                 let tappedIndex = CTLineGetStringIndexForPosition(lineArray[tappedLine], position) - 1
                 if let token = getTokenHandler(tokensRange[1], tokensRange[2], tappedIndex + tokensRange[0]) {
                     let location = token.range.location - tokensRange[0]
-                    let length = min(token.range.length, textView.attributedString.length - location)
+                    let length = min(token.range.length, textView.content.length - location)
                     tappedRange = location < 0
                         ? NSRange(location: 0, length: length + location)
                         : NSRange(location: location, length: length)
@@ -182,10 +182,10 @@ struct DefinableText: UIViewRepresentable {
         
         func highlightSelection(textView: DefinableTextView) {
             if selectedRange != nil {
-                textView.attributedString.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.clear, range: selectedRange!)
+                textView.content.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.clear, range: selectedRange!)
             }
             selectedRange = tappedRange
-            textView.attributedString.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.lightGray, range: selectedRange!)
+            textView.content.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.lightGray, range: selectedRange!)
             textView.setNeedsDisplay()
         }
     }

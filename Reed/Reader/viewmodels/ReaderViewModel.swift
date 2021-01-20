@@ -29,7 +29,6 @@ class ReaderViewModel: ObservableObject {
     var historyEntry: HistoryEntry?
     var section: SectionData?
     var tokens: [Token] = []
-    @Published var items = [String]()
     @Published var pages: [Page] = []
     @Published var curPage: Int = -1
     
@@ -68,99 +67,22 @@ class ReaderViewModel: ObservableObject {
         self.init(persistentContainer: persistentContainer, ncode: ncode)
     }
     
-    func fetchNextSection(sectionNcode: String) {
-        fetchSection(sectionNcode: sectionNcode) {
-            self.curPage = self.section?.prevNcode == nil ? 0 : 1
+    private func findClosest(first: Int, second: Int, x: Int) -> Int {
+        if x - tokens[first].range.upperBound < tokens[second].range.lowerBound - x {
+            return second
         }
-    }
-    
-    func fetchPrevSection(sectionNcode: String) {
-        fetchSection(sectionNcode: sectionNcode) {
-            self.curPage = self.pages.endIndex - 2
-        }
-    }
-    
-    private func fetchSection(sectionNcode: String, completion: @escaping () -> Void) {
-        guard let historyEntry = self.historyEntry else {
-            fatalError("Unable to retrieve HistoryEntry.")
-        }
-        self.model.fetchSectionData(sectionNcode: historyEntry.sectionNcode) { section in
-            self.section = section
-            let annotatedContent = self.annotateWithFurigana(content: section?.content ?? "")
-            self.pages = self.calculatePages(annotatedContent: annotatedContent)
-            completion()
-        }
-    }
-    
-    private func annotateWithFurigana(content: String) -> NSMutableAttributedString {
-        let tokenizer = Tokenizer()
-        tokens = tokenizer.tokenize(content)
-        
-        var formattedContent = content as NSString
-        var contentIndex = 0
-        for token in tokens {
-            if !token.furiganas.isEmpty {
-                let start = token.range.location
-                for furigana in token.furiganas {
-                    formattedContent = formattedContent.replacingCharacters(
-                        in: NSRange(
-                            location: start + contentIndex + furigana.range.location,
-                            length: furigana.range.length
-                        ),
-                        with: "｜\(token.surface[String.Index(utf16Offset: furigana.range.location, in: token.surface)..<String.Index(utf16Offset: furigana.range.location + furigana.range.length, in: token.surface)])《\(furigana.reading)》"
-                    ) as NSString
-                    contentIndex += furigana.reading.count + 3
-                }
-            } else {
-                formattedContent = formattedContent.replacingCharacters(
-                    in: NSRange(location: token.range.location + contentIndex, length: 1),
-                    with: "｜\(token.surface[String.Index(utf16Offset: 0, in: token.surface)..<String.Index(utf16Offset: 1, in: token.surface)])《 》"
-                ) as NSString
-                contentIndex += 4
-            }
-        }
-        let annotatedContent = (formattedContent as String).createRuby()
-        
-        return annotatedContent
-    }
-    
-    private func calculatePages(annotatedContent: NSMutableAttributedString) -> [Page] {
-        let rect = CGRect(x: 0, y: 0, width: pagerWidth, height: pagerHeight)
-        let tempTextView = DefinableTextView(frame: rect, content: NSMutableAttributedString())
-        
-        var tokensSoFar = 0
-        var lengthSoFar = 0
-        
-        var content = annotatedContent.mutableCopy() as! NSMutableAttributedString
-        var pages = section?.prevNcode == nil
-            ? []
-            : [Page(
-                content: NSMutableAttributedString(string: "\n"),
-                tokensRange: [0, 0, 0]
-            )]
-        while content.length > 0 {
-            tempTextView.attributedString = content
-            let lengthThatFits = min(tempTextView.lengthThatFits(), content.length)
-            let contentStr = content.attributedSubstring(from: NSRange(location: 0, length: lengthThatFits)).mutableCopy() as! NSMutableAttributedString
-            let lastToken = getLastToken(l: tokensSoFar, r: tokens.endIndex, x: lengthSoFar + lengthThatFits)
-            pages.append(Page(content: contentStr, tokensRange: [lengthSoFar, tokensSoFar, lastToken]))
-            tokensSoFar = lastToken
-            lengthSoFar += lengthThatFits
-            content = content.attributedSubstring(from: NSRange(location: lengthThatFits, length: content.length - lengthThatFits)).mutableCopy() as! NSMutableAttributedString
-        }
-        if section?.nextNcode != nil {
-            pages.append(Page(content: NSMutableAttributedString(string: "\n"), tokensRange: [0, 0, 0]))
-        }
-        return pages
+        return first
     }
     
     private func getLastToken(l: Int, r: Int, x: Int) -> Int {
         if tokens.isEmpty {
             return -1
         }
+        
         if x >= tokens[tokens.endIndex - 1].range.upperBound {
             return tokens.endIndex - 1
         }
+
         var i = l
         var j = r
         var mid = 0
@@ -183,11 +105,107 @@ class ReaderViewModel: ObservableObject {
         return mid
     }
     
-    private func findClosest(first: Int, second: Int, x: Int) -> Int {
-        if x - tokens[first].range.upperBound < tokens[second].range.lowerBound - x {
-            return second
+    func getToken(l: Int, r: Int, x: Int) -> Token? {
+        if r >= l {
+            let mid = l + (r - l) / 2
+            if tokens[mid].range.lowerBound <= x && tokens[mid].range.upperBound > x {
+                return tokens[mid]
+            } else if tokens[mid].range.lowerBound > x {
+                return getToken(l: l, r: mid-1, x: x)
+            } else {
+                return getToken(l: mid + 1, r: r, x: x)
+            }
+        } else {
+            return nil
         }
-        return first
+    }
+}
+
+// MARK: Layout logic
+extension ReaderViewModel {
+    private func annotateWithFurigana(content: String) -> NSMutableAttributedString {
+        let tokenizer = Tokenizer()
+        tokens = tokenizer.tokenize(content)
+        
+        var annotatedContent = content as NSString
+        var contentIndex = 0
+        for token in tokens {
+            if !token.furiganas.isEmpty {
+                let start = token.range.location
+                for furigana in token.furiganas {
+                    annotatedContent = annotatedContent.replacingCharacters(
+                        in: NSRange(
+                            location: start + contentIndex + furigana.range.location,
+                            length: furigana.range.length
+                        ),
+                        with: "｜\(token.surface[String.Index(utf16Offset: furigana.range.location, in: token.surface)..<String.Index(utf16Offset: furigana.range.location + furigana.range.length, in: token.surface)])《\(furigana.reading)》"
+                    ) as NSString
+                    contentIndex += furigana.reading.count + 3
+                }
+            } else {
+                annotatedContent = annotatedContent.replacingCharacters(
+                    in: NSRange(location: token.range.location + contentIndex, length: 1),
+                    with: "｜\(token.surface[String.Index(utf16Offset: 0, in: token.surface)..<String.Index(utf16Offset: 1, in: token.surface)])《 》"
+                ) as NSString
+                contentIndex += 4
+            }
+        }
+        
+        return (annotatedContent as String).createRuby()
+    }
+}
+
+// MARK: Pagination logic
+extension ReaderViewModel {
+    private func paginate(annotatedContent: NSMutableAttributedString) -> [Page] {
+        let rect = CGRect(x: 0, y: 0, width: pagerWidth, height: pagerHeight)
+        var tokensSoFar = 0
+        var lengthSoFar = 0
+        var content = annotatedContent.mutableCopy() as! NSMutableAttributedString
+        var pages = [Page]()
+        if section?.prevNcode == nil {
+            pages.append(Page(
+                content: NSMutableAttributedString(string: "\n"),
+                tokensRange: [0, 0, 0]
+            ))
+        }
+        
+        while content.length > 0 {
+            let tempTextView = DefinableTextView(frame: rect, content: content)
+            
+            let lengthThatFits = min(tempTextView.lengthThatFits(), content.length)
+            let contentStr = content.attributedSubstring(
+                from: NSRange(location: 0, length: lengthThatFits)
+            ).mutableCopy() as! NSMutableAttributedString
+            let lastToken = getLastToken(
+                l: tokensSoFar,
+                r: tokens.endIndex,
+                x: lengthSoFar + lengthThatFits
+            )
+            
+            pages.append(Page(
+                content: contentStr,
+                tokensRange: [lengthSoFar, tokensSoFar, lastToken]
+            ))
+            
+            tokensSoFar = lastToken
+            lengthSoFar += lengthThatFits
+            content = content.attributedSubstring(
+                from: NSRange(
+                    location: lengthThatFits,
+                    length: content.length - lengthThatFits
+                )
+            ).mutableCopy() as! NSMutableAttributedString
+        }
+        
+        if section?.nextNcode != nil {
+            pages.append(Page(
+                content: NSMutableAttributedString(string: "\n"),
+                tokensRange: [0, 0, 0]
+            ))
+        }
+        
+        return pages
     }
     
     func handlePageFlip(isInit: Bool) {
@@ -228,19 +246,31 @@ class ReaderViewModel: ObservableObject {
             return curPage <= 0 || curPage > pages.endIndex - 2 ? "" : "\(curPage) of \(pages.endIndex - 2)"
         }
     }
+}
+
+// MARK: Section logic
+extension ReaderViewModel {
+    private func fetchSection(sectionNcode: String, completion: @escaping () -> Void) {
+        guard let historyEntry = self.historyEntry else {
+            fatalError("Unable to retrieve HistoryEntry.")
+        }
+        self.model.fetchSectionData(sectionNcode: historyEntry.sectionNcode) { section in
+            self.section = section
+            let annotatedContent = self.annotateWithFurigana(content: section?.content ?? "")
+            self.pages = self.paginate(annotatedContent: annotatedContent)
+            completion()
+        }
+    }
     
-    func getToken(l: Int, r: Int, x: Int) -> Token? {
-        if r >= l {
-            let mid = l + (r - l) / 2
-            if tokens[mid].range.lowerBound <= x && tokens[mid].range.upperBound > x {
-                return tokens[mid]
-            } else if tokens[mid].range.lowerBound > x {
-                return getToken(l: l, r: mid-1, x: x)
-            } else {
-                return getToken(l: mid + 1, r: r, x: x)
-            }
-        } else {
-            return nil
+    private func fetchNextSection(sectionNcode: String) {
+        fetchSection(sectionNcode: sectionNcode) {
+            self.curPage = self.section?.prevNcode == nil ? 0 : 1
+        }
+    }
+    
+    private func fetchPrevSection(sectionNcode: String) {
+        fetchSection(sectionNcode: sectionNcode) {
+            self.curPage = self.pages.endIndex - 2
         }
     }
 }

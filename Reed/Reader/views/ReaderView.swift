@@ -33,7 +33,7 @@ struct ReaderView: View {
                             ProgressView()
                         } else {
                             DefinableText(
-                                attributedString: .constant(page.content),
+                                content: .constant(page.content),
                                 tokensRange: page.tokensRange,
                                 definerResultHandler: definerResultHandler,
                                 hideNavHandler: hideNavHandler,
