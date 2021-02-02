@@ -14,9 +14,39 @@ struct ReaderView: View {
     @ObservedObject var viewModel: ReaderViewModel
     @State private var entries = [DefinitionDetails]()
     @State private var navBar: UINavigationBar?
+    @State private var isSectionNavigationPresented: Bool = false
+    
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     init(ncode: String) {
         self.viewModel = ReaderViewModel(ncode: ncode)
+    }
+    
+    var sectionNavigationButton: some View {
+        Button(action: { self.isSectionNavigationPresented.toggle() }) {
+            HStack {
+                Image(systemName: "list.dash")
+                    .imageScale(.large)
+            }
+        }
+        .fullScreenCover(
+            isPresented: $isSectionNavigationPresented,
+            content: {
+                SectionNavigationView(
+                    sectionNcode: viewModel.historyEntry!.sectionNcode
+                )
+            }
+        )
+    }
+    
+    var navigationBarButtons: some View {
+        HStack {
+            NavigationBackChevron(
+                label: "",
+                handleDismiss: { self.presentationMode.wrappedValue.dismiss() }
+            )
+            sectionNavigationButton
+        }
     }
     
     var body: some View {
@@ -44,7 +74,7 @@ struct ReaderView: View {
                     }
                 )
                 .allowsDragging((viewModel.section?.prevNcode == nil || viewModel.curPage != 0)
-                                    && (viewModel.section?.nextNcode == nil || viewModel.curPage != viewModel.pages.endIndex - 1))
+                    && (viewModel.section?.nextNcode == nil || viewModel.curPage != viewModel.pages.endIndex - 1))
                 .onPageChanged { page in
                     self.viewModel.handlePageFlip(isInit: page == -1)
                 }
@@ -62,6 +92,8 @@ struct ReaderView: View {
             DefinerView(entries: $entries)
         }
         .navigationBarTitle("", displayMode: .inline)
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: navigationBarButtons)
         .introspectNavigationController { navigationController in
             self.navBar = navigationController.navigationBar
             self.navBar?.isHidden = true
