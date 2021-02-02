@@ -48,6 +48,8 @@
 		B8462309250AF5A3002358A0 /* DictionaryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8462308250AF5A3002358A0 /* DictionaryParser.swift */; };
 		B846482F2526CB5000D5A76D /* DictionaryFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846482E2526CB5000D5A76D /* DictionaryFetcherTests.swift */; };
 		B8539EE52519755A000FF025 /* DictionaryStorageManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8539EE42519755A000FF025 /* DictionaryStorageManagerTests.swift */; };
+		B85CFB9225B39E8D0022440B /* SectionNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85CFB9125B39E8D0022440B /* SectionNavigationView.swift */; };
+		B85CFB9A25B39EF80022440B /* SectionNavigationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85CFB9925B39EF80022440B /* SectionNavigationViewModel.swift */; };
 		B860B7122518207900F48FBE /* JMdict_e.json.gz in Resources */ = {isa = PBXBuildFile; fileRef = B860B7112518207800F48FBE /* JMdict_e.json.gz */; };
 		B86550CD255A08D800E4786F /* HistoryEntry+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86550CA255A08D800E4786F /* HistoryEntry+CoreDataProperties.swift */; };
 		B86550CE255A08D800E4786F /* HistorySection+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86550CB255A08D800E4786F /* HistorySection+CoreDataClass.swift */; };
@@ -71,6 +73,8 @@
 		B89CD698250993F800D7D8ED /* DefinerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89CD697250993F800D7D8ED /* DefinerView.swift */; };
 		B89CD69A2509944200D7D8ED /* MockCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89CD6992509944200D7D8ED /* MockCards.swift */; };
 		B8A5E50E2527BACE003BCF07 /* UtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A5E50D2527BACE003BCF07 /* UtilsTests.swift */; };
+		B8A704F225B8212200E605CC /* NavigationBackChevron.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A704F125B8212200E605CC /* NavigationBackChevron.swift */; };
+		B8A7051225B8380000E605CC /* SectionNavigationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A7051125B8380000E605CC /* SectionNavigationModel.swift */; };
 		B8A78F072542F26700577974 /* DiscoverList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A78F062542F26700577974 /* DiscoverList.swift */; };
 		B8A78F0C2542F27200577974 /* DiscoverListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A78F0B2542F27200577974 /* DiscoverListItem.swift */; };
 		B8ADEAB52570E0CC007C3D28 /* View+readSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8ADEAB42570E0CC007C3D28 /* View+readSize.swift */; };
@@ -166,6 +170,8 @@
 		B8462308250AF5A3002358A0 /* DictionaryParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryParser.swift; sourceTree = "<group>"; };
 		B846482E2526CB5000D5A76D /* DictionaryFetcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryFetcherTests.swift; sourceTree = "<group>"; };
 		B8539EE42519755A000FF025 /* DictionaryStorageManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryStorageManagerTests.swift; sourceTree = "<group>"; };
+		B85CFB9125B39E8D0022440B /* SectionNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionNavigationView.swift; sourceTree = "<group>"; };
+		B85CFB9925B39EF80022440B /* SectionNavigationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionNavigationViewModel.swift; sourceTree = "<group>"; };
 		B860B7112518207800F48FBE /* JMdict_e.json.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = JMdict_e.json.gz; sourceTree = "<group>"; };
 		B86550CA255A08D800E4786F /* HistoryEntry+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HistoryEntry+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B86550CB255A08D800E4786F /* HistorySection+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HistorySection+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -188,6 +194,8 @@
 		B89CD697250993F800D7D8ED /* DefinerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinerView.swift; sourceTree = "<group>"; };
 		B89CD6992509944200D7D8ED /* MockCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCards.swift; sourceTree = "<group>"; };
 		B8A5E50D2527BACE003BCF07 /* UtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilsTests.swift; sourceTree = "<group>"; };
+		B8A704F125B8212200E605CC /* NavigationBackChevron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBackChevron.swift; sourceTree = "<group>"; };
+		B8A7051125B8380000E605CC /* SectionNavigationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionNavigationModel.swift; sourceTree = "<group>"; };
 		B8A78F062542F26700577974 /* DiscoverList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverList.swift; sourceTree = "<group>"; };
 		B8A78F0B2542F27200577974 /* DiscoverListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverListItem.swift; sourceTree = "<group>"; };
 		B8ADEAB42570E0CC007C3D28 /* View+readSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+readSize.swift"; sourceTree = "<group>"; };
@@ -342,6 +350,7 @@
 				B82AF5FC2548031F00FAB2A8 /* ViewControllerResolver.swift */,
 				B82AF5DC2548015B00FAB2A8 /* View+UIKitComponents.swift */,
 				B8ADEAB92570E205007C3D28 /* FlexView.swift */,
+				B8A704F125B8212200E605CC /* NavigationBackChevron.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -422,6 +431,16 @@
 				B80E0E6F25497EBA009B0EE8 /* DiscoverSearchResultsViewModel.swift */,
 			);
 			path = viewmodels;
+			sourceTree = "<group>";
+		};
+		B85CFB9025B38AC80022440B /* SectionNavigation */ = {
+			isa = PBXGroup;
+			children = (
+				B85CFB9125B39E8D0022440B /* SectionNavigationView.swift */,
+				B85CFB9925B39EF80022440B /* SectionNavigationViewModel.swift */,
+				B8A7051125B8380000E605CC /* SectionNavigationModel.swift */,
+			);
+			path = SectionNavigation;
 			sourceTree = "<group>";
 		};
 		B8667F112509CA5D001EABD4 /* views */ = {
@@ -563,8 +582,8 @@
 				B8D456AA2508D1A2000F9E5F /* Info.plist */,
 				B8D456CC2508D2E3000F9E5F /* Main */,
 				B82AF5D92548015B00FAB2A8 /* Components */,
-				B8977921256626D400DF1B79 /* Tokenizer */,
 				B8981109250F803F0059F71F /* Extensions */,
+				B8977921256626D400DF1B79 /* Tokenizer */,
 				B8462307250AF4E4002358A0 /* Dictionary */,
 				B880D135251810C90097AF8D /* SplashScreen */,
 				B8D456CF2508D8D7000F9E5F /* CardsTab */,
@@ -572,6 +591,7 @@
 				B8D456CD2508D349000F9E5F /* LibraryTab */,
 				B8FA93AD254BAD4800AE362C /* NovelDetails */,
 				B8D456CE2508D8D3000F9E5F /* Reader */,
+				B85CFB9025B38AC80022440B /* SectionNavigation */,
 				6D86DA41255DB9D100806E12 /* Definer */,
 				B8D456D12508D8E4000F9E5F /* SettingsTab */,
 				B8D456A42508D1A2000F9E5F /* Preview Content */,
@@ -941,6 +961,7 @@
 				B80F45BC25411271004F8A22 /* DiscoverListViewModel.swift in Sources */,
 				B880D139251810F20097AF8D /* SplashViewModel.swift in Sources */,
 				6D12985A256E1BB500E873F4 /* DefinerTab.swift in Sources */,
+				B85CFB9A25B39EF80022440B /* SectionNavigationViewModel.swift in Sources */,
 				B8FA93B1254BAEEC00AE362C /* NovelDetailsViewModel.swift in Sources */,
 				B86550CD255A08D800E4786F /* HistoryEntry+CoreDataProperties.swift in Sources */,
 				B8C88D7C256F9FC0006CD768 /* DictionaryUtils.swift in Sources */,
@@ -952,12 +973,14 @@
 				B8D4569F2508D1A2000F9E5F /* Reed.xcdatamodeld in Sources */,
 				6D1298EE257239E400E873F4 /* HistorySection+CoreDataProperties.swift in Sources */,
 				B8B8F9912526C10400D6DF8B /* DictionaryFetcher.swift in Sources */,
+				B85CFB9225B39E8D0022440B /* SectionNavigationView.swift in Sources */,
 				B86550CE255A08D800E4786F /* HistorySection+CoreDataClass.swift in Sources */,
 				B89CD68625098C0100D7D8ED /* DiscoverView.swift in Sources */,
 				B8667F102509C745001EABD4 /* AppView.swift in Sources */,
 				B82E94A42566332D004A6F85 /* MecabWordNode.swift in Sources */,
 				B8F5C218250EDEEB000810F8 /* DictionaryTerm+CoreDataProperties.swift in Sources */,
 				B8667F132509CA68001EABD4 /* SettingsView.swift in Sources */,
+				B8A7051225B8380000E605CC /* SectionNavigationModel.swift in Sources */,
 				B82D3D9A254D2E7700F06836 /* CategoryButtonsViewModel.swift in Sources */,
 				B8093DD6251A988200D95DCF /* NotificationName+DictionaryParser.swift in Sources */,
 				B8FA93BE254BBE0D00AE362C /* NavigationLazyView.swift in Sources */,
@@ -986,6 +1009,7 @@
 				B81C86FF250A2207000B9E5F /* LibraryEntryViewModel.swift in Sources */,
 				B89CD69A2509944200D7D8ED /* MockCards.swift in Sources */,
 				B82AF5FD2548031F00FAB2A8 /* SearchBar.swift in Sources */,
+				B8A704F225B8212200E605CC /* NavigationBackChevron.swift in Sources */,
 				B8A78F0C2542F27200577974 /* DiscoverListItem.swift in Sources */,
 				B89CD6942509934700D7D8ED /* VocabularyListView.swift in Sources */,
 				B8D4569C2508D1A2000F9E5F /* SceneDelegate.swift in Sources */,

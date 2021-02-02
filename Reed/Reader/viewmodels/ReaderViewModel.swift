@@ -25,6 +25,7 @@ struct Page: Equatable, Hashable, Identifiable {
 
 class ReaderViewModel: ObservableObject {
     let persistentContainer: NSPersistentContainer
+    let ncode: String
     let model: ReaderModel
     var historyEntry: HistoryEntry?
     var section: SectionData?
@@ -43,6 +44,7 @@ class ReaderViewModel: ObservableObject {
     
     init(persistentContainer: NSPersistentContainer, ncode: String) {
         self.persistentContainer = persistentContainer
+        self.ncode = ncode
         self.model = ReaderModel(ncode: ncode)
         
         HistoryEntry.fetch(
