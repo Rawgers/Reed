@@ -33,7 +33,7 @@ struct ReaderView: View {
             isPresented: $isSectionNavigationPresented,
             content: {
                 SectionNavigationView(
-                    sectionNcode: viewModel.historyEntry!.sectionNcode
+                    sectionNcode: viewModel.sectionNcode
                 )
             }
         )
