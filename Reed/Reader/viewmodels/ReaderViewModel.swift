@@ -14,6 +14,7 @@ struct Page: Equatable, Hashable, Identifiable {
     var id = UUID()
     var content: String
     var tokens: [Token]
+    
     static func == (lhs: Page, rhs: Page) -> Bool {
         return lhs.content == rhs.content
     }
@@ -27,12 +28,14 @@ class ReaderViewModel: ObservableObject {
     let persistentContainer: NSPersistentContainer
     let ncode: String
     let model: ReaderModel
-    var historyEntry: HistoryEntry?
     var section: SectionData?
     @Published var items = [String]()
     @Published var pages: [Page] = []
     @Published var curPage: Int = -1
     
+    var sectionNcode: String {
+        return model.historyEntry?.sectionNcode ?? ""
+    }
     let pagerWidth: CGFloat = {
         let edgeInsets = EdgeInsets()
         return UIScreen.main.bounds.width - 32
@@ -45,21 +48,8 @@ class ReaderViewModel: ObservableObject {
     init(persistentContainer: NSPersistentContainer, ncode: String) {
         self.persistentContainer = persistentContainer
         self.ncode = ncode
-        self.model = ReaderModel(ncode: ncode)
-        
-        HistoryEntry.fetch(
-            persistentContainer: persistentContainer,
-            ncode: ncode
-        ) { historyEntryId in
-            guard let historyEntryId = historyEntryId,
-                  let historyEntry = try? persistentContainer.viewContext.existingObject(
-                    with: historyEntryId
-                ) as? HistoryEntry
-            else {
-                // TODO: Add novel to library before continuing?
-                fatalError("Unable to retrieve HistoryEntry.")
-            }
-            self.historyEntry = historyEntry
+        self.model = ReaderModel(persistentContainer: persistentContainer, ncode: ncode)
+        self.model.fetchHistoryEntry { historyEntry in
             self.fetchNextSection(sectionNcode: historyEntry.sectionNcode)
         }
     }
@@ -81,11 +71,8 @@ class ReaderViewModel: ObservableObject {
         }
     }
     
-    private func fetchSection(sectionNcode: String, completion: @escaping () -> Void) {
-        guard let historyEntry = self.historyEntry else {
-            fatalError("Unable to retrieve HistoryEntry.")
-        }
-        self.model.fetchSectionData(sectionNcode: historyEntry.sectionNcode) { section in
+    func fetchSection(sectionNcode: String, completion: @escaping () -> Void) {
+        self.model.fetchSectionData(sectionNcode: sectionNcode) { section in
             self.section = section
             self.pages = self.calcPages(content: section?.content ?? "")
             completion()
@@ -134,26 +121,15 @@ class ReaderViewModel: ObservableObject {
         if isInit { return }
         
         // Always update the previous page.
-        guard let historyEntry = self.historyEntry,
-              let section = self.section
+        guard let section = self.section
         else {
             fatalError("Unable to retrieve HistoryEntry.")
         }
         if curPage == 0 && section.prevNcode != nil {
-            historyEntry.lastReadSection.id -= 1
-            fetchPrevSection(sectionNcode: historyEntry.sectionNcode)
+            fetchPrevSection(sectionNcode: section.prevNcode!)
         } else if curPage == pages.endIndex - 1 && section.nextNcode != nil {
-            historyEntry.lastReadSection.id += 1
-            fetchNextSection(sectionNcode: historyEntry.sectionNcode)
+            fetchNextSection(sectionNcode: section.nextNcode!)
         } else { return }
-        
-        do {
-            let persistentContainer = getSharedPersistentContainer()
-            try persistentContainer.viewContext.save()
-        } catch {
-            print("Unable to save HistoryEntry.")
-            return
-        }
     }
     
     func getPageNumberDisplay() -> String {
