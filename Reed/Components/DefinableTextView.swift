@@ -28,21 +28,10 @@ class DefinableTextView: UIView {
         self.content = content
         self.orientation = isVerticalOrientation ? .vertical : .horizontal
         super.init(frame: frame)
-        formatContent()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    private func formatContent() {
-        content.addAttributes(
-            [
-                NSAttributedString.Key.font: font as Any,
-                NSAttributedString.Key.verticalGlyphForm: orientation == .vertical,
-            ],
-            range: NSRangeFromString(content.string)
-        )
     }
 
     // Only override draw() if you perform custom drawing.
@@ -89,26 +78,24 @@ class DefinableTextView: UIView {
     }
     
     func lengthThatFits() -> Int {
-        if ctFrame == nil {
-            let attributed = content
+        let attributed = content
 
-            let path = CGMutablePath()
-            switch orientation {
-            case .horizontal:
-                path.addRect(self.bounds)
-                attributed.addAttribute(NSAttributedString.Key.verticalGlyphForm, value: false, range: NSMakeRange(0, attributed.length))
-                
-            case .vertical:
-                path.addRect(CGRect(x: self.bounds.origin.y, y: self.bounds.origin.x, width: self.bounds.height, height: self.bounds.width))
-                attributed.addAttribute(NSAttributedString.Key.verticalGlyphForm, value: true, range: NSMakeRange(0, attributed.length))
-            }
-
-            attributed.addAttributes([NSAttributedString.Key.font : self.font as Any, NSAttributedString.Key.foregroundColor : UIColor.label], range: NSMakeRange(0, attributed.length))
-
-            let frameSetter = CTFramesetterCreateWithAttributedString(attributed)
-
-            ctFrame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0,0), path, nil)
+        let path = CGMutablePath()
+        switch orientation {
+        case .horizontal:
+            path.addRect(self.bounds)
+            attributed.addAttribute(NSAttributedString.Key.verticalGlyphForm, value: false, range: NSMakeRange(0, attributed.length))
+            
+        case .vertical:
+            path.addRect(CGRect(x: self.bounds.origin.y, y: self.bounds.origin.x, width: self.bounds.height, height: self.bounds.width))
+            attributed.addAttribute(NSAttributedString.Key.verticalGlyphForm, value: true, range: NSMakeRange(0, attributed.length))
         }
+
+        attributed.addAttributes([NSAttributedString.Key.font : self.font as Any, NSAttributedString.Key.foregroundColor : UIColor.label], range: NSMakeRange(0, attributed.length))
+
+        let frameSetter = CTFramesetterCreateWithAttributedString(attributed)
+
+        ctFrame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0,0), path, nil)
         return CTFrameGetVisibleStringRange(ctFrame!).length as Int
     }
 }

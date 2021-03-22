@@ -24,7 +24,7 @@ struct Page: Equatable, Hashable, Identifiable {
     }
 }
 
-class ReaderViewModel: ObservableObject {
+class ReaderPagerViewModel: ObservableObject {
     let persistentContainer: NSPersistentContainer
     let ncode: String
     let model: ReaderModel
@@ -115,7 +115,7 @@ class ReaderViewModel: ObservableObject {
 }
 
 // MARK: Layout logic
-extension ReaderViewModel {
+extension ReaderPagerViewModel {
     private func annotateWithFurigana(content: String) -> NSMutableAttributedString {
         let tokenizer = Tokenizer()
         tokens = tokenizer.tokenize(content)
@@ -149,8 +149,11 @@ extension ReaderViewModel {
 }
 
 // MARK: Pagination logic
-extension ReaderViewModel {
-    private func paginate(annotatedContent: NSMutableAttributedString) -> [Page] {
+extension ReaderPagerViewModel {
+    private func paginate(
+        annotatedContent: NSMutableAttributedString,
+        completion: @escaping ([Page]) -> Void
+    ) {
         let rect = CGRect(x: 0, y: 0, width: pagerWidth, height: pagerHeight)
         var tokensSoFar = 0
         var lengthSoFar = 0
@@ -162,10 +165,9 @@ extension ReaderViewModel {
                 tokensRange: [0, 0, 0]
             ))
         }
-        
+        let tempTextView = DefinableTextView(frame: rect, content: NSMutableAttributedString(string: ""))
         while content.length > 0 {
-            let tempTextView = DefinableTextView(frame: rect, content: content)
-            
+            tempTextView.content = content
             let lengthThatFits = min(tempTextView.lengthThatFits(), content.length)
             let contentStr = content.attributedSubstring(
                 from: NSRange(location: 0, length: lengthThatFits)
@@ -198,7 +200,7 @@ extension ReaderViewModel {
             ))
         }
         
-        return pages
+        completion(pages)
     }
     
     func handlePageFlip(isInit: Bool) {
@@ -231,16 +233,27 @@ extension ReaderViewModel {
 }
 
 // MARK: Section logic
-extension ReaderViewModel {
+extension ReaderPagerViewModel {
     private func fetchSection(sectionNcode: String, completion: @escaping () -> Void) {
         guard let historyEntry = self.historyEntry else {
             fatalError("Unable to retrieve HistoryEntry.")
         }
+        self.pages = [Page(
+            content: NSMutableAttributedString(string: "\n"),
+            tokensRange: [0, 0, 0]
+        )]
+        self.curPage = -1
         self.model.fetchSectionData(sectionNcode: historyEntry.sectionNcode) { section in
             self.section = section
-            let annotatedContent = self.annotateWithFurigana(content: section?.content ?? "")
-            self.pages = self.paginate(annotatedContent: annotatedContent)
-            completion()
+//            DispatchQueue.global(qos: .userInitiated).async {
+                let annotatedContent = self.annotateWithFurigana(content: section?.content ?? "")
+                self.paginate(annotatedContent: annotatedContent) { pages in
+//                    DispatchQueue.main.async {
+                        self.pages = pages
+                        completion()
+//                    }
+//                }
+            }
         }
     }
     
