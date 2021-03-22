@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct LibraryEntryView: View {
+    @State var isPushedToReader = false
     var viewModel: LibraryEntryViewModel
     
     init(entryData: HistoryEntry) {
@@ -29,12 +30,9 @@ struct LibraryEntryView: View {
                     .truncationMode(.tail)
             }
             NavigationLink(
-                destination: NavigationLazyView(
-                    ReaderView(ncode: viewModel.ncode)
-                )
-            ) {
-                EmptyView()
-            }
+                destination: NavigationLazyView(ReaderView(ncode: viewModel.ncode, title: viewModel.title, isActive: $isPushedToReader)),
+                isActive: $isPushedToReader
+            ) { EmptyView() }
         }
     }
 }

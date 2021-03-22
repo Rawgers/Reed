@@ -36,11 +36,29 @@ struct DefinitionDetails: Equatable, Hashable, Identifiable {
 struct DefinableText: UIViewRepresentable {
     @Binding var content: NSMutableAttributedString
     var tokensRange: [Int]
-    let definerResultHandler: ([DefinitionDetails]) -> Void
-    let hideNavHandler: () -> Void
-    let getTokenHandler: (Int, Int, Int) -> Token?
     let width: CGFloat
     let height: CGFloat
+    let definerResultHandler: ([DefinitionDetails]) -> Void
+    let getTokenHandler: (Int, Int, Int) -> Token?
+    let hideNavHandler: () -> Void
+    
+    internal init(
+        content: Binding<NSMutableAttributedString>,
+        tokensRange: [Int],
+        width: CGFloat,
+        height: CGFloat,
+        definerResultHandler: @escaping ([DefinitionDetails]) -> Void,
+        getTokenHandler: @escaping (Int, Int, Int) -> Token?,
+        hideNavHandler: @escaping () -> Void = {}
+    ) {
+        self._content = content
+        self.tokensRange = tokensRange
+        self.width = width
+        self.height = height
+        self.definerResultHandler = definerResultHandler
+        self.getTokenHandler = getTokenHandler
+        self.hideNavHandler = hideNavHandler
+    }
     
     func makeUIView(
         context: UIViewRepresentableContext<DefinableText>
@@ -73,6 +91,7 @@ struct DefinableText: UIViewRepresentable {
         _ textView: DefinableTextView,
         context: UIViewRepresentableContext<DefinableText>
     ) {
+        textView.content.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.clear, range: NSRange(location: 0, length: textView.content.length))
         textView.setNeedsDisplay()
     }
     
