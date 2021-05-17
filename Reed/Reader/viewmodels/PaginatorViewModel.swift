@@ -23,7 +23,7 @@ struct Page: Equatable, Hashable, Identifiable {
     }
 }
 
-class ReaderPaginatorViewModel: ObservableObject {
+class PaginatorViewModel: ObservableObject {
     @Published var pages: [Page] = []
     @Published var curPage: Int = -1
     let sectionFetcher: SectionFetcher
@@ -173,10 +173,7 @@ class ReaderPaginatorViewModel: ObservableObject {
         return pages
     }
     
-    func handlePageFlip(isInit: Bool) {
-        // Pager calls this function on init. Allow that first call to pass.
-        if isInit { return }
-        
+    func handlePageFlip() {
         // Handle cases when flipping first or last page of section.
         guard let sectionData = sectionFetcher.section?.data else { return }
         if curPage == 0 && sectionData.prevNcode != nil {
