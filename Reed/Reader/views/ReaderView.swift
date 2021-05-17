@@ -10,39 +10,48 @@ import SwiftUI
 import Introspect
 
 struct ReaderView: View {
+//    let viewModel: ReaderViewModel
+    
     @State private var entries = [DefinitionDetails]()
     @State private var isNavMenuHidden = true
     let ncode: String
     let title: String
     @Binding var isActive: Bool
     
-    var sectionNavigationButton: some View {
-        Button(action: { self.isSectionNavigationPresented.toggle() }) {
-            HStack {
-                Image(systemName: "list.dash")
-                    .imageScale(.large)
-            }
-        }
-        .fullScreenCover(
-            isPresented: $isSectionNavigationPresented,
-            content: {
-                SectionNavigationView(
-                    sectionNcode: viewModel.sectionNcode,
-                    handleFetchSection: viewModel.fetchNextSection
-                )
-            }
-        )
+    init(ncode: String, title: String, isActive: Binding<Bool>) {
+        self._isActive = isActive
+        self.ncode = ncode
+        self.title = title
+//        self.viewModel = ReaderViewModel(ncode: ncode)
     }
     
-    var navigationBarButtons: some View {
-        HStack {
-            NavigationBackChevron(
-                label: "",
-                handleDismiss: { self.presentationMode.wrappedValue.dismiss() }
-            )
-            sectionNavigationButton
-        }
-    }
+//    var sectionNavigationButton: some View {
+//        Button(action: { self.isSectionNavigationPresented.toggle() }) {
+//            HStack {
+//                Image(systemName: "list.dash")
+//                    .imageScale(.large)
+//            }
+//        }
+//        .fullScreenCover(
+//            isPresented: $isSectionNavigationPresented,
+//            content: {
+//                SectionNavigationView(
+//                    sectionNcode: viewModel.sectionNcode,
+//                    handleFetchSection: viewModel.fetchNextSection
+//                )
+//            }
+//        )
+//    }
+//
+//    var navigationBarButtons: some View {
+//        HStack {
+//            NavigationBackChevron(
+//                label: "",
+//                handleDismiss: { self.presentationMode.wrappedValue.dismiss() }
+//            )
+//            sectionNavigationButton
+//        }
+//    }
     
     var body: some View {
         VStack(spacing: 0) {
