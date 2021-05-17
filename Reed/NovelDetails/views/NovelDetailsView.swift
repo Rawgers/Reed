@@ -43,7 +43,13 @@ struct NovelDetailsView: View {
                         }) {
                             ZStack {
                                 NavigationLink(
-                                    destination: NavigationLazyView(ReaderView(ncode: viewModel.ncode, title: viewModel.novelTitle, isActive: $isPushedToReader)),
+                                    destination: NavigationLazyView(
+                                        ReaderView(
+                                            ncode: viewModel.ncode,
+                                            novelTitle: viewModel.novelTitle,
+                                            isActive: $isPushedToReader
+                                        )
+                                    ),
                                     isActive: $isPushedToReader
                                 ) { EmptyView() }
                                 

@@ -22,7 +22,6 @@ struct ReaderPagerView: View {
         self._entries = entries
         self._isNavMenuHidden = isNavMenuHidden
         self.viewModel = ReaderViewModel(ncode: ncode)
-        print(self.viewModel.pages.endIndex)
     }
     
     var body: some View {

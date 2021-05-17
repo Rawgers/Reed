@@ -30,7 +30,7 @@ struct LibraryEntryView: View {
                     .truncationMode(.tail)
             }
             NavigationLink(
-                destination: NavigationLazyView(ReaderView(ncode: viewModel.ncode, title: viewModel.title, isActive: $isPushedToReader)),
+                destination: NavigationLazyView(ReaderView(ncode: viewModel.ncode, novelTitle: viewModel.title, isActive: $isPushedToReader)),
                 isActive: $isPushedToReader
             ) { EmptyView() }
         }
