@@ -10,52 +10,31 @@ import SwiftUI
 import Introspect
 
 struct ReaderView: View {
-//    let viewModel: ReaderViewModel
+    let viewModel: ReaderViewModel
     
     @State private var entries = [DefinitionDetails]()
     @State private var isNavMenuHidden = true
     let ncode: String
-    let title: String
+    let novelTitle: String
     @Binding var isActive: Bool
     
-    init(ncode: String, title: String, isActive: Binding<Bool>) {
-        self._isActive = isActive
+    init(ncode: String, novelTitle: String, isActive: Binding<Bool>) {
         self.ncode = ncode
-        self.title = title
-//        self.viewModel = ReaderViewModel(ncode: ncode)
+        self.novelTitle = novelTitle
+        self._isActive = isActive
+        
+        self.viewModel = ReaderViewModel(ncode: ncode)
     }
-    
-//    var sectionNavigationButton: some View {
-//        Button(action: { self.isSectionNavigationPresented.toggle() }) {
-//            HStack {
-//                Image(systemName: "list.dash")
-//                    .imageScale(.large)
-//            }
-//        }
-//        .fullScreenCover(
-//            isPresented: $isSectionNavigationPresented,
-//            content: {
-//                SectionNavigationView(
-//                    sectionNcode: viewModel.sectionNcode,
-//                    handleFetchSection: viewModel.fetchNextSection
-//                )
-//            }
-//        )
-//    }
-//
-//    var navigationBarButtons: some View {
-//        HStack {
-//            NavigationBackChevron(
-//                label: "",
-//                handleDismiss: { self.presentationMode.wrappedValue.dismiss() }
-//            )
-//            sectionNavigationButton
-//        }
-//    }
     
     var body: some View {
         VStack(spacing: 0) {
-            ReaderNavigationBar(title: title, isNavMenuHidden: $isNavMenuHidden, isActive: $isActive)
+            ReaderNavigationBar(
+                novelTitle: novelTitle,
+                sectionNcode: ncode,
+                sectionFetcher: viewModel.sectionFetcher,
+                isNavMenuHidden: $isNavMenuHidden,
+                isActive: $isActive
+            )
             ZStack {
                 VStack(alignment: .center) {
                     ReaderPagerView(entries: $entries, isNavMenuHidden: $isNavMenuHidden, ncode: ncode)

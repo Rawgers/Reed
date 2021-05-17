@@ -9,12 +9,29 @@
 import SwiftUI
 
 struct ReaderNavigationBar: View {
-    var title: String
+    var novelTitle: String
+    var sectionNcode: String
+    let sectionFetcher: SectionFetcher
     @Binding var isNavMenuHidden: Bool
     @Binding var isActive: Bool
+    @State var isSectionNavigationPresented: Bool = false
+    
+    init(
+        novelTitle: String,
+        sectionNcode: String,
+        sectionFetcher: SectionFetcher,
+        isNavMenuHidden: Binding<Bool>,
+        isActive: Binding<Bool>
+    ) {
+        self.novelTitle = novelTitle
+        self.sectionNcode = sectionNcode
+        self.sectionFetcher = sectionFetcher
+        self._isNavMenuHidden = isNavMenuHidden
+        self._isActive = isActive
+    }
     
     private var titleView: some View {
-        Text(title)
+        Text(novelTitle)
             .frame(width: UIScreen.main.bounds.width, height: 48)
             .padding(.horizontal)
     }
@@ -26,15 +43,23 @@ struct ReaderNavigationBar: View {
             }) {
                 Image(systemName: "chevron.backward")
             }
-            Button(action: {
-                
-            }) {
+            Button(action: { self.isSectionNavigationPresented.toggle() }) {
                 Image(systemName: "list.dash")
+                    .imageScale(.large)
             }
             Spacer()
         }
         .frame(width: UIScreen.main.bounds.width, height: 48)
         .padding(.leading)
+        .fullScreenCover(
+            isPresented: $isSectionNavigationPresented,
+            content: {
+                SectionNavigationView(
+                    sectionNcode: sectionNcode,
+                    handleFetchSection: sectionFetcher.fetchNextSection
+                )
+            }
+        )
     }
     
     var body: some View {
