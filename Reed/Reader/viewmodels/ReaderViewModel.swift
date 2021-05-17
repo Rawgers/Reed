@@ -78,6 +78,10 @@ class ReaderViewModel: ObservableObject {
         let persistentContainer = getSharedPersistentContainer()
         self.init(persistentContainer: persistentContainer, ncode: ncode)
     }
+    
+    deinit {
+        self.sectionCancellable?.cancel()
+    }
 }
 
 // MARK: Layout logic

@@ -46,7 +46,6 @@ class ReaderPaginatorViewModel: ObservableObject {
             guard let self = self else { return }
             guard let processedContent = processedContent else { return }
             
-            // may need to dispatch assignment to main
             self.tokens = processedContent.tokens
             self.pages = self.paginate(annotatedContent: processedContent.annotatedContent)
             
@@ -59,6 +58,10 @@ class ReaderPaginatorViewModel: ObservableObject {
                 self.curPage = self.pages.endIndex - 2
             }
         }
+    }
+    
+    deinit {
+        self.processedContentCancellable?.cancel()
     }
     
     func getLastToken(l: Int, r: Int, x: Int) -> Int {
