@@ -9,6 +9,7 @@
 import struct SwiftyNarou.SectionData
 
 enum SectionUpdateType {
+    case FIRST
     case NEXT
     case PREV
 }
@@ -20,15 +21,10 @@ struct Section {
 
 class SectionFetcher {
     let model: ReaderModel
-    let setCurPage: (Int) -> Void
     @Published var section: Section?
     
-    init(
-        model: ReaderModel,
-        setCurPage: @escaping (Int) -> Void
-    ) {
+    init(model: ReaderModel) {
         self.model = model
-        self.setCurPage = setCurPage
     }
     
     private func fetchSection(sectionNcode: String, updateType: SectionUpdateType) {
@@ -50,7 +46,11 @@ class SectionFetcher {
     }
     
     func fetchNextSection(sectionNcode: String) {
-        fetchSection(sectionNcode: sectionNcode, updateType: .NEXT)
+        let sectionNumber = sectionNcode.components(separatedBy: "/")[1]
+        fetchSection(
+            sectionNcode: sectionNcode,
+            updateType: sectionNumber == "1" ? .FIRST : .NEXT
+        )
     }
     
     func fetchPrevSection(sectionNcode: String) {

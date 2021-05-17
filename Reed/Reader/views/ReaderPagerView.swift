@@ -6,22 +6,31 @@
 //  Copyright © 2021 Roger Luo. All rights reserved.
 //
 
+import Combine
 import SwiftUI
 import SwiftUIPager
 
 struct ReaderPagerView: View {
-    @ObservedObject var viewModel: ReaderViewModel
+    @ObservedObject var viewModel: ReaderPaginatorViewModel
     @Binding var entries: [DefinitionDetails]
     @Binding var isNavMenuHidden: Bool
     
     init(
         entries: Binding<[DefinitionDetails]>,
         isNavMenuHidden: Binding<Bool>,
-        ncode: String
+        sectionFetcher: SectionFetcher,
+        paginatorWidth: CGFloat,
+        paginatorHeight: CGFloat,
+        processedContentPublisher: AnyPublisher<ProcessedContent?, Never>
     ) {
         self._entries = entries
         self._isNavMenuHidden = isNavMenuHidden
-        self.viewModel = ReaderViewModel(ncode: ncode)
+        self.viewModel = ReaderPaginatorViewModel(
+            sectionFetcher: sectionFetcher,
+            paginatorWidth: paginatorWidth,
+            paginatorHeight: paginatorHeight,
+            processedContentPublisher: processedContentPublisher
+        )
     }
     
     var body: some View {
@@ -33,13 +42,13 @@ struct ReaderPagerView: View {
                 content: { page in
                     if viewModel.curPage == -1 {
                         ProgressView()
-                            .frame(width: viewModel.pagerWidth, height: viewModel.pagerHeight)
+                            .frame(width: viewModel.paginatorWidth, height: viewModel.paginatorHeight)
                     } else {
                         DefinableText(
                             content: .constant(page.content),
                             tokensRange: page.tokensRange,
-                            width: viewModel.pagerWidth,
-                            height: viewModel.pagerHeight,
+                            width: viewModel.paginatorWidth,
+                            height: viewModel.paginatorHeight,
                             definerResultHandler: definerResultHandler,
                             getTokenHandler: viewModel.getToken,
                             hideNavHandler: hideNavHandler

@@ -6,6 +6,7 @@
 //  Copyright © 2020 Roger Luo. All rights reserved.
 //
 
+import Combine
 import SwiftUI
 import Introspect
 
@@ -37,7 +38,15 @@ struct ReaderView: View {
             )
             ZStack {
                 VStack(alignment: .center) {
-                    ReaderPagerView(entries: $entries, isNavMenuHidden: $isNavMenuHidden, ncode: ncode)
+                    ReaderPagerView(
+                        entries: $entries,
+                        isNavMenuHidden: $isNavMenuHidden,
+                        sectionFetcher: viewModel.sectionFetcher,
+                        paginatorWidth: viewModel.paginatorWidth,
+                        paginatorHeight: viewModel.paginatorHeight,
+                        processedContentPublisher: viewModel.$processedContent.eraseToAnyPublisher()
+                    )
+                    
                     Rectangle()
                         .frame(height: BottomSheetConstants.minHeight)
                         .opacity(0)
@@ -49,6 +58,15 @@ struct ReaderView: View {
                     isNavMenuHidden.toggle()
                 }
                 .navigationBarHidden(true)
+                
+                if viewModel.isLoading {
+                    ProgressView()
+                        .frame(
+                            width: viewModel.paginatorWidth,
+                            height: viewModel.paginatorHeight
+                        )
+                }
+                
                 DefinerView(entries: $entries)
             }
             .navigationBarTitle("", displayMode: .inline)
