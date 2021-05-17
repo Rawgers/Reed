@@ -12,15 +12,19 @@ import SwiftyNarou
 struct SectionNavigationView: View {
     @ObservedObject var viewModel: SectionNavigationViewModel
     @Environment(\.presentationMode) var presentationMode
+    @Binding var sectionNcode: String
     
     init(
-        sectionNcode: String,
+        sectionNcode: Binding<String>,
         handleFetchSection: @escaping (String) -> Void
     ) {
+        let novelNcode = sectionNcode
+            .wrappedValue.lowercased().components(separatedBy: "/")[0]
         viewModel = SectionNavigationViewModel(
-            sectionNcode: sectionNcode,
+            novelNcode: novelNcode,
             handleFetchSection: handleFetchSection
         )
+        self._sectionNcode = sectionNcode
     }
     
     var dismissButton: some View {
@@ -40,8 +44,7 @@ struct SectionNavigationView: View {
                         VStack(alignment: .leading, spacing: 16) {
                             ForEach(chapter.sections, id: \.self) { section in
                                 Button(action: {
-                                    print(section.ncode, viewModel.sectionNcode)
-                                    if section.ncode != viewModel.sectionNcode {
+                                    if section.ncode != sectionNcode {
                                         viewModel.fetchSection(selectedSection: section.ncode)
                                     }
                                     self.presentationMode.wrappedValue.dismiss()
@@ -49,7 +52,7 @@ struct SectionNavigationView: View {
                                     Text(section.title)
                                         .font(.body)
                                         .foregroundColor(
-                                            section.ncode == viewModel.sectionNcode
+                                            section.ncode == sectionNcode
                                                 ? Color(.systemBlue)
                                                 : .primary
                                         )
@@ -72,6 +75,6 @@ struct SectionNavigationView: View {
 
 struct SectionNavigationView_Previews: PreviewProvider {
     static var previews: some View {
-        SectionNavigationView(sectionNcode: "n9669bk/1", handleFetchSection: { _ in })
+        SectionNavigationView(sectionNcode: .constant("n9669bk/1"), handleFetchSection: { _ in })
     }
 }
