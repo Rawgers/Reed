@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftUIPager
 
 struct ReaderPagerView: View {
-    @ObservedObject var viewModel: ReaderPagerViewModel
+    @ObservedObject var viewModel: ReaderViewModel
     @Binding var entries: [DefinitionDetails]
     @Binding var isNavMenuHidden: Bool
     
@@ -21,7 +21,8 @@ struct ReaderPagerView: View {
     ) {
         self._entries = entries
         self._isNavMenuHidden = isNavMenuHidden
-        self.viewModel = ReaderPagerViewModel(ncode: ncode)
+        self.viewModel = ReaderViewModel(ncode: ncode)
+        print(self.viewModel.pages.endIndex)
     }
     
     var body: some View {

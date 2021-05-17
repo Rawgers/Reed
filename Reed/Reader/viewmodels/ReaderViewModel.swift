@@ -6,6 +6,7 @@
 //  Copyright © 2020 Roger Luo. All rights reserved.
 //
 
+import Combine
 import CoreData
 import SwiftUI
 import SwiftyNarou
@@ -24,12 +25,19 @@ struct Page: Equatable, Hashable, Identifiable {
     }
 }
 
-class ReaderPagerViewModel: ObservableObject {
+class ReaderViewModel: ObservableObject {
     let persistentContainer: NSPersistentContainer
-    let ncode: String
     let model: ReaderModel
-    var section: SectionData?
+    lazy var sectionFetcher: SectionFetcher = {
+        SectionFetcher(
+            model: model,
+            setCurPage: setCurPage
+        )
+    }()
+    
+    var sectionCancellable: AnyCancellable?
     var tokens: [Token] = []
+    var ncode: String
     @Published var pages: [Page] = []
     @Published var curPage: Int = -1
     
@@ -47,10 +55,39 @@ class ReaderPagerViewModel: ObservableObject {
     
     init(persistentContainer: NSPersistentContainer, ncode: String) {
         self.persistentContainer = persistentContainer
-        self.ncode = ncode
         self.model = ReaderModel(persistentContainer: persistentContainer, ncode: ncode)
+        self.ncode = ncode
+        
+        self.sectionCancellable = sectionFetcher.$section.sink { [weak self] section in
+            guard let self = self else { return }
+            guard let section = section else {
+                self.clearPaginator()
+                return
+            }
+            
+            var annotatedContent = NSMutableAttributedString()
+            if let content = section.data?.content {
+                let tokenizer = Tokenizer()
+                self.tokens = tokenizer.tokenize(content)
+                annotatedContent = self.annotateWithFurigana(tokens: self.tokens, content: content)
+            } else {
+                // If the section data or its contents are nil,
+                // put up some view that shows "unable to load".
+            }
+            // may need to dispatch assignment to main
+            self.pages = self.paginate(annotatedContent: annotatedContent)
+            
+            switch section.updateType {
+            case .NEXT:
+                self.curPage = section.data?.prevNcode == nil ? 0 : 1
+            case .PREV:
+                self.curPage = self.pages.endIndex - 2
+            }
+        }
+        
+        self.clearPaginator()
         self.model.fetchHistoryEntry { historyEntry in
-            self.fetchNextSection(sectionNcode: historyEntry.sectionNcode)
+            self.sectionFetcher.fetchNextSection(sectionNcode: historyEntry.sectionNcode)
         }
     }
     
@@ -115,11 +152,8 @@ class ReaderPagerViewModel: ObservableObject {
 }
 
 // MARK: Layout logic
-extension ReaderPagerViewModel {
-    private func annotateWithFurigana(content: String) -> NSMutableAttributedString {
-        let tokenizer = Tokenizer()
-        tokens = tokenizer.tokenize(content)
-        
+extension ReaderViewModel {
+    private func annotateWithFurigana(tokens: [Token], content: String) -> NSMutableAttributedString {
         var annotatedContent = content as NSString
         var contentIndex = 0
         for token in tokens {
@@ -149,22 +183,22 @@ extension ReaderPagerViewModel {
 }
 
 // MARK: Pagination logic
-extension ReaderPagerViewModel {
-    private func paginate(
-        annotatedContent: NSMutableAttributedString,
-        completion: @escaping ([Page]) -> Void
-    ) {
+extension ReaderViewModel {
+    private func paginate(annotatedContent: NSMutableAttributedString) -> [Page] {
         let rect = CGRect(x: 0, y: 0, width: pagerWidth, height: pagerHeight)
         var tokensSoFar = 0
         var lengthSoFar = 0
         var content = annotatedContent.mutableCopy() as! NSMutableAttributedString
         var pages = [Page]()
-        if section?.prevNcode != nil {
+        
+        // Add loading page if section is not the first in novel.
+        if sectionFetcher.section?.data?.prevNcode != nil {
             pages.append(Page(
                 content: NSMutableAttributedString(string: "\n"),
                 tokensRange: [0, 0, 0]
             ))
         }
+        
         let tempTextView = DefinableTextView(frame: rect, content: NSMutableAttributedString(string: ""))
         while content.length > 0 {
             tempTextView.content = content
@@ -193,79 +227,54 @@ extension ReaderPagerViewModel {
             ).mutableCopy() as! NSMutableAttributedString
         }
         
-        if section?.nextNcode != nil {
+        // Add loading page if section is not the last in novel.
+        if sectionFetcher.section?.data?.nextNcode != nil {
             pages.append(Page(
                 content: NSMutableAttributedString(string: "\n"),
                 tokensRange: [0, 0, 0]
             ))
         }
         
-        completion(pages)
+        return pages
     }
     
     func handlePageFlip(isInit: Bool) {
         // Pager calls this function on init. Allow that first call to pass.
         if isInit { return }
         
-        // Always update the previous page.
-        guard let section = self.section
-        else {
-            fatalError("Unable to retrieve HistoryEntry.")
-        }
-        if curPage == 0 && section.prevNcode != nil {
-            fetchPrevSection(sectionNcode: section.prevNcode!)
-        } else if curPage == pages.endIndex - 1 && section.nextNcode != nil {
-            fetchNextSection(sectionNcode: section.nextNcode!)
+        // Handle cases when flipping first or last page of section.
+        guard let sectionData = sectionFetcher.section?.data else { return }
+        if curPage == 0 && sectionData.prevNcode != nil {
+            sectionFetcher.fetchPrevSection(sectionNcode: sectionData.prevNcode!)
+        } else if curPage == pages.endIndex - 1 && sectionData.nextNcode != nil {
+            sectionFetcher.fetchNextSection(sectionNcode: sectionData.nextNcode!)
         } else { return }
     }
     
     func getPageNumberDisplay() -> String {
-        if section?.prevNcode == nil && section?.nextNcode == nil {
+        guard let section = sectionFetcher.section else { return "" }
+        let sectionData = section.data
+        
+        if sectionData?.prevNcode == nil && sectionData?.nextNcode == nil {
             return curPage == -1 ? "" : "\(curPage + 1) of \(pages.endIndex)"
-        } else if section?.prevNcode == nil {
+        } else if sectionData?.prevNcode == nil {
             return curPage == -1 || curPage + 1 > pages.endIndex - 1 ? "" : "\(curPage + 1) of \(pages.endIndex - 1)"
-        } else if section?.nextNcode == nil {
+        } else if sectionData?.nextNcode == nil {
             return curPage <= 0 ? "" : "\(curPage) of \(pages.endIndex - 1)"
         } else {
             return curPage <= 0 || curPage > pages.endIndex - 2 ? "" : "\(curPage) of \(pages.endIndex - 2)"
         }
     }
-}
-
-// MARK: Section logic
-extension ReaderPagerViewModel {
-    private func fetchSection(sectionNcode: String, completion: @escaping () -> Void) {
-        guard let historyEntry = self.historyEntry else {
-            fatalError("Unable to retrieve HistoryEntry.")
-        }
-        self.pages = [Page(
+    
+    func clearPaginator() {
+        curPage = -1
+        pages = [Page(
             content: NSMutableAttributedString(string: "\n"),
             tokensRange: [0, 0, 0]
         )]
-        self.curPage = -1
-        self.model.fetchSectionData(sectionNcode: historyEntry.sectionNcode) { section in
-            self.section = section
-//            DispatchQueue.global(qos: .userInitiated).async {
-                let annotatedContent = self.annotateWithFurigana(content: section?.content ?? "")
-                self.paginate(annotatedContent: annotatedContent) { pages in
-//                    DispatchQueue.main.async {
-                        self.pages = pages
-                        completion()
-//                    }
-//                }
-            }
-        }
     }
     
-    private func fetchNextSection(sectionNcode: String) {
-        fetchSection(sectionNcode: sectionNcode) {
-            self.curPage = self.section?.prevNcode == nil ? 0 : 1
-        }
-    }
-    
-    private func fetchPrevSection(sectionNcode: String) {
-        fetchSection(sectionNcode: sectionNcode) {
-            self.curPage = self.pages.endIndex - 2
-        }
+    func setCurPage(newPage: Int) {
+        curPage = newPage
     }
 }

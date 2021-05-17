@@ -9,6 +9,7 @@
 import CoreData
 import SwiftyNarou
 
+// TODO: Needs ncode updates?
 class ReaderModel {
     let persistentContainer: NSPersistentContainer
     let ncode: String
