@@ -9,23 +9,23 @@
 import SwiftUI
 
 struct ReaderNavigationBar: View {
-    var novelTitle: String
-    var sectionNcode: String
     let sectionFetcher: SectionFetcher
+    var novelTitle: String
+    var sectionNcode: Binding<String>
     @Binding var isNavMenuHidden: Bool
     @Binding var isActive: Bool
     @State var isSectionNavigationPresented: Bool = false
     
     init(
-        novelTitle: String,
-        sectionNcode: String,
         sectionFetcher: SectionFetcher,
+        novelTitle: String,
+        sectionNcode: Binding<String>,
         isNavMenuHidden: Binding<Bool>,
         isActive: Binding<Bool>
     ) {
+        self.sectionFetcher = sectionFetcher
         self.novelTitle = novelTitle
         self.sectionNcode = sectionNcode
-        self.sectionFetcher = sectionFetcher
         self._isNavMenuHidden = isNavMenuHidden
         self._isActive = isActive
     }

@@ -12,14 +12,11 @@ class SectionNavigationViewModel: ObservableObject {
     @Published var novelTitle: String = ""
     @Published var chapters: [Chapter] = []
     let model: SectionNavigationModel = SectionNavigationModel()
-    let sectionNcode: String
     let handleFetchSection: (String) -> Void
     
-    init(sectionNcode: String, handleFetchSection: @escaping (String) -> Void) {
-        self.sectionNcode = sectionNcode.lowercased()
+    init(novelNcode: String, handleFetchSection: @escaping (String) -> Void) {
         self.handleFetchSection = handleFetchSection
         
-        let novelNcode = sectionNcode.components(separatedBy: "/")[0]
         model.fetchNovelIndex(ncode: novelNcode) { novelIndex in
             guard let novelIndex = novelIndex else { return }
             self.novelTitle = novelIndex.novelTitle

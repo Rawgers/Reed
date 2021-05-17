@@ -6,12 +6,11 @@
 //  Copyright © 2020 Roger Luo. All rights reserved.
 //
 
-import Combine
 import SwiftUI
 import Introspect
 
 struct ReaderView: View {
-    let viewModel: ReaderViewModel
+    @ObservedObject var viewModel: ReaderViewModel
     
     @State private var entries = [DefinitionDetails]()
     @State private var isNavMenuHidden = true
@@ -30,9 +29,9 @@ struct ReaderView: View {
     var body: some View {
         VStack(spacing: 0) {
             ReaderNavigationBar(
-                novelTitle: novelTitle,
-                sectionNcode: ncode,
                 sectionFetcher: viewModel.sectionFetcher,
+                novelTitle: novelTitle,
+                sectionNcode: $viewModel.sectionNcode,
                 isNavMenuHidden: $isNavMenuHidden,
                 isActive: $isActive
             )

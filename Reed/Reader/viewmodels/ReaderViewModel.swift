@@ -19,15 +19,13 @@ struct ProcessedContent {
 
 class ReaderViewModel: ObservableObject {
     @Published var processedContent: ProcessedContent?
-    @Published var isLoading: Bool = false
+    @Published var isLoading: Bool = true
+    @Published var sectionNcode: String = ""
     
     let persistentContainer: NSPersistentContainer
     let model: ReaderModel
     let sectionFetcher: SectionFetcher
     var sectionCancellable: AnyCancellable?
-    var sectionNcode: String {
-        return model.historyEntry?.sectionNcode ?? ""
-    }
     
     let paginatorWidth: CGFloat = {
         let edgeInsets = EdgeInsets()
@@ -60,6 +58,7 @@ class ReaderViewModel: ObservableObject {
                     annotatedContent: annotatedContent,
                     sectionUpdateType: section.updateType
                 )
+                self.sectionNcode = section.sectionNcode.lowercased()
             } else {
                 // If the section data or its contents are nil,
                 // put up some view that shows "unable to load".
@@ -68,9 +67,10 @@ class ReaderViewModel: ObservableObject {
             self.isLoading = false
         }
         
-        self.isLoading = true
         self.model.fetchHistoryEntry { historyEntry in
-            self.sectionFetcher.fetchNextSection(sectionNcode: historyEntry.sectionNcode)
+            self.sectionFetcher.fetchNextSection(
+                sectionNcode: historyEntry.sectionNcode
+            )
         }
     }
     

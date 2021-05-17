@@ -15,6 +15,7 @@ enum SectionUpdateType {
 }
 
 struct Section {
+    let sectionNcode: String
     let data: SectionData?
     let updateType: SectionUpdateType
 }
@@ -38,6 +39,7 @@ class SectionFetcher {
                 
             } else {
                 self.section = Section(
+                    sectionNcode: sectionNcode,
                     data: sectionData,
                     updateType: updateType
                 )
