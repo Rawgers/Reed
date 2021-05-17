@@ -37,7 +37,7 @@ struct ReaderView: View {
             )
             ZStack {
                 VStack(alignment: .center) {
-                    ReaderPagerView(
+                    Paginator(
                         entries: $entries,
                         isNavMenuHidden: $isNavMenuHidden,
                         sectionFetcher: viewModel.sectionFetcher,

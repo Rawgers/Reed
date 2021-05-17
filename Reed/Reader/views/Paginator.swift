@@ -10,8 +10,8 @@ import Combine
 import SwiftUI
 import SwiftUIPager
 
-struct ReaderPagerView: View {
-    @ObservedObject var viewModel: ReaderPaginatorViewModel
+struct Paginator: View {
+    @ObservedObject var viewModel: PaginatorViewModel
     @Binding var entries: [DefinitionDetails]
     @Binding var isNavMenuHidden: Bool
     
@@ -25,7 +25,7 @@ struct ReaderPagerView: View {
     ) {
         self._entries = entries
         self._isNavMenuHidden = isNavMenuHidden
-        self.viewModel = ReaderPaginatorViewModel(
+        self.viewModel = PaginatorViewModel(
             sectionFetcher: sectionFetcher,
             paginatorWidth: paginatorWidth,
             paginatorHeight: paginatorHeight,
@@ -35,32 +35,26 @@ struct ReaderPagerView: View {
     
     var body: some View {
         VStack {
-            Pager(
-                page: $viewModel.curPage,
-                data: viewModel.pages,
-                id: \.self,
-                content: { page in
-                    if viewModel.curPage == -1 {
-                        ProgressView()
-                            .frame(width: viewModel.paginatorWidth, height: viewModel.paginatorHeight)
-                    } else {
-                        DefinableText(
-                            content: .constant(page.content),
-                            tokensRange: page.tokensRange,
-                            width: viewModel.paginatorWidth,
-                            height: viewModel.paginatorHeight,
-                            definerResultHandler: definerResultHandler,
-                            getTokenHandler: viewModel.getToken,
-                            hideNavHandler: hideNavHandler
-                        )
+            TabView(selection: $viewModel.curPage) {
+                ForEach(viewModel.pages.indices, id: \.self) { i in
+                    let page = viewModel.pages[i]
+                    DefinableText(
+                        content: .constant(page.content),
+                        tokensRange: page.tokensRange,
+                        width: viewModel.paginatorWidth,
+                        height: viewModel.paginatorHeight,
+                        definerResultHandler: definerResultHandler,
+                        getTokenHandler: viewModel.getToken,
+                        hideNavHandler: hideNavHandler
+                    )
+                    .onAppear {
+                        viewModel.handlePageFlip()
                     }
                 }
-            )
-            .allowsDragging(viewModel.curPage != -1)
-            .onPageChanged { page in
-                self.viewModel.handlePageFlip(isInit: page == -1)
             }
-            .alignment(.start)
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+            .padding(.horizontal)
+            
             Text(viewModel.getPageNumberDisplay())
         }
     }
