@@ -1,5 +1,5 @@
 //
-//  DefinitionModal.swift
+//  Definer.swift
 //  Reed
 //
 //  Created by Roger Luo on 9/9/20.
@@ -9,7 +9,7 @@
 import SwiftUI
 import SwiftUIPager
 
-struct DefinerView: View {
+struct Definer: View {
     @Binding var entries: [DefinitionDetails]
     @State private var isBottomSheetExpanded = false
     @State private var definitionEntryIndex = 0
@@ -36,8 +36,8 @@ struct DefinerView: View {
     }
 }
 
-struct DefinerView_Previews: PreviewProvider {
+struct Definer_Previews: PreviewProvider {
     static var previews: some View {
-        DefinerView(entries: .constant([]))
+        Definer(entries: .constant([]))
     }
 }

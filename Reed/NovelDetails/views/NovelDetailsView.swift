@@ -103,7 +103,7 @@ struct NovelDetailsView: View {
                 tabBarController.tabBar.isHidden = true
             }
 
-            DefinerView(entries: self.$entries)
+            Definer(entries: self.$entries)
         }
         .navigationBarTitle("", displayMode: .inline)
     }

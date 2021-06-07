@@ -66,7 +66,7 @@ struct ReaderView: View {
                         )
                 }
                 
-                DefinerView(entries: $entries)
+                Definer(entries: $entries)
             }
             .navigationBarTitle("", displayMode: .inline)
             .introspectTabBarController { tabBarController in
