@@ -47,7 +47,7 @@ class PaginatorViewModel: ObservableObject {
             guard let processedContent = processedContent else { return }
             
             self.tokens = processedContent.tokens
-            self.pages = self.paginate(annotatedContent: processedContent.annotatedContent)
+            self.pages = self.paginate(content: processedContent.annotatedContent)
             
             switch processedContent.sectionUpdateType {
             case .FIRST:
@@ -119,11 +119,10 @@ class PaginatorViewModel: ObservableObject {
         return first
     }
     
-    private func paginate(annotatedContent: NSMutableAttributedString) -> [Page] {
+    private func paginate(content: NSMutableAttributedString) -> [Page] {
         let rect = CGRect(x: 0, y: 0, width: paginatorWidth, height: paginatorHeight)
         var tokensSoFar = 0
         var lengthSoFar = 0
-        var content = annotatedContent.mutableCopy() as! NSMutableAttributedString
         var pages = [Page]()
         
         // Add loading page if section is not the first in novel.
@@ -134,12 +133,11 @@ class PaginatorViewModel: ObservableObject {
             ))
         }
         
-        let tempTextView = DefinableTextView(frame: rect, content: NSMutableAttributedString(string: ""))
-        while content.length > 0 {
-            tempTextView.content = content
-            let lengthThatFits = min(tempTextView.lengthThatFits(), content.length)
+        let tempTextView = DefinableTextView(frame: rect, content: content)
+        while lengthSoFar < content.length {
+            let lengthThatFits = tempTextView.lengthThatFits(start: lengthSoFar)
             let contentStr = content.attributedSubstring(
-                from: NSRange(location: 0, length: lengthThatFits)
+                from: NSRange(location: lengthSoFar, length: lengthThatFits)
             ).mutableCopy() as! NSMutableAttributedString
             let lastToken = getLastToken(
                 l: tokensSoFar,
@@ -154,12 +152,6 @@ class PaginatorViewModel: ObservableObject {
             
             tokensSoFar = lastToken
             lengthSoFar += lengthThatFits
-            content = content.attributedSubstring(
-                from: NSRange(
-                    location: lengthThatFits,
-                    length: content.length - lengthThatFits
-                )
-            ).mutableCopy() as! NSMutableAttributedString
         }
         
         // Add loading page if section is not the last in novel.

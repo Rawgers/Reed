@@ -11,7 +11,7 @@ import SwiftUI
 import SwiftUIPager
 
 struct Paginator: View {
-    @ObservedObject var viewModel: PaginatorViewModel
+    @StateObject var viewModel: PaginatorViewModel
     @Binding var entries: [DefinitionDetails]
     @Binding var isNavMenuHidden: Bool
     
@@ -25,12 +25,12 @@ struct Paginator: View {
     ) {
         self._entries = entries
         self._isNavMenuHidden = isNavMenuHidden
-        self.viewModel = PaginatorViewModel(
+        self._viewModel = StateObject(wrappedValue: PaginatorViewModel(
             sectionFetcher: sectionFetcher,
             paginatorWidth: paginatorWidth,
             paginatorHeight: paginatorHeight,
             processedContentPublisher: processedContentPublisher
-        )
+        ))
     }
     
     var body: some View {
@@ -53,7 +53,6 @@ struct Paginator: View {
                 }
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-            .padding(.horizontal)
             
             Text(viewModel.getPageNumberDisplay())
         }
