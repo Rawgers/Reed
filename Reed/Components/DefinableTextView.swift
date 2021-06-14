@@ -19,6 +19,17 @@ class DefinableTextView: UIView {
     var ctFrame: CTFrame?
     var linesYCoordinates: [CGFloat]?
     private let orientation: TextOrientation
+    private let frameSetter: CTFramesetter
+    lazy private var path: CGMutablePath = {
+        let path = CGMutablePath()
+        switch orientation {
+        case .horizontal:
+            path.addRect(self.bounds)
+        case .vertical:
+            path.addRect(CGRect(x: self.bounds.origin.y, y: self.bounds.origin.x, width: self.bounds.height, height: self.bounds.width))
+        }
+        return path
+    }()
     
     init(
         frame: CGRect,
@@ -27,6 +38,11 @@ class DefinableTextView: UIView {
     ) {
         self.content = content
         self.orientation = isVerticalOrientation ? .vertical : .horizontal
+
+        self.content.addAttributes([NSAttributedString.Key.font : self.font as Any, NSAttributedString.Key.foregroundColor : UIColor.label, NSAttributedString.Key.verticalGlyphForm: isVerticalOrientation], range: NSMakeRange(0, self.content.length))
+        
+        frameSetter = CTFramesetterCreateWithAttributedString(content)
+        
         super.init(frame: frame)
     }
     
@@ -44,29 +60,25 @@ class DefinableTextView: UIView {
         }
         let attributed = content
 
-        let path = CGMutablePath()
         switch orientation {
         case .horizontal:
             context.textMatrix = CGAffineTransform.identity;
             context.translateBy(x: 0, y: self.bounds.size.height);
             context.scaleBy(x: 1.0, y: -1.0);
-            path.addRect(self.bounds)
                 
         case .vertical:
             context.rotate(by: .pi / 2)
             context.scaleBy(x: 1.0, y: -1.0)
-            path.addRect(CGRect(x: self.bounds.origin.y, y: self.bounds.origin.x, width: self.bounds.height, height: self.bounds.width))
         }
 
-        let frameSetter = CTFramesetterCreateWithAttributedString(attributed)
         ctFrame = CTFramesetterCreateFrame(
             frameSetter,
             CFRangeMake(0, attributed.length),
             path,
             nil
         )
-        
-        let lines  = CTFrameGetLines(ctFrame!) as! [CTLine]
+
+        let lines = CTFrameGetLines(ctFrame!) as! [CTLine]
         var lineOrigins = Array<CGPoint>(repeating: CGPoint.zero, count: lines.count)
         CTFrameGetLineOrigins(ctFrame!, CFRange(location: 0, length: lines.count), &lineOrigins)
         var yCoordinates = [CGFloat]()
@@ -77,26 +89,9 @@ class DefinableTextView: UIView {
         CTFrameDraw(ctFrame!, context)
     }
     
-    func lengthThatFits() -> Int {
-        let attributed = content
-
-        let path = CGMutablePath()
-        switch orientation {
-        case .horizontal:
-            path.addRect(self.bounds)
-            attributed.addAttribute(NSAttributedString.Key.verticalGlyphForm, value: false, range: NSMakeRange(0, attributed.length))
-            
-        case .vertical:
-            path.addRect(CGRect(x: self.bounds.origin.y, y: self.bounds.origin.x, width: self.bounds.height, height: self.bounds.width))
-            attributed.addAttribute(NSAttributedString.Key.verticalGlyphForm, value: true, range: NSMakeRange(0, attributed.length))
-        }
-
-        attributed.addAttributes([NSAttributedString.Key.font : self.font as Any, NSAttributedString.Key.foregroundColor : UIColor.label], range: NSMakeRange(0, attributed.length))
-
-        let frameSetter = CTFramesetterCreateWithAttributedString(attributed)
-
-        ctFrame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0,0), path, nil)
-        return CTFrameGetVisibleStringRange(ctFrame!).length as Int
+    func lengthThatFits(start: Int) -> Int {
+        ctFrame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(start, content.length - start), path, nil)
+        return min(CTFrameGetVisibleStringRange(ctFrame!).length as Int, content.length - start)
     }
 }
 
