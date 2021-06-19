@@ -35,38 +35,14 @@ struct ReaderView: View {
                 isNavMenuHidden: $isNavMenuHidden,
                 isActive: $isActive
             )
-            ZStack {
-                VStack(alignment: .center) {
-                    Paginator(
-                        entries: $entries,
-                        isNavMenuHidden: $isNavMenuHidden,
-                        sectionFetcher: viewModel.sectionFetcher,
-                        paginatorWidth: viewModel.paginatorWidth,
-                        paginatorHeight: viewModel.paginatorHeight,
-                        processedContentPublisher: viewModel.$processedContent.eraseToAnyPublisher()
-                    )
-                    
-                    Rectangle()
-                        .frame(height: BottomSheetConstants.minHeight)
-                        .opacity(0)
-                }
-                .padding(.horizontal)
-                .ignoresSafeArea(edges: .bottom)
-                .background(Color(.systemBackground))
-                .onTapGesture(count: 2) {
-                    isNavMenuHidden.toggle()
-                }
-                .navigationBarHidden(true)
-                
-                if viewModel.isLoading {
-                    ProgressView()
-                        .frame(
-                            width: viewModel.paginatorWidth,
-                            height: viewModel.paginatorHeight
-                        )
-                }
-                
-                Definer(entries: $entries)
+
+            DefinerView(entries: $entries) {
+                Paginator(
+                    entries: $entries,
+                    isNavMenuHidden: $isNavMenuHidden,
+                    sectionFetcher: viewModel.sectionFetcher,
+                    processedContentPublisher: viewModel.$processedContent.eraseToAnyPublisher()
+                )
             }
             .navigationBarTitle("", displayMode: .inline)
             .introspectTabBarController { tabBarController in

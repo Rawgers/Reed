@@ -8,15 +8,6 @@
 
 import SwiftUI
 
-enum BottomSheetConstants {
-    static let minHeight: CGFloat = 120
-    static let maxHeight: CGFloat = UIScreen.main.bounds.height * 0.4
-    fileprivate static let radius: CGFloat = 16
-    fileprivate static let indicatorHeight: CGFloat = 2
-    fileprivate static let indicatorWidth: CGFloat = 32
-    fileprivate static let snapRatio: CGFloat = 0.25
-}
-
 struct BottomSheetView<Content: View>: View {
     @Binding var isOpen: Bool
     
@@ -25,8 +16,8 @@ struct BottomSheetView<Content: View>: View {
     let content: Content
     
     init(isOpen: Binding<Bool>, @ViewBuilder content: () -> Content) {
-        self.minHeight = BottomSheetConstants.minHeight
-        self.maxHeight = BottomSheetConstants.maxHeight
+        self.minHeight = DefinerConstants.BOTTOM_SHEET_MIN_HEIGHT
+        self.maxHeight = DefinerConstants.BOTTOM_SHEET_MAX_HEIGHT
         self.content = content()
         self._isOpen = isOpen
     }
@@ -36,11 +27,11 @@ struct BottomSheetView<Content: View>: View {
     }
     
     private var indicator: some View {
-        RoundedRectangle(cornerRadius: BottomSheetConstants.radius)
+        RoundedRectangle(cornerRadius: DefinerConstants.BOTTOM_SHEET_CORNER_RADIUS)
             .fill(Color(.systemGray4))
             .frame(
-                width: BottomSheetConstants.indicatorWidth,
-                height: BottomSheetConstants.indicatorHeight
+                width: DefinerConstants.BOTTOM_SHEET_INDICATOR_WIDTH,
+                height: DefinerConstants.BOTTOM_SHEET_INDICATOR_HEIGHT
             )
     }
     
@@ -59,7 +50,7 @@ struct BottomSheetView<Content: View>: View {
                     ? Color(.secondarySystemBackground)
                     : Color.white
             )
-            .cornerRadius(BottomSheetConstants.radius)
+            .cornerRadius(DefinerConstants.BOTTOM_SHEET_CORNER_RADIUS)
             .shadow(radius: 4)
             .frame(height: geometry.size.height, alignment: .bottom)
             .offset(y: max(self.offset + self.translation, 0))
@@ -68,7 +59,7 @@ struct BottomSheetView<Content: View>: View {
                 DragGesture().updating(self.$translation) { value, state, _ in
                     state = value.translation.height
                 }.onEnded { value in
-                    let snapDistance = self.maxHeight * BottomSheetConstants.snapRatio
+                    let snapDistance = self.maxHeight * DefinerConstants.BOTTOM_SHEET_SNAP_RATIO
                     guard abs(value.translation.height) > snapDistance else {
                         return
                     }

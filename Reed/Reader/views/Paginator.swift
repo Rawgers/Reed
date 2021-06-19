@@ -18,16 +18,12 @@ struct Paginator: View {
         entries: Binding<[DefinitionDetails]>,
         isNavMenuHidden: Binding<Bool>,
         sectionFetcher: SectionFetcher,
-        paginatorWidth: CGFloat,
-        paginatorHeight: CGFloat,
         processedContentPublisher: AnyPublisher<ProcessedContent?, Never>
     ) {
         self._entries = entries
         self._isNavMenuHidden = isNavMenuHidden
         self._viewModel = StateObject(wrappedValue: PaginatorViewModel(
             sectionFetcher: sectionFetcher,
-            paginatorWidth: paginatorWidth,
-            paginatorHeight: paginatorHeight,
             processedContentPublisher: processedContentPublisher
         ))
     }
@@ -40,8 +36,8 @@ struct Paginator: View {
                     DefinableText(
                         content: .constant(page.content),
                         tokensRange: page.tokensRange,
-                        width: viewModel.paginatorWidth,
-                        height: viewModel.paginatorHeight,
+                        width: DefinerConstants.CONTENT_WIDTH,
+                        height: DefinerConstants.CONTENT_HEIGHT,
                         definerResultHandler: definerResultHandler,
                         getTokenHandler: viewModel.getToken,
                         hideNavHandler: hideNavHandler
@@ -50,9 +46,8 @@ struct Paginator: View {
                         viewModel.handlePageFlip()
                     }
                 }
-            }
-            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-            
+            }.tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+
             Text(viewModel.getPageNumberDisplay())
         }
     }
