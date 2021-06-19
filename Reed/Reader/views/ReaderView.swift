@@ -37,12 +37,18 @@ struct ReaderView: View {
             )
 
             DefinerView(entries: $entries) {
-                Paginator(
-                    entries: $entries,
-                    isNavMenuHidden: $isNavMenuHidden,
-                    sectionFetcher: viewModel.sectionFetcher,
-                    processedContentPublisher: viewModel.$processedContent.eraseToAnyPublisher()
-                )
+                ZStack {
+                    Paginator(
+                        entries: $entries,
+                        isNavMenuHidden: $isNavMenuHidden,
+                        sectionFetcher: viewModel.sectionFetcher,
+                        processedContentPublisher: viewModel.$processedContent.eraseToAnyPublisher()
+                    )
+                    
+                    if viewModel.isLoading {
+                        ProgressView()
+                    }
+                }
             }
             .navigationBarTitle("", displayMode: .inline)
             .introspectTabBarController { tabBarController in
