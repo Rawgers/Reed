@@ -14,12 +14,12 @@ private enum TextOrientation {
 }
 
 class DefinableTextView: UIView {
-    var font = UIFont(name: "Hiragino Maru Gothic ProN W4", size: 20)
     var content: NSMutableAttributedString
     var ctFrame: CTFrame?
     var linesYCoordinates: [CGFloat]?
+    let font = UIFont(name: "Hiragino Maru Gothic ProN W4", size: 20)
     private let orientation: TextOrientation
-    private let frameSetter: CTFramesetter
+    private var frameSetter: CTFramesetter
     lazy private var path: CGMutablePath = {
         let path = CGMutablePath()
         switch orientation {
@@ -37,12 +37,17 @@ class DefinableTextView: UIView {
         isVerticalOrientation: Bool = false
     ) {
         self.content = content
+        self.content.addAttributes(
+            [
+                NSAttributedString.Key.font : self.font as Any,
+                NSAttributedString.Key.foregroundColor : UIColor.label,
+                NSAttributedString.Key.verticalGlyphForm: isVerticalOrientation
+            ],
+            range: NSMakeRange(0, self.content.length)
+        )
+        frameSetter = CTFramesetterCreateWithAttributedString(content)
         self.orientation = isVerticalOrientation ? .vertical : .horizontal
 
-        self.content.addAttributes([NSAttributedString.Key.font : self.font as Any, NSAttributedString.Key.foregroundColor : UIColor.label, NSAttributedString.Key.verticalGlyphForm: isVerticalOrientation], range: NSMakeRange(0, self.content.length))
-        
-        frameSetter = CTFramesetterCreateWithAttributedString(content)
-        
         super.init(frame: frame)
     }
     
@@ -70,7 +75,7 @@ class DefinableTextView: UIView {
             context.rotate(by: .pi / 2)
             context.scaleBy(x: 1.0, y: -1.0)
         }
-
+        frameSetter = CTFramesetterCreateWithAttributedString(content)
         ctFrame = CTFramesetterCreateFrame(
             frameSetter,
             CFRangeMake(0, attributed.length),
