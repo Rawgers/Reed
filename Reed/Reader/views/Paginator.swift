@@ -8,7 +8,6 @@
 
 import Combine
 import SwiftUI
-import SwiftUIPager
 
 struct Paginator: View {
     @StateObject var viewModel: PaginatorViewModel
