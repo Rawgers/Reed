@@ -27,20 +27,14 @@ class PaginatorViewModel: ObservableObject {
     @Published var pages: [Page] = []
     @Published var curPage: Int = -1
     let sectionFetcher: SectionFetcher
-    let paginatorWidth: CGFloat
-    let paginatorHeight: CGFloat
     var processedContentCancellable: AnyCancellable?
     var tokens: [Token] = []
     
     init(
         sectionFetcher: SectionFetcher,
-        paginatorWidth: CGFloat,
-        paginatorHeight: CGFloat,
         processedContentPublisher: AnyPublisher<ProcessedContent?, Never>
     ) {
         self.sectionFetcher = sectionFetcher
-        self.paginatorWidth = paginatorWidth
-        self.paginatorHeight = paginatorHeight
         
         self.processedContentCancellable = processedContentPublisher.sink { [weak self] processedContent in
             guard let self = self else { return }
@@ -120,7 +114,12 @@ class PaginatorViewModel: ObservableObject {
     }
     
     private func paginate(content: NSMutableAttributedString) -> [Page] {
-        let rect = CGRect(x: 0, y: 0, width: paginatorWidth, height: paginatorHeight)
+        let rect = CGRect(
+            x: 0,
+            y: 0,
+            width: DefinerConstants.CONTENT_WIDTH,
+            height: DefinerConstants.CONTENT_HEIGHT
+        )
         var tokensSoFar = 0
         var lengthSoFar = 0
         var pages = [Page]()

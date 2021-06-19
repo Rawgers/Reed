@@ -27,15 +27,6 @@ class ReaderViewModel: ObservableObject {
     let sectionFetcher: SectionFetcher
     var sectionCancellable: AnyCancellable?
     
-    let paginatorWidth: CGFloat = {
-        let edgeInsets = EdgeInsets()
-        return UIScreen.main.bounds.width - 32
-    }()
-    let paginatorHeight: CGFloat = {
-        let definerOffset = BottomSheetConstants.maxHeight - BottomSheetConstants.minHeight
-        return UIScreen.main.bounds.height - definerOffset - 32
-    }()
-    
     init(persistentContainer: NSPersistentContainer, ncode: String) {
         self.persistentContainer = persistentContainer
         self.model = ReaderModel(persistentContainer: persistentContainer, ncode: ncode)
