@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import SwiftUIPager
 
 struct Definer: View {
     @Binding var entries: [DefinitionDetails]
