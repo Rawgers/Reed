@@ -15,6 +15,7 @@ private enum TextOrientation {
 
 class DefinableTextView: UIView {
     var content: NSMutableAttributedString
+    var selectedRange: NSRange?
     var ctFrame: CTFrame?
     var linesYCoordinates: [CGFloat]?
     let font = UIFont(name: "Hiragino Maru Gothic ProN W4", size: 20)
@@ -47,7 +48,7 @@ class DefinableTextView: UIView {
         )
         frameSetter = CTFramesetterCreateWithAttributedString(content)
         self.orientation = isVerticalOrientation ? .vertical : .horizontal
-
+        print("init")
         super.init(frame: frame)
     }
     
@@ -60,6 +61,7 @@ class DefinableTextView: UIView {
     // ルビを表示
     override func draw(_ rect: CGRect) {
         // context allows you to manipulate the drawing context (setup to draw or bail out)
+        print("drawn")
         guard let context: CGContext = UIGraphicsGetCurrentContext() else {
             return
         }

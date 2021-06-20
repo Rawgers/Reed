@@ -35,6 +35,7 @@ struct DefinitionDetails: Equatable, Hashable, Identifiable {
 
 struct DefinableText: UIViewRepresentable {
     @Binding var content: NSMutableAttributedString
+    @Binding var selectedRange: NSRange?
     var tokensRange: [Int]
     let width: CGFloat
     let height: CGFloat
@@ -44,6 +45,7 @@ struct DefinableText: UIViewRepresentable {
     
     internal init(
         content: Binding<NSMutableAttributedString>,
+        selectedRange: Binding<NSRange?>,
         tokensRange: [Int],
         width: CGFloat,
         height: CGFloat,
@@ -52,6 +54,7 @@ struct DefinableText: UIViewRepresentable {
         hideNavHandler: @escaping () -> Void = {}
     ) {
         self._content = content
+        self._selectedRange = selectedRange
         self.tokensRange = tokensRange
         self.width = width
         self.height = height
@@ -91,17 +94,23 @@ struct DefinableText: UIViewRepresentable {
         _ textView: DefinableTextView,
         context: UIViewRepresentableContext<DefinableText>
     ) {
-        textView.content.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.clear, range: NSRange(location: 0, length: textView.content.length))
+//        if selectedRange != nil { return }
         textView.setNeedsDisplay()
     }
     
     func makeCoordinator() -> DefinableText.Coordinator {
-        return Coordinator(tokensRange: tokensRange, definerResultHandler: definerResultHandler, hideNavHandler: hideNavHandler, getTokenHandler: getTokenHandler)
+        return Coordinator(
+            tokensRange: tokensRange,
+            selectedRange: $selectedRange,
+            definerResultHandler: definerResultHandler,
+            hideNavHandler: hideNavHandler,
+            getTokenHandler: getTokenHandler
+        )
     }
     
     class Coordinator: NSObject {
         private var tappedRange: NSRange!
-        private var selectedRange: NSRange!
+        @Binding var selectedRange: NSRange?
         private let dictionaryFetcher = DictionaryFetcher()
         private let tokensRange: [Int]
         private let definerResultHandler: ([DefinitionDetails]) -> Void
@@ -110,11 +119,13 @@ struct DefinableText: UIViewRepresentable {
         
         init(
             tokensRange: [Int],
+            selectedRange: Binding<NSRange?>,
             definerResultHandler: @escaping ([DefinitionDetails]) -> Void,
             hideNavHandler: @escaping () -> Void,
             getTokenHandler: @escaping(Int, Int, Int) -> Token?
         ) {
             self.tokensRange = tokensRange
+            self._selectedRange = selectedRange
             self.definerResultHandler = definerResultHandler
             self.hideNavHandler = hideNavHandler
             self.getTokenHandler = getTokenHandler
@@ -202,11 +213,19 @@ struct DefinableText: UIViewRepresentable {
         
         fileprivate func highlightSelection(textView: DefinableTextView) {
             if selectedRange != nil {
-                textView.content.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.clear, range: selectedRange!)
+                textView.content.addAttribute(
+                    NSAttributedString.Key.backgroundColor,
+                    value: UIColor.clear,
+                    range: selectedRange!
+                )
             }
             selectedRange = tappedRange
-            textView.content.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.systemYellow.withAlphaComponent(0.3), range: selectedRange!)
-            textView.setNeedsDisplay()
+            textView.content.addAttribute(
+                NSAttributedString.Key.backgroundColor,
+                value: UIColor.systemYellow.withAlphaComponent(0.3),
+                range: selectedRange!
+            )
+//            textView.setNeedsDisplay()
         }
     }
 }

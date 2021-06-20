@@ -11,6 +11,7 @@ import SwiftUI
 
 struct Paginator: View {
     @StateObject var viewModel: PaginatorViewModel
+    @State private var selectedRange: NSRange?
     @Binding var entries: [DefinitionDetails]
     @Binding var isNavMenuHidden: Bool
     
@@ -34,7 +35,8 @@ struct Paginator: View {
                 ForEach(viewModel.pages.indices, id: \.self) { i in
                     let page = viewModel.pages[i]
                     DefinableText(
-                        content: .constant(page.content),
+                        content: .constant(page.content), // revisit this
+                        selectedRange: $selectedRange,
                         tokensRange: page.tokensRange,
                         width: DefinerConstants.CONTENT_WIDTH,
                         height: DefinerConstants.CONTENT_HEIGHT,
@@ -43,7 +45,8 @@ struct Paginator: View {
                         hideNavHandler: hideNavHandler
                     )
                     .onAppear {
-                        viewModel.handlePageFlip()
+                        viewModel.handlePageFlip(p: i)
+                        clearSelectedRange(content: viewModel.pages[i].content)
                     }
                 }
             }.tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -58,6 +61,16 @@ struct Paginator: View {
     
     func hideNavHandler() {
         isNavMenuHidden.toggle()
+    }
+    
+    func clearSelectedRange(content: NSMutableAttributedString) {
+        guard let selectedRange = self.selectedRange else { return }
+        content.addAttribute(
+            NSAttributedString.Key.backgroundColor,
+            value: UIColor.clear,
+            range: selectedRange
+        )
+        self.selectedRange = nil
     }
 }
 

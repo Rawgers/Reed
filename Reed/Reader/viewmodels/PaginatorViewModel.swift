@@ -28,7 +28,7 @@ class PaginatorViewModel: ObservableObject {
     @Published var curPage: Int = -1
     let sectionFetcher: SectionFetcher
     var processedContentCancellable: AnyCancellable?
-    var tokens: [Token] = []
+    var processedContent: ProcessedContent?
     
     init(
         sectionFetcher: SectionFetcher,
@@ -40,8 +40,8 @@ class PaginatorViewModel: ObservableObject {
             guard let self = self else { return }
             guard let processedContent = processedContent else { return }
             
-            self.tokens = processedContent.tokens
-            self.pages = self.paginate(content: processedContent.annotatedContent)
+            self.processedContent = processedContent
+            self.pages = self.paginate(processedContent: processedContent)
             
             switch processedContent.sectionUpdateType {
             case .FIRST:
@@ -59,12 +59,13 @@ class PaginatorViewModel: ObservableObject {
     }
     
     func getLastToken(l: Int, r: Int, x: Int) -> Int {
-        if tokens.isEmpty {
+        guard let processedContent = processedContent else { return -1 }
+        if processedContent.tokens.isEmpty {
             return -1
         }
         
-        if x >= tokens[tokens.endIndex - 1].range.upperBound {
-            return tokens.endIndex - 1
+        if x >= processedContent.tokens[processedContent.tokens.endIndex - 1].range.upperBound {
+            return processedContent.tokens.endIndex - 1
         }
 
         var i = l
@@ -72,15 +73,17 @@ class PaginatorViewModel: ObservableObject {
         var mid = 0
         while i < j {
             mid = (i + j) / 2
-            if tokens[mid].range.lowerBound <= x && tokens[mid].range.upperBound > x {
+            if processedContent.tokens[mid].range.lowerBound <= x
+                && processedContent.tokens[mid].range.upperBound > x {
                 return mid
-            } else if tokens[mid].range.lowerBound > x {
-                if mid > 0 && x > tokens[mid - 1].range.upperBound {
+            } else if processedContent.tokens[mid].range.lowerBound > x {
+                if mid > 0 && x > processedContent.tokens[mid - 1].range.upperBound {
                     return findClosest(first: mid - 1, second: mid, x: x)
                 }
                 j = mid
             } else {
-                if mid < tokens.endIndex - 1 && tokens[mid + 1].range.lowerBound > x {
+                if mid < processedContent.tokens.endIndex - 1
+                    && processedContent.tokens[mid + 1].range.lowerBound > x {
                     return findClosest(first: mid, second: mid + 1, x: x)
                 }
                 i = mid + 1
@@ -91,13 +94,14 @@ class PaginatorViewModel: ObservableObject {
     
     // Used in DefinableTextView to highlight tapped token.
     func getToken(l: Int, r: Int, x: Int) -> Token? {
+        guard let processedContent = processedContent else { return nil }
         var i = l
         var j = r
         while j >= i {
             let mid = i + (j - i) / 2
-            if tokens[mid].range.lowerBound <= x && tokens[mid].range.upperBound > x {
-                return tokens[mid]
-            } else if tokens[mid].range.lowerBound > x {
+            if processedContent.tokens[mid].range.lowerBound <= x && processedContent.tokens[mid].range.upperBound > x {
+                return processedContent.tokens[mid]
+            } else if processedContent.tokens[mid].range.lowerBound > x {
                 j = mid - 1
             } else {
                 i = mid + 1
@@ -107,13 +111,15 @@ class PaginatorViewModel: ObservableObject {
     }
     
     private func findClosest(first: Int, second: Int, x: Int) -> Int {
-        if x - tokens[first].range.upperBound < tokens[second].range.lowerBound - x {
+        guard let processedContent = processedContent else { return -1 }
+        if x - processedContent.tokens[first].range.upperBound
+            < processedContent.tokens[second].range.lowerBound - x {
             return second
         }
         return first
     }
     
-    private func paginate(content: NSMutableAttributedString) -> [Page] {
+    private func paginate(processedContent: ProcessedContent) -> [Page] {
         let rect = CGRect(
             x: 0,
             y: 0,
@@ -125,13 +131,14 @@ class PaginatorViewModel: ObservableObject {
         var pages = [Page]()
         
         // Add loading page if section is not the first in novel.
-        if sectionFetcher.section?.data?.prevNcode != nil {
+        if processedContent.prevNcode != nil {
             pages.append(Page(
                 content: NSMutableAttributedString(string: "\n"),
                 tokensRange: [0, 0, 0]
             ))
         }
         
+        let content = processedContent.annotatedContent
         let tempTextView = DefinableTextView(frame: rect, content: content)
         while lengthSoFar < content.length {
             let lengthThatFits = tempTextView.lengthThatFits(start: lengthSoFar)
@@ -140,7 +147,7 @@ class PaginatorViewModel: ObservableObject {
             ).mutableCopy() as! NSMutableAttributedString
             let lastToken = getLastToken(
                 l: tokensSoFar,
-                r: tokens.endIndex,
+                r: processedContent.tokens.endIndex,
                 x: lengthSoFar + lengthThatFits
             )
             
@@ -154,23 +161,22 @@ class PaginatorViewModel: ObservableObject {
         }
         
         // Add loading page if section is not the last in novel.
-        if sectionFetcher.section?.data?.nextNcode != nil {
+        if processedContent.nextNcode != nil {
             pages.append(Page(
                 content: NSMutableAttributedString(string: "\n"),
                 tokensRange: [0, 0, 0]
             ))
         }
-        
         return pages
     }
     
-    func handlePageFlip() {
+    func handlePageFlip(p: Int) {
         // Handle cases when flipping first or last page of section.
-        guard let sectionData = sectionFetcher.section?.data else { return }
-        if curPage == 0 && sectionData.prevNcode != nil {
-            sectionFetcher.fetchPrevSection(sectionNcode: sectionData.prevNcode!)
-        } else if curPage == pages.endIndex - 1 && sectionData.nextNcode != nil {
-            sectionFetcher.fetchNextSection(sectionNcode: sectionData.nextNcode!)
+        guard let processedContent = self.processedContent else { return }
+        if curPage == 0 && processedContent.prevNcode != nil {
+            sectionFetcher.fetchPrevSection(sectionNcode: processedContent.prevNcode!)
+        } else if curPage == pages.endIndex - 1 && processedContent.nextNcode != nil {
+            sectionFetcher.fetchNextSection(sectionNcode: processedContent.nextNcode!)
         } else { return }
     }
     

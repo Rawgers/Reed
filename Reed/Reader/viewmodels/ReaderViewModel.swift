@@ -15,6 +15,8 @@ struct ProcessedContent {
     let tokens: [Token]
     let annotatedContent: NSMutableAttributedString
     let sectionUpdateType: SectionUpdateType
+    let prevNcode: String?
+    let nextNcode: String?
 }
 
 class ReaderViewModel: ObservableObject {
@@ -38,7 +40,6 @@ class ReaderViewModel: ObservableObject {
                 self.isLoading = true
                 return
             }
-            
             var annotatedContent = NSMutableAttributedString()
             if let content = section.data?.content {
                 let tokenizer = Tokenizer()
@@ -47,7 +48,9 @@ class ReaderViewModel: ObservableObject {
                 self.processedContent = ProcessedContent(
                     tokens: tokens,
                     annotatedContent: annotatedContent,
-                    sectionUpdateType: section.updateType
+                    sectionUpdateType: section.updateType,
+                    prevNcode: section.data?.prevNcode,
+                    nextNcode: section.data?.nextNcode
                 )
                 self.sectionNcode = section.sectionNcode.lowercased()
             } else {
