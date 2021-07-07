@@ -10,17 +10,17 @@ import SwiftUI
 import Introspect
 
 struct NovelDetailsView: View {
-    @ObservedObject var viewModel: NovelDetailsViewModel
+    @StateObject var viewModel: NovelDetailsViewModel
     @State private var topExpanded: Bool = true
     @State private var entries: [DefinitionDetails] = []
     @State private var isPushedToReader: Bool = false
     
     init(ncode: String) {
-        viewModel = NovelDetailsViewModel(ncode: ncode)
+        self._viewModel = StateObject(wrappedValue: NovelDetailsViewModel(ncode: ncode))
     }
     
     var body: some View {
-        ZStack {
+        DefinerView(entries: self.$entries) {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(viewModel.novelTitle)
@@ -75,7 +75,23 @@ struct NovelDetailsView: View {
                             .font(.subheadline).bold()
                             .foregroundColor(Color(.systemGray4))
                             .padding(.bottom, 4)
-                        Text(viewModel.novelSynopsis)
+                        ZStack {
+                            if viewModel.isNovelSynopsisProcessing {
+                                ProgressView()
+                                    .frame(width: DefinerConstants.CONTENT_WIDTH, height: self.viewModel.novelSynopsisHeight)
+                            } else {
+                                Rectangle()
+                                    .frame(width: DefinerConstants.CONTENT_WIDTH, height: self.viewModel.novelSynopsisHeight)
+                            }
+                            DefinableText(
+                                content: .constant(viewModel.novelSynopsis),
+                                tokensRange: [0, viewModel.tokens.endIndex, viewModel.novelSynopsis.length],
+                                width: DefinerConstants.CONTENT_WIDTH,
+                                height: self.viewModel.novelSynopsisHeight,
+                                definerResultHandler: definerResultHandler(newEntries:),
+                                getTokenHandler: viewModel.getToken(l:r:x:)
+                            )
+                        }
                     }
                     .padding(.bottom, 8)
                     
@@ -102,10 +118,12 @@ struct NovelDetailsView: View {
             .introspectTabBarController { tabBarController in
                 tabBarController.tabBar.isHidden = true
             }
-
-            Definer(entries: self.$entries)
         }
         .navigationBarTitle("", displayMode: .inline)
+    }
+    
+    func definerResultHandler(newEntries: [DefinitionDetails]) {
+        self.entries = newEntries
     }
 }
 
