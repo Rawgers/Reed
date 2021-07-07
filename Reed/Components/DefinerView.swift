@@ -18,6 +18,7 @@ enum DefinerConstants {
     static let CONTENT_WIDTH: CGFloat = UIScreen.main.bounds.width - 32
     static let CONTENT_HEIGHT: CGFloat = UIScreen.main.bounds.height
         - (BOTTOM_SHEET_MAX_HEIGHT - BOTTOM_SHEET_MIN_HEIGHT) - 32
+    static let NOVEL_SYNOPSIS_PRELOAD_HEIGHT: CGFloat = 5 * CONTENT_HEIGHT
 }
 
 struct DefinerView<Content:View>: View {

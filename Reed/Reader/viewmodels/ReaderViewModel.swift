@@ -43,7 +43,7 @@ class ReaderViewModel: ObservableObject {
             if let content = section.data?.content {
                 let tokenizer = Tokenizer()
                 let tokens = tokenizer.tokenize(content)
-                annotatedContent = self.annotateWithFurigana(tokens: tokens, content: content)
+                annotatedContent = content.annotateWithFurigana(tokens: tokens)
                 self.processedContent = ProcessedContent(
                     tokens: tokens,
                     annotatedContent: annotatedContent,
@@ -72,36 +72,5 @@ class ReaderViewModel: ObservableObject {
     
     deinit {
         self.sectionCancellable?.cancel()
-    }
-}
-
-// MARK: Layout logic
-extension ReaderViewModel {
-    private func annotateWithFurigana(tokens: [Token], content: String) -> NSMutableAttributedString {
-        var annotatedContent = content as NSString
-        var contentIndex = 0
-        for token in tokens {
-            if !token.furiganas.isEmpty {
-                let start = token.range.location
-                for furigana in token.furiganas {
-                    annotatedContent = annotatedContent.replacingCharacters(
-                        in: NSRange(
-                            location: start + contentIndex + furigana.range.location,
-                            length: furigana.range.length
-                        ),
-                        with: "｜\(token.surface[String.Index(utf16Offset: furigana.range.location, in: token.surface)..<String.Index(utf16Offset: furigana.range.location + furigana.range.length, in: token.surface)])《\(furigana.reading)》"
-                    ) as NSString
-                    contentIndex += furigana.reading.count + 3
-                }
-            } else {
-                annotatedContent = annotatedContent.replacingCharacters(
-                    in: NSRange(location: token.range.location + contentIndex, length: 1),
-                    with: "｜\(token.surface[String.Index(utf16Offset: 0, in: token.surface)..<String.Index(utf16Offset: 1, in: token.surface)])《 》"
-                ) as NSString
-                contentIndex += 4
-            }
-        }
-        
-        return (annotatedContent as String).createRuby()
     }
 }

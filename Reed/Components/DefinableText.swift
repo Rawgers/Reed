@@ -91,6 +91,7 @@ struct DefinableText: UIViewRepresentable {
         _ textView: DefinableTextView,
         context: UIViewRepresentableContext<DefinableText>
     ) {
+        textView.content = self.content
         textView.content.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.clear, range: NSRange(location: 0, length: textView.content.length))
         textView.setNeedsDisplay()
     }
@@ -127,7 +128,7 @@ struct DefinableText: UIViewRepresentable {
         @objc func wordTapped(gesture: UITapGestureRecognizer) {
             let textView = gesture.view as! DefinableTextView
             let location = gesture.location(in: textView)
-            let position = CGPoint(x: location.x + textView.font!.pointSize / 2, y: location.y)
+            let position = CGPoint(x: location.x + textView.font.pointSize / 2, y: location.y)
             let lineArray = CTFrameGetLines(textView.ctFrame!) as! Array<CTLine>
             let tappedLine = getLine(lineY: textView.linesYCoordinates!, l: 0, r: textView.linesYCoordinates!.count - 1, y: position.y)
             if tappedLine > -1 {

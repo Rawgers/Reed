@@ -17,19 +17,10 @@ class DefinableTextView: UIView {
     var content: NSMutableAttributedString
     var ctFrame: CTFrame?
     var linesYCoordinates: [CGFloat]?
-    let font = UIFont(name: "Hiragino Maru Gothic ProN W4", size: 20)
+    let font = UIFont(name: "Hiragino Maru Gothic ProN W4", size: 20)!
     private let orientation: TextOrientation
     private var frameSetter: CTFramesetter
-    lazy private var path: CGMutablePath = {
-        let path = CGMutablePath()
-        switch orientation {
-        case .horizontal:
-            path.addRect(self.bounds)
-        case .vertical:
-            path.addRect(CGRect(x: self.bounds.origin.y, y: self.bounds.origin.x, width: self.bounds.height, height: self.bounds.width))
-        }
-        return path
-    }()
+    lazy private var path: CGMutablePath = { self.computeDrawPath() }()
     
     init(
         frame: CGRect,
@@ -63,26 +54,39 @@ class DefinableTextView: UIView {
         guard let context: CGContext = UIGraphicsGetCurrentContext() else {
             return
         }
-        let attributed = content
-
+        
         switch orientation {
         case .horizontal:
+            if !path.boundingBoxOfPath.equalTo(self.bounds) {
+                path = computeDrawPath()
+            }
             context.textMatrix = CGAffineTransform.identity;
             context.translateBy(x: 0, y: self.bounds.size.height);
             context.scaleBy(x: 1.0, y: -1.0);
-                
         case .vertical:
+            if path.boundingBoxOfPath.origin.x == self.bounds.origin.y
+                && path.boundingBoxOfPath.origin.y == self.bounds.origin.x
+                && path.boundingBoxOfPath.width == self.bounds.height
+                && path.boundingBoxOfPath.height == self.bounds.width
+            {
+                path = computeDrawPath()
+            }
             context.rotate(by: .pi / 2)
             context.scaleBy(x: 1.0, y: -1.0)
         }
+        
         frameSetter = CTFramesetterCreateWithAttributedString(content)
+        linesYCoordinates = getLinesYCoordinates()
+        CTFrameDraw(ctFrame!, context)
+    }
+    
+    func getLinesYCoordinates() -> [CGFloat] {
         ctFrame = CTFramesetterCreateFrame(
             frameSetter,
-            CFRangeMake(0, attributed.length),
+            CFRangeMake(0, content.length),
             path,
             nil
         )
-
         let lines = CTFrameGetLines(ctFrame!) as! [CTLine]
         var lineOrigins = Array<CGPoint>(repeating: CGPoint.zero, count: lines.count)
         CTFrameGetLineOrigins(ctFrame!, CFRange(location: 0, length: lines.count), &lineOrigins)
@@ -90,8 +94,23 @@ class DefinableTextView: UIView {
         for (index, _) in lines.enumerated() {
             yCoordinates.append(bounds.height - lineOrigins[index].y)
         }
-        linesYCoordinates = yCoordinates
-        CTFrameDraw(ctFrame!, context)
+        return yCoordinates
+    }
+    
+    func computeDrawPath() -> CGMutablePath {
+        let path = CGMutablePath()
+        switch orientation {
+        case .horizontal:
+            path.addRect(self.bounds)
+        case .vertical:
+            path.addRect(CGRect(
+                x: self.bounds.origin.y,
+                y: self.bounds.origin.x,
+                width: self.bounds.height,
+                height: self.bounds.width
+            ))
+        }
+        return path
     }
     
     func lengthThatFits(start: Int) -> Int {
