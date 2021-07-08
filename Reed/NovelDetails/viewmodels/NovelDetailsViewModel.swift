@@ -50,7 +50,6 @@ class NovelDetailsViewModel: ObservableObject {
             )
             self.novelSynopsisHeight = (testDefinableTextView.getLinesYCoordinates().last ?? DefinerConstants.CONTENT_HEIGHT) + testDefinableTextView.font.pointSize
             self.isNovelSynopsisProcessing = false
-
         }
         
         // Fetch HistoryEntry if it exists.

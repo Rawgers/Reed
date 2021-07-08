@@ -35,7 +35,7 @@ struct NovelDetailsView: View {
                         Text(viewModel.novelSubgenre?.nameJp ?? "")
                     }
                     .padding(.bottom, 16)
-                    
+
                     HStack(spacing: 8) {
                         Button(action: {
                             viewModel.onPushToReader()
@@ -52,7 +52,7 @@ struct NovelDetailsView: View {
                                     ),
                                     isActive: $isPushedToReader
                                 ) { EmptyView() }
-                                
+
                                 Text("Read")
                                     .frame(width: 72, height: 32)
                                     .foregroundColor(.white)
@@ -62,14 +62,14 @@ struct NovelDetailsView: View {
                         }
                         .buttonStyle(PlainButtonStyle())
                         .disabled(viewModel.isLibraryDataLoading)
-                        
+
                         Button(action: viewModel.toggleFavorite) {
                             Image(systemName: viewModel.isFavorite ? "star.fill" : "star")
                         }
                         .disabled(viewModel.isLibraryDataLoading)
                     }
                     .padding(.bottom, 24)
-                    
+
                     Group {
                         Text("SYNOPSIS")
                             .font(.subheadline).bold()
@@ -85,7 +85,7 @@ struct NovelDetailsView: View {
                             }
                             DefinableText(
                                 content: .constant(viewModel.novelSynopsis),
-                                tokensRange: [0, viewModel.tokens.endIndex, viewModel.novelSynopsis.length],
+                                tokensRange: [0, 0, viewModel.tokens.endIndex],
                                 width: DefinerConstants.CONTENT_WIDTH,
                                 height: self.viewModel.novelSynopsisHeight,
                                 definerResultHandler: definerResultHandler(newEntries:),
@@ -94,7 +94,7 @@ struct NovelDetailsView: View {
                         }
                     }
                     .padding(.bottom, 8)
-                    
+
                     FlexView(
                         data: viewModel.novelKeywords,
                         spacing: 8,
