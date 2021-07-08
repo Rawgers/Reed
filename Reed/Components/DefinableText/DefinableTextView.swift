@@ -54,7 +54,6 @@ class DefinableTextView: UIView {
         guard let context: CGContext = UIGraphicsGetCurrentContext() else {
             return
         }
-        
         switch orientation {
         case .horizontal:
             if !path.boundingBoxOfPath.equalTo(self.bounds) {
