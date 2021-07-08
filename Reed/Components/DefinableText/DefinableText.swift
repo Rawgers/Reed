@@ -35,7 +35,7 @@ struct DefinitionDetails: Equatable, Hashable, Identifiable {
 
 struct DefinableText: UIViewRepresentable {
     @Binding var content: NSMutableAttributedString
-    @ObservedObject var viewModel: DefinableTextViewModel
+    var viewModel: DefinableTextViewModel
     let width: CGFloat
     let height: CGFloat
 
@@ -118,11 +118,19 @@ struct DefinableText: UIViewRepresentable {
             let location = gesture.location(in: textView)
             let position = CGPoint(x: location.x + textView.font.pointSize / 2, y: location.y)
             let lineArray = CTFrameGetLines(textView.ctFrame!) as! Array<CTLine>
-            let tappedLine = viewModel.getLine(lineY: textView.linesYCoordinates!, l: 0, r: textView.linesYCoordinates!.count - 1, y: position.y)
+            let tappedLine = viewModel.getLine(
+                lineY: textView.linesYCoordinates!,
+                l: 0,
+                r: textView.linesYCoordinates!.count - 1,
+                y: position.y
+            )
             if tappedLine > -1 {
                 let tappedIndex = CTLineGetStringIndexForPosition(lineArray[tappedLine], position) - 1
-                print(viewModel.tokensRange)
-                if let token = viewModel.getTokenHandler(viewModel.tokensRange[1], viewModel.tokensRange[2], tappedIndex + viewModel.tokensRange[0]) {
+                if let token = viewModel.getTokenHandler(
+                    viewModel.tokensRange[1],
+                    viewModel.tokensRange[2],
+                    tappedIndex + viewModel.tokensRange[0]
+                ) {
                     let location = token.range.location - viewModel.tokensRange[0]
                     let length = min(token.range.length, textView.content.length - location)
                     viewModel.tappedRange = location < 0

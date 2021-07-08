@@ -78,10 +78,16 @@ struct NovelDetailsView: View {
                         ZStack {
                             if viewModel.isNovelSynopsisProcessing {
                                 ProgressView()
-                                    .frame(width: DefinerConstants.CONTENT_WIDTH, height: self.viewModel.novelSynopsisHeight)
+                                    .frame(
+                                        width: DefinerConstants.CONTENT_WIDTH,
+                                        height: self.viewModel.novelSynopsisHeight
+                                    )
                             } else {
                                 Rectangle()
-                                    .frame(width: DefinerConstants.CONTENT_WIDTH, height: self.viewModel.novelSynopsisHeight)
+                                    .frame(
+                                        width: DefinerConstants.CONTENT_WIDTH,
+                                        height: self.viewModel.novelSynopsisHeight
+                                    )
                             }
                             DefinableText(
                                 content: .constant(viewModel.novelSynopsis),
@@ -114,7 +120,6 @@ struct NovelDetailsView: View {
                     .padding(.leading, 1)
                 }
             }
-            .padding(.horizontal)
             .introspectTabBarController { tabBarController in
                 tabBarController.tabBar.isHidden = true
             }

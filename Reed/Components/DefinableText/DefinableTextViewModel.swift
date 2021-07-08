@@ -13,12 +13,17 @@ class DefinableTextViewModel: ObservableObject {
     var tappedRange: NSRange!
     var selectedRange: NSRange!
     let dictionaryFetcher = DictionaryFetcher()
-    @Published var tokensRange: [Int]
+    var tokensRange: [Int]
     let definerResultHandler: ([DefinitionDetails]) -> Void
     let hideNavHandler: () -> Void
     let getTokenHandler: (Int, Int, Int) -> Token?
     
-    internal init(tokensRange: [Int], definerResultHandler: @escaping ([DefinitionDetails]) -> Void, hideNavHandler: @escaping () -> Void, getTokenHandler: @escaping (Int, Int, Int) -> Token?) {
+    internal init(
+        tokensRange: [Int],
+        definerResultHandler: @escaping ([DefinitionDetails]) -> Void,
+        hideNavHandler: @escaping () -> Void,
+        getTokenHandler: @escaping (Int, Int, Int) -> Token?
+    ) {
         self.tokensRange = tokensRange
         self.definerResultHandler = definerResultHandler
         self.hideNavHandler = hideNavHandler
@@ -74,16 +79,28 @@ class DefinableTextViewModel: ObservableObject {
                     }
                     specicificLexemes.removeLast(2)
                 }
-                definitions.append(Definition(specicificLexemes: specicificLexemes, definition: definition))
+                definitions.append(Definition(
+                    specicificLexemes: specicificLexemes,
+                    definition: definition
+                ))
             }
-            entries.append(DefinitionDetails(title: tappedWord, primaryReading: primaryReading, terms: terms, definitions: definitions))
+            entries.append(DefinitionDetails(
+                title: tappedWord,
+                primaryReading: primaryReading,
+                terms: terms,
+                definitions: definitions
+            ))
         }
         self.definerResultHandler(entries)
     }
     
     func highlightSelection(textView: DefinableTextView) {
         if selectedRange != nil {
-            textView.content.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.clear, range: selectedRange!)
+            textView.content.addAttribute(
+                NSAttributedString.Key.backgroundColor,
+                value: UIColor.clear,
+                range: selectedRange!
+            )
         }
         selectedRange = tappedRange
         textView.content.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.systemYellow.withAlphaComponent(0.3), range: selectedRange!)
