@@ -36,7 +36,7 @@ struct ReaderView: View {
                 isActive: $isActive
             )
 
-            DefinerView(entries: $entries) {
+            DefinerView(entries: $entries, isNavigationBarHidden: true) {
                 ZStack {
                     Paginator(
                         entries: $entries,

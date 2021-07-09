@@ -46,7 +46,7 @@ struct DefinableText: UIViewRepresentable {
         height: CGFloat,
         definerResultHandler: @escaping ([DefinitionDetails]) -> Void,
         getTokenHandler: @escaping (Int, Int, Int) -> Token?,
-        hideNavHandler: @escaping () -> Void = {}
+        toggleNavHandler: @escaping () -> Void = {}
     ) {
         self._content = content
         self.width = width
@@ -54,7 +54,7 @@ struct DefinableText: UIViewRepresentable {
         self.viewModel = DefinableTextViewModel(
             tokensRange: tokensRange,
             definerResultHandler: definerResultHandler,
-            hideNavHandler: hideNavHandler,
+            toggleNavHandler: toggleNavHandler,
             getTokenHandler: getTokenHandler
         )
     }
@@ -103,14 +103,13 @@ struct DefinableText: UIViewRepresentable {
     class Coordinator: NSObject {
         var viewModel: DefinableTextViewModel
         
-        init(
-            viewModel: DefinableTextViewModel
-        ) {
+        init(viewModel: DefinableTextViewModel) {
             self.viewModel = viewModel
         }
         
         @objc func doubleTapped() {
-            viewModel.hideNavHandler()
+            print("swag")
+            viewModel.toggleNavHandler()
         }
         
         @objc func wordTapped(gesture: UITapGestureRecognizer) {

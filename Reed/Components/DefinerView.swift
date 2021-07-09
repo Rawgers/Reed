@@ -22,15 +22,18 @@ enum DefinerConstants {
 }
 
 struct DefinerView<Content:View>: View {
+    let isNavigationBarHidden: Bool // true for custom nav bar behavior
     @Binding var entries: [DefinitionDetails]
     let content: Content
     
     init(
         entries: Binding<[DefinitionDetails]>,
+        isNavigationBarHidden: Bool,
         @ViewBuilder content: () -> Content
     ) {
-        self.content = content()
         self._entries = entries
+        self.isNavigationBarHidden = isNavigationBarHidden
+        self.content = content()
     }
     
     var body: some View {
@@ -45,7 +48,7 @@ struct DefinerView<Content:View>: View {
             .padding(.horizontal)
             .ignoresSafeArea(edges: .bottom)
             .background(Color(.systemBackground))
-            .navigationBarHidden(true)
+            .navigationBarHidden(isNavigationBarHidden)
             
             Definer(entries: $entries)
         }
@@ -54,7 +57,10 @@ struct DefinerView<Content:View>: View {
 
 struct DefinerView_Previews: PreviewProvider {
     static var previews: some View {
-        DefinerView(entries: .constant([DefinitionDetails]())) {
+        DefinerView(
+            entries: .constant([DefinitionDetails]()),
+            isNavigationBarHidden: false
+        ) {
             EmptyView()
         }
     }
