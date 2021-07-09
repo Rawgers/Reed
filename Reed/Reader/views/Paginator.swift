@@ -40,7 +40,7 @@ struct Paginator: View {
                         height: DefinerConstants.CONTENT_HEIGHT,
                         definerResultHandler: definerResultHandler,
                         getTokenHandler: viewModel.getToken,
-                        hideNavHandler: hideNavHandler
+                        toggleNavHandler: toggleNavHandler
                     )
                     .onAppear {
                         viewModel.handlePageFlip()
@@ -56,7 +56,7 @@ struct Paginator: View {
         self.entries = newEntries
     }
     
-    func hideNavHandler() {
+    func toggleNavHandler() {
         isNavMenuHidden.toggle()
     }
 }

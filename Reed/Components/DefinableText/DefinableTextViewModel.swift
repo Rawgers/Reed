@@ -15,18 +15,18 @@ class DefinableTextViewModel: ObservableObject {
     let dictionaryFetcher = DictionaryFetcher()
     var tokensRange: [Int]
     let definerResultHandler: ([DefinitionDetails]) -> Void
-    let hideNavHandler: () -> Void
+    let toggleNavHandler: () -> Void
     let getTokenHandler: (Int, Int, Int) -> Token?
     
     internal init(
         tokensRange: [Int],
         definerResultHandler: @escaping ([DefinitionDetails]) -> Void,
-        hideNavHandler: @escaping () -> Void,
+        toggleNavHandler: @escaping () -> Void,
         getTokenHandler: @escaping (Int, Int, Int) -> Token?
     ) {
         self.tokensRange = tokensRange
         self.definerResultHandler = definerResultHandler
-        self.hideNavHandler = hideNavHandler
+        self.toggleNavHandler = toggleNavHandler
         self.getTokenHandler = getTokenHandler
     }
     

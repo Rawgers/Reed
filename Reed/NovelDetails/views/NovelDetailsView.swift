@@ -20,7 +20,7 @@ struct NovelDetailsView: View {
     }
     
     var body: some View {
-        DefinerView(entries: self.$entries) {
+        DefinerView(entries: self.$entries, isNavigationBarHidden: false) {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(viewModel.novelTitle)
