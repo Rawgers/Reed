@@ -46,7 +46,7 @@ struct Paginator: View {
                     )
                     .onAppear {
                         viewModel.handlePageFlip(p: i)
-                        clearSelectedRange(content: viewModel.pages[i].content)
+//                        clearSelectedRange(content: viewModel.pages[i].content)
                     }
                 }
             }.tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))

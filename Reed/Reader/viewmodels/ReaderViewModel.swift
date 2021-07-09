@@ -42,8 +42,7 @@ class ReaderViewModel: ObservableObject {
             }
             var annotatedContent = NSMutableAttributedString()
             if let content = section.data?.content {
-                let tokenizer = Tokenizer()
-                let tokens = tokenizer.tokenize(content)
+                let tokens = sharedTokenizer.tokenize(content)
                 annotatedContent = self.annotateWithFurigana(tokens: tokens, content: content)
                 self.processedContent = ProcessedContent(
                     tokens: tokens,
@@ -98,7 +97,10 @@ extension ReaderViewModel {
                 }
             } else {
                 annotatedContent = annotatedContent.replacingCharacters(
-                    in: NSRange(location: token.range.location + contentIndex, length: 1),
+                    in: NSRange(
+                        location: token.range.location + contentIndex,
+                        length: 1
+                    ),
                     with: "｜\(token.surface[String.Index(utf16Offset: 0, in: token.surface)..<String.Index(utf16Offset: 1, in: token.surface)])《 》"
                 ) as NSString
                 contentIndex += 4

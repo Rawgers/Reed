@@ -17,6 +17,7 @@
 		6DCF77DB252DB19B00CB3C5D /* ReaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCF77DA252DB19B00CB3C5D /* ReaderViewModel.swift */; };
 		6DDF681025B8300400100965 /* DefinableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDF680F25B8300400100965 /* DefinableText.swift */; };
 		9B45FB2AA48998B958252813 /* libPods-Reed.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3943336EC97A6521CC7833A1 /* libPods-Reed.a */; };
+		B8028D792689358800EEBA42 /* Singletons.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8028D782689358800EEBA42 /* Singletons.swift */; };
 		B8093DD6251A988200D95DCF /* NotificationName+DictionaryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8093DD5251A988200D95DCF /* NotificationName+DictionaryParser.swift */; };
 		B80CBD272542887700C807CD /* DiscoverListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80CBD262542887700C807CD /* DiscoverListItemViewModel.swift */; };
 		B80E0E6B25497E13009B0EE8 /* SearchResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80E0E6A25497E13009B0EE8 /* SearchResults.swift */; };
@@ -144,6 +145,7 @@
 		6DDF680F25B8300400100965 /* DefinableText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinableText.swift; sourceTree = "<group>"; };
 		8BCB9CE30CB5A0668B57D9D1 /* Pods-ReedTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReedTests.debug.xcconfig"; path = "Target Support Files/Pods-ReedTests/Pods-ReedTests.debug.xcconfig"; sourceTree = "<group>"; };
 		99AD90EC62F2F7FFC2EC69D3 /* Pods-Reed.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reed.debug.xcconfig"; path = "Target Support Files/Pods-Reed/Pods-Reed.debug.xcconfig"; sourceTree = "<group>"; };
+		B8028D782689358800EEBA42 /* Singletons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Singletons.swift; sourceTree = "<group>"; };
 		B8093DD5251A988200D95DCF /* NotificationName+DictionaryParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+DictionaryParser.swift"; sourceTree = "<group>"; };
 		B80CBD262542887700C807CD /* DiscoverListItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverListItemViewModel.swift; sourceTree = "<group>"; };
 		B80E0E6A25497E13009B0EE8 /* SearchResults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResults.swift; sourceTree = "<group>"; };
@@ -653,6 +655,7 @@
 				B8D4569D2508D1A2000F9E5F /* Reed.xcdatamodeld */,
 				B8E25B8C25661B97007B492E /* Reed-Bridging-Header.h */,
 				B8D456A22508D1A2000F9E5F /* Assets.xcassets */,
+				B8028D782689358800EEBA42 /* Singletons.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -1035,6 +1038,7 @@
 				B8D4569C2508D1A2000F9E5F /* SceneDelegate.swift in Sources */,
 				B82E94B825664EA0004A6F85 /* FuriganaMaker.swift in Sources */,
 				B81C86FD250A1370000B9E5F /* LibraryViewModel.swift in Sources */,
+				B8028D792689358800EEBA42 /* Singletons.swift in Sources */,
 				B8977925256626D400DF1B79 /* MecabWrapper.swift in Sources */,
 				B8F5C20D250EDDB2000810F8 /* DictionaryEntry+CoreDataClass.swift in Sources */,
 			);

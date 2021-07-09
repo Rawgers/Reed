@@ -116,6 +116,13 @@ extension String {
         } catch { return nil }
     }
     
+//    private func searchRegex(of pattern: String) -> [NSTextCheckingResult]? {
+//        do {
+//            let regex = try NSRegularExpression(pattern: pattern)
+//            return regex.matches(in: self)
+//        } catch { return nil }
+//    }
+    
     // 特定の正規表現を置換
     private func replaceRegex(of pattern: String, with templete: String) -> String {
         do {
@@ -125,47 +132,91 @@ extension String {
     }
     
     // ルビを生成
+//    func createRuby() -> NSMutableAttributedString {
+//        // ルビの表示に関する設定
+//        let rubyAttribute = [
+//            kCTRubyAnnotationSizeFactorAttributeName: 0.5,
+//            kCTForegroundColorAttributeName: UIColor.secondaryLabel
+//        ] as CFDictionary
+//
+//        let textWithRuby = self
+//            // ルビ付文字(「｜紅玉《ルビー》」)を特定し文字列を分割
+//            .replaceRegex(of: "(｜.+?《.+?》)", with: ",$1,")
+//            .components(separatedBy: ",")
+//            // ルビ付文字のルビを設定
+//            .map { component -> NSAttributedString in
+//                // ベース文字(漢字など)とルビをそれぞれ取得
+//                guard let pair = component.searchRegex(of: "｜(.+?)《(.+?)》") else {
+//                    return NSAttributedString(string: component)
+//                }
+//                let component = component as NSString
+//                let baseText = component.substring(with: pair.range(at: 1))
+//                let rubyText = component.substring(with: pair.range(at: 2))
+//
+//                let rubyAnnotation = CTRubyAnnotationCreateWithAttributes(
+//                    .center,    // center furigana over base
+//                    .none,      // when furigana is longer than base, pad base
+//                    .before,    // places furigana on top of base
+//                    rubyText as CFString,
+//                    rubyAttribute
+//                )
+//
+//                return NSAttributedString(
+//                    string: baseText,
+//                    attributes: [kCTRubyAnnotationAttributeName as NSAttributedString.Key: rubyAnnotation]
+//                )
+//            }
+//
+//            // 分割されていた文字列を結合
+//            .reduce(NSMutableAttributedString()) {
+//                $0.append($1)
+//                return $0
+//            }
+//
+//        return textWithRuby
+//    }
+    
     func createRuby() -> NSMutableAttributedString {
-        let textWithRuby = self
-            // ルビ付文字(「｜紅玉《ルビー》」)を特定し文字列を分割
-            .replaceRegex(of: "(｜.+?《.+?》)", with: ",$1,")
-            .components(separatedBy: ",")
-            // ルビ付文字のルビを設定
-            .map { component -> NSAttributedString in
-                // ベース文字(漢字など)とルビをそれぞれ取得
-                guard let pair = component.searchRegex(of: "｜(.+?)《(.+?)》") else {
-                    return NSAttributedString(string: component)
-                }
-                let component = component as NSString
-                let baseText = component.substring(with: pair.range(at: 1))
-                let rubyText = component.substring(with: pair.range(at: 2))
-                
-                // ルビの表示に関する設定
-                let rubyAttribute: [CFString: Any] =  [
-                    kCTRubyAnnotationSizeFactorAttributeName: 0.5,
-                    kCTForegroundColorAttributeName: UIColor.secondaryLabel
-                ]
-                let rubyAnnotation = CTRubyAnnotationCreateWithAttributes(
-                    .center,    // center furigana over base
-                    .none,      // when furigana is longer than base, pad base
-                    .before,    // places furigana on top of base
-                    rubyText as CFString,
-                    rubyAttribute as CFDictionary
-                )
-                
-                return NSAttributedString(
-                    string: baseText,
-                    attributes: [kCTRubyAnnotationAttributeName as NSAttributedString.Key: rubyAnnotation]
-                )
-            }
-            
-            // 分割されていた文字列を結合
-            .reduce(NSMutableAttributedString()) {
-                $0.append($1)
-                return $0
-            }
-        
-        return textWithRuby
+        guard let searchResults = self.searchRegex(of: "｜(.+?)《(.+?)》") else {
+            return NSMutableAttributedString(string: self)
+        }
+        let attributed = NSMutableAttributedString(string: self.replaceRegex(of: "｜(.+?)《(.+?)》", with: "$1"))
+
+        // ルビの表示に関する設定
+        let RUBY_ANNOTATION_KEY = kCTRubyAnnotationAttributeName as NSAttributedString.Key
+        let RUBY_ATTRIBUTES = [
+            kCTRubyAnnotationSizeFactorAttributeName: 0.5,
+            kCTForegroundColorAttributeName: UIColor.secondaryLabel
+        ] as CFDictionary
+
+        var startOffset = 1
+        for result in searchResults {
+            let rubyTextRange = result.range(at: 2)
+            guard let rubyTextStringRange = Range(rubyTextRange, in: self) else { continue }
+            let rubyText = self[rubyTextStringRange]
+            let rubyAnnotation = CTRubyAnnotationCreateWithAttributes(
+                .center,    // center furigana over base
+                .none,      // when furigana is longer than base, pad base
+                .before,    // places furigana on top of base
+                rubyText as CFString,
+                RUBY_ATTRIBUTES
+            )
+
+            let baseTextRange = result.range(at: 1)
+            let offsetBaseTextRange = NSRange(
+                location: baseTextRange.location - startOffset,
+                length: baseTextRange.length
+            )
+            attributed.addAttribute(
+                RUBY_ANNOTATION_KEY,
+                value: rubyAnnotation,
+                range: offsetBaseTextRange
+            )
+
+            startOffset += 3 + rubyTextRange.length
+        }
+
+        return attributed
     }
 }
 
