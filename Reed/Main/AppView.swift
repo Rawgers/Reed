@@ -11,30 +11,32 @@ import SwiftUI
 struct AppView: View {
     
     var body: some View {
-        TabView {
-            LibraryView()
-                .tabItem {
-                    Image(systemName: "books.vertical")
-                    Text("Library")
-                }
+        DefinerView(entries: .constant([]), isNavigationBarHidden: false) {
+            TabView {
+                LibraryView()
+                    .tabItem {
+                        Image(systemName: "books.vertical")
+                        Text("Library")
+                    }
 
-            DiscoverView()
-                .tabItem {
-                    Image(systemName: "magnifyingglass")
-                    Text("Discover")
-                }
+                DiscoverView()
+                    .tabItem {
+                        Image(systemName: "magnifyingglass")
+                        Text("Discover")
+                    }
 
-//            VocabularyListsView()
-//                .tabItem {
-//                    Image(systemName: "rectangle.grid.2x2")
-//                    Text("Cards")
-//                }
-//
-//            SettingsView()
-//                .tabItem {
-//                    Image(systemName: "wrench")
-//                    Text("Settings")
-//                }
+    //            VocabularyListsView()
+    //                .tabItem {
+    //                    Image(systemName: "rectangle.grid.2x2")
+    //                    Text("Cards")
+    //                }
+    //
+    //            SettingsView()
+    //                .tabItem {
+    //                    Image(systemName: "wrench")
+    //                    Text("Settings")
+    //                }
+            }
         }
     }
 }
