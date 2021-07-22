@@ -16,16 +16,15 @@ struct BottomSheetView<Content: View>: View {
     let minHeight: CGFloat
     let maxHeight: CGFloat
     let content: Content
+    private var offset: CGFloat {
+        isOpen ? 0 : maxHeight - minHeight
+    }
     
     init(isOpen: Binding<Bool>, @ViewBuilder content: () -> Content) {
         self.minHeight = DefinerConstants.BOTTOM_SHEET_MIN_HEIGHT
         self.maxHeight = DefinerConstants.BOTTOM_SHEET_MAX_HEIGHT
         self.content = content()
         self._isOpen = isOpen
-    }
-    
-    private var offset: CGFloat {
-        isOpen ? 0 : maxHeight - minHeight
     }
     
     private var indicator: some View {

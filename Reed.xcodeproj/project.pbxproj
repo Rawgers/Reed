@@ -57,7 +57,6 @@
 		B86550CD255A08D800E4786F /* HistoryEntry+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86550CA255A08D800E4786F /* HistoryEntry+CoreDataProperties.swift */; };
 		B86550CE255A08D800E4786F /* HistorySection+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86550CB255A08D800E4786F /* HistorySection+CoreDataClass.swift */; };
 		B86550CF255A08D800E4786F /* HistoryEntry+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86550CC255A08D800E4786F /* HistoryEntry+CoreDataClass.swift */; };
-		B8667F102509C745001EABD4 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8667F0F2509C745001EABD4 /* AppView.swift */; };
 		B8667F132509CA68001EABD4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8667F122509CA68001EABD4 /* SettingsView.swift */; };
 		B87D30772516C537002E25FF /* DictionaryLanguageSource+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87D30752516C537002E25FF /* DictionaryLanguageSource+CoreDataClass.swift */; };
 		B87D30782516C537002E25FF /* DictionaryLanguageSource+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87D30762516C537002E25FF /* DictionaryLanguageSource+CoreDataProperties.swift */; };
@@ -87,6 +86,8 @@
 		B8B8F9912526C10400D6DF8B /* DictionaryFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B8F9902526C10400D6DF8B /* DictionaryFetcher.swift */; };
 		B8C88D7C256F9FC0006CD768 /* DictionaryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C88D7B256F9FC0006CD768 /* DictionaryUtils.swift */; };
 		B8D041C125667C18003F1E05 /* DeinflectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D041C025667C18003F1E05 /* DeinflectorTests.swift */; };
+		B8D1797926A90DEA0051008A /* AppNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D1797826A90DEA0051008A /* AppNavigator.swift */; };
+		B8D1797C26A90FA50051008A /* AppNavigatorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D1797B26A90FA50051008A /* AppNavigatorButton.swift */; };
 		B8D4569A2508D1A2000F9E5F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D456992508D1A2000F9E5F /* AppDelegate.swift */; };
 		B8D4569C2508D1A2000F9E5F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4569B2508D1A2000F9E5F /* SceneDelegate.swift */; };
 		B8D4569F2508D1A2000F9E5F /* Reed.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B8D4569D2508D1A2000F9E5F /* Reed.xcdatamodeld */; };
@@ -186,7 +187,6 @@
 		B86550CA255A08D800E4786F /* HistoryEntry+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HistoryEntry+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B86550CB255A08D800E4786F /* HistorySection+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HistorySection+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B86550CC255A08D800E4786F /* HistoryEntry+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HistoryEntry+CoreDataClass.swift"; sourceTree = "<group>"; };
-		B8667F0F2509C745001EABD4 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		B8667F122509CA68001EABD4 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B87D30752516C537002E25FF /* DictionaryLanguageSource+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DictionaryLanguageSource+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B87D30762516C537002E25FF /* DictionaryLanguageSource+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DictionaryLanguageSource+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -215,6 +215,8 @@
 		B8B8F9902526C10400D6DF8B /* DictionaryFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryFetcher.swift; sourceTree = "<group>"; };
 		B8C88D7B256F9FC0006CD768 /* DictionaryUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryUtils.swift; sourceTree = "<group>"; };
 		B8D041C025667C18003F1E05 /* DeinflectorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeinflectorTests.swift; sourceTree = "<group>"; };
+		B8D1797826A90DEA0051008A /* AppNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigator.swift; sourceTree = "<group>"; };
+		B8D1797B26A90FA50051008A /* AppNavigatorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigatorButton.swift; sourceTree = "<group>"; };
 		B8D456962508D1A2000F9E5F /* Reed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8D456992508D1A2000F9E5F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B8D4569B2508D1A2000F9E5F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -581,6 +583,15 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
+		B8D1797A26A90F850051008A /* AppNavigator */ = {
+			isa = PBXGroup;
+			children = (
+				B8D1797826A90DEA0051008A /* AppNavigator.swift */,
+				B8D1797B26A90FA50051008A /* AppNavigatorButton.swift */,
+			);
+			path = AppNavigator;
+			sourceTree = "<group>";
+		};
 		B8D4568D2508D1A2000F9E5F = {
 			isa = PBXGroup;
 			children = (
@@ -660,7 +671,7 @@
 		B8D456CC2508D2E3000F9E5F /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				B8667F0F2509C745001EABD4 /* AppView.swift */,
+				B8D1797A26A90F850051008A /* AppNavigator */,
 				B8D456992508D1A2000F9E5F /* AppDelegate.swift */,
 				B8D4569B2508D1A2000F9E5F /* SceneDelegate.swift */,
 				B8E25AC9256505F3007B492E /* Utils.swift */,
@@ -970,6 +981,7 @@
 			files = (
 				B8ADEABA2570E205007C3D28 /* FlexView.swift in Sources */,
 				B86550CF255A08D800E4786F /* HistoryEntry+CoreDataClass.swift in Sources */,
+				B8D1797C26A90FA50051008A /* AppNavigatorButton.swift in Sources */,
 				B8F5C20E250EDDB2000810F8 /* DictionaryEntry+CoreDataProperties.swift in Sources */,
 				B8F5C20F250EDDB2000810F8 /* DictionaryReading+CoreDataClass.swift in Sources */,
 				B80E0E6B25497E13009B0EE8 /* SearchResults.swift in Sources */,
@@ -1009,7 +1021,6 @@
 				B85CFB9225B39E8D0022440B /* SectionNavigationView.swift in Sources */,
 				B86550CE255A08D800E4786F /* HistorySection+CoreDataClass.swift in Sources */,
 				B89CD68625098C0100D7D8ED /* DiscoverView.swift in Sources */,
-				B8667F102509C745001EABD4 /* AppView.swift in Sources */,
 				B82E94A42566332D004A6F85 /* MecabWordNode.swift in Sources */,
 				B8F5C218250EDEEB000810F8 /* DictionaryTerm+CoreDataProperties.swift in Sources */,
 				B8667F132509CA68001EABD4 /* SettingsView.swift in Sources */,
@@ -1039,6 +1050,7 @@
 				B8F04A892517F07500405599 /* SplashView.swift in Sources */,
 				B8F5C216250EDEEB000810F8 /* DictionaryDefinition+CoreDataProperties.swift in Sources */,
 				B89CD698250993F800D7D8ED /* Definer.swift in Sources */,
+				B8D1797926A90DEA0051008A /* AppNavigator.swift in Sources */,
 				B82D3D95254D2DA200F06836 /* CategoryButtons.swift in Sources */,
 				B8A78F072542F26700577974 /* DiscoverList.swift in Sources */,
 				B82E949325662E98004A6F85 /* PartOfSpeech.swift in Sources */,
