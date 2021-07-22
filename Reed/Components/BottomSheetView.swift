@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct BottomSheetView<Content: View>: View {
+    @Environment(\.colorScheme) var colorScheme
+    @GestureState private var translation: CGFloat = 0
     @Binding var isOpen: Bool
     
     let minHeight: CGFloat
@@ -35,9 +37,6 @@ struct BottomSheetView<Content: View>: View {
             )
     }
     
-    @GestureState private var translation: CGFloat = 0
-    @Environment(\.colorScheme) var colorScheme
-    
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
@@ -51,19 +50,18 @@ struct BottomSheetView<Content: View>: View {
                     : Color.white
             )
             .cornerRadius(DefinerConstants.BOTTOM_SHEET_CORNER_RADIUS)
-            .shadow(radius: 4)
+            .shadow(radius: DefinerConstants.BOTTOM_SHEET_SHADOW_RADIUS)
             .frame(height: geometry.size.height, alignment: .bottom)
             .offset(y: max(self.offset + self.translation, 0))
-            .animation(.interactiveSpring())
+            .animation(.interactiveSpring(response: 0.25, dampingFraction: 0.75))
             .gesture(
                 DragGesture().updating(self.$translation) { value, state, _ in
                     state = value.translation.height
                 }.onEnded { value in
                     let snapDistance = self.maxHeight * DefinerConstants.BOTTOM_SHEET_SNAP_RATIO
-                    guard abs(value.translation.height) > snapDistance else {
-                        return
+                    if abs(value.translation.height) > snapDistance {
+                        self.isOpen = value.translation.height < 0
                     }
-                    self.isOpen = value.translation.height < 0
                 }
             )
         }

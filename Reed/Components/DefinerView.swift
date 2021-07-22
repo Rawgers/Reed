@@ -11,9 +11,10 @@ import SwiftUI
 enum DefinerConstants {
     static let BOTTOM_SHEET_MIN_HEIGHT: CGFloat = 120
     static let BOTTOM_SHEET_MAX_HEIGHT: CGFloat = UIScreen.main.bounds.height * 0.4
-    static let BOTTOM_SHEET_CORNER_RADIUS: CGFloat = 16
-    static let BOTTOM_SHEET_INDICATOR_WIDTH: CGFloat = 32
-    static let BOTTOM_SHEET_INDICATOR_HEIGHT: CGFloat = 2
+    static let BOTTOM_SHEET_CORNER_RADIUS: CGFloat = 10
+    static let BOTTOM_SHEET_SHADOW_RADIUS: CGFloat = 4
+    static let BOTTOM_SHEET_INDICATOR_WIDTH: CGFloat = 36
+    static let BOTTOM_SHEET_INDICATOR_HEIGHT: CGFloat = 5
     static let BOTTOM_SHEET_SNAP_RATIO: CGFloat = 0.25
     static let CONTENT_WIDTH: CGFloat = UIScreen.main.bounds.width - 32
     static let CONTENT_HEIGHT: CGFloat = UIScreen.main.bounds.height
