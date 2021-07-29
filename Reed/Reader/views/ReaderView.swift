@@ -36,24 +36,24 @@ struct ReaderView: View {
                 isActive: $isActive
             )
 
-            DefinerView(entries: $entries, isNavigationBarHidden: true) {
-                ZStack {
-                    Paginator(
-                        entries: $entries,
-                        isNavMenuHidden: $isNavMenuHidden,
-                        sectionFetcher: viewModel.sectionFetcher,
-                        processedContentPublisher: viewModel.$processedContent.eraseToAnyPublisher()
-                    )
-                    
-                    if viewModel.isLoading {
-                        ProgressView()
-                    }
-                }
-            }
-            .navigationBarTitle("", displayMode: .inline)
-            .introspectTabBarController { tabBarController in
-                tabBarController.tabBar.isHidden = true
-            }
+//            DefinerView(entries: $entries, isNavigationBarHidden: true) {
+//                ZStack {
+//                    Paginator(
+//                        entries: $entries,
+//                        isNavMenuHidden: $isNavMenuHidden,
+//                        sectionFetcher: viewModel.sectionFetcher,
+//                        processedContentPublisher: viewModel.$processedContent.eraseToAnyPublisher()
+//                    )
+//
+//                    if viewModel.isLoading {
+//                        ProgressView()
+//                    }
+//                }
+//            }
+//            .navigationBarTitle("", displayMode: .inline)
+//            .introspectTabBarController { tabBarController in
+//                tabBarController.tabBar.isHidden = true
+//            }
         }
     }
 }

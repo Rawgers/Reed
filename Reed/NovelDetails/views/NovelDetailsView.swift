@@ -20,7 +20,7 @@ struct NovelDetailsView: View {
     }
     
     var body: some View {
-        DefinerView(entries: self.$entries, isNavigationBarHidden: false) {
+//        DefinerView(entries: self.$entries, isNavigationBarHidden: false) {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(viewModel.novelTitle)
@@ -123,8 +123,8 @@ struct NovelDetailsView: View {
             .introspectTabBarController { tabBarController in
                 tabBarController.tabBar.isHidden = true
             }
-        }
-        .navigationBarTitle("", displayMode: .inline)
+//        }
+//        .navigationBarTitle("", displayMode: .inline)
     }
     
     func definerResultHandler(newEntries: [DefinitionDetails]) {
