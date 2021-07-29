@@ -19,7 +19,7 @@ struct SplashView: View {
                     .font(Font.largeTitle)
                 Text(viewModel.loadingText)
             } else {
-                AppNavigator()
+                AppCentral()
             }
         }
         .onAppear {

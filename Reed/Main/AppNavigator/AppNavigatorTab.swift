@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct AppNavigatorButtonStyle: PrimitiveButtonStyle {
+struct AppNavigatorTabButtonStyle: PrimitiveButtonStyle {
     @State private var pressed = false
     let isSelected: Bool
     
@@ -33,7 +33,7 @@ struct AppNavigatorButtonStyle: PrimitiveButtonStyle {
     }
 }
 
-struct AppNavigatorButton: View {
+struct AppNavigatorTab: View {
     let title: String
     let iconName: String
     let tag: Int
@@ -59,14 +59,14 @@ struct AppNavigatorButton: View {
                     .font(.footnote)
             }
         }
-        .buttonStyle(AppNavigatorButtonStyle(isSelected: selectedTab == tag))
+        .buttonStyle(AppNavigatorTabButtonStyle(isSelected: selectedTab == tag))
         .frame(maxWidth: .infinity)
     }
 }
 
 struct AppNavigatorButton_Previews: PreviewProvider {
     static var previews: some View {
-        AppNavigatorButton(
+        AppNavigatorTab(
             title: "Library",
             iconName: "books.vertical",
             tag: 0,

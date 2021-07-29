@@ -8,22 +8,28 @@
 
 import SwiftUI
 
-struct BottomSheetView<Content: View>: View {
+struct BottomSheet<Content: View>: View {
     @Environment(\.colorScheme) var colorScheme
     @GestureState private var translation: CGFloat = 0
     @Binding var isOpen: Bool
     
     let minHeight: CGFloat
     let maxHeight: CGFloat
-    let content: Content
+    let toggleDisplayMode: () -> Void
+    let content: () -> Content
     private var offset: CGFloat {
         isOpen ? 0 : maxHeight - minHeight
     }
     
-    init(isOpen: Binding<Bool>, @ViewBuilder content: () -> Content) {
+    init(
+        isOpen: Binding<Bool>,
+        toggleDisplayMode: @escaping () -> Void,
+        @ViewBuilder content: @escaping () -> Content
+    ) {
         self.minHeight = DefinerConstants.BOTTOM_SHEET_MIN_HEIGHT
         self.maxHeight = DefinerConstants.BOTTOM_SHEET_MAX_HEIGHT
-        self.content = content()
+        self.toggleDisplayMode = toggleDisplayMode
+        self.content = content
         self._isOpen = isOpen
     }
     
@@ -40,7 +46,7 @@ struct BottomSheetView<Content: View>: View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
                 self.indicator.padding(.top, 8)
-                self.content
+                self.content()
             }
             .frame(width: geometry.size.width, height: self.maxHeight, alignment: .top)
             .background(
@@ -58,6 +64,9 @@ struct BottomSheetView<Content: View>: View {
                     state = value.translation.height
                 }.onEnded { value in
                     let snapDistance = self.maxHeight * DefinerConstants.BOTTOM_SHEET_SNAP_RATIO
+                    if value.predictedEndLocation.y >= UIScreen.main.bounds.size.height - 10 {
+                        self.toggleDisplayMode()
+                    }
                     if abs(value.translation.height) > snapDistance {
                         self.isOpen = value.translation.height < 0
                     }

@@ -22,25 +22,28 @@ enum DefinerConstants {
     static let NOVEL_SYNOPSIS_PRELOAD_HEIGHT: CGFloat = 5 * CONTENT_HEIGHT
 }
 
-struct DefinerView<Content:View>: View {
-    let isNavigationBarHidden: Bool // true for custom nav bar behavior
+struct DefinerView<Content: View>: View {
     @Binding var entries: [DefinitionDetails]
-    let content: Content
+    let isNavigationBarHidden: Bool // true for custom nav bar behavior
+    let toggleDisplayMode: () -> Void
+    let content: () -> Content
     
     init(
         entries: Binding<[DefinitionDetails]>,
         isNavigationBarHidden: Bool,
-        @ViewBuilder content: () -> Content
+        toggleDisplayMode: @escaping () -> Void,
+        @ViewBuilder content: @escaping () -> Content
     ) {
         self._entries = entries
         self.isNavigationBarHidden = isNavigationBarHidden
-        self.content = content()
+        self.toggleDisplayMode = toggleDisplayMode
+        self.content = content
     }
     
     var body: some View {
         ZStack {
             VStack(alignment: .center) {
-                self.content
+                self.content()
                 
                 Rectangle()
                     .frame(height: DefinerConstants.BOTTOM_SHEET_MIN_HEIGHT)
@@ -51,7 +54,7 @@ struct DefinerView<Content:View>: View {
             .background(Color(.systemBackground))
             .navigationBarHidden(isNavigationBarHidden)
             
-            Definer(entries: $entries)
+            Definer(entries: $entries, toggleDisplayMode: toggleDisplayMode)
         }
     }
 }
@@ -60,7 +63,8 @@ struct DefinerView_Previews: PreviewProvider {
     static var previews: some View {
         DefinerView(
             entries: .constant([DefinitionDetails]()),
-            isNavigationBarHidden: false
+            isNavigationBarHidden: false,
+            toggleDisplayMode: {}
         ) {
             EmptyView()
         }
