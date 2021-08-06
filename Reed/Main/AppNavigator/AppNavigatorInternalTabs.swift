@@ -19,9 +19,6 @@ struct AppNavigatorInternalTabs: View {
                     .tag(i)
             }
         }
-        .introspectTabBarController { UITabBarController in
-            UITabBarController.tabBar.isHidden = true
-        }
     }
     
     func buildView(types: [Any], index: Int) -> AnyView {

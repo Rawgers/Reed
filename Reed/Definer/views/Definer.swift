@@ -13,7 +13,6 @@ struct Definer: View {
     @State private var definitionEntryIndex = 0
     @State private var tabViewId = UUID()
     @Binding var entries: [DefinitionDetails]
-    let toggleDisplayMode: () -> Void
     
     var body: some View {
         if !entries.isEmpty {
@@ -35,6 +34,6 @@ struct Definer: View {
 
 struct Definer_Previews: PreviewProvider {
     static var previews: some View {
-        Definer(entries: .constant([]), toggleDisplayMode: {})
+        Definer(entries: .constant([]))
     }
 }

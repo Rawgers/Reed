@@ -25,18 +25,15 @@ enum DefinerConstants {
 struct DefinerView<Content: View>: View {
     @Binding var entries: [DefinitionDetails]
     let isNavigationBarHidden: Bool // true for custom nav bar behavior
-    let toggleDisplayMode: () -> Void
     let content: () -> Content
     
     init(
         entries: Binding<[DefinitionDetails]>,
         isNavigationBarHidden: Bool,
-        toggleDisplayMode: @escaping () -> Void,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self._entries = entries
         self.isNavigationBarHidden = isNavigationBarHidden
-        self.toggleDisplayMode = toggleDisplayMode
         self.content = content
     }
     
@@ -54,7 +51,7 @@ struct DefinerView<Content: View>: View {
             .background(Color(.systemBackground))
             .navigationBarHidden(isNavigationBarHidden)
             
-            Definer(entries: $entries, toggleDisplayMode: toggleDisplayMode)
+            Definer(entries: $entries)
         }
     }
 }
@@ -63,8 +60,7 @@ struct DefinerView_Previews: PreviewProvider {
     static var previews: some View {
         DefinerView(
             entries: .constant([DefinitionDetails]()),
-            isNavigationBarHidden: false,
-            toggleDisplayMode: {}
+            isNavigationBarHidden: false
         ) {
             EmptyView()
         }
