@@ -10,9 +10,8 @@ import SwiftUI
 import Introspect
 
 struct ReaderView: View {
-    @ObservedObject var viewModel: ReaderViewModel
+    @StateObject var viewModel: ReaderViewModel
     
-    @State private var entries = [DefinitionDetails]()
     @State private var isNavMenuHidden = true
     let ncode: String
     let novelTitle: String
@@ -23,7 +22,7 @@ struct ReaderView: View {
         self.novelTitle = novelTitle
         self._isActive = isActive
         
-        self.viewModel = ReaderViewModel(ncode: ncode)
+        self._viewModel = StateObject(wrappedValue: ReaderViewModel(ncode: ncode))
     }
     
     var body: some View {
@@ -36,25 +35,21 @@ struct ReaderView: View {
                 isActive: $isActive
             )
 
-//            DefinerView(entries: $entries, isNavigationBarHidden: true) {
-//                ZStack {
-//                    Paginator(
-//                        entries: $entries,
-//                        isNavMenuHidden: $isNavMenuHidden,
-//                        sectionFetcher: viewModel.sectionFetcher,
-//                        processedContentPublisher: viewModel.$processedContent.eraseToAnyPublisher()
-//                    )
-//
-//                    if viewModel.isLoading {
-//                        ProgressView()
-//                    }
-//                }
-//            }
-//            .navigationBarTitle("", displayMode: .inline)
-//            .introspectTabBarController { tabBarController in
-//                tabBarController.tabBar.isHidden = true
-//            }
+            ZStack {
+                Paginator(
+                    isNavMenuHidden: $isNavMenuHidden,
+                    sectionFetcher: viewModel.sectionFetcher,
+                    processedContentPublisher: viewModel.$processedContent.eraseToAnyPublisher()
+                )
+
+                if viewModel.isLoading {
+                    ProgressView()
+                }
+            }
+            .padding(.horizontal)
+            .edgesIgnoringSafeArea(.bottom)
         }
+        .navigationBarHidden(true)
     }
 }
 

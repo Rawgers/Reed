@@ -108,7 +108,6 @@ struct DefinableText: UIViewRepresentable {
         }
         
         @objc func doubleTapped() {
-            print("swag")
             viewModel.toggleNavHandler()
         }
         

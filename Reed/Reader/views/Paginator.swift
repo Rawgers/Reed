@@ -11,16 +11,14 @@ import SwiftUI
 
 struct Paginator: View {
     @StateObject var viewModel: PaginatorViewModel
-    @Binding var entries: [DefinitionDetails]
+    @EnvironmentObject private var definerResults: DefinerResults
     @Binding var isNavMenuHidden: Bool
     
     init(
-        entries: Binding<[DefinitionDetails]>,
         isNavMenuHidden: Binding<Bool>,
         sectionFetcher: SectionFetcher,
         processedContentPublisher: AnyPublisher<ProcessedContent?, Never>
     ) {
-        self._entries = entries
         self._isNavMenuHidden = isNavMenuHidden
         self._viewModel = StateObject(wrappedValue: PaginatorViewModel(
             sectionFetcher: sectionFetcher,
@@ -38,7 +36,7 @@ struct Paginator: View {
                         tokensRange: page.tokensRange,
                         width: DefinerConstants.CONTENT_WIDTH,
                         height: DefinerConstants.CONTENT_HEIGHT,
-                        definerResultHandler: definerResultHandler,
+                        definerResultHandler: definerResults.updateEntries(newEntries:),
                         getTokenHandler: viewModel.getToken,
                         toggleNavHandler: toggleNavHandler
                     )
@@ -50,10 +48,6 @@ struct Paginator: View {
 
             Text(viewModel.getPageNumberDisplay())
         }
-    }
-    
-    func definerResultHandler(newEntries: [DefinitionDetails]) {
-        self.entries = newEntries
     }
     
     func toggleNavHandler() {

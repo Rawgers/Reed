@@ -13,9 +13,17 @@ enum BottomSheetDisplay {
     case definer
 }
 
+class DefinerResults: ObservableObject {
+    @Published var entries = [DefinitionDetails]()
+    
+    func updateEntries(newEntries: [DefinitionDetails]) {
+        self.entries = newEntries
+    }
+}
+
 struct AppCentral: View {
+    @StateObject private var definerResults = DefinerResults()
     @State private var selectedTab: Int = 0
-    @State private var entries = [DefinitionDetails]()
     @State private var displayType: BottomSheetDisplay = .navigation
     let tabViewTypes: [Any] = [
         LibraryView.self,
@@ -56,13 +64,18 @@ struct AppCentral: View {
     
     var body: some View {
         ZStack {
-            AppNavigatorInternalTabs(
-                selectedTab: $selectedTab,
-                tabViewTypes: tabViewTypes
-            )
+            VStack(alignment: .center) {
+                AppNavigatorInternalTabs(
+                    selectedTab: $selectedTab,
+                    tabViewTypes: tabViewTypes
+                )
+                
+                Rectangle()
+                    .frame(height: DefinerConstants.BOTTOM_SHEET_MIN_HEIGHT)
+                    .opacity(0)
+            }
             
             BottomSheet(
-                isOpen: .constant(false),
                 toggleDisplayMode: toggleBottomSheetDisplayMode
             ) {
                 switch displayType {
@@ -70,13 +83,16 @@ struct AppCentral: View {
                     AppNavigator
                 case .definer:
                     Definer(
-                        entries: $entries,
-                        toggleDisplayMode: toggleBottomSheetDisplayMode
+                        entries: $definerResults.entries
                     )
                 }
             }
         }
         .ignoresSafeArea(edges: .bottom)
+        .environmentObject(definerResults)
+        .introspectTabBarController { tabBarController in
+            tabBarController.tabBar.isHidden = true
+        }
     }
     
     func toggleBottomSheetDisplayMode() {

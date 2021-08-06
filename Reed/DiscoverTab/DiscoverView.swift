@@ -9,9 +9,8 @@
 import SwiftUI
 
 struct DiscoverView: View {
-    @ObservedObject var searchViewModel = DiscoverSearchViewModel()
-    @ObservedObject var viewModel = DiscoverViewModel()
-    @State private var tabBar: UITabBar?
+    @StateObject var searchViewModel = DiscoverSearchViewModel()
+    @StateObject var viewModel = DiscoverViewModel()
 
     var body: some View {
         NavigationView {
@@ -57,12 +56,6 @@ struct DiscoverView: View {
                 from: searchViewModel.searchBar,
                 hidesWhenScrolling: false
             )
-            .introspectTabBarController { tabBarController in
-                self.tabBar = tabBarController.tabBar
-            }
-            .onAppear {
-                tabBar?.isHidden = false
-            }
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }

@@ -11,7 +11,7 @@ import SwiftUI
 struct BottomSheet<Content: View>: View {
     @Environment(\.colorScheme) var colorScheme
     @GestureState private var translation: CGFloat = 0
-    @Binding var isOpen: Bool
+    @State private var isOpen: Bool = false
     
     let minHeight: CGFloat
     let maxHeight: CGFloat
@@ -22,7 +22,6 @@ struct BottomSheet<Content: View>: View {
     }
     
     init(
-        isOpen: Binding<Bool>,
         toggleDisplayMode: @escaping () -> Void,
         @ViewBuilder content: @escaping () -> Content
     ) {
@@ -30,7 +29,6 @@ struct BottomSheet<Content: View>: View {
         self.maxHeight = DefinerConstants.BOTTOM_SHEET_MAX_HEIGHT
         self.toggleDisplayMode = toggleDisplayMode
         self.content = content
-        self._isOpen = isOpen
     }
     
     private var indicator: some View {
@@ -64,7 +62,9 @@ struct BottomSheet<Content: View>: View {
                     state = value.translation.height
                 }.onEnded { value in
                     let snapDistance = self.maxHeight * DefinerConstants.BOTTOM_SHEET_SNAP_RATIO
-                    if value.predictedEndLocation.y >= UIScreen.main.bounds.size.height - 10 {
+                    let screenHeight = UIScreen.main.bounds.size.height
+                    if value.location.y > screenHeight - minHeight
+                        && value.predictedEndLocation.y >= screenHeight - 10 {
                         self.toggleDisplayMode()
                     }
                     if abs(value.translation.height) > snapDistance {
