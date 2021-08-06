@@ -9,8 +9,7 @@
 import SwiftUI
 
 struct LibraryView: View {
-    @ObservedObject var viewModel: LibraryViewModel = LibraryViewModel()
-    @State private var tabBar: UITabBar?
+    @StateObject var viewModel: LibraryViewModel = LibraryViewModel()
 
     var body: some View {
         NavigationView {
@@ -19,12 +18,8 @@ struct LibraryView: View {
                     LibraryEntryView(entryData: $0)
                 }
             }
-            .introspectTabBarController { tabBarController in
-                self.tabBar = tabBarController.tabBar
-            }
             .onAppear {
                 viewModel.fetchEntries()
-                self.tabBar?.isHidden = false
             }
             .navigationBarTitle("Library")
         }
