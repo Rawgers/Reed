@@ -82,10 +82,7 @@ struct AppCentral: View {
                 case .navigation:
                     AppNavigator
                 case .definer:
-                    Definer(
-                        entries: $definerResults.entries,
-                        toggleDisplayMode: toggleBottomSheetDisplayMode
-                    )
+                    Definer(entries: $definerResults.entries)
                 }
             }
         }

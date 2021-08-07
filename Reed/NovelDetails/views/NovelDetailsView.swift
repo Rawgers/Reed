@@ -120,9 +120,6 @@ struct NovelDetailsView: View {
             }
             .padding(.horizontal)
         }
-        .introspectTabBarController { tabBarController in
-            tabBarController.tabBar.isHidden = true
-        }
         .navigationBarTitle("", displayMode: .inline)
     }
 }
