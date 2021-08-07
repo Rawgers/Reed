@@ -47,6 +47,7 @@ struct ReaderView: View {
                 }
             }
             .padding(.horizontal)
+            .edgesIgnoringSafeArea(.bottom)
         }
         .navigationBarHidden(true)
     }
