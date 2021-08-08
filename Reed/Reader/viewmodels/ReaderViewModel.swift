@@ -13,7 +13,7 @@ import SwiftyNarou
 
 struct ProcessedContent {
     let tokens: [Token]
-    let annotatedContent: NSMutableAttributedString
+    let annotatedContent: String
     let sectionUpdateType: SectionUpdateType
 }
 
@@ -39,11 +39,14 @@ class ReaderViewModel: ObservableObject {
                 return
             }
             
-            var annotatedContent = NSMutableAttributedString()
             if let content = section.data?.content {
                 let tokenizer = Tokenizer()
                 let tokens = tokenizer.tokenize(content)
-                annotatedContent = content.annotateWithFurigana(tokens: tokens)
+                var annotatedContent = content.annotateWithFurigana(tokens: tokens)
+
+                // HTML does not line break unless given "<br>", so replace "\n" with "<br>".
+                // Must be done after annotating to prevent index errors.
+                annotatedContent = annotatedContent.replacingOccurrences(of: "\n", with: "<br>")
                 self.processedContent = ProcessedContent(
                     tokens: tokens,
                     annotatedContent: annotatedContent,

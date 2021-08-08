@@ -41,7 +41,7 @@ class PaginatorViewModel: ObservableObject {
             guard let processedContent = processedContent else { return }
             
             self.tokens = processedContent.tokens
-            self.pages = self.paginate(content: processedContent.annotatedContent)
+//            self.pages = self.paginate(content: processedContent.annotatedContent)
             
             switch processedContent.sectionUpdateType {
             case .FIRST:
