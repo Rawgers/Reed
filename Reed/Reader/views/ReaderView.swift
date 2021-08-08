@@ -36,18 +36,13 @@ struct ReaderView: View {
             )
 
             ZStack {
-                Paginator(
-                    isNavMenuHidden: $isNavMenuHidden,
-                    sectionFetcher: viewModel.sectionFetcher,
-                    processedContentPublisher: viewModel.$processedContent.eraseToAnyPublisher()
-                )
+                WKText(processedContentPublisher: viewModel.$processedContent.eraseToAnyPublisher())
 
                 if viewModel.isLoading {
                     ProgressView()
                 }
             }
-            .padding(.horizontal)
-            .edgesIgnoringSafeArea(.bottom)
+            .padding(.horizontal, 16)
         }
         .navigationBarHidden(true)
     }

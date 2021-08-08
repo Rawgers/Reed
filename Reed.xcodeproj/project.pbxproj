@@ -61,6 +61,9 @@
 		B87D30772516C537002E25FF /* DictionaryLanguageSource+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87D30752516C537002E25FF /* DictionaryLanguageSource+CoreDataClass.swift */; };
 		B87D30782516C537002E25FF /* DictionaryLanguageSource+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87D30762516C537002E25FF /* DictionaryLanguageSource+CoreDataProperties.swift */; };
 		B880D139251810F20097AF8D /* SplashViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B880D138251810F20097AF8D /* SplashViewModel.swift */; };
+		B891D7C326BFCA3B00A748FF /* WKText.swift in Sources */ = {isa = PBXBuildFile; fileRef = B891D7C026BFCA3B00A748FF /* WKText.swift */; };
+		B891D7C426BFCA3B00A748FF /* WKTextViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B891D7C126BFCA3B00A748FF /* WKTextViewModel.swift */; };
+		B891D7C526BFCA3B00A748FF /* TextAugmentations.js in Resources */ = {isa = PBXBuildFile; fileRef = B891D7C226BFCA3B00A748FF /* TextAugmentations.js */; };
 		B8939B8425152ED0000399E0 /* DictionaryParserTestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8939B8325152ED0000399E0 /* DictionaryParserTestUtils.swift */; };
 		B8969067267E904700CC68EE /* DefinerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8969066267E904700CC68EE /* DefinerView.swift */; };
 		B8977925256626D400DF1B79 /* MecabWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8977923256626D400DF1B79 /* MecabWrapper.swift */; };
@@ -192,6 +195,9 @@
 		B87D30752516C537002E25FF /* DictionaryLanguageSource+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DictionaryLanguageSource+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B87D30762516C537002E25FF /* DictionaryLanguageSource+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DictionaryLanguageSource+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B880D138251810F20097AF8D /* SplashViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewModel.swift; sourceTree = "<group>"; };
+		B891D7C026BFCA3B00A748FF /* WKText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKText.swift; sourceTree = "<group>"; };
+		B891D7C126BFCA3B00A748FF /* WKTextViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKTextViewModel.swift; sourceTree = "<group>"; };
+		B891D7C226BFCA3B00A748FF /* TextAugmentations.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = TextAugmentations.js; sourceTree = "<group>"; };
 		B8939B8325152ED0000399E0 /* DictionaryParserTestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryParserTestUtils.swift; sourceTree = "<group>"; };
 		B8969066267E904700CC68EE /* DefinerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinerView.swift; sourceTree = "<group>"; };
 		B8977923256626D400DF1B79 /* MecabWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MecabWrapper.swift; sourceTree = "<group>"; };
@@ -370,6 +376,7 @@
 		B82AF5D92548015B00FAB2A8 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				B891D7BF26BFCA3B00A748FF /* WKText */,
 				6D4F0DB1269563BC00CCBC65 /* DefinableText */,
 				B82AF5FB2548031F00FAB2A8 /* SearchBar.swift */,
 				B8FA93BD254BBE0D00AE362C /* NavigationLazyView.swift */,
@@ -486,6 +493,16 @@
 				B880D138251810F20097AF8D /* SplashViewModel.swift */,
 			);
 			path = SplashScreen;
+			sourceTree = "<group>";
+		};
+		B891D7BF26BFCA3B00A748FF /* WKText */ = {
+			isa = PBXGroup;
+			children = (
+				B891D7C026BFCA3B00A748FF /* WKText.swift */,
+				B891D7C126BFCA3B00A748FF /* WKTextViewModel.swift */,
+				B891D7C226BFCA3B00A748FF /* TextAugmentations.js */,
+			);
+			path = WKText;
 			sourceTree = "<group>";
 		};
 		B8977921256626D400DF1B79 /* Tokenizer */ = {
@@ -894,6 +911,7 @@
 				B8D456A62508D1A2000F9E5F /* Preview Assets.xcassets in Resources */,
 				B860B7122518207900F48FBE /* JMdict_e.json.gz in Resources */,
 				B8D456A32508D1A2000F9E5F /* Assets.xcassets in Resources */,
+				B891D7C526BFCA3B00A748FF /* TextAugmentations.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -987,6 +1005,7 @@
 				B8D1797C26A90FA50051008A /* AppNavigatorTab.swift in Sources */,
 				B8F5C20E250EDDB2000810F8 /* DictionaryEntry+CoreDataProperties.swift in Sources */,
 				B8F5C20F250EDDB2000810F8 /* DictionaryReading+CoreDataClass.swift in Sources */,
+				B891D7C426BFCA3B00A748FF /* WKTextViewModel.swift in Sources */,
 				B80E0E6B25497E13009B0EE8 /* SearchResults.swift in Sources */,
 				B82E94AE25663890004A6F85 /* DeinflectionRules.swift in Sources */,
 				B8F5C215250EDEEB000810F8 /* DictionaryDefinition+CoreDataClass.swift in Sources */,
@@ -996,6 +1015,7 @@
 				B87D30772516C537002E25FF /* DictionaryLanguageSource+CoreDataClass.swift in Sources */,
 				B8F5C217250EDEEB000810F8 /* DictionaryTerm+CoreDataClass.swift in Sources */,
 				6D47D9C625CA9AB2005A9057 /* ReaderNavigationBar.swift in Sources */,
+				B891D7C326BFCA3B00A748FF /* WKText.swift in Sources */,
 				B80E0E75254A225B009B0EE8 /* UINavigationController+UIGestureRecognizerDelegate.swift in Sources */,
 				B89CD68E2509928800D7D8ED /* ReaderView.swift in Sources */,
 				B8D4569A2508D1A2000F9E5F /* AppDelegate.swift in Sources */,
