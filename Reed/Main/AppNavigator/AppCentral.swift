@@ -29,7 +29,7 @@ struct AppCentral: View {
         LibraryView.self,
         DiscoverView.self,
         VocabularyListView.self,
-        SettingsView.self
+        SettingsView.self,
     ]
     
     private var AppNavigator: some View {
@@ -46,18 +46,18 @@ struct AppCentral: View {
                 tag: 1,
                 selectedTab: $selectedTab
             )
-//                    AppNavigatorTab(
-//                        title: "Cards",
-//                        iconName: "rectangle.grid.2x2",
-//                        tag: 2,
-//                        selectedTab: $selectedTab
-//                    )
-//                    AppNavigatorTab(
-//                        title: "Settings",
-//                        iconName: "wrench",
-//                        tag: 3,
-//                        selectedTab: $selectedTab
-//                    )
+//            AppNavigatorTab(
+//                title: "Cards",
+//                iconName: "rectangle.grid.2x2",
+//                tag: 2,
+//                selectedTab: $selectedTab
+//            )
+            AppNavigatorTab(
+                title: "Settings",
+                iconName: "wrench",
+                tag: 3,
+                selectedTab: $selectedTab
+            )
         }
         .padding(.top)
     }

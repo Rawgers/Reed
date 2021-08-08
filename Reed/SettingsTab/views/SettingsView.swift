@@ -10,7 +10,10 @@ import SwiftUI
 
 struct SettingsView: View {
     var body: some View {
-        Text("Settings View")
+        GeometryReader { proxy in
+            Rectangle()
+                .frame(width: proxy.size.width, height: proxy.size.height)
+        }
     }
 }
 

@@ -37,7 +37,7 @@ class NovelDetailsViewModel: ObservableObject {
             self.novelData = novelData
             let tokenizer = Tokenizer()
             self.tokens = tokenizer.tokenize(novelData?.synopsis ?? "")
-            self.novelSynopsis = (novelData?.synopsis?.trimmingCharacters(in: ["\n"]) ?? "").annotateWithFurigana(tokens: self.tokens)
+//            self.novelSynopsis = (novelData?.synopsis?.trimmingCharacters(in: ["\n"]) ?? "").annotateWithFurigana(tokens: self.tokens)
             //calculations
             let testDefinableTextView = DefinableTextView(
                 frame: CGRect(
