@@ -63,6 +63,7 @@
 		B87D30772516C537002E25FF /* DictionaryLanguageSource+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87D30752516C537002E25FF /* DictionaryLanguageSource+CoreDataClass.swift */; };
 		B87D30782516C537002E25FF /* DictionaryLanguageSource+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87D30762516C537002E25FF /* DictionaryLanguageSource+CoreDataProperties.swift */; };
 		B880D139251810F20097AF8D /* SplashViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B880D138251810F20097AF8D /* SplashViewModel.swift */; };
+		B891D7BE26BFB67100A748FF /* TextAugmentations.js in Resources */ = {isa = PBXBuildFile; fileRef = B891D7BD26BFB67100A748FF /* TextAugmentations.js */; };
 		B8939B8425152ED0000399E0 /* DictionaryParserTestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8939B8325152ED0000399E0 /* DictionaryParserTestUtils.swift */; };
 		B8969067267E904700CC68EE /* DefinerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8969066267E904700CC68EE /* DefinerView.swift */; };
 		B8977925256626D400DF1B79 /* MecabWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8977923256626D400DF1B79 /* MecabWrapper.swift */; };
@@ -196,6 +197,7 @@
 		B87D30752516C537002E25FF /* DictionaryLanguageSource+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DictionaryLanguageSource+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B87D30762516C537002E25FF /* DictionaryLanguageSource+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DictionaryLanguageSource+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B880D138251810F20097AF8D /* SplashViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewModel.swift; sourceTree = "<group>"; };
+		B891D7BD26BFB67100A748FF /* TextAugmentations.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = TextAugmentations.js; sourceTree = "<group>"; };
 		B8939B8325152ED0000399E0 /* DictionaryParserTestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryParserTestUtils.swift; sourceTree = "<group>"; };
 		B8969066267E904700CC68EE /* DefinerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinerView.swift; sourceTree = "<group>"; };
 		B8977923256626D400DF1B79 /* MecabWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MecabWrapper.swift; sourceTree = "<group>"; };
@@ -481,6 +483,7 @@
 			children = (
 				B85ED11826BF2DF5009A59AD /* WKText.swift */,
 				B85ED11A26BF3D4B009A59AD /* WKTextViewModel.swift */,
+				B891D7BD26BFB67100A748FF /* TextAugmentations.js */,
 			);
 			path = WKText;
 			sourceTree = "<group>";
@@ -908,6 +911,7 @@
 				B8D456A62508D1A2000F9E5F /* Preview Assets.xcassets in Resources */,
 				B860B7122518207900F48FBE /* JMdict_e.json.gz in Resources */,
 				B8D456A32508D1A2000F9E5F /* Assets.xcassets in Resources */,
+				B891D7BE26BFB67100A748FF /* TextAugmentations.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
