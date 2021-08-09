@@ -11,14 +11,18 @@ extension String {
         let ADDITIONAL_CHARACTERS_PER_RUBY_ENTRY = 42
         
         var annotatedContent = self as NSString
-        var contentIndex = 0
+        var contentIndexOffset = 0
         for token in tokens {
+            annotatedContent = tagToken(
+                annotatedContent: annotatedContent,
+                token: token,
+                contentIndexOffset: &contentIndexOffset
+            )
             if !token.furiganas.isEmpty {
-                let start = token.range.location
                 for furigana in token.furiganas {
                     annotatedContent = annotatedContent.replacingCharacters(
                         in: NSRange(
-                            location: start + contentIndex + furigana.range.location,
+                            location: token.range.location + contentIndexOffset + furigana.range.location,
                             length: furigana.range.length
                         ),
                         with: generateRubyHtml(
@@ -26,11 +30,32 @@ extension String {
                             furigana: furigana
                         )
                     ) as NSString
-                    contentIndex += furigana.reading.count + ADDITIONAL_CHARACTERS_PER_RUBY_ENTRY
+                    contentIndexOffset += furigana.reading.count + ADDITIONAL_CHARACTERS_PER_RUBY_ENTRY
                 }
             }
+            // number of characters in </span> generated in tagToken
+            contentIndexOffset += 7
         }
         return annotatedContent as String
+    }
+    
+    private func tagToken(
+        annotatedContent: NSString,
+        token: Token,
+        contentIndexOffset: inout Int
+    ) -> NSString {
+        let offsetRange = NSRange(
+            location: token.range.location + contentIndexOffset,
+            length: token.range.length
+        )
+        let wrappedToken = "<span data-surface=\"\(token.surface)\">\(token.surface)</span>"
+        
+        // number of characters in <span data-surface="someSurface">
+        contentIndexOffset += 22 + token.range.length
+        return annotatedContent.replacingCharacters(
+            in: offsetRange,
+            with: wrappedToken
+        ) as NSString
     }
     
     private func generateRubyHtml(tokenSurface: String, furigana: Furigana) -> String {

@@ -64,6 +64,7 @@
 		B891D7C326BFCA3B00A748FF /* WKText.swift in Sources */ = {isa = PBXBuildFile; fileRef = B891D7C026BFCA3B00A748FF /* WKText.swift */; };
 		B891D7C426BFCA3B00A748FF /* WKTextViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B891D7C126BFCA3B00A748FF /* WKTextViewModel.swift */; };
 		B891D7C526BFCA3B00A748FF /* TextAugmentations.js in Resources */ = {isa = PBXBuildFile; fileRef = B891D7C226BFCA3B00A748FF /* TextAugmentations.js */; };
+		B891D7C726C0673C00A748FF /* reader-content-style.css in Resources */ = {isa = PBXBuildFile; fileRef = B891D7C626C0673C00A748FF /* reader-content-style.css */; };
 		B8939B8425152ED0000399E0 /* DictionaryParserTestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8939B8325152ED0000399E0 /* DictionaryParserTestUtils.swift */; };
 		B8969067267E904700CC68EE /* DefinerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8969066267E904700CC68EE /* DefinerView.swift */; };
 		B8977925256626D400DF1B79 /* MecabWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8977923256626D400DF1B79 /* MecabWrapper.swift */; };
@@ -198,6 +199,7 @@
 		B891D7C026BFCA3B00A748FF /* WKText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKText.swift; sourceTree = "<group>"; };
 		B891D7C126BFCA3B00A748FF /* WKTextViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKTextViewModel.swift; sourceTree = "<group>"; };
 		B891D7C226BFCA3B00A748FF /* TextAugmentations.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = TextAugmentations.js; sourceTree = "<group>"; };
+		B891D7C626C0673C00A748FF /* reader-content-style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "reader-content-style.css"; sourceTree = "<group>"; };
 		B8939B8325152ED0000399E0 /* DictionaryParserTestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryParserTestUtils.swift; sourceTree = "<group>"; };
 		B8969066267E904700CC68EE /* DefinerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinerView.swift; sourceTree = "<group>"; };
 		B8977923256626D400DF1B79 /* MecabWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MecabWrapper.swift; sourceTree = "<group>"; };
@@ -501,6 +503,7 @@
 				B891D7C026BFCA3B00A748FF /* WKText.swift */,
 				B891D7C126BFCA3B00A748FF /* WKTextViewModel.swift */,
 				B891D7C226BFCA3B00A748FF /* TextAugmentations.js */,
+				B891D7C626C0673C00A748FF /* reader-content-style.css */,
 			);
 			path = WKText;
 			sourceTree = "<group>";
@@ -908,6 +911,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B891D7C726C0673C00A748FF /* reader-content-style.css in Resources */,
 				B8D456A62508D1A2000F9E5F /* Preview Assets.xcassets in Resources */,
 				B860B7122518207900F48FBE /* JMdict_e.json.gz in Resources */,
 				B8D456A32508D1A2000F9E5F /* Assets.xcassets in Resources */,

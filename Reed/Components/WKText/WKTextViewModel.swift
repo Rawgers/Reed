@@ -17,8 +17,20 @@ class WKTextViewModel: ObservableObject {
             guard let self = self else { return }
             guard let processedContent = processedContent else { return }
             
-            self.contentInHtml = processedContent.annotatedContent
+            self.contentInHtml = self.wrapInHtmlTemplate(
+                content: processedContent.annotatedContent
+            )
         }
+    }
+    
+    private func wrapInHtmlTemplate(content body: String) -> String {
+        return """
+        <html>
+            <body>
+                <p>\(body)</p>
+            </body>
+        </html>
+        """
     }
     
     deinit {
