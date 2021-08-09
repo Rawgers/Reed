@@ -10,6 +10,10 @@ import Combine
 import SwiftUI
 import WebKit
 
+fileprivate enum WKTextError: Error {
+    case scriptError(String)
+}
+
 struct WKText: UIViewRepresentable {
     @StateObject var viewModel: WKTextViewModel
     let webView = WKWebView()
@@ -22,23 +26,20 @@ struct WKText: UIViewRepresentable {
     
     func makeUIView(context: UIViewRepresentableContext<WKText>) -> WKWebView {
         let contentController = webView.configuration.userContentController
-        contentController.add(
-            context.coordinator,
-            name: "handleTapWord"
-        )
+        contentController.add(context.coordinator, name: "handleTapWord")
         
-        if let url = Bundle.main.url(
-            forResource: "TextAugmentations",
-            withExtension: "js"
-        ) {
-            do {
-                let js = try String(contentsOf: url)
-                let script = WKUserScript(source: js, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
-                contentController.addUserScript(script)
-            } catch {
-                print("Could not find Javascript.")
-            }
+        do {
+            let textAugmentations = try readFile(name: "TextAugmentations", ext: "js")
+            let textAugmentationsScript = WKUserScript(
+                source: textAugmentations,
+                injectionTime: .atDocumentEnd,
+                forMainFrameOnly: false
+            )
+            contentController.addUserScript(textAugmentationsScript)
+        } catch {
+            print(error.localizedDescription)
         }
+        
         return webView
     }
     
@@ -48,6 +49,18 @@ struct WKText: UIViewRepresentable {
     
     func makeCoordinator() -> Coordinator {
         Coordinator()
+    }
+    
+    private func readFile(name: String, ext: String) throws -> String {
+        if let url = Bundle.main.url(forResource: name, withExtension: ext) {
+            do {
+                let contents = try String(contentsOf: url)
+                return contents
+            } catch {
+                throw WKTextError.scriptError("Unable to read \(name).\(ext).")
+            }
+        }
+        throw WKTextError.scriptError("Unable to find \(name).\(ext).")
     }
     
     class Coordinator: NSObject, WKScriptMessageHandler {

@@ -1,3 +1,18 @@
+// const html = document.documentElement.innerHTML;
+// window.webkit.messageHandlers.handleTapWord.postMessage({ 'everything': html });
+
+// Add CSS to ReaderView
+const style = document.createElement('style');
+style.textContent = `
+    body {
+        font-size: 36px; 
+    }
+    rt { 
+        font-size: 18px;
+    }
+`;
+document.head.appendChild(style);
+
 const onTapWord = word => {
     return () => {
         if (window.webkit 
@@ -9,12 +24,9 @@ const onTapWord = word => {
     };
 };
 
-const rubyElements = document.getElementsByTagName("ruby");
-const rtElements = document.getElementsByTagName("rt");
-const numElements = rubyElements.length;
-
-for (let i = 0; i < numElements; i++) {
-    const word = rubyElements[i].innerHTML.split("<rp>")[0];
+const tokens = document.getElementsByTagName('span');
+for (token of tokens) {
+    const word = token.getAttribute('data-surface');
     const handleTap = onTapWord(word);
-    rubyElements[i].onclick = handleTap;
+    token.onclick = handleTap;
 }
