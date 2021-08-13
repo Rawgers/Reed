@@ -15,6 +15,7 @@ fileprivate enum WKTextError: Error {
 }
 
 struct WKText: UIViewRepresentable {
+    @EnvironmentObject var definerResults: DefinerResults
     @StateObject var viewModel: WKTextViewModel
     let webView = WKWebView()
     
@@ -48,7 +49,7 @@ struct WKText: UIViewRepresentable {
     }
     
     func makeCoordinator() -> Coordinator {
-        Coordinator()
+        Coordinator(definerResultHandler: definerResults.updateEntries)
     }
     
     private func readFile(name: String, ext: String) throws -> String {
@@ -64,12 +65,67 @@ struct WKText: UIViewRepresentable {
     }
     
     class Coordinator: NSObject, WKScriptMessageHandler {
+        let dictionaryFetcher = DictionaryFetcher()
+        let definerResultHandler: ([DefinitionDetails]) -> Void
+        
+        init(definerResultHandler: @escaping ([DefinitionDetails]) -> Void) {
+            self.definerResultHandler = definerResultHandler
+        }
+        
         func userContentController(
             _ userContentController: WKUserContentController,
             didReceive message: WKScriptMessage
         ) {
             guard let dict = message.body as? [String : AnyObject] else { return }
-            print(dict)
+            defineSelection(from: dict["word"] as! String)
+        }
+        
+        func defineSelection(from tappedWord: String) {
+            let fetchResults = self.dictionaryFetcher.fetchEntries(of: tappedWord)
+            var entries = [DefinitionDetails]()
+            for result in fetchResults {
+                var terms = [Term]()
+                var definitions = [Definition]()
+                var primaryReading = ""
+                if result.readings[0].terms.endIndex > 0
+                    && result.readings[0].terms[0] == tappedWord
+                {
+                    primaryReading = result.readings[0].reading
+                }
+                for reading in result.readings {
+                    for term in reading.terms {
+                        terms.append(Term(reading: reading.reading, term: term))
+                    }
+                }
+                if primaryReading != "" {
+                    terms.removeFirst()
+                }
+                for sense in result.definitions {
+                    var definition = ""
+                    for gloss in sense.glosses {
+                        definition += gloss + ", "
+                    }
+                    definition.removeLast(2)
+                    var specicificLexemes = ""
+                    if !sense.specificLexemes.isEmpty {
+                        for specific in sense.specificLexemes {
+                            specicificLexemes += specific + ", "
+                        }
+                        specicificLexemes.removeLast(2)
+                    }
+                    definitions.append(Definition(
+                        specicificLexemes: specicificLexemes,
+                        definition: definition
+                    ))
+                }
+                entries.append(DefinitionDetails(
+                    title: tappedWord,
+                    primaryReading: primaryReading,
+                    terms: terms,
+                    definitions: definitions
+                ))
+            }
+            self.definerResultHandler(entries)
         }
     }
 }
