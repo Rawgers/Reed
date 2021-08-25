@@ -36,7 +36,8 @@ struct ReaderView: View {
             )
 
             ZStack {
-                WKText(processedContentPublisher: viewModel.$processedContent.eraseToAnyPublisher())
+                WKText(processedContentPublisher: viewModel.$processedContent.eraseToAnyPublisher(), sectionSwitchHandler: viewModel.handleSectionSwitch
+                )
 
                 if viewModel.isLoading {
                     ProgressView()
