@@ -77,7 +77,7 @@ class ReaderViewModel: ObservableObject {
         self.sectionCancellable?.cancel()
     }
     
-    func handleSectionSwitch(isNext: Bool) {
+    func handleSwitchSection(isNext: Bool) {
         // Handle cases when flipping first or last page of section.
         guard let sectionData = sectionFetcher.section?.data else { return }
         if !isNext && sectionData.prevNcode != nil {
