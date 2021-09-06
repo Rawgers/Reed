@@ -18,23 +18,34 @@ struct WKText: UIViewRepresentable {
     @EnvironmentObject var definerResults: DefinerResults
     @StateObject var viewModel: WKTextViewModel
     let webView = WKWebView()
-    let sectionSwitchHandler: (Bool) -> Void
+    let topSpinner = UIActivityIndicatorView(style: .large)
+    let bottomSpinner = UIActivityIndicatorView(style: .large)
+    let switchSectionHandler: (Bool) -> Void
     
     init(
         processedContentPublisher: AnyPublisher<ProcessedContent?, Never>,
-        sectionSwitchHandler: @escaping (Bool) -> Void
+        switchSectionHandler: @escaping (Bool) -> Void
     ) {
         self._viewModel = StateObject(
             wrappedValue: WKTextViewModel(processedContentPublisher: processedContentPublisher)
         )
-        self.sectionSwitchHandler = sectionSwitchHandler
+        self.switchSectionHandler = switchSectionHandler
     }
     
-    func makeUIView(context: UIViewRepresentableContext<WKText>) -> WKWebView {
+    func makeUIView(context: UIViewRepresentableContext<WKText>) -> UIView {
+        let view = UIView()
+        
+        topSpinner.stopAnimating()
+        topSpinner.hidesWhenStopped = true
+        topSpinner.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 60)
+        view.addSubview(topSpinner)
+        topSpinner.translatesAutoresizingMaskIntoConstraints = false
+        topSpinner.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        topSpinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
         let contentController = webView.configuration.userContentController
         contentController.add(context.coordinator, name: "handleTapWord")
         webView.scrollView.delegate = context.coordinator
-
         do {
             let textAugmentations = try readFile(name: "TextAugmentations", ext: "js")
             let textAugmentationsScript = WKUserScript(
@@ -47,19 +58,45 @@ struct WKText: UIViewRepresentable {
             print(error.localizedDescription)
         }
         
-        return webView
+        view.addSubview(webView)
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        webView.topAnchor.constraint(equalTo: topSpinner.bottomAnchor).isActive = true
+        webView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        webView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        
+        bottomSpinner.stopAnimating()
+        bottomSpinner.hidesWhenStopped = true
+        bottomSpinner.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 60)
+        view.addSubview(bottomSpinner)
+        bottomSpinner.translatesAutoresizingMaskIntoConstraints = false
+        bottomSpinner.topAnchor.constraint(equalTo: webView.bottomAnchor).isActive = true
+        bottomSpinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        return view
     }
     
     func updateUIView(_ uiView: UIViewType, context: Context) {
-        uiView.loadHTMLString(viewModel.contentInHtml, baseURL: nil)
+        (uiView.subviews[1] as! WKWebView).loadHTMLString(viewModel.contentInHtml, baseURL: nil)
     }
     
     func makeCoordinator() -> Coordinator {
         Coordinator(
             webView: webView,
             definerResultHandler: definerResults.updateEntries,
-            sectionSwitchHandler: sectionSwitchHandler
+            switchSectionHandler: switchSectionHandler,
+            startSpinningHandler: startSpinningHandler(offset:)
         )
+    }
+    
+    func startSpinningHandler(offset: CGFloat) {
+        if offset < 0 {
+            topSpinner.startAnimating()
+        } else if offset > webView.scrollView.contentSize.height - webView.frame.size.height {
+            bottomSpinner.startAnimating()
+        } else {
+            topSpinner.stopAnimating()
+            bottomSpinner.stopAnimating()
+        }
     }
     
     private func readFile(name: String, ext: String) throws -> String {
@@ -75,20 +112,26 @@ struct WKText: UIViewRepresentable {
     }
     
     class Coordinator: NSObject, WKScriptMessageHandler, UIScrollViewDelegate {
+        let SWITCH_SECTION_DRAG_OFFSET: CGFloat = 200
+        
         let dictionaryFetcher = DictionaryFetcher()
         let webView: WKWebView
         let definerResultHandler: ([DefinitionDetails]) -> Void
-        let sectionSwitchHandler: (Bool) -> Void
+        let switchSectionHandler: (Bool) -> Void
+        let startSpinningHandler: (CGFloat) -> Void
+
         var canSwitch = false
 
         init(
             webView: WKWebView,
             definerResultHandler: @escaping ([DefinitionDetails]) -> Void,
-            sectionSwitchHandler: @escaping (Bool) -> Void
+            switchSectionHandler: @escaping (Bool) -> Void,
+            startSpinningHandler: @escaping (CGFloat) -> Void
         ) {
             self.webView = webView
             self.definerResultHandler = definerResultHandler
-            self.sectionSwitchHandler = sectionSwitchHandler
+            self.switchSectionHandler = switchSectionHandler
+            self.startSpinningHandler = startSpinningHandler
         }
         
         func userContentController(
@@ -148,10 +191,8 @@ struct WKText: UIViewRepresentable {
         }
                 
         func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-            // Scrolling acceleration didn't continue after the finger was lifted
-            print(scrollView.contentOffset.y)
-            if scrollView.contentOffset.y < -200
-                || scrollView.contentOffset.y > scrollView.contentSize.height - scrollView.frame.size.height + 200 {
+            if scrollView.contentOffset.y < -SWITCH_SECTION_DRAG_OFFSET
+                || scrollView.contentOffset.y > scrollView.contentSize.height - scrollView.frame.size.height + SWITCH_SECTION_DRAG_OFFSET {
                 if !decelerate {
                     executeActionAtTheEnd(of: scrollView)
                 } else {
@@ -160,6 +201,10 @@ struct WKText: UIViewRepresentable {
             } else {
                 canSwitch = false
             }
+        }
+        
+        func scrollViewDidScroll(_ scrollView: UIScrollView) {
+            startSpinningHandler(scrollView.contentOffset.y)
         }
 
         func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -171,9 +216,9 @@ struct WKText: UIViewRepresentable {
         private func executeActionAtTheEnd(of scrollView: UIScrollView) {
             print(scrollView.contentOffset.y)
             if scrollView.contentOffset.y == 0 {
-                sectionSwitchHandler(false)
+                switchSectionHandler(false)
             } else if scrollView.contentOffset.y + 1 >= (scrollView.contentSize.height - scrollView.frame.size.height) {
-                sectionSwitchHandler(true)
+                switchSectionHandler(true)
             }
         }
     }
