@@ -22,6 +22,7 @@ struct LibraryView: View {
                 viewModel.fetchEntries()
             }
             .navigationBarTitle("Library")
+            .addDefinerAndAppNavigator(entries: .constant([]))
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
