@@ -34,20 +34,19 @@ struct ReaderView: View {
                 isActive: $isActive
             )
 
-            DefinerView(entries: $definerResults.entries) {
-                ZStack {
-                    WKText(
-                        processedContentPublisher: viewModel.$processedContent.eraseToAnyPublisher(),
-                        switchSectionHandler: viewModel.handleSwitchSection,
-                        definerResultHandler: definerResults.updateEntries
-                    )
+            ZStack {
+                WKText(
+                    processedContentPublisher: viewModel.$processedContent.eraseToAnyPublisher(),
+                    switchSectionHandler: viewModel.handleSwitchSection,
+                    definerResultHandler: definerResults.updateEntries
+                )
 
-                    if viewModel.isLoading {
-                        ProgressView()
-                    }
+                if viewModel.isLoading {
+                    ProgressView()
                 }
-                .padding(.horizontal)
             }
+            .padding(.horizontal)
+            .addDefinerAndAppNavigator(entries: $definerResults.entries)
         }
         .navigationBarHidden(true)
     }
