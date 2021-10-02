@@ -65,7 +65,6 @@ private struct DefinerAndAppNavigatorBottomSheet: ViewModifier {
                     .frame(height: DefinerConstants.BOTTOM_SHEET_MIN_HEIGHT)
                     .opacity(0)
             }
-            .background(Color(.systemBackground))
             .navigationBarHidden(isNavigationBarHidden)
             
             DefinerAndAppNavigator(entries: $entries)

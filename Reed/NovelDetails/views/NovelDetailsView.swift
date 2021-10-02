@@ -117,6 +117,7 @@ struct NovelDetailsView: View {
             .padding(.horizontal)
         }
         .navigationBarTitle("", displayMode: .inline)
+        .addDefinerAndAppNavigator(entries: .constant([]))
     }
 }
 

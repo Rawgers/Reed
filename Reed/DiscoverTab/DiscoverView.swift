@@ -51,11 +51,12 @@ struct DiscoverView: View {
                     }
                 }
             }
-            .navigationBarTitle("Discover")
+            .navigationBarTitle("Discover", displayMode: .inline)
             .navigationBarSearchController(
                 from: searchViewModel.searchBar,
                 hidesWhenScrolling: false
             )
+            .addDefinerAndAppNavigator(entries: .constant([]))
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
