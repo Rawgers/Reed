@@ -11,7 +11,6 @@ import SwiftUI
 
 struct Paginator: View {
     @StateObject var viewModel: PaginatorViewModel
-    @EnvironmentObject private var definerResults: DefinerResults
     @Binding var isNavMenuHidden: Bool
     
     init(
@@ -31,18 +30,18 @@ struct Paginator: View {
             TabView(selection: $viewModel.curPage) {
                 ForEach(viewModel.pages.indices, id: \.self) { i in
                     let page = viewModel.pages[i]
-                    DefinableText(
-                        content: .constant(page.content),
-                        tokensRange: page.tokensRange,
-                        width: DefinerConstants.CONTENT_WIDTH,
-                        height: DefinerConstants.CONTENT_HEIGHT,
-                        definerResultHandler: definerResults.updateEntries(newEntries:),
-                        getTokenHandler: viewModel.getToken,
-                        toggleNavHandler: toggleNavHandler
-                    )
-                    .onAppear {
-                        viewModel.handlePageFlip()
-                    }
+//                    DefinableText(
+//                        content: .constant(page.content),
+//                        tokensRange: page.tokensRange,
+//                        width: DefinerConstants.CONTENT_WIDTH,
+//                        height: DefinerConstants.CONTENT_HEIGHT,
+//                        definerResultHandler: definerResults.updateEntries(newEntries:),
+//                        getTokenHandler: viewModel.getToken,
+//                        toggleNavHandler: toggleNavHandler
+//                    )
+//                    .onAppear {
+//                        viewModel.handlePageFlip()
+//                    }
                 }
             }.tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
 

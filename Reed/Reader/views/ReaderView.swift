@@ -11,18 +11,17 @@ import Introspect
 
 struct ReaderView: View {
     @StateObject var viewModel: ReaderViewModel
-    
+    @StateObject var definerResults: DefinerResults = DefinerResults()
     @State private var isNavMenuHidden = true
+    @Binding var isActive: Bool
     let ncode: String
     let novelTitle: String
-    @Binding var isActive: Bool
     
     init(ncode: String, novelTitle: String, isActive: Binding<Bool>) {
+        self._viewModel = StateObject(wrappedValue: ReaderViewModel(ncode: ncode))
+        self._isActive = isActive
         self.ncode = ncode
         self.novelTitle = novelTitle
-        self._isActive = isActive
-        
-        self._viewModel = StateObject(wrappedValue: ReaderViewModel(ncode: ncode))
     }
     
     var body: some View {
@@ -35,17 +34,20 @@ struct ReaderView: View {
                 isActive: $isActive
             )
 
-            ZStack {
-                WKText(
-                    processedContentPublisher: viewModel.$processedContent.eraseToAnyPublisher(),
-                    switchSectionHandler: viewModel.handleSwitchSection
-                )
+            DefinerView(entries: $definerResults.entries) {
+                ZStack {
+                    WKText(
+                        processedContentPublisher: viewModel.$processedContent.eraseToAnyPublisher(),
+                        switchSectionHandler: viewModel.handleSwitchSection,
+                        definerResultHandler: definerResults.updateEntries
+                    )
 
-                if viewModel.isLoading {
-                    ProgressView()
+                    if viewModel.isLoading {
+                        ProgressView()
+                    }
                 }
+                .padding(.horizontal)
             }
-            .padding(.horizontal, 16)
         }
         .navigationBarHidden(true)
     }

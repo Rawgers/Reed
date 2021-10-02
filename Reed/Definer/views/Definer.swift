@@ -8,6 +8,38 @@
 
 import SwiftUI
 
+struct Term: Equatable, Hashable, Identifiable {
+    var id = UUID()
+    var reading: String
+    var term: String
+}
+
+struct Definition: Equatable, Hashable, Identifiable {
+    var id = UUID()
+    var specicificLexemes: String
+    var definition: String
+}
+
+struct DefinitionDetails: Equatable, Hashable, Identifiable {
+    var id = UUID()
+    var title: String
+    var primaryReading: String
+    var terms: [Term]
+    var definitions: [Definition]
+    
+    static func == (lhs: DefinitionDetails, rhs: DefinitionDetails) -> Bool {
+        return lhs.definitions == rhs.definitions
+    }
+}
+
+class DefinerResults: ObservableObject {
+    @Published var entries = [DefinitionDetails]()
+    
+    func updateEntries(entries: [DefinitionDetails]) {
+        self.entries = entries
+    }
+}
+
 struct Definer: View {
     @State private var isBottomSheetExpanded = false
     @State private var definitionEntryIndex = 0
