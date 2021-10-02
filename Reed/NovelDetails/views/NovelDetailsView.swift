@@ -11,9 +11,9 @@ import Introspect
 
 struct NovelDetailsView: View {
     @StateObject var viewModel: NovelDetailsViewModel
-    @EnvironmentObject var definerResults: DefinerResults
     @State private var topExpanded: Bool = true
     @State private var isPushedToReader: Bool = false
+    @ObservedObject var definerResults: DefinerResults = DefinerResults()
     
     init(ncode: String) {
         self._viewModel = StateObject(wrappedValue: NovelDetailsViewModel(ncode: ncode))
@@ -88,14 +88,10 @@ struct NovelDetailsView: View {
                                     height: self.viewModel.novelSynopsisHeight
                                 )
                         }
-                        DefinableText(
-                            content: .constant(viewModel.novelSynopsis),
-                            tokensRange: [0, 0, viewModel.tokens.endIndex],
-                            width: DefinerConstants.CONTENT_WIDTH,
-                            height: self.viewModel.novelSynopsisHeight,
-                            definerResultHandler: definerResults.updateEntries(newEntries:),
-                            getTokenHandler: viewModel.getToken(l:r:x:)
-                        )
+//                        WKText(
+//                            processedContentPublisher: viewModel.novelSynopsis,
+//                            definerResultHandler: definerResults.updateEntries
+//                        )
                     }
                 }
                 .padding(.bottom, 8)

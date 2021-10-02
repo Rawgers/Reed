@@ -15,21 +15,23 @@ fileprivate enum WKTextError: Error {
 }
 
 struct WKText: UIViewRepresentable {
-    @EnvironmentObject var definerResults: DefinerResults
     @StateObject var viewModel: WKTextViewModel
     let webView = WKWebView()
     let topSpinner = UIActivityIndicatorView(style: .large)
     let bottomSpinner = UIActivityIndicatorView(style: .large)
     let switchSectionHandler: (Bool) -> Void
+    let definerResultHandler: ([DefinitionDetails]) -> Void
     
     init(
         processedContentPublisher: AnyPublisher<ProcessedContent?, Never>,
-        switchSectionHandler: @escaping (Bool) -> Void
+        switchSectionHandler: @escaping (Bool) -> Void = {_ in },
+        definerResultHandler: @escaping ([DefinitionDetails]) -> Void
     ) {
         self._viewModel = StateObject(
             wrappedValue: WKTextViewModel(processedContentPublisher: processedContentPublisher)
         )
         self.switchSectionHandler = switchSectionHandler
+        self.definerResultHandler = definerResultHandler
     }
     
     func makeUIView(context: UIViewRepresentableContext<WKText>) -> UIView {
@@ -82,7 +84,7 @@ struct WKText: UIViewRepresentable {
     func makeCoordinator() -> Coordinator {
         Coordinator(
             webView: webView,
-            definerResultHandler: definerResults.updateEntries,
+            definerResultHandler: definerResultHandler,
             switchSectionHandler: switchSectionHandler,
             startSpinningHandler: startSpinningHandler(offset:)
         )

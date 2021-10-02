@@ -9,30 +9,6 @@
 import SwiftUI
 import UIKit
 
-struct Term: Equatable, Hashable, Identifiable {
-    var id = UUID()
-    var reading: String
-    var term: String
-}
-
-struct Definition: Equatable, Hashable, Identifiable {
-    var id = UUID()
-    var specicificLexemes: String
-    var definition: String
-}
-
-struct DefinitionDetails: Equatable, Hashable, Identifiable {
-    var id = UUID()
-    var title: String
-    var primaryReading: String
-    var terms: [Term]
-    var definitions: [Definition]
-    
-    static func == (lhs: DefinitionDetails, rhs: DefinitionDetails) -> Bool {
-        return lhs.definitions == rhs.definitions
-    }
-}
-
 struct DefinableText: UIViewRepresentable {
     @Binding var content: NSMutableAttributedString
     var viewModel: DefinableTextViewModel

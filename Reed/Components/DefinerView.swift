@@ -22,6 +22,29 @@ enum DefinerConstants {
     static let NOVEL_SYNOPSIS_PRELOAD_HEIGHT: CGFloat = 5 * CONTENT_HEIGHT
 }
 
+private struct DefinerAndAppNavigator: View {
+    @EnvironmentObject var appState: AppState
+    @State private var bottomSheetDisplayType: BottomSheetDisplayType = .navigation
+    @Binding var entries: [DefinitionDetails]
+    
+    var body: some View {
+        BottomSheet(toggleDisplayMode: toggleBottomSheetDisplayMode) {
+            switch bottomSheetDisplayType {
+            case .navigation:
+                AppNavigator(selectedTab: $appState.selectedTab)
+            case .definer:
+                Definer(entries: $entries)
+            }
+        }
+    }
+    
+    func toggleBottomSheetDisplayMode() {
+        bottomSheetDisplayType = bottomSheetDisplayType == .navigation
+            ? .definer
+            : .navigation
+    }
+}
+
 struct DefinerView<Content: View>: View {
     @Binding var entries: [DefinitionDetails]
     let isNavigationBarHidden: Bool // true for custom nav bar behavior
@@ -29,7 +52,7 @@ struct DefinerView<Content: View>: View {
     
     init(
         entries: Binding<[DefinitionDetails]>,
-        isNavigationBarHidden: Bool,
+        isNavigationBarHidden: Bool = false,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self._entries = entries
@@ -46,13 +69,12 @@ struct DefinerView<Content: View>: View {
                     .frame(height: DefinerConstants.BOTTOM_SHEET_MIN_HEIGHT)
                     .opacity(0)
             }
-            .padding(.horizontal)
-            .ignoresSafeArea(edges: .bottom)
             .background(Color(.systemBackground))
             .navigationBarHidden(isNavigationBarHidden)
             
-            Definer(entries: $entries)
+            DefinerAndAppNavigator(entries: $entries)
         }
+        .ignoresSafeArea(edges: .bottom)
     }
 }
 
