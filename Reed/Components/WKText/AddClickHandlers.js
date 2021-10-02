@@ -26,11 +26,10 @@ const onTapWord = token => {
             if (lastSelectedToken) {
                 lastSelectedToken.classList.remove('highlighted');
             }
-            
             const word = token.getAttribute('data-surface');
             window.webkit.messageHandlers.handleTapWord.postMessage({ word });
             token.classList.add('highlighted');
-            lastSelected = token;
+            lastSelectedToken = token;
         }
     };
 };

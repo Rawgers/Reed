@@ -16,11 +16,11 @@ fileprivate enum WKTextError: Error {
 
 struct WKText: UIViewRepresentable {
     @StateObject var viewModel: WKTextViewModel
-    let webView = WKWebView()
     let topSpinner = UIActivityIndicatorView(style: .large)
     let bottomSpinner = UIActivityIndicatorView(style: .large)
     let switchSectionHandler: (Bool) -> Void
     let definerResultHandler: ([DefinitionDetails]) -> Void
+    var webView: WKWebView { viewModel.webView }
     
     init(
         processedContentPublisher: AnyPublisher<ProcessedContent?, Never>,
@@ -35,51 +35,27 @@ struct WKText: UIViewRepresentable {
     }
     
     func makeUIView(context: UIViewRepresentableContext<WKText>) -> UIView {
-        let view = UIView()
-        
-        topSpinner.stopAnimating()
-        topSpinner.hidesWhenStopped = true
-        topSpinner.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 60)
-        view.addSubview(topSpinner)
-        topSpinner.translatesAutoresizingMaskIntoConstraints = false
-        topSpinner.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        topSpinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
         let contentController = webView.configuration.userContentController
         contentController.add(context.coordinator, name: "handleTapWord")
         webView.scrollView.delegate = context.coordinator
         do {
-            let textAugmentations = try readFile(name: "TextAugmentations", ext: "js")
-            let textAugmentationsScript = WKUserScript(
-                source: textAugmentations,
+            let addClickHandlersFile = try readFile(name: "AddClickHandlers", ext: "js")
+            let addClickHandlersScript = WKUserScript(
+                source: addClickHandlersFile,
                 injectionTime: .atDocumentEnd,
                 forMainFrameOnly: false
             )
-            contentController.addUserScript(textAugmentationsScript)
+            contentController.addUserScript(addClickHandlersScript)
         } catch {
             print(error.localizedDescription)
         }
         
-        view.addSubview(webView)
-        webView.translatesAutoresizingMaskIntoConstraints = false
-        webView.topAnchor.constraint(equalTo: topSpinner.bottomAnchor).isActive = true
-        webView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
-        webView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        
-        bottomSpinner.stopAnimating()
-        bottomSpinner.hidesWhenStopped = true
-        bottomSpinner.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 60)
-        view.addSubview(bottomSpinner)
-        bottomSpinner.translatesAutoresizingMaskIntoConstraints = false
-        bottomSpinner.topAnchor.constraint(equalTo: webView.bottomAnchor).isActive = true
-        bottomSpinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
+        let view = UIView()
+        setupLoadingIndicators(for: view)
         return view
     }
     
-    func updateUIView(_ uiView: UIViewType, context: Context) {
-        (uiView.subviews[1] as! WKWebView).loadHTMLString(viewModel.contentInHtml, baseURL: nil)
-    }
+    func updateUIView(_ uiView: UIView, context: Context) {}
     
     func makeCoordinator() -> Coordinator {
         Coordinator(
@@ -88,17 +64,6 @@ struct WKText: UIViewRepresentable {
             switchSectionHandler: switchSectionHandler,
             startSpinningHandler: startSpinningHandler(offset:)
         )
-    }
-    
-    func startSpinningHandler(offset: CGFloat) {
-        if offset < 0 {
-            topSpinner.startAnimating()
-        } else if offset > webView.scrollView.contentSize.height - webView.frame.size.height {
-            bottomSpinner.startAnimating()
-        } else {
-            topSpinner.stopAnimating()
-            bottomSpinner.stopAnimating()
-        }
     }
     
     private func readFile(name: String, ext: String) throws -> String {
@@ -141,7 +106,9 @@ struct WKText: UIViewRepresentable {
             didReceive message: WKScriptMessage
         ) {
             guard let dict = message.body as? [String : AnyObject] else { return }
-            defineSelection(from: dict["word"] as! String)
+            if let word = dict["word"] {
+                defineSelection(from: word as! String)
+            }
         }
         
         func defineSelection(from tappedWord: String) {
@@ -216,12 +183,49 @@ struct WKText: UIViewRepresentable {
         }
 
         private func executeActionAtTheEnd(of scrollView: UIScrollView) {
-            print(scrollView.contentOffset.y)
             if scrollView.contentOffset.y == 0 {
                 switchSectionHandler(false)
             } else if scrollView.contentOffset.y + 1 >= (scrollView.contentSize.height - scrollView.frame.size.height) {
                 switchSectionHandler(true)
             }
+        }
+    }
+}
+
+// Loading indicator logic
+extension WKText {
+    func setupLoadingIndicators(for view: UIView) {
+        topSpinner.stopAnimating()
+        topSpinner.hidesWhenStopped = true
+        topSpinner.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 60)
+        view.addSubview(topSpinner)
+        topSpinner.translatesAutoresizingMaskIntoConstraints = false
+        topSpinner.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        topSpinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        view.addSubview(webView)
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        webView.topAnchor.constraint(equalTo: topSpinner.bottomAnchor).isActive = true
+        webView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        webView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        
+        bottomSpinner.stopAnimating()
+        bottomSpinner.hidesWhenStopped = true
+        bottomSpinner.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 60)
+        view.addSubview(bottomSpinner)
+        bottomSpinner.translatesAutoresizingMaskIntoConstraints = false
+        bottomSpinner.topAnchor.constraint(equalTo: webView.bottomAnchor).isActive = true
+        bottomSpinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    }
+    
+    func startSpinningHandler(offset: CGFloat) {
+        if offset < 0 {
+            topSpinner.startAnimating()
+        } else if offset > webView.scrollView.contentSize.height - webView.frame.size.height {
+            bottomSpinner.startAnimating()
+        } else {
+            topSpinner.stopAnimating()
+            bottomSpinner.stopAnimating()
         }
     }
 }

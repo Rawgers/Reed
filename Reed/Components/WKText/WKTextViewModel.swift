@@ -7,30 +7,18 @@
 //
 
 import Combine
+import WebKit
 
 class WKTextViewModel: ObservableObject {
-    @Published var contentInHtml: String = ""
+    let webView = WKWebView()
     var processedContentCancellable: AnyCancellable?
     
     init(processedContentPublisher: AnyPublisher<ProcessedContent?, Never>) {
         self.processedContentCancellable = processedContentPublisher.sink { [weak self] processedContent in
             guard let self = self else { return }
             guard let processedContent = processedContent else { return }
-            
-            self.contentInHtml = self.wrapInHtmlTemplate(
-                content: processedContent.annotatedContent
-            )
+            self.webView.loadHTMLString(processedContent.annotatedContent, baseURL: nil)
         }
-    }
-    
-    private func wrapInHtmlTemplate(content body: String) -> String {
-        return """
-        <html>
-            <body>
-                <p>\(body)</p>
-            </body>
-        </html>
-        """
     }
     
     deinit {
