@@ -56,7 +56,7 @@ struct ReaderNavigationBar: View {
             content: {
                 SectionNavigationView(
                     sectionNcode: sectionNcode,
-                    handleFetchSection: sectionFetcher.fetchNextSection
+                    handleFetchSection: sectionFetcher.fetchSection
                 )
             }
         )

@@ -8,14 +8,7 @@
 
 import Combine
 import CoreData
-import SwiftUI
 import SwiftyNarou
-
-struct ProcessedContent {
-    let tokens: [Token]
-    let annotatedContent: String
-    let sectionUpdateType: SectionUpdateType
-}
 
 class ReaderViewModel: ObservableObject {
     @Published var processedContent: ProcessedContent?
@@ -40,18 +33,7 @@ class ReaderViewModel: ObservableObject {
             }
             
             if let content = section.data?.content {
-                let tokenizer = Tokenizer()
-                let tokens = tokenizer.tokenize(content)
-                var annotatedContent = content.annotateWithFurigana(tokens: tokens)
-
-                // HTML does not line break unless given "<br>", so replace "\n" with "<br>".
-                // Must be done after annotating to prevent index errors.
-                annotatedContent = annotatedContent.replacingOccurrences(of: "\n", with: "<br>")
-                self.processedContent = ProcessedContent(
-                    tokens: tokens,
-                    annotatedContent: annotatedContent,
-                    sectionUpdateType: section.updateType
-                )
+                self.processedContent = ProcessedContent(content: content)
                 self.sectionNcode = section.sectionNcode.lowercased()
             } else {
                 // If the section data or its contents are nil,
@@ -62,7 +44,7 @@ class ReaderViewModel: ObservableObject {
         }
         
         self.model.fetchHistoryEntry { historyEntry in
-            self.sectionFetcher.fetchNextSection(
+            self.sectionFetcher.fetchSection(
                 sectionNcode: historyEntry.sectionNcode
             )
         }
@@ -81,9 +63,9 @@ class ReaderViewModel: ObservableObject {
         // Handle cases when flipping first or last page of section.
         guard let sectionData = sectionFetcher.section?.data else { return }
         if !isNext && sectionData.prevNcode != nil {
-            sectionFetcher.fetchPrevSection(sectionNcode: sectionData.prevNcode!)
+            sectionFetcher.fetchSection(sectionNcode: sectionData.prevNcode!)
         } else if isNext && sectionData.nextNcode != nil {
-            sectionFetcher.fetchNextSection(sectionNcode: sectionData.nextNcode!)
+            sectionFetcher.fetchSection(sectionNcode: sectionData.nextNcode!)
         } else { return }
     }
 }
