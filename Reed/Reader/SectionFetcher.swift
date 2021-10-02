@@ -8,16 +8,9 @@
 
 import struct SwiftyNarou.SectionData
 
-enum SectionUpdateType {
-    case FIRST
-    case NEXT
-    case PREV
-}
-
 struct Section {
     let sectionNcode: String
     let data: SectionData?
-    let updateType: SectionUpdateType
 }
 
 class SectionFetcher {
@@ -28,7 +21,7 @@ class SectionFetcher {
         self.model = model
     }
     
-    private func fetchSection(sectionNcode: String, updateType: SectionUpdateType) {
+    func fetchSection(sectionNcode: String) {
 //        guard let historyEntry = model.historyEntry else {
 //            fatalError("Unable to retrieve HistoryEntry.")
 //        }
@@ -40,22 +33,9 @@ class SectionFetcher {
             } else {
                 self.section = Section(
                     sectionNcode: sectionNcode,
-                    data: sectionData,
-                    updateType: updateType
+                    data: sectionData
                 )
             }
         }
-    }
-    
-    func fetchNextSection(sectionNcode: String) {
-        let sectionNumber = sectionNcode.components(separatedBy: "/")[1]
-        fetchSection(
-            sectionNcode: sectionNcode,
-            updateType: sectionNumber == "1" ? .FIRST : .NEXT
-        )
-    }
-    
-    func fetchPrevSection(sectionNcode: String) {
-        fetchSection(sectionNcode: sectionNcode, updateType: .PREV)
     }
 }

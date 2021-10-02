@@ -10,7 +10,7 @@ import Combine
 import SwiftUI
 import WebKit
 
-fileprivate enum WKTextError: Error {
+private enum WKTextError: Error {
     case scriptError(String)
 }
 
@@ -24,8 +24,8 @@ struct WKText: UIViewRepresentable {
     
     init(
         processedContentPublisher: AnyPublisher<ProcessedContent?, Never>,
-        switchSectionHandler: @escaping (Bool) -> Void = {_ in },
-        definerResultHandler: @escaping ([DefinitionDetails]) -> Void
+        definerResultHandler: @escaping ([DefinitionDetails]) -> Void,
+        switchSectionHandler: @escaping (Bool) -> Void = {_ in }
     ) {
         self._viewModel = StateObject(
             wrappedValue: WKTextViewModel(processedContentPublisher: processedContentPublisher)

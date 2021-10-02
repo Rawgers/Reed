@@ -11,9 +11,9 @@ import Introspect
 
 struct NovelDetailsView: View {
     @StateObject var viewModel: NovelDetailsViewModel
+    @StateObject private var definerResults: DefinerResults = DefinerResults()
     @State private var topExpanded: Bool = true
     @State private var isPushedToReader: Bool = false
-    @ObservedObject var definerResults: DefinerResults = DefinerResults()
     
     init(ncode: String) {
         self._viewModel = StateObject(wrappedValue: NovelDetailsViewModel(ncode: ncode))
@@ -88,10 +88,10 @@ struct NovelDetailsView: View {
                                     height: self.viewModel.novelSynopsisHeight
                                 )
                         }
-//                        WKText(
-//                            processedContentPublisher: viewModel.novelSynopsis,
-//                            definerResultHandler: definerResults.updateEntries
-//                        )
+                        WKText(
+                            processedContentPublisher: viewModel.$novelSynopsis.eraseToAnyPublisher(),
+                            definerResultHandler: definerResults.updateEntries
+                        )
                     }
                 }
                 .padding(.bottom, 8)
@@ -117,7 +117,7 @@ struct NovelDetailsView: View {
             .padding(.horizontal)
         }
         .navigationBarTitle("", displayMode: .inline)
-        .addDefinerAndAppNavigator(entries: .constant([]))
+        .addDefinerAndAppNavigator(entries: $definerResults.entries)
     }
 }
 
