@@ -45,26 +45,22 @@ private struct DefinerAndAppNavigator: View {
     }
 }
 
-struct DefinerView<Content: View>: View {
+private struct DefinerAndAppNavigatorBottomSheet: ViewModifier {
     @Binding var entries: [DefinitionDetails]
     let isNavigationBarHidden: Bool // true for custom nav bar behavior
-    let content: () -> Content
     
     init(
         entries: Binding<[DefinitionDetails]>,
-        isNavigationBarHidden: Bool = false,
-        @ViewBuilder content: @escaping () -> Content
+        isNavigationBarHidden: Bool = false
     ) {
         self._entries = entries
         self.isNavigationBarHidden = isNavigationBarHidden
-        self.content = content
     }
     
-    var body: some View {
+    func body(content: Content) -> some View {
         ZStack {
             VStack(alignment: .center) {
-                self.content()
-                
+                content
                 Rectangle()
                     .frame(height: DefinerConstants.BOTTOM_SHEET_MIN_HEIGHT)
                     .opacity(0)
@@ -78,13 +74,8 @@ struct DefinerView<Content: View>: View {
     }
 }
 
-struct DefinerView_Previews: PreviewProvider {
-    static var previews: some View {
-        DefinerView(
-            entries: .constant([DefinitionDetails]()),
-            isNavigationBarHidden: false
-        ) {
-            EmptyView()
-        }
+extension View {
+    func addDefinerAndAppNavigator(entries: Binding<[DefinitionDetails]>) -> some View {
+        modifier(DefinerAndAppNavigatorBottomSheet(entries: entries))
     }
 }
