@@ -15,23 +15,28 @@ private enum WKTextError: Error {
 }
 
 struct WKText: UIViewRepresentable {
-    @StateObject var viewModel: WKTextViewModel
     let topSpinner = UIActivityIndicatorView(style: .large)
     let bottomSpinner = UIActivityIndicatorView(style: .large)
+    
+    @StateObject var viewModel: WKTextViewModel
     let switchSectionHandler: (Bool) -> Void
     let definerResultHandler: ([DefinitionDetails]) -> Void
+    let isScrollEnabled: Bool
+    
     var webView: WKWebView { viewModel.webView }
     
     init(
         processedContentPublisher: AnyPublisher<ProcessedContent?, Never>,
         definerResultHandler: @escaping ([DefinitionDetails]) -> Void,
-        switchSectionHandler: @escaping (Bool) -> Void = {_ in }
+        switchSectionHandler: @escaping (Bool) -> Void = {_ in },
+        isScrollEnabled: Bool = true
     ) {
         self._viewModel = StateObject(
             wrappedValue: WKTextViewModel(processedContentPublisher: processedContentPublisher)
         )
         self.switchSectionHandler = switchSectionHandler
         self.definerResultHandler = definerResultHandler
+        self.isScrollEnabled = isScrollEnabled
     }
     
     func makeUIView(context: UIViewRepresentableContext<WKText>) -> UIView {
@@ -79,7 +84,7 @@ struct WKText: UIViewRepresentable {
     }
     
     class Coordinator: NSObject, WKScriptMessageHandler, UIScrollViewDelegate {
-        let SWITCH_SECTION_DRAG_OFFSET: CGFloat = 200
+        let SWITCH_SECTION_DRAG_OFFSET: CGFloat = 80
         
         let dictionaryFetcher = DictionaryFetcher()
         let webView: WKWebView
@@ -87,7 +92,8 @@ struct WKText: UIViewRepresentable {
         let switchSectionHandler: (Bool) -> Void
         let startSpinningHandler: (CGFloat) -> Void
 
-        var canSwitch = false
+        var shouldSwitchSection = false
+        var shouldShowSpinner = false
 
         init(
             webView: WKWebView,
@@ -165,19 +171,25 @@ struct WKText: UIViewRepresentable {
                 if !decelerate {
                     executeActionAtTheEnd(of: scrollView)
                 } else {
-                    canSwitch = true
+                    shouldSwitchSection = true
                 }
             } else {
-                canSwitch = false
+                shouldSwitchSection = false
             }
+        }
+
+        func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+            shouldShowSpinner = scrollView.contentOffset.y == 0 || scrollView.contentOffset.y == scrollView.contentSize.height - scrollView.frame.size.height
         }
         
         func scrollViewDidScroll(_ scrollView: UIScrollView) {
-            startSpinningHandler(scrollView.contentOffset.y)
+            if shouldShowSpinner {
+                startSpinningHandler(scrollView.contentOffset.y)
+            }
         }
 
         func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-            if canSwitch {
+            if shouldSwitchSection {
                 executeActionAtTheEnd(of: scrollView)
             }
         }
@@ -195,37 +207,47 @@ struct WKText: UIViewRepresentable {
 // Loading indicator logic
 extension WKText {
     func setupLoadingIndicators(for view: UIView) {
+        view.addSubview(topSpinner)
         topSpinner.stopAnimating()
         topSpinner.hidesWhenStopped = true
-        topSpinner.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 60)
-        view.addSubview(topSpinner)
+        topSpinner.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 0)
+        topSpinner.style = .medium
         topSpinner.translatesAutoresizingMaskIntoConstraints = false
         topSpinner.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         topSpinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
+        topSpinner.heightAnchor.constraint(equalToConstant: 0).isActive = true
+
         view.addSubview(webView)
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.topAnchor.constraint(equalTo: topSpinner.bottomAnchor).isActive = true
         webView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
         webView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        webView.scrollView.isScrollEnabled = isScrollEnabled
         
+        view.addSubview(bottomSpinner)
         bottomSpinner.stopAnimating()
         bottomSpinner.hidesWhenStopped = true
-        bottomSpinner.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 60)
-        view.addSubview(bottomSpinner)
+        bottomSpinner.style = .medium
+        bottomSpinner.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 0)
         bottomSpinner.translatesAutoresizingMaskIntoConstraints = false
-        bottomSpinner.topAnchor.constraint(equalTo: webView.bottomAnchor).isActive = true
         bottomSpinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        bottomSpinner.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        bottomSpinner.heightAnchor.constraint(equalToConstant: 0).isActive = true
     }
     
     func startSpinningHandler(offset: CGFloat) {
-        if offset < 0 {
-            topSpinner.startAnimating()
-        } else if offset > webView.scrollView.contentSize.height - webView.frame.size.height {
-            bottomSpinner.startAnimating()
-        } else {
-            topSpinner.stopAnimating()
-            bottomSpinner.stopAnimating()
+        if (webView.scrollView.isScrollEnabled) {
+            if offset < 0 {
+                topSpinner.constraints.last?.constant = -offset
+                topSpinner.startAnimating()
+            } else if offset > webView.scrollView.contentSize.height - webView.frame.size.height {
+                bottomSpinner.constraints.last?.constant = offset - (webView.scrollView.contentSize.height - webView.frame.size.height)
+                bottomSpinner.startAnimating()
+            } else {
+                topSpinner.stopAnimating()
+                bottomSpinner.stopAnimating()
+            }
         }
     }
 }
+
