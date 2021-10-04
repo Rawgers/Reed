@@ -90,7 +90,8 @@ struct NovelDetailsView: View {
                         }
                         WKText(
                             processedContentPublisher: viewModel.$novelSynopsis.eraseToAnyPublisher(),
-                            definerResultHandler: definerResults.updateEntries
+                            definerResultHandler: definerResults.updateEntries,
+                            isScrollEnabled: false
                         )
                     }
                 }
