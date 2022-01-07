@@ -5,7 +5,10 @@
 const style = document.createElement('style');
 style.textContent = `
     body {
-        font-size: 36px; 
+        font-size: 36px;
+    }
+    span {
+        border: 1px solid transparent
     }
     rt {
         font-size: 18px;
