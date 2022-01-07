@@ -26,7 +26,7 @@ const onTapWord = token => {
             if (lastSelectedToken) {
                 lastSelectedToken.classList.remove('highlighted');
             }
-            const word = token.getAttribute('data-surface');
+            const word = token.getAttribute('data-deinflection');
             window.webkit.messageHandlers.handleTapWord.postMessage({ word });
             token.classList.add('highlighted');
             lastSelectedToken = token;
