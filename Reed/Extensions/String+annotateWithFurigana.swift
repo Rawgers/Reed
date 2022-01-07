@@ -48,10 +48,11 @@ extension String {
             location: token.range.location + contentIndexOffset,
             length: token.range.length
         )
-        let wrappedToken = "<span data-surface=\"\(token.surface)\">\(token.surface)</span>"
+        let deinflectedToken = token.deinflectionResult?.text ?? ""
+        let wrappedToken = "<span data-deinflection=\"\(deinflectedToken)\">\(token.surface)</span>"
         
-        // number of characters in <span data-surface="someSurface">
-        contentIndexOffset += 22 + token.range.length
+        // number of characters in <span data-deinflection="someSurface">
+        contentIndexOffset += 27 + deinflectedToken.count
         return annotatedContent.replacingCharacters(
             in: offsetRange,
             with: wrappedToken
