@@ -27,6 +27,7 @@ struct WKText: UIViewRepresentable {
     @StateObject var viewModel: WKTextViewModel
     let switchSectionHandler: (Bool) -> Void
     let definerResultHandler: ([DefinitionDetails]) -> Void
+    let readerViewNavigationMenuToggleHandler: () -> Void
     let isScrollEnabled: Bool
     
     var webView: WKWebView { viewModel.webView }
@@ -35,6 +36,7 @@ struct WKText: UIViewRepresentable {
         processedContentPublisher: AnyPublisher<ProcessedContent?, Never>,
         definerResultHandler: @escaping ([DefinitionDetails]) -> Void,
         switchSectionHandler: @escaping (Bool) -> Void = {_ in },
+        readerViewNavigationMenuToggleHandler: @escaping () -> Void = {},
         isScrollEnabled: Bool = true
     ) {
         self._viewModel = StateObject(
@@ -42,6 +44,7 @@ struct WKText: UIViewRepresentable {
         )
         self.switchSectionHandler = switchSectionHandler
         self.definerResultHandler = definerResultHandler
+        self.readerViewNavigationMenuToggleHandler = readerViewNavigationMenuToggleHandler
         self.isScrollEnabled = isScrollEnabled
     }
     
@@ -73,6 +76,7 @@ struct WKText: UIViewRepresentable {
             webView: webView,
             definerResultHandler: definerResultHandler,
             switchSectionHandler: switchSectionHandler,
+            readerViewNavigationMenuToggleHandler: readerViewNavigationMenuToggleHandler,
             startSpinningHandler: startSpinningHandler(offset:)
         )
     }
@@ -89,13 +93,14 @@ struct WKText: UIViewRepresentable {
         throw WKTextError.scriptError("Unable to find \(name).\(ext).")
     }
     
-    class Coordinator: NSObject, WKScriptMessageHandler, UIScrollViewDelegate {
+    class Coordinator: NSObject, WKScriptMessageHandler, UIScrollViewDelegate, UIGestureRecognizerDelegate {
         let SWITCH_SECTION_DRAG_OFFSET: CGFloat = 80
         
         let dictionaryFetcher = DictionaryFetcher()
         let webView: WKWebView
         let definerResultHandler: ([DefinitionDetails]) -> Void
         let switchSectionHandler: (Bool) -> Void
+        let readerViewNavigationMenuToggleHandler: () -> Void
         let startSpinningHandler: (CGFloat) -> Void
 
         var shouldSwitchSection = false
@@ -105,12 +110,28 @@ struct WKText: UIViewRepresentable {
             webView: WKWebView,
             definerResultHandler: @escaping ([DefinitionDetails]) -> Void,
             switchSectionHandler: @escaping (Bool) -> Void,
+            readerViewNavigationMenuToggleHandler: @escaping () -> Void,
             startSpinningHandler: @escaping (CGFloat) -> Void
         ) {
             self.webView = webView
             self.definerResultHandler = definerResultHandler
             self.switchSectionHandler = switchSectionHandler
+            self.readerViewNavigationMenuToggleHandler = readerViewNavigationMenuToggleHandler
             self.startSpinningHandler = startSpinningHandler
+            super.init()
+            
+            let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(onDoubleTap(sender:)))
+            doubleTapGesture.numberOfTapsRequired = 2
+            doubleTapGesture.delegate = self
+            webView.addGestureRecognizer(doubleTapGesture)
+        }
+        
+        func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+          return true
+        }
+        
+        @objc func onDoubleTap(sender: UITapGestureRecognizer) {
+            readerViewNavigationMenuToggleHandler()
         }
         
         func userContentController(

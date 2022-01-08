@@ -38,7 +38,8 @@ struct ReaderView: View {
                 WKText(
                     processedContentPublisher: viewModel.$processedContent.eraseToAnyPublisher(),
                     definerResultHandler: definerResults.updateEntries,
-                    switchSectionHandler: viewModel.handleSwitchSection
+                    switchSectionHandler: viewModel.handleSwitchSection,
+                    readerViewNavigationMenuToggleHandler: toggleReaderViewNavigationMenu
                 )
 
                 if viewModel.isLoading {
@@ -53,6 +54,10 @@ struct ReaderView: View {
             .addDefinerAndAppNavigator(entries: $definerResults.entries)
         }
         .navigationBarHidden(true)
+    }
+    
+    func toggleReaderViewNavigationMenu() {
+        self.isNavMenuHidden.toggle()
     }
 }
 
