@@ -14,6 +14,12 @@ private enum WKTextError: Error {
     case scriptError(String)
 }
 
+private enum ScrollCursorPosition {
+    case top
+    case middle
+    case bottom
+}
+
 struct WKText: UIViewRepresentable {
     let topSpinner = UIActivityIndicatorView(style: .large)
     let bottomSpinner = UIActivityIndicatorView(style: .large)
@@ -93,7 +99,7 @@ struct WKText: UIViewRepresentable {
         let startSpinningHandler: (CGFloat) -> Void
 
         var shouldSwitchSection = false
-        var shouldShowSpinner = false
+        private var scrollCursorStartScrollPosition: ScrollCursorPosition = .middle
 
         init(
             webView: WKWebView,
@@ -166,8 +172,12 @@ struct WKText: UIViewRepresentable {
         }
                 
         func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-            if scrollView.contentOffset.y < -SWITCH_SECTION_DRAG_OFFSET
-                || scrollView.contentOffset.y > scrollView.contentSize.height - scrollView.frame.size.height + SWITCH_SECTION_DRAG_OFFSET {
+            let isDragOffsetPastThreshold =
+                scrollView.contentOffset.y < -SWITCH_SECTION_DRAG_OFFSET
+                    || scrollView.contentOffset.y > scrollView.contentSize.height
+                        - scrollView.frame.size.height + SWITCH_SECTION_DRAG_OFFSET
+            if validateScrollCursorStartPositionForSectionChange(scrollView: scrollView)
+                && isDragOffsetPastThreshold {
                 if !decelerate {
                     executeActionAtTheEnd(of: scrollView)
                 } else {
@@ -179,11 +189,11 @@ struct WKText: UIViewRepresentable {
         }
 
         func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-            shouldShowSpinner = scrollView.contentOffset.y == 0 || scrollView.contentOffset.y == scrollView.contentSize.height - scrollView.frame.size.height
+            setScrollCursorPosition(scrollView: scrollView)
         }
         
         func scrollViewDidScroll(_ scrollView: UIScrollView) {
-            if shouldShowSpinner {
+            if validateScrollCursorStartPositionForSectionChange(scrollView: scrollView) {
                 startSpinningHandler(scrollView.contentOffset.y)
             }
         }
@@ -195,12 +205,40 @@ struct WKText: UIViewRepresentable {
         }
 
         private func executeActionAtTheEnd(of scrollView: UIScrollView) {
-            if scrollView.contentOffset.y == 0 {
+            // if the argument is false for switchSectionHandler, switch to previous section
+            // else if the argument is true, switch to the next section
+            if scrollCursorStartScrollPosition == ScrollCursorPosition.top {
                 switchSectionHandler(false)
-            } else if scrollView.contentOffset.y + 1 >= (scrollView.contentSize.height - scrollView.frame.size.height) {
+            } else if scrollCursorStartScrollPosition == ScrollCursorPosition.bottom {
                 switchSectionHandler(true)
             }
         }
+        
+        private func setScrollCursorPosition(scrollView: UIScrollView) {
+            if scrollView.contentOffset.y == 0 {
+                scrollCursorStartScrollPosition = .top
+            } else if scrollView.contentOffset.y == scrollView.contentSize.height - scrollView.frame.size.height {
+                scrollCursorStartScrollPosition = .bottom
+            } else {
+                scrollCursorStartScrollPosition = .middle
+            }
+        }
+        
+        private func validateScrollCursorStartPositionForSectionChange(scrollView: UIScrollView) -> Bool {
+            // checks if scroll cursor is at top
+            if scrollView.contentOffset.y <= 0 {
+                return scrollCursorStartScrollPosition == ScrollCursorPosition.top
+            }
+            
+            // checks if scroll cursor is at bottom
+            if scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.frame.size.height {
+                return scrollCursorStartScrollPosition == ScrollCursorPosition.bottom
+            }
+            
+            // returns false if scroll cursor start at middle
+            return false
+        }
+             
     }
 }
 
