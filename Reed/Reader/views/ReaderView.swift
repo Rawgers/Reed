@@ -42,7 +42,11 @@ struct ReaderView: View {
                 )
 
                 if viewModel.isLoading {
+                    Rectangle()
+                        .foregroundColor(.white)
+                        .opacity(0.5)
                     ProgressView()
+                        .scaleEffect(x: 2, y: 2, anchor: .center)
                 }
             }
             .padding(.horizontal)
