@@ -12,7 +12,6 @@ import Introspect
 struct NovelDetailsView: View {
     @StateObject var viewModel: NovelDetailsViewModel
     @StateObject private var definerResults: DefinerResults = DefinerResults()
-    @State private var topExpanded: Bool = true
     @State private var isPushedToReader: Bool = false
     
     init(ncode: String) {
@@ -116,6 +115,7 @@ struct NovelDetailsView: View {
                 .padding(.leading, 1)
             }
             .padding(.horizontal)
+            .padding(.bottom, DefinerConstants.BOTTOM_SHEET_SHADOW_RADIUS)
         }
         .navigationBarTitle("", displayMode: .inline)
         .addDefinerAndAppNavigator(entries: $definerResults.entries)
