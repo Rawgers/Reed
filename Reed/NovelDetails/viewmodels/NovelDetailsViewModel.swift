@@ -14,12 +14,11 @@ class NovelDetailsViewModel: ObservableObject {
     let model: NovelDetailsModel
     let ncode: String
     
-    @Published var novelData: NarouResponse?
     @Published var isLibraryDataLoading: Bool = true
-    @Published var isNovelSynopsisProcessing: Bool = true
     @Published var isFavorite: Bool = false
     @Published var novelSynopsis: ProcessedContent?
-    @Published var novelSynopsisHeight = DefinerConstants.CONTENT_HEIGHT
+    @Published var novelSynopsisHeight: CGFloat = 1 // nonzero placeholder
+    var novelData: NarouResponse?
     var historyEntry: HistoryEntry?
     
     init(persistentContainer: NSPersistentContainer, ncode: String) {
@@ -34,7 +33,6 @@ class NovelDetailsViewModel: ObservableObject {
         model.fetchNovelDetails { novelData in
             self.novelData = novelData
             self.novelSynopsis = ProcessedContent(content: novelData?.synopsis ?? "")
-            self.isNovelSynopsisProcessing = false
         }
         
         // Fetch HistoryEntry if it exists.
