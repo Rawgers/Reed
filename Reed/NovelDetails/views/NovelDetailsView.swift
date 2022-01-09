@@ -77,18 +77,46 @@ struct NovelDetailsView: View {
                         Rectangle()
                             .frame(
                                 width: DefinerConstants.CONTENT_WIDTH,
-                                height: self.viewModel.novelSynopsisHeight
+                                height: viewModel.isSynopsisExpanded
+                                    ? viewModel.novelSynopsisHeight
+                                    : viewModel.COLLAPSED_SYNOPSIS_HEIGHT
                             )
                         WKText(
                             processedContentPublisher: viewModel.$novelSynopsis.eraseToAnyPublisher(),
                             definerResultHandler: definerResults.updateEntries,
-                            updateSynopsisHeightHandler: updateSynopsisHeight,
+                            updateSynopsisHeightHandler: viewModel.saveNovelSynopsisHeight,
                             isScrollEnabled: false
                         )
+                        if !viewModel.isSynopsisExpanded {
+                            VStack {
+                                Spacer()
+                                LinearGradient(
+                                    colors: [.white.opacity(0), .white.opacity(0.9)],
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                                    .frame(height: 16)
+                            }
+                        }
                     }
                 }
-                .padding(.bottom, 8)
 
+                if viewModel.novelSynopsisHeight
+                    > viewModel.COLLAPSED_SYNOPSIS_HEIGHT {
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            viewModel.isSynopsisExpanded.toggle()
+                        }) {
+                            Text(viewModel.isSynopsisExpanded ? "less" : "more")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                                .padding(.trailing)
+                        }
+                    }
+                    .padding(.bottom, 16)
+                }
+                
                 FlexView(
                     data: viewModel.novelKeywords,
                     spacing: 8,
@@ -112,10 +140,6 @@ struct NovelDetailsView: View {
         }
         .navigationBarTitle("", displayMode: .inline)
         .addDefinerAndAppNavigator(entries: $definerResults.entries)
-    }
-    
-    func updateSynopsisHeight(height: CGFloat) {
-        self.viewModel.novelSynopsisHeight = height
     }
 }
 
