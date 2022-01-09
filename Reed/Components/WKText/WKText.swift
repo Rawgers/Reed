@@ -29,6 +29,7 @@ struct WKText: UIViewRepresentable {
     let switchSectionHandler: (Bool) -> Void
     let definerResultHandler: ([DefinitionDetails]) -> Void
     let readerViewNavigationMenuToggleHandler: () -> Void
+    let updateSynopsisHeightHandler: (CGFloat) -> Void
     let isScrollEnabled: Bool
     
     var webView: WKWebView { viewModel.webView }
@@ -36,8 +37,9 @@ struct WKText: UIViewRepresentable {
     init(
         processedContentPublisher: AnyPublisher<ProcessedContent?, Never>,
         definerResultHandler: @escaping ([DefinitionDetails]) -> Void,
-        switchSectionHandler: @escaping (Bool) -> Void = {_ in },
+        switchSectionHandler: @escaping (Bool) -> Void = { _ in },
         readerViewNavigationMenuToggleHandler: @escaping () -> Void = {},
+        updateSynopsisHeightHandler: @escaping (CGFloat) -> Void = { _ in },
         isScrollEnabled: Bool = true
     ) {
         self._viewModel = StateObject(
@@ -46,6 +48,7 @@ struct WKText: UIViewRepresentable {
         self.switchSectionHandler = switchSectionHandler
         self.definerResultHandler = definerResultHandler
         self.readerViewNavigationMenuToggleHandler = readerViewNavigationMenuToggleHandler
+        self.updateSynopsisHeightHandler = updateSynopsisHeightHandler
         self.isScrollEnabled = isScrollEnabled
     }
     
@@ -78,7 +81,8 @@ struct WKText: UIViewRepresentable {
             definerResultHandler: definerResultHandler,
             switchSectionHandler: switchSectionHandler,
             readerViewNavigationMenuToggleHandler: readerViewNavigationMenuToggleHandler,
-            startSpinningHandler: startSpinningHandler(offset:)
+            startSpinningHandler: startSpinningHandler(offset:),
+            updateSynopsisHeightHandler: updateSynopsisHeightHandler
         )
     }
     
@@ -94,7 +98,7 @@ struct WKText: UIViewRepresentable {
         throw WKTextError.scriptError("Unable to find \(name).\(ext).")
     }
     
-    class Coordinator: NSObject, WKScriptMessageHandler, UIScrollViewDelegate, UIGestureRecognizerDelegate {
+    class Coordinator: NSObject, WKScriptMessageHandler, UIScrollViewDelegate, UIGestureRecognizerDelegate, WKNavigationDelegate {
         let SWITCH_SECTION_DRAG_OFFSET: CGFloat = 80
         
         let dictionaryFetcher = DictionaryFetcher()
@@ -103,6 +107,7 @@ struct WKText: UIViewRepresentable {
         let switchSectionHandler: (Bool) -> Void
         let readerViewNavigationMenuToggleHandler: () -> Void
         let startSpinningHandler: (CGFloat) -> Void
+        let updateSynopsisHeightHandler: (CGFloat) -> Void
 
         var shouldSwitchSection = false
         private var scrollCursorStartScrollPosition: ScrollCursorPosition = .middle
@@ -112,19 +117,33 @@ struct WKText: UIViewRepresentable {
             definerResultHandler: @escaping ([DefinitionDetails]) -> Void,
             switchSectionHandler: @escaping (Bool) -> Void,
             readerViewNavigationMenuToggleHandler: @escaping () -> Void,
-            startSpinningHandler: @escaping (CGFloat) -> Void
+            startSpinningHandler: @escaping (CGFloat) -> Void,
+            updateSynopsisHeightHandler: @escaping (CGFloat) -> Void
         ) {
             self.webView = webView
             self.definerResultHandler = definerResultHandler
             self.switchSectionHandler = switchSectionHandler
             self.readerViewNavigationMenuToggleHandler = readerViewNavigationMenuToggleHandler
             self.startSpinningHandler = startSpinningHandler
+            self.updateSynopsisHeightHandler = updateSynopsisHeightHandler
             super.init()
-            
+
+            webView.navigationDelegate = self
+
             let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(onDoubleTap(sender:)))
             doubleTapGesture.numberOfTapsRequired = 2
             doubleTapGesture.delegate = self
             webView.addGestureRecognizer(doubleTapGesture)
+        }
+        
+        func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+            self.webView.evaluateJavaScript("document.readyState") { (complete, error) in
+                if complete != nil {
+                    self.webView.evaluateJavaScript("document.body.scrollHeight", completionHandler: { (height, error) in
+                        self.updateSynopsisHeightHandler((height as! CGFloat) / 2)
+                    })
+                }
+            }
         }
         
         func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {

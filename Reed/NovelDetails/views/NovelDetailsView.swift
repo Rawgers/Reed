@@ -74,22 +74,15 @@ struct NovelDetailsView: View {
                         .foregroundColor(Color(.systemGray4))
                         .padding(.bottom, 4)
                     ZStack {
-                        if viewModel.isNovelSynopsisProcessing {
-                            ProgressView()
-                                .frame(
-                                    width: DefinerConstants.CONTENT_WIDTH,
-                                    height: self.viewModel.novelSynopsisHeight
-                                )
-                        } else {
-                            Rectangle()
-                                .frame(
-                                    width: DefinerConstants.CONTENT_WIDTH,
-                                    height: self.viewModel.novelSynopsisHeight
-                                )
-                        }
+                        Rectangle()
+                            .frame(
+                                width: DefinerConstants.CONTENT_WIDTH,
+                                height: self.viewModel.novelSynopsisHeight
+                            )
                         WKText(
                             processedContentPublisher: viewModel.$novelSynopsis.eraseToAnyPublisher(),
                             definerResultHandler: definerResults.updateEntries,
+                            updateSynopsisHeightHandler: updateSynopsisHeight,
                             isScrollEnabled: false
                         )
                     }
@@ -119,6 +112,10 @@ struct NovelDetailsView: View {
         }
         .navigationBarTitle("", displayMode: .inline)
         .addDefinerAndAppNavigator(entries: $definerResults.entries)
+    }
+    
+    func updateSynopsisHeight(height: CGFloat) {
+        self.viewModel.novelSynopsisHeight = height
     }
 }
 
