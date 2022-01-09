@@ -10,12 +10,15 @@ import CoreData
 import SwiftyNarou
 
 class NovelDetailsViewModel: ObservableObject {
+    let COLLAPSED_SYNOPSIS_HEIGHT: CGFloat = 256
+    
     let persistentContainer: NSPersistentContainer
     let model: NovelDetailsModel
     let ncode: String
     
     @Published var isLibraryDataLoading: Bool = true
     @Published var isFavorite: Bool = false
+    @Published var isSynopsisExpanded: Bool = false
     @Published var novelSynopsis: ProcessedContent?
     @Published var novelSynopsisHeight: CGFloat = 1 // nonzero placeholder
     var novelData: NarouResponse?
@@ -90,6 +93,11 @@ class NovelDetailsViewModel: ObservableObject {
             subgenre: novelSubgenre!.rawValue,
             isFavorite: false
         )
+    }
+    
+    func saveNovelSynopsisHeight(height: CGFloat) {
+        novelSynopsisHeight = height
+        isSynopsisExpanded = novelSynopsisHeight <= COLLAPSED_SYNOPSIS_HEIGHT
     }
 }
 
