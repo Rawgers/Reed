@@ -36,37 +36,44 @@ struct SectionNavigationView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                LazyVStack(alignment: .leading, spacing: 20) {
-                    ForEach(viewModel.chapters, id: \.self) { chapter in
-                        Text(chapter.title)
-                            .font(.subheadline).bold()
-                            .foregroundColor(.secondary)
-                        VStack(alignment: .leading, spacing: 16) {
-                            ForEach(chapter.sections, id: \.self) { section in
-                                Button(action: {
-                                    if section.ncode != sectionNcode {
-                                        viewModel.fetchSection(selectedSection: section.ncode)
+                ScrollViewReader { scrollOffset in
+                    VStack(alignment: .leading, spacing: 20) {
+                        ForEach(viewModel.chapters, id: \.self) { chapter in
+                            Text(chapter.title)
+                                .font(.subheadline).bold()
+                                .foregroundColor(.secondary)
+                            VStack(alignment: .leading, spacing: 16) {
+                                ForEach(chapter.sections, id: \.self.ncode) { section in
+                                    Button(action: {
+                                        if section.ncode != sectionNcode {
+                                            viewModel.fetchSection(selectedSection: section.ncode)
+                                        }
+                                        self.presentationMode.wrappedValue.dismiss()
+                                    }) {
+                                        Text(section.title)
+                                            .font(.body)
+                                            .foregroundColor(
+                                                section.ncode == sectionNcode
+                                                    ? Color(.systemBlue)
+                                                    : .primary
+                                            )
                                     }
-                                    self.presentationMode.wrappedValue.dismiss()
-                                }) {
-                                    Text(section.title)
-                                        .font(.body)
-                                        .foregroundColor(
-                                            section.ncode == sectionNcode
-                                                ? Color(.systemBlue)
-                                                : .primary
-                                        )
+                                    .onAppear() {
+                                        if section.ncode == sectionNcode {
+                                            scrollOffset.scrollTo(sectionNcode)
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
+                    .padding()
                 }
-                .padding()
             }
             .navigationBarBackButtonHidden(true)
             .navigationBarTitle(viewModel.novelTitle, displayMode: .inline)
             .navigationBarItems(
-                leading: EmptyView(),
+                leading: Rectangle().frame(width: 0),
                 trailing: dismissButton
             )
         }

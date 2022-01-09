@@ -20,6 +20,7 @@ enum DefinerConstants {
     static let CONTENT_HEIGHT: CGFloat = UIScreen.main.bounds.height
         - (BOTTOM_SHEET_MAX_HEIGHT - BOTTOM_SHEET_MIN_HEIGHT) - 32
     static let NOVEL_SYNOPSIS_PRELOAD_HEIGHT: CGFloat = 5 * CONTENT_HEIGHT
+    static let PLACEHOLDER_RECTANGLE_HEIGHT = BOTTOM_SHEET_MIN_HEIGHT - BOTTOM_SHEET_SHADOW_RADIUS * 2
 }
 
 private struct DefinerAndAppNavigator: View {
@@ -62,7 +63,7 @@ private struct DefinerAndAppNavigatorBottomSheet: ViewModifier {
             VStack(alignment: .center) {
                 content
                 Rectangle()
-                    .frame(height: DefinerConstants.BOTTOM_SHEET_MIN_HEIGHT)
+                    .frame(height: DefinerConstants.PLACEHOLDER_RECTANGLE_HEIGHT)
                     .opacity(0)
             }
             .navigationBarHidden(isNavigationBarHidden)

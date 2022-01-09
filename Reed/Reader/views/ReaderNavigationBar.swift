@@ -32,7 +32,7 @@ struct ReaderNavigationBar: View {
     
     private var titleView: some View {
         Text(novelTitle)
-            .frame(width: UIScreen.main.bounds.width, height: 48)
+            .frame(height: 48)
             .padding(.horizontal)
     }
     
