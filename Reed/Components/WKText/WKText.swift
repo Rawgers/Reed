@@ -15,6 +15,7 @@ private enum WKTextError: Error {
 }
 
 private enum ScrollCursorPosition {
+    case fits
     case top
     case middle
     case bottom
@@ -210,7 +211,7 @@ struct WKText: UIViewRepresentable {
         }
 
         func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-            setScrollCursorPosition(scrollView: scrollView)
+            setScrollCursorStartScrollPosition(scrollView: scrollView)
         }
         
         func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -220,6 +221,7 @@ struct WKText: UIViewRepresentable {
         }
 
         func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+            startSpinningHandler(0)
             if shouldSwitchSection {
                 executeActionAtTheEnd(of: scrollView)
             }
@@ -235,10 +237,12 @@ struct WKText: UIViewRepresentable {
             }
         }
         
-        private func setScrollCursorPosition(scrollView: UIScrollView) {
-            if scrollView.contentOffset.y == 0 {
+        private func setScrollCursorStartScrollPosition(scrollView: UIScrollView) {
+            if scrollView.contentSize.height - scrollView.frame.size.height == 0 {
+                scrollCursorStartScrollPosition = .fits
+            } else if scrollView.contentOffset.y <= 10 {
                 scrollCursorStartScrollPosition = .top
-            } else if scrollView.contentOffset.y == scrollView.contentSize.height - scrollView.frame.size.height {
+            } else if scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.frame.size.height - 10 {
                 scrollCursorStartScrollPosition = .bottom
             } else {
                 scrollCursorStartScrollPosition = .middle
@@ -246,13 +250,23 @@ struct WKText: UIViewRepresentable {
         }
         
         private func validateScrollCursorStartPositionForSectionChange(scrollView: UIScrollView) -> Bool {
+            //checks if content fits on page
+            if scrollCursorStartScrollPosition == ScrollCursorPosition.fits {
+                if scrollView.contentOffset.y <= 10 {
+                    scrollCursorStartScrollPosition = .top
+                } else {
+                    scrollCursorStartScrollPosition = .bottom
+                }
+                return true
+            }
+            
             // checks if scroll cursor is at top
-            if scrollView.contentOffset.y <= 0 {
+            if scrollView.contentOffset.y <= 10 {
                 return scrollCursorStartScrollPosition == ScrollCursorPosition.top
             }
             
             // checks if scroll cursor is at bottom
-            if scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.frame.size.height {
+            if scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.frame.size.height - 10 {
                 return scrollCursorStartScrollPosition == ScrollCursorPosition.bottom
             }
             
@@ -298,9 +312,11 @@ extension WKText {
         if (webView.scrollView.isScrollEnabled) {
             if offset < 0 {
                 topSpinner.constraints.last?.constant = -offset
+                bottomSpinner.stopAnimating()
                 topSpinner.startAnimating()
             } else if offset > webView.scrollView.contentSize.height - webView.frame.size.height {
                 bottomSpinner.constraints.last?.constant = offset - (webView.scrollView.contentSize.height - webView.frame.size.height)
+                topSpinner.stopAnimating()
                 bottomSpinner.startAnimating()
             } else {
                 topSpinner.stopAnimating()
