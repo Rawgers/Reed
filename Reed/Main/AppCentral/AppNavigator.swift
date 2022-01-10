@@ -10,6 +10,8 @@ import SwiftUI
 
 struct AppNavigator: View {
     @Binding var selectedTab: Int
+    @Binding var bottomSheetDisplayType: BottomSheetDisplayType
+    @Binding var entries: [DefinitionDetails]
     
     var body: some View {
         HStack {
@@ -39,11 +41,18 @@ struct AppNavigator: View {
 //            )
         }
         .padding(.top)
+        .onChange(of: entries) { value in
+            bottomSheetDisplayType = .definer
+        }
     }
 }
 
 struct AppNavigator_Previews: PreviewProvider {
     static var previews: some View {
-        AppNavigator(selectedTab: .constant(0))
+        AppNavigator(
+            selectedTab: .constant(0),
+            bottomSheetDisplayType: .constant(.definer),
+            entries: .constant([])
+        )
     }
 }

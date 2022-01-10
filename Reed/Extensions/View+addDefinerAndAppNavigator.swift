@@ -32,7 +32,11 @@ private struct DefinerAndAppNavigator: View {
         BottomSheet(toggleDisplayMode: toggleBottomSheetDisplayMode) {
             switch bottomSheetDisplayType {
             case .navigation:
-                AppNavigator(selectedTab: $appState.selectedTab)
+                AppNavigator(
+                    selectedTab: $appState.selectedTab,
+                    bottomSheetDisplayType: $bottomSheetDisplayType,
+                    entries: $entries
+                )
             case .definer:
                 Definer(entries: $entries)
             }
