@@ -9,8 +9,10 @@
 import SwiftUI
 import struct SwiftyNarou.NarouRequest
 import struct SwiftyNarou.NarouResponseFormat
+import WebKit
 
 struct SearchResults: View {
+    @Binding var lastSelectedWebView: WKWebView?
     @ObservedObject var viewModel: DiscoverSearchResultsViewModel
     let definerResultHandler: ([DefinitionDetails]) -> Void
     
@@ -20,12 +22,13 @@ struct SearchResults: View {
         ScrollView {
             LazyVStack {
                 Divider()
-                ForEach(viewModel.searchResults, id: \.self) { result in
+                ForEach(viewModel.searchResults.indices, id: \.self) { i in
                     DiscoverListItem(
-                        viewModel: result,
+                        viewModel: viewModel.searchResults[i],
+                        lastSelectedWebView: $lastSelectedWebView,
                         definerResultHandler: definerResultHandler
                     ).onAppear {
-                        if self.viewModel.searchResults.last == result {
+                        if self.viewModel.searchResults.last == viewModel.searchResults[i] {
                             self.viewModel.updateSearchResults()
                         }
                     }
@@ -45,6 +48,7 @@ struct SearchResults: View {
 struct SearchResults_Previews: PreviewProvider {
     static var previews: some View {
         SearchResults(
+            lastSelectedWebView: .constant(WKWebView()),
             viewModel: DiscoverSearchResultsViewModel(keyword: "無職転生"),
             definerResultHandler: { _ in }
         )

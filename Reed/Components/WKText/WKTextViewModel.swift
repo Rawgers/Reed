@@ -10,6 +10,7 @@ import Combine
 import WebKit
 
 class WKTextViewModel: ObservableObject {
+    let id = UUID()
     let webView = WKWebView()
     var processedContentCancellable: AnyCancellable?
     
@@ -25,7 +26,16 @@ class WKTextViewModel: ObservableObject {
         self.webView.loadHTMLString(processedContent.annotatedContent, baseURL: nil)
     }
     
+    // For mocking
+    init() {}
+    
     deinit {
         self.processedContentCancellable?.cancel()
+    }
+}
+
+extension WKTextViewModel: Equatable {
+    static func == (lhs: WKTextViewModel, rhs: WKTextViewModel) -> Bool {
+        lhs.id == rhs.id
     }
 }
