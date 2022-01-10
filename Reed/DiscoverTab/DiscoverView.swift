@@ -7,11 +7,13 @@
 //
 
 import SwiftUI
+import WebKit
 
 struct DiscoverView: View {
     @StateObject var definerResults: DefinerResults = DefinerResults()
     @StateObject var searchViewModel = DiscoverSearchViewModel()
     @StateObject var viewModel = DiscoverViewModel()
+    @State private var lastSelectedWebView: WKWebView?
 
     var body: some View {
         NavigationView {
@@ -31,6 +33,7 @@ struct DiscoverView: View {
                         }
                         DiscoverList(
                             rows: $viewModel.rows,
+                            lastSelectedWebView: $lastSelectedWebView,
                             updateRows: viewModel.updateRows,
                             definerResultHandler: definerResults.updateEntries(entries:)
                         )
@@ -45,6 +48,7 @@ struct DiscoverView: View {
 
                     NavigationLink(
                         destination: SearchResults(
+                            lastSelectedWebView: $lastSelectedWebView,
                             viewModel: searchViewModel.searchResultsViewModel,
                             definerResultHandler: definerResults.updateEntries(entries:)
                         ),

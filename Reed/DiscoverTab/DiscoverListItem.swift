@@ -7,10 +7,12 @@
 //
 
 import SwiftUI
+import WebKit
 import struct SwiftyNarou.NarouResponse
 
 struct DiscoverListItem: View {
     @ObservedObject var viewModel: DiscoverListItemViewModel
+    @Binding var lastSelectedWebView: WKWebView?
     let definerResultHandler: ([DefinitionDetails]) -> Void
     
     var body: some View {
@@ -21,7 +23,8 @@ struct DiscoverListItem: View {
                     WKText(
                         processedContent: viewModel.processedTitle,
                         isScrollEnabled: false,
-                        definerResultHandler: definerResultHandler
+                        definerResultHandler: definerResultHandler,
+                        updateLastSelectedWebViewHandler: updateLastSelectedWebView
                     )
                 }
                 
@@ -44,6 +47,10 @@ struct DiscoverListItem: View {
         }
         Divider()
     }
+    
+    func updateLastSelectedWebView(webView: WKWebView) {
+        lastSelectedWebView = webView
+    }
 }
 
 struct DiscoverListItem_Previews: PreviewProvider {
@@ -56,7 +63,9 @@ struct DiscoverListItem_Previews: PreviewProvider {
                     author: "理不尽な孫の手",
                     subgenre: .fantasyHigh
                 )
-            ), definerResultHandler: { _ in }
+            ),
+            lastSelectedWebView: .constant(WKWebView()),
+            definerResultHandler: { _ in }
         )
     }
 }

@@ -31,6 +31,7 @@ struct WKText: UIViewRepresentable {
     let switchSectionHandler: (Bool) -> Void
     let readerViewNavigationMenuToggleHandler: () -> Void
     let updateSynopsisHeightHandler: (CGFloat) -> Void
+    let updateLastSelectedWebViewHandler: (WKWebView) -> Void
     
     var webView: WKWebView { viewModel.webView }
     
@@ -50,12 +51,14 @@ struct WKText: UIViewRepresentable {
         self.switchSectionHandler = switchSectionHandler
         self.readerViewNavigationMenuToggleHandler = readerViewNavigationMenuToggleHandler
         self.updateSynopsisHeightHandler = updateSynopsisHeightHandler
+        self.updateLastSelectedWebViewHandler = { _ in }
     }
     
     init(
         processedContent: ProcessedContent,
         isScrollEnabled: Bool,
-        definerResultHandler: @escaping ([DefinitionDetails]) -> Void
+        definerResultHandler: @escaping ([DefinitionDetails]) -> Void,
+        updateLastSelectedWebViewHandler: @escaping (WKWebView) -> Void
     ) {
         self._viewModel = StateObject(
             wrappedValue: WKTextViewModel(processedContent: processedContent)
@@ -66,6 +69,7 @@ struct WKText: UIViewRepresentable {
         self.switchSectionHandler = { _ in }
         self.readerViewNavigationMenuToggleHandler = {}
         self.updateSynopsisHeightHandler = { _ in }
+        self.updateLastSelectedWebViewHandler = updateLastSelectedWebViewHandler
     }
     
     func makeUIView(context: UIViewRepresentableContext<WKText>) -> UIView {
@@ -98,7 +102,8 @@ struct WKText: UIViewRepresentable {
             switchSectionHandler: switchSectionHandler,
             readerViewNavigationMenuToggleHandler: readerViewNavigationMenuToggleHandler,
             startSpinningHandler: startSpinningHandler(offset:),
-            updateSynopsisHeightHandler: updateSynopsisHeightHandler
+            updateSynopsisHeightHandler: updateSynopsisHeightHandler,
+            updateLastSelectedWebViewHandler: updateLastSelectedWebViewHandler
         )
     }
     
@@ -124,6 +129,7 @@ struct WKText: UIViewRepresentable {
         let readerViewNavigationMenuToggleHandler: () -> Void
         let startSpinningHandler: (CGFloat) -> Void
         let updateSynopsisHeightHandler: (CGFloat) -> Void
+        let updateLastSelectedWebViewHandler: (WKWebView) -> Void
 
         var shouldSwitchSection = false
         private var scrollCursorStartScrollPosition: ScrollCursorPosition = .middle
@@ -134,7 +140,8 @@ struct WKText: UIViewRepresentable {
             switchSectionHandler: @escaping (Bool) -> Void,
             readerViewNavigationMenuToggleHandler: @escaping () -> Void,
             startSpinningHandler: @escaping (CGFloat) -> Void,
-            updateSynopsisHeightHandler: @escaping (CGFloat) -> Void
+            updateSynopsisHeightHandler: @escaping (CGFloat) -> Void,
+            updateLastSelectedWebViewHandler: @escaping (WKWebView) -> Void
         ) {
             self.webView = webView
             self.definerResultHandler = definerResultHandler
@@ -142,6 +149,7 @@ struct WKText: UIViewRepresentable {
             self.readerViewNavigationMenuToggleHandler = readerViewNavigationMenuToggleHandler
             self.startSpinningHandler = startSpinningHandler
             self.updateSynopsisHeightHandler = updateSynopsisHeightHandler
+            self.updateLastSelectedWebViewHandler = updateLastSelectedWebViewHandler
             super.init()
 
             webView.navigationDelegate = self
@@ -160,6 +168,10 @@ struct WKText: UIViewRepresentable {
             guard let dict = message.body as? [String : AnyObject] else { return }
             if let word = dict["word"] {
                 defineSelection(from: word as! String)
+                updateLastSelectedWebViewHandler(webView)
+            }
+            if let everything = dict["everything"] {
+                print(everything)
             }
         }
         
@@ -224,7 +236,8 @@ struct WKText: UIViewRepresentable {
         // MARK: WKWebView Delegates
         /// Calculates the synopsis height for NovelDetails.
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-            self.webView.evaluateJavaScript("document.readyState") { (complete, error) in
+            webView.evaluateJavaScript("document.readyState") { [weak self] (complete, error) in
+                guard let self = self else { return }
                 if complete != nil {
                     self.webView.evaluateJavaScript(
                         "document.body.scrollHeight"
@@ -366,9 +379,4 @@ extension WKText {
             }
         }
     }
-}
-
-// MARK: Scroll View Delegates
-extension WKText {
-    
 }
