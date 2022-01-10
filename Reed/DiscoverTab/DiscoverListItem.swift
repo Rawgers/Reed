@@ -11,14 +11,20 @@ import struct SwiftyNarou.NarouResponse
 
 struct DiscoverListItem: View {
     @ObservedObject var viewModel: DiscoverListItemViewModel
+    let definerResultHandler: ([DefinitionDetails]) -> Void
     
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(viewModel.title)
-                    .font(.headline)
-                    .lineLimit(2)
-                    .truncationMode(.tail)
+                ZStack {
+                    Rectangle().frame(height: 36)
+                    WKText(
+                        processedContent: viewModel.processedTitle,
+                        isScrollEnabled: false,
+                        definerResultHandler: definerResultHandler
+                    )
+                }
+                
                 Text(viewModel.author)
                     .font(.caption)
                     .foregroundColor(.gray)
@@ -50,7 +56,7 @@ struct DiscoverListItem_Previews: PreviewProvider {
                     author: "理不尽な孫の手",
                     subgenre: .fantasyHigh
                 )
-            )
+            ), definerResultHandler: { _ in }
         )
     }
 }

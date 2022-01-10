@@ -10,10 +10,13 @@ struct ProcessedContent {
     let tokens: [Token]
     let annotatedContent: String
     
-    init(content: String) {
+    init(content: String, withFurigana: Bool) {
         let tokenizer = Tokenizer()
         self.tokens = tokenizer.tokenize(content)
-        var annotatedContent = content.annotateWithFurigana(tokens: tokens)
+        var annotatedContent = content.generateHtmlTokens(
+            tokens: tokens,
+            withFurigana: withFurigana
+        )
 
         // HTML does not line break unless given "<br>", so replace "\n" with "<br>".
         // Must be done after annotating to prevent index errors.

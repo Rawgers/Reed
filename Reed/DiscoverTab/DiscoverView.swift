@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct DiscoverView: View {
+    @StateObject var definerResults: DefinerResults = DefinerResults()
     @StateObject var searchViewModel = DiscoverSearchViewModel()
     @StateObject var viewModel = DiscoverViewModel()
 
@@ -30,7 +31,8 @@ struct DiscoverView: View {
                         }
                         DiscoverList(
                             rows: $viewModel.rows,
-                            updateRows: viewModel.updateRows
+                            updateRows: viewModel.updateRows,
+                            definerResultHandler: definerResults.updateEntries(entries:)
                         )
                     }
                     
@@ -43,7 +45,8 @@ struct DiscoverView: View {
 
                     NavigationLink(
                         destination: SearchResults(
-                            viewModel: searchViewModel.searchResultsViewModel
+                            viewModel: searchViewModel.searchResultsViewModel,
+                            definerResultHandler: definerResults.updateEntries(entries:)
                         ),
                         isActive: $searchViewModel.pushSearchResults
                     ) {
@@ -56,7 +59,7 @@ struct DiscoverView: View {
                 from: searchViewModel.searchBar,
                 hidesWhenScrolling: false
             )
-            .addDefinerAndAppNavigator(entries: .constant([]))
+            .addDefinerAndAppNavigator(entries: $definerResults.entries)
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }

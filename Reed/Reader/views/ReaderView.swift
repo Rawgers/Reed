@@ -37,6 +37,7 @@ struct ReaderView: View {
             ZStack {
                 WKText(
                     processedContentPublisher: viewModel.$processedContent.eraseToAnyPublisher(),
+                    isScrollEnabled: true,
                     definerResultHandler: definerResults.updateEntries,
                     switchSectionHandler: viewModel.handleSwitchSection,
                     readerViewNavigationMenuToggleHandler: toggleReaderViewNavigationMenu
