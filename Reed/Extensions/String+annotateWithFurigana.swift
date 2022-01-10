@@ -7,7 +7,7 @@
 //
 
 extension String {
-    func annotateWithFurigana(tokens: [Token]) -> String {
+    func generateHtmlTokens(tokens: [Token], withFurigana: Bool) -> String {
         let ADDITIONAL_CHARACTERS_PER_RUBY_ENTRY = 42
         
         var annotatedContent = self as NSString
@@ -18,7 +18,7 @@ extension String {
                 token: token,
                 contentIndexOffset: &contentIndexOffset
             )
-            if !token.furiganas.isEmpty {
+            if withFurigana && !token.furiganas.isEmpty {
                 for furigana in token.furiganas {
                     annotatedContent = annotatedContent.replacingCharacters(
                         in: NSRange(

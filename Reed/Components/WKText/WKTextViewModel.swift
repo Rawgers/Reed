@@ -21,6 +21,10 @@ class WKTextViewModel: ObservableObject {
         }
     }
     
+    init(processedContent: ProcessedContent) {
+        self.webView.loadHTMLString(processedContent.annotatedContent, baseURL: nil)
+    }
+    
     deinit {
         self.processedContentCancellable?.cancel()
     }

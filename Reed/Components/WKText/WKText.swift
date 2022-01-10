@@ -26,30 +26,46 @@ struct WKText: UIViewRepresentable {
     let bottomSpinner = UIActivityIndicatorView(style: .large)
     
     @StateObject var viewModel: WKTextViewModel
-    let switchSectionHandler: (Bool) -> Void
+    let isScrollEnabled: Bool
     let definerResultHandler: ([DefinitionDetails]) -> Void
+    let switchSectionHandler: (Bool) -> Void
     let readerViewNavigationMenuToggleHandler: () -> Void
     let updateSynopsisHeightHandler: (CGFloat) -> Void
-    let isScrollEnabled: Bool
     
     var webView: WKWebView { viewModel.webView }
     
     init(
         processedContentPublisher: AnyPublisher<ProcessedContent?, Never>,
+        isScrollEnabled: Bool,
         definerResultHandler: @escaping ([DefinitionDetails]) -> Void,
         switchSectionHandler: @escaping (Bool) -> Void = { _ in },
         readerViewNavigationMenuToggleHandler: @escaping () -> Void = {},
-        updateSynopsisHeightHandler: @escaping (CGFloat) -> Void = { _ in },
-        isScrollEnabled: Bool = true
+        updateSynopsisHeightHandler: @escaping (CGFloat) -> Void = { _ in }
     ) {
         self._viewModel = StateObject(
             wrappedValue: WKTextViewModel(processedContentPublisher: processedContentPublisher)
         )
-        self.switchSectionHandler = switchSectionHandler
+        self.isScrollEnabled = isScrollEnabled
         self.definerResultHandler = definerResultHandler
+        self.switchSectionHandler = switchSectionHandler
         self.readerViewNavigationMenuToggleHandler = readerViewNavigationMenuToggleHandler
         self.updateSynopsisHeightHandler = updateSynopsisHeightHandler
+    }
+    
+    init(
+        processedContent: ProcessedContent,
+        isScrollEnabled: Bool,
+        definerResultHandler: @escaping ([DefinitionDetails]) -> Void
+    ) {
+        self._viewModel = StateObject(
+            wrappedValue: WKTextViewModel(processedContent: processedContent)
+        )
         self.isScrollEnabled = isScrollEnabled
+        self.definerResultHandler = definerResultHandler
+        
+        self.switchSectionHandler = { _ in }
+        self.readerViewNavigationMenuToggleHandler = {}
+        self.updateSynopsisHeightHandler = { _ in }
     }
     
     func makeUIView(context: UIViewRepresentableContext<WKText>) -> UIView {

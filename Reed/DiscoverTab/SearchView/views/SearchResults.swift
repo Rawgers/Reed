@@ -12,6 +12,7 @@ import struct SwiftyNarou.NarouResponseFormat
 
 struct SearchResults: View {
     @ObservedObject var viewModel: DiscoverSearchResultsViewModel
+    let definerResultHandler: ([DefinitionDetails]) -> Void
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
@@ -20,7 +21,10 @@ struct SearchResults: View {
             LazyVStack {
                 Divider()
                 ForEach(viewModel.searchResults, id: \.self) { result in
-                    DiscoverListItem(viewModel: result).onAppear {
+                    DiscoverListItem(
+                        viewModel: result,
+                        definerResultHandler: definerResultHandler
+                    ).onAppear {
                         if self.viewModel.searchResults.last == result {
                             self.viewModel.updateSearchResults()
                         }
@@ -41,7 +45,8 @@ struct SearchResults: View {
 struct SearchResults_Previews: PreviewProvider {
     static var previews: some View {
         SearchResults(
-            viewModel: DiscoverSearchResultsViewModel(keyword: "無職転生")
+            viewModel: DiscoverSearchResultsViewModel(keyword: "無職転生"),
+            definerResultHandler: { _ in }
         )
     }
 }

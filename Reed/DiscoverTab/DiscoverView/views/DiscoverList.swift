@@ -11,16 +11,21 @@ import SwiftUI
 struct DiscoverList: View {
     @Binding var rows: [DiscoverListItemViewModel]
     let updateRows: () -> Void
+    let definerResultHandler: ([DefinitionDetails]) -> Void
     
     var body: some View {
         LazyVStack(alignment: .leading) {
             Divider()
             ForEach(rows, id: \.self) { row in
-                DiscoverListItem(viewModel: row).onAppear {
-                    if row == self.rows.last {
-                        self.updateRows()
+                DiscoverListItem(
+                    viewModel: row,
+                    definerResultHandler: definerResultHandler
+                )
+                    .onAppear {
+                        if row == self.rows.last {
+                            self.updateRows()
+                        }
                     }
-                }
             }
         }
         .padding(.horizontal)
@@ -29,6 +34,10 @@ struct DiscoverList: View {
 
 struct DiscoverList_Previews: PreviewProvider {
     static var previews: some View {
-        DiscoverList(rows: .constant([]), updateRows: {} )
+        DiscoverList(
+            rows: .constant([]),
+            updateRows: {},
+            definerResultHandler: { _ in }
+        )
     }
 }

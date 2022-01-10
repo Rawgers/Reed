@@ -83,9 +83,9 @@ struct NovelDetailsView: View {
                             )
                         WKText(
                             processedContentPublisher: viewModel.$novelSynopsis.eraseToAnyPublisher(),
+                            isScrollEnabled: false,
                             definerResultHandler: definerResults.updateEntries,
-                            updateSynopsisHeightHandler: viewModel.saveNovelSynopsisHeight,
-                            isScrollEnabled: false
+                            updateSynopsisHeightHandler: viewModel.saveNovelSynopsisHeight
                         )
                         if !viewModel.isSynopsisExpanded {
                             VStack {

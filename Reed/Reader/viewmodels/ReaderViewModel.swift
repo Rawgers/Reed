@@ -33,7 +33,7 @@ class ReaderViewModel: ObservableObject {
             }
             
             if let content = section.data?.content {
-                self.processedContent = ProcessedContent(content: content)
+                self.processedContent = ProcessedContent(content: content, withFurigana: true)
                 self.sectionNcode = section.sectionNcode.lowercased()
             } else {
                 // If the section data or its contents are nil,

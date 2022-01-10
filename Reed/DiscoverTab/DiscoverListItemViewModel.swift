@@ -15,12 +15,15 @@ class DiscoverListItemViewModel: ObservableObject {
     let title: String
     let author: String
     let subgenre: Subgenre?
+    let processedTitle: ProcessedContent
     
     init(from data: NarouResponse) {
         ncode = data.ncode ?? ""
         title = data.title ?? ""
         author = data.author ?? ""
         subgenre = data.subgenre
+        
+        processedTitle = ProcessedContent(content: title, withFurigana: false)
     }
 }
 

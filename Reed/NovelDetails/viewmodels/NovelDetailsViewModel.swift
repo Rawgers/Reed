@@ -35,7 +35,7 @@ class NovelDetailsViewModel: ObservableObject {
         // Fetch metadata from Narou.
         model.fetchNovelDetails { novelData in
             self.novelData = novelData
-            self.novelSynopsis = ProcessedContent(content: novelData?.synopsis ?? "")
+            self.novelSynopsis = ProcessedContent(content: novelData?.synopsis ?? "", withFurigana: true)
         }
         
         // Fetch HistoryEntry if it exists.
