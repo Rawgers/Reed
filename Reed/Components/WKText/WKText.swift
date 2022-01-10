@@ -152,24 +152,7 @@ struct WKText: UIViewRepresentable {
             webView.addGestureRecognizer(doubleTapGesture)
         }
         
-        func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-            self.webView.evaluateJavaScript("document.readyState") { (complete, error) in
-                if complete != nil {
-                    self.webView.evaluateJavaScript("document.body.scrollHeight", completionHandler: { (height, error) in
-                        self.updateSynopsisHeightHandler((height as! CGFloat) / 2)
-                    })
-                }
-            }
-        }
-        
-        func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-          return true
-        }
-        
-        @objc func onDoubleTap(sender: UITapGestureRecognizer) {
-            readerViewNavigationMenuToggleHandler()
-        }
-        
+        // MARK: Defining/Highlighting Logic
         func userContentController(
             _ userContentController: WKUserContentController,
             didReceive message: WKScriptMessage
@@ -227,7 +210,32 @@ struct WKText: UIViewRepresentable {
             }
             self.definerResultHandler(entries)
         }
-                
+        
+        // MARK: Gesture Logic
+        /// Toggles the NavBar in ReaderView.
+        func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+          return true
+        }
+        
+        @objc func onDoubleTap(sender: UITapGestureRecognizer) {
+            readerViewNavigationMenuToggleHandler()
+        }
+        
+        // MARK: WKWebView Delegates
+        /// Calculates the synopsis height for NovelDetails.
+        func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+            self.webView.evaluateJavaScript("document.readyState") { (complete, error) in
+                if complete != nil {
+                    self.webView.evaluateJavaScript(
+                        "document.body.scrollHeight"
+                    ) { (height, error) in
+                        self.updateSynopsisHeightHandler((height as! CGFloat) / 2)
+                    }
+                }
+            }
+        }
+              
+        // MARK: UIScrollView Delegates
         func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
             let isDragOffsetPastThreshold =
                 scrollView.contentOffset.y < -SWITCH_SECTION_DRAG_OFFSET
@@ -308,7 +316,6 @@ struct WKText: UIViewRepresentable {
             // returns false if scroll cursor start at middle
             return false
         }
-             
     }
 }
 
@@ -361,3 +368,7 @@ extension WKText {
     }
 }
 
+// MARK: Scroll View Delegates
+extension WKText {
+    
+}
