@@ -25,6 +25,23 @@ class DiscoverListItemViewModel: ObservableObject {
         subgenre = data.subgenre
         processedTitle = ProcessedContent(content: title, withFurigana: false)
     }
+    
+    // Used in DefinableTextView to highlight tapped token.
+    func getTitleToken(x: Int) -> Token? {
+        var i = 0
+        var j = processedTitle.tokens.endIndex
+        while j >= i {
+            let mid = i + (j - i) / 2
+            if processedTitle.tokens[mid].range.lowerBound <= x && processedTitle.tokens[mid].range.upperBound > x {
+                return processedTitle.tokens[mid]
+            } else if processedTitle.tokens[mid].range.lowerBound > x {
+                j = mid - 1
+            } else {
+                i = mid + 1
+            }
+        }
+        return nil
+    }
 }
 
 extension DiscoverListItemViewModel: Hashable, Equatable {
