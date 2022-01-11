@@ -11,8 +11,9 @@ import UIKit
 var count = 0
 
 struct DefinableText: UIViewRepresentable {
+    let id: String
+    let lastSelectedDefinableTextView: DefinableTextView?
     var content: NSMutableAttributedString
-    var selectedRange: NSRange?
     let width: CGFloat
     let height: CGFloat
     let definerResultHandler: ([DefinitionDetails]) -> Void
@@ -20,6 +21,8 @@ struct DefinableText: UIViewRepresentable {
     let updateLastSelectedDefinableTextViewHandler: (DefinableTextView) -> Void
     
     internal init(
+        id: String,
+        lastSelectedDefinableTextView: DefinableTextView?,
         content: NSMutableAttributedString,
         width: CGFloat,
         height: CGFloat,
@@ -27,6 +30,8 @@ struct DefinableText: UIViewRepresentable {
         getTokenHandler: @escaping (Int) -> Token?,
         updateLastSelectedDefinableTextViewHandler: @escaping (DefinableTextView) -> Void
     ) {
+        self.id = id
+        self.lastSelectedDefinableTextView = lastSelectedDefinableTextView
         self.content = content
         self.width = width
         self.height = height
@@ -39,6 +44,7 @@ struct DefinableText: UIViewRepresentable {
         context: UIViewRepresentableContext<DefinableText>
     ) -> DefinableTextView {
         let textView = DefinableTextView(
+            id: id,
             frame: CGRect(x: 0, y: 0, width: width, height: height),
             content: content
         )
@@ -50,7 +56,11 @@ struct DefinableText: UIViewRepresentable {
         )
         singleTapGesture.numberOfTapsRequired = 1
         textView.addGestureRecognizer(singleTapGesture)
-        
+        if let lastSelectedDefinableTextView = lastSelectedDefinableTextView {
+            if id == lastSelectedDefinableTextView.id {
+                updateLastSelectedDefinableTextViewHandler(textView)
+            }
+        }
         return textView
     }
 
@@ -61,7 +71,6 @@ struct DefinableText: UIViewRepresentable {
     
     func makeCoordinator() -> DefinableText.Coordinator {
         return Coordinator(
-            selectedRange: selectedRange,
             definerResultHandler: definerResultHandler,
             getTokenHandler: getTokenHandler,
             updateLastSelectedDefinableTextViewHandler: updateLastSelectedDefinableTextViewHandler
@@ -77,12 +86,10 @@ struct DefinableText: UIViewRepresentable {
         private let updateLastSelectedDefinableTextViewHandler: (DefinableTextView) -> Void
 
         init(
-            selectedRange: NSRange?,
             definerResultHandler: @escaping ([DefinitionDetails]) -> Void,
             getTokenHandler: @escaping(Int) -> Token?,
             updateLastSelectedDefinableTextViewHandler: @escaping (DefinableTextView) -> Void
         ) {
-            self.selectedRange = selectedRange
             self.definerResultHandler = definerResultHandler
             self.getTokenHandler = getTokenHandler
             self.updateLastSelectedDefinableTextViewHandler = updateLastSelectedDefinableTextViewHandler
@@ -167,10 +174,9 @@ struct DefinableText: UIViewRepresentable {
         
         fileprivate func highlightSelection(textView: DefinableTextView) {
             if selectedRange != nil {
-                textView.content.addAttribute(
+                textView.content.removeAttribute(
                     NSAttributedString.Key.backgroundColor,
-                    value: UIColor.clear,
-                    range: selectedRange!
+                    range: textView.selectedRange!
                 )
             }
             selectedRange = tappedRange
