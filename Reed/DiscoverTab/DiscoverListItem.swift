@@ -12,7 +12,7 @@ import struct SwiftyNarou.NarouResponse
 
 struct DiscoverListItem: View {
     @ObservedObject var viewModel: DiscoverListItemViewModel
-    @Binding var lastSelectedWebView: WKWebView?
+    @Binding var lastSelectedDefinableTextView: DefinableTextView?
     let definerResultHandler: ([DefinitionDetails]) -> Void
     
     var body: some View {
@@ -20,12 +20,13 @@ struct DiscoverListItem: View {
             VStack(alignment: .leading) {
                 ZStack {
                     Rectangle().frame(height: 36)
-                    WKText(
-                        processedContent: viewModel.processedTitle,
-                        isScrollEnabled: false,
-                        definerResultHandler: definerResultHandler,
-                        updateLastSelectedWebViewHandler: updateLastSelectedWebView
-                    )
+//                    WKText(
+//                        processedContent: viewModel.processedTitle,
+//                        isScrollEnabled: false,
+//                        definerResultHandler: definerResultHandler,
+//                        updateLastSelectedWebViewHandler: updateLastSelectedWebView
+//                    )
+                    DefinableText(content: viewModel.processedTitle.attributedContent, width: 0, height: 0, definerResultHandler: definerResultHandler, getTokenHandler: viewModel.getTitleToken, updateLastSelectedDefinableTextViewHandler: updateLastSelectedDefinableTextViewHandler)
                 }
                 
                 Text(viewModel.author)
@@ -48,8 +49,8 @@ struct DiscoverListItem: View {
         Divider()
     }
     
-    func updateLastSelectedWebView(webView: WKWebView) {
-        lastSelectedWebView = webView
+    func updateLastSelectedDefinableTextViewHandler(definableTextView: DefinableTextView) {
+        lastSelectedDefinableTextView = definableTextView
     }
 }
 
@@ -64,7 +65,7 @@ struct DiscoverListItem_Previews: PreviewProvider {
                     subgenre: .fantasyHigh
                 )
             ),
-            lastSelectedWebView: .constant(WKWebView()),
+            lastSelectedDefinableTextView: .constant(DefinableTextView(coder: NSCoder())),
             definerResultHandler: { _ in }
         )
     }

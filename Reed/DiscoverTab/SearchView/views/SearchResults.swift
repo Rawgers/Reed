@@ -12,7 +12,7 @@ import struct SwiftyNarou.NarouResponseFormat
 import WebKit
 
 struct SearchResults: View {
-    @Binding var lastSelectedWebView: WKWebView?
+    @Binding var lastSelectedDefinableTextView: DefinableTextView?
     @ObservedObject var viewModel: DiscoverSearchResultsViewModel
     let definerResultHandler: ([DefinitionDetails]) -> Void
     
@@ -25,7 +25,7 @@ struct SearchResults: View {
                 ForEach(viewModel.searchResults.indices, id: \.self) { i in
                     DiscoverListItem(
                         viewModel: viewModel.searchResults[i],
-                        lastSelectedWebView: $lastSelectedWebView,
+                        lastSelectedDefinableTextView: $lastSelectedDefinableTextView,
                         definerResultHandler: definerResultHandler
                     ).onAppear {
                         if self.viewModel.searchResults.last == viewModel.searchResults[i] {
@@ -48,7 +48,7 @@ struct SearchResults: View {
 struct SearchResults_Previews: PreviewProvider {
     static var previews: some View {
         SearchResults(
-            lastSelectedWebView: .constant(WKWebView()),
+            lastSelectedDefinableTextView: .constant(DefinableTextView(coder: NSCoder())),
             viewModel: DiscoverSearchResultsViewModel(keyword: "無職転生"),
             definerResultHandler: { _ in }
         )
