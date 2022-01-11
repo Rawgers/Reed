@@ -13,15 +13,17 @@ private enum TextOrientation {
 }
 
 class DefinableTextView: UIView {
+    let font = UIFont.systemFont(ofSize: 17, weight: .bold)
+    
+    let id: String
     var content: NSMutableAttributedString
+    let updateRowHeight: () -> Void
     var selectedRange: NSRange?
     var ctFrame: CTFrame?
     var linesYCoordinates: [CGFloat]?
-    let id: String
-    let font = UIFont(name: "Hiragino Maru Gothic ProN W4", size: 20)
     private let orientation: TextOrientation
     private var frameSetter: CTFramesetter
-    lazy private var path: CGMutablePath = {
+    private var path: CGMutablePath {
         let path = CGMutablePath()
         switch orientation {
         case .horizontal:
@@ -30,13 +32,14 @@ class DefinableTextView: UIView {
             path.addRect(CGRect(x: self.bounds.origin.y, y: self.bounds.origin.x, width: self.bounds.height, height: self.bounds.width))
         }
         return path
-    }()
+    }
     
     init(
         id: String,
         frame: CGRect,
         content: NSMutableAttributedString,
-        isVerticalOrientation: Bool = false
+        isVerticalOrientation: Bool = false,
+        updateRowHeight: @escaping () -> Void
     ) {
         self.id = id
         self.content = content
@@ -48,6 +51,7 @@ class DefinableTextView: UIView {
             ],
             range: NSMakeRange(0, self.content.length)
         )
+        self.updateRowHeight = updateRowHeight
         frameSetter = CTFramesetterCreateWithAttributedString(content)
         self.orientation = isVerticalOrientation ? .vertical : .horizontal
         super.init(frame: frame)
@@ -66,7 +70,31 @@ class DefinableTextView: UIView {
             return
         }
         let attributed = content
+        frameSetter = CTFramesetterCreateWithAttributedString(content)
+        ctFrame = CTFramesetterCreateFrame(
+            frameSetter,
+            CFRangeMake(0, attributed.length),
+            path,
+            nil
+        )
 
+        let lines = CTFrameGetLines(ctFrame!) as! [CTLine]
+        
+        // Render the second line if it exists.
+        let range = CTFrameGetVisibleStringRange(ctFrame!)
+        let firstLineContent = content.mutableString.substring(with: NSRange(location: range.location, length: range.length))
+        if firstLineContent != content.string {
+            updateRowHeight()
+        }
+        
+        var lineOrigins = Array<CGPoint>(repeating: CGPoint.zero, count: lines.count)
+        CTFrameGetLineOrigins(ctFrame!, CFRange(location: 0, length: lines.count), &lineOrigins)
+        var yCoordinates = [CGFloat]()
+        for (index, _) in lines.enumerated() {
+            yCoordinates.append(bounds.height - lineOrigins[index].y)
+        }
+        linesYCoordinates = yCoordinates
+        
         switch orientation {
         case .horizontal:
             context.textMatrix = CGAffineTransform.identity;
@@ -77,22 +105,6 @@ class DefinableTextView: UIView {
             context.rotate(by: .pi / 2)
             context.scaleBy(x: 1.0, y: -1.0)
         }
-        frameSetter = CTFramesetterCreateWithAttributedString(content)
-        ctFrame = CTFramesetterCreateFrame(
-            frameSetter,
-            CFRangeMake(0, attributed.length),
-            path,
-            nil
-        )
-
-        let lines = CTFrameGetLines(ctFrame!) as! [CTLine]
-        var lineOrigins = Array<CGPoint>(repeating: CGPoint.zero, count: lines.count)
-        CTFrameGetLineOrigins(ctFrame!, CFRange(location: 0, length: lines.count), &lineOrigins)
-        var yCoordinates = [CGFloat]()
-        for (index, _) in lines.enumerated() {
-            yCoordinates.append(bounds.height - lineOrigins[index].y)
-        }
-        linesYCoordinates = yCoordinates
         CTFrameDraw(ctFrame!, context)
     }
     
