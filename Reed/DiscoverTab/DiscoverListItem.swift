@@ -10,16 +10,32 @@ import SwiftUI
 import struct SwiftyNarou.NarouResponse
 
 struct DiscoverListItem: View {
+    private static let INITIAL_ROW_HEIGHT: CGFloat = 29
+    
     @ObservedObject var viewModel: DiscoverListItemViewModel
     @Binding var lastSelectedDefinableTextView: DefinableTextView?
+    @State private var rowHeight: CGFloat = INITIAL_ROW_HEIGHT
     let definerResultHandler: ([DefinitionDetails]) -> Void
     
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
                 ZStack {
-                    Rectangle().frame(height: 36)
-                    DefinableText(id: viewModel.ncode + "-title", lastSelectedDefinableTextView: lastSelectedDefinableTextView, content: viewModel.processedTitle.attributedContent, width: 0, height: 0, definerResultHandler: definerResultHandler, getTokenHandler: viewModel.getTitleToken, updateLastSelectedDefinableTextViewHandler: updateLastSelectedDefinableTextViewHandler)
+                    Rectangle()
+                        .foregroundColor(.clear)
+                        .frame(height: rowHeight)
+                    DefinableText(
+                        id: viewModel.ncode + "-title",
+                        lastSelectedDefinableTextView: lastSelectedDefinableTextView,
+                        content: viewModel.processedTitle.attributedContent,
+                        width: UIScreen.main.bounds.width,
+                        height: 100,
+                        definerResultHandler: definerResultHandler,
+                        getTokenHandler: viewModel.getTitleToken,
+                        updateLastSelectedDefinableTextViewHandler: updateLastSelectedDefinableTextViewHandler,
+                        updateRowHeight: updateRowHeight
+                    )
+                        .padding(.top, 8)
                 }
                 
                 Text(viewModel.author)
@@ -44,6 +60,10 @@ struct DiscoverListItem: View {
     
     func updateLastSelectedDefinableTextViewHandler(definableTextView: DefinableTextView) {
         lastSelectedDefinableTextView = definableTextView
+    }
+    
+    func updateRowHeight() {
+        rowHeight = DiscoverListItem.INITIAL_ROW_HEIGHT + 20
     }
 }
 

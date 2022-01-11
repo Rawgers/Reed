@@ -8,7 +8,6 @@
 
 import SwiftUI
 import UIKit
-var count = 0
 
 struct DefinableText: UIViewRepresentable {
     let id: String
@@ -19,6 +18,7 @@ struct DefinableText: UIViewRepresentable {
     let definerResultHandler: ([DefinitionDetails]) -> Void
     let getTokenHandler: (Int) -> Token?
     let updateLastSelectedDefinableTextViewHandler: (DefinableTextView) -> Void
+    let updateRowHeight: () -> Void
     
     internal init(
         id: String,
@@ -28,7 +28,8 @@ struct DefinableText: UIViewRepresentable {
         height: CGFloat,
         definerResultHandler: @escaping ([DefinitionDetails]) -> Void,
         getTokenHandler: @escaping (Int) -> Token?,
-        updateLastSelectedDefinableTextViewHandler: @escaping (DefinableTextView) -> Void
+        updateLastSelectedDefinableTextViewHandler: @escaping (DefinableTextView) -> Void,
+        updateRowHeight: @escaping () -> Void
     ) {
         self.id = id
         self.lastSelectedDefinableTextView = lastSelectedDefinableTextView
@@ -38,6 +39,7 @@ struct DefinableText: UIViewRepresentable {
         self.definerResultHandler = definerResultHandler
         self.getTokenHandler = getTokenHandler
         self.updateLastSelectedDefinableTextViewHandler = updateLastSelectedDefinableTextViewHandler
+        self.updateRowHeight = updateRowHeight
     }
     
     func makeUIView(
@@ -46,7 +48,8 @@ struct DefinableText: UIViewRepresentable {
         let textView = DefinableTextView(
             id: id,
             frame: CGRect(x: 0, y: 0, width: width, height: height),
-            content: content
+            content: content,
+            updateRowHeight: updateRowHeight
         )
         textView.backgroundColor = .systemBackground
         
@@ -67,7 +70,9 @@ struct DefinableText: UIViewRepresentable {
     func updateUIView(
         _ textView: DefinableTextView,
         context: UIViewRepresentableContext<DefinableText>
-    ) {}
+    ) {
+        textView.setNeedsDisplay()
+    }
     
     func makeCoordinator() -> DefinableText.Coordinator {
         return Coordinator(
@@ -98,7 +103,7 @@ struct DefinableText: UIViewRepresentable {
         @objc func wordTapped(gesture: UITapGestureRecognizer) {
             let textView = gesture.view as! DefinableTextView
             let location = gesture.location(in: textView)
-            let position = CGPoint(x: location.x + textView.font!.pointSize / 2, y: location.y)
+            let position = CGPoint(x: location.x + textView.font.pointSize / 2, y: location.y)
             let lineArray = CTFrameGetLines(textView.ctFrame!) as! Array<CTLine>
             let tappedLine = getLine(lineY: textView.linesYCoordinates!, l: 0, r: textView.linesYCoordinates!.count - 1, y: position.y)
             if tappedLine > -1 {
