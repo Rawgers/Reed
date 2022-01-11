@@ -32,14 +32,24 @@ struct DiscoverList: View {
             }
         }
         .padding(.horizontal)
-        .onChange(of: lastSelectedDefinableTextView) { [lastSelectedDefinableTextView] _ in
-            if let definableTextView = lastSelectedDefinableTextView {
-                definableTextView.content.addAttribute(
+        .onChange(of: lastSelectedDefinableTextView) { [lastSelectedDefinableTextView] newSelectedDefinableTextView in
+            if let old = lastSelectedDefinableTextView {
+                old.content.removeAttribute(
                     NSAttributedString.Key.backgroundColor,
-                    value: UIColor.clear,
-                    range: definableTextView.selectedRange!
+                    range: old.selectedRange!
                 )
-                definableTextView.setNeedsDisplay()
+                old.setNeedsDisplay()
+                
+                if let new = newSelectedDefinableTextView {
+                    if new.id == old.id {
+                        new.content.addAttribute(
+                            NSAttributedString.Key.backgroundColor,
+                            value: UIColor.systemYellow.withAlphaComponent(0.3),
+                            range: old.selectedRange!
+                        )
+                        new.selectedRange = old.selectedRange
+                    }
+                }
             }
         }
     }

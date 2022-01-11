@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import WebKit
 import struct SwiftyNarou.NarouResponse
 
 struct DiscoverListItem: View {
@@ -20,13 +19,7 @@ struct DiscoverListItem: View {
             VStack(alignment: .leading) {
                 ZStack {
                     Rectangle().frame(height: 36)
-//                    WKText(
-//                        processedContent: viewModel.processedTitle,
-//                        isScrollEnabled: false,
-//                        definerResultHandler: definerResultHandler,
-//                        updateLastSelectedWebViewHandler: updateLastSelectedWebView
-//                    )
-                    DefinableText(content: viewModel.processedTitle.attributedContent, width: 0, height: 0, definerResultHandler: definerResultHandler, getTokenHandler: viewModel.getTitleToken, updateLastSelectedDefinableTextViewHandler: updateLastSelectedDefinableTextViewHandler)
+                    DefinableText(id: viewModel.ncode + "-title", lastSelectedDefinableTextView: lastSelectedDefinableTextView, content: viewModel.processedTitle.attributedContent, width: 0, height: 0, definerResultHandler: definerResultHandler, getTokenHandler: viewModel.getTitleToken, updateLastSelectedDefinableTextViewHandler: updateLastSelectedDefinableTextViewHandler)
                 }
                 
                 Text(viewModel.author)
