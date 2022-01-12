@@ -17,13 +17,18 @@ class DiscoverListItemViewModel: ObservableObject {
     let subgenre: Subgenre?
     
     let processedTitle: ProcessedContent
-    
+    let rowHeight: CGFloat
+
     init(from data: NarouResponse) {
         ncode = data.ncode ?? ""
         title = data.title ?? ""
         author = data.author ?? ""
         subgenre = data.subgenre
         processedTitle = ProcessedContent(content: title, withFurigana: false)
+        rowHeight = DefinableTextView(
+            id: "",
+            content: processedTitle.attributedContent
+        ).calculateRowHeight()
     }
     
     // Used in DefinableTextView to highlight tapped token.
