@@ -14,10 +14,14 @@ struct DiscoverView: View {
     @StateObject var searchViewModel = DiscoverSearchViewModel()
     @StateObject var viewModel = DiscoverViewModel()
     @State private var lastSelectedDefinableTextView: DefinableTextView?
-
+    
+    private var scrollAxis: Axis.Set {
+        return searchViewModel.shouldDiscoverViewScroll ? .vertical : []
+    }
+    
     var body: some View {
         NavigationView {
-            ScrollView {
+            ScrollView(scrollAxis, showsIndicators: false) {
                 ZStack {
                     VStack(alignment: .center) {
                         CategoryButtons(

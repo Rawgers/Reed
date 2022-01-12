@@ -9,26 +9,31 @@
 import SwiftUI
 
 struct SearchHistory: View {
-    let searchHistory: [String]
+    let searchHistory: [SearchHistoryEntry]
     let onTapRow: (String) -> Void
     
     var body: some View {
-        List(searchHistory.reversed(), id: \.self) { text in
-            Button(text) {
-                onTapRow(text)
+        ZStack {
+            Rectangle()
+                .foregroundColor(Color(uiColor: .systemBackground))
+            
+            List(searchHistory.reversed(), id: \.self.id) { entry in
+                Button(entry.text) {
+                    onTapRow(entry.text)
+                }
+                .lineLimit(1)
             }
-            .lineLimit(1)
+            .listStyle(PlainListStyle())
         }
-        .listStyle(PlainListStyle())
     }
 }
 
 struct SearchHistory_Previews: PreviewProvider {
     static var previews: some View {
         let searchHistory = [
-            "最強",
-            "無職転生",
-            "冒険者"
+            SearchHistoryEntry(text: "最強"),
+            SearchHistoryEntry(text: "無職転生"),
+            SearchHistoryEntry(text: "冒険者")
         ]
         SearchHistory(searchHistory: searchHistory) { word in }
     }
