@@ -13,11 +13,9 @@ private enum TextOrientation {
 }
 
 class DefinableTextView: UIView {
-    let font = UIFont.systemFont(ofSize: 17, weight: .bold)
-    
+    let font = UIFont.systemFont(ofSize: 20, weight: .bold)
     let id: String
     var content: NSMutableAttributedString
-    let updateRowHeight: () -> Void
     var selectedRange: NSRange?
     var ctFrame: CTFrame?
     var linesYCoordinates: [CGFloat]?
@@ -36,29 +34,48 @@ class DefinableTextView: UIView {
     
     init(
         id: String,
-        frame: CGRect,
         content: NSMutableAttributedString,
-        isVerticalOrientation: Bool = false,
-        updateRowHeight: @escaping () -> Void
+        isVerticalOrientation: Bool = false
     ) {
         self.id = id
         self.content = content
         self.content.addAttributes(
             [
-                NSAttributedString.Key.font : self.font as Any,
+                NSAttributedString.Key.font : font as Any,
                 NSAttributedString.Key.foregroundColor : UIColor.label,
                 NSAttributedString.Key.verticalGlyphForm: isVerticalOrientation
             ],
             range: NSMakeRange(0, self.content.length)
         )
-        self.updateRowHeight = updateRowHeight
         frameSetter = CTFramesetterCreateWithAttributedString(content)
         self.orientation = isVerticalOrientation ? .vertical : .horizontal
-        super.init(frame: frame)
+        super.init(frame: CGRect.zero)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func calculateRowHeight() -> CGFloat {
+        frameSetter = CTFramesetterCreateWithAttributedString(content)
+        let path = CGMutablePath()
+        let rowHeight = ceil(font.lineHeight)
+        path.addRect(
+            CGRect(
+                x: 0,
+                y: 0,
+                width: UIScreen.main.bounds.width - 16,
+                height: 2 * rowHeight
+            )
+        )
+        ctFrame = CTFramesetterCreateFrame(
+            frameSetter,
+            CFRangeMake(0, content.length),
+            path,
+            nil
+        )
+        let lines = CTFrameGetLines(ctFrame!) as! [CTLine]
+        return lines.endIndex == 1 ? rowHeight : 2 * rowHeight
     }
 
     // Only override draw() if you perform custom drawing.
@@ -77,16 +94,7 @@ class DefinableTextView: UIView {
             path,
             nil
         )
-
         let lines = CTFrameGetLines(ctFrame!) as! [CTLine]
-        
-        // Render the second line if it exists.
-        let range = CTFrameGetVisibleStringRange(ctFrame!)
-        let firstLineContent = content.mutableString.substring(with: NSRange(location: range.location, length: range.length))
-        if firstLineContent != content.string {
-            updateRowHeight()
-        }
-        
         var lineOrigins = Array<CGPoint>(repeating: CGPoint.zero, count: lines.count)
         CTFrameGetLineOrigins(ctFrame!, CFRange(location: 0, length: lines.count), &lineOrigins)
         var yCoordinates = [CGFloat]()

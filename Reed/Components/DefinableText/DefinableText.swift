@@ -13,33 +13,24 @@ struct DefinableText: UIViewRepresentable {
     let id: String
     let lastSelectedDefinableTextView: DefinableTextView?
     var content: NSMutableAttributedString
-    let width: CGFloat
-    let height: CGFloat
     let definerResultHandler: ([DefinitionDetails]) -> Void
     let getTokenHandler: (Int) -> Token?
     let updateLastSelectedDefinableTextViewHandler: (DefinableTextView) -> Void
-    let updateRowHeight: () -> Void
     
     internal init(
         id: String,
         lastSelectedDefinableTextView: DefinableTextView?,
         content: NSMutableAttributedString,
-        width: CGFloat,
-        height: CGFloat,
         definerResultHandler: @escaping ([DefinitionDetails]) -> Void,
         getTokenHandler: @escaping (Int) -> Token?,
-        updateLastSelectedDefinableTextViewHandler: @escaping (DefinableTextView) -> Void,
-        updateRowHeight: @escaping () -> Void
+        updateLastSelectedDefinableTextViewHandler: @escaping (DefinableTextView) -> Void
     ) {
         self.id = id
         self.lastSelectedDefinableTextView = lastSelectedDefinableTextView
         self.content = content
-        self.width = width
-        self.height = height
         self.definerResultHandler = definerResultHandler
         self.getTokenHandler = getTokenHandler
         self.updateLastSelectedDefinableTextViewHandler = updateLastSelectedDefinableTextViewHandler
-        self.updateRowHeight = updateRowHeight
     }
     
     func makeUIView(
@@ -47,9 +38,7 @@ struct DefinableText: UIViewRepresentable {
     ) -> DefinableTextView {
         let textView = DefinableTextView(
             id: id,
-            frame: CGRect(x: 0, y: 0, width: width, height: height),
-            content: content,
-            updateRowHeight: updateRowHeight
+            content: content
         )
         textView.backgroundColor = .systemBackground
         
@@ -70,9 +59,7 @@ struct DefinableText: UIViewRepresentable {
     func updateUIView(
         _ textView: DefinableTextView,
         context: UIViewRepresentableContext<DefinableText>
-    ) {
-        textView.setNeedsDisplay()
-    }
+    ) {}
     
     func makeCoordinator() -> DefinableText.Coordinator {
         return Coordinator(
