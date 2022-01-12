@@ -15,7 +15,7 @@ struct DiscoverListItem: View {
     let definerResultHandler: ([DefinitionDetails]) -> Void
     
     var body: some View {
-        HStack {
+        HStack(alignment: .center){
             VStack(alignment: .leading, spacing: 0) {
                 ZStack {
                     DefinableText(
@@ -25,10 +25,13 @@ struct DiscoverListItem: View {
                         definerResultHandler: definerResultHandler,
                         getTokenHandler: viewModel.getTitleToken,
                         updateLastSelectedDefinableTextViewHandler: updateLastSelectedDefinableTextViewHandler
-                    ).frame(
-                        width: UIScreen.main.bounds.width - 16,
-                        height: viewModel.rowHeight
                     )
+                        .frame(
+                            width: viewModel.DEFINABLE_TEXT_VIEW_WIDTH,
+                            height: viewModel.rowHeight
+                        )
+                        .padding(.top, 8)
+                        .padding(.bottom, 4)
                 }
                 
                 Text(viewModel.author)
@@ -37,7 +40,7 @@ struct DiscoverListItem: View {
                     .lineLimit(1)
                     .truncationMode(.tail)
             }
-            Spacer()
+            
             NavigationLink(
                 destination: NavigationLazyView(
                     NovelDetailsView(ncode: viewModel.ncode)

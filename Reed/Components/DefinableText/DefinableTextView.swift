@@ -5,7 +5,7 @@
 //  Created by Hugo Zhan on 1/17/21.
 //  Copyright © 2021 Roger Luo. All rights reserved.
 //
-import UIKit
+import SwiftUI
 
 private enum TextOrientation {
     case horizontal
@@ -56,7 +56,7 @@ class DefinableTextView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func calculateRowHeight() -> CGFloat {
+    func calculateRowHeight(rowWidth: CGFloat) -> CGFloat {
         frameSetter = CTFramesetterCreateWithAttributedString(content)
         let path = CGMutablePath()
         let rowHeight = ceil(font.lineHeight)
@@ -64,10 +64,11 @@ class DefinableTextView: UIView {
             CGRect(
                 x: 0,
                 y: 0,
-                width: UIScreen.main.bounds.width - 16,
+                width: rowWidth,
                 height: 2 * rowHeight
             )
         )
+        
         ctFrame = CTFramesetterCreateFrame(
             frameSetter,
             CFRangeMake(0, content.length),
