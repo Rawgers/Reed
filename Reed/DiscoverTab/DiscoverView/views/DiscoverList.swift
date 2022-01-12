@@ -53,29 +53,6 @@ struct DiscoverList: View {
             }
         }
     }
-    
-//    func removeHighlight(webView: WKWebView) {
-//        guard let path = Bundle.main.path(
-//            forResource: "RemoveHighlight.js",
-//            ofType: nil
-//        ) else {
-//            print("File not found.")
-//            return
-//        }
-//        do {
-//            let removeHighlightScript = try String(
-//                contentsOfFile: path,
-//                encoding: .utf8
-//            )
-//            webView.evaluateJavaScript(removeHighlightScript) { (complete, error) in
-//                if error != nil {
-//                    print(error!.localizedDescription)
-//                }
-//            }
-//        } catch {
-//            print(error.localizedDescription)
-//        }
-//    }
 }
 
 struct DiscoverList_Previews: PreviewProvider {

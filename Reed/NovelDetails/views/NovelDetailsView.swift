@@ -11,11 +11,15 @@ import Introspect
 
 struct NovelDetailsView: View {
     @StateObject var viewModel: NovelDetailsViewModel
-    @StateObject private var definerResults: DefinerResults = DefinerResults()
     @State private var isPushedToReader: Bool = false
+    let definerResultHandler: ([DefinitionDetails]) -> Void
     
-    init(ncode: String) {
+    init(
+        ncode: String,
+        definerResultHandler: @escaping ([DefinitionDetails]) -> Void
+    ) {
         self._viewModel = StateObject(wrappedValue: NovelDetailsViewModel(ncode: ncode))
+        self.definerResultHandler = definerResultHandler
     }
     
     var body: some View {
@@ -84,7 +88,7 @@ struct NovelDetailsView: View {
                         WKText(
                             processedContentPublisher: viewModel.$novelSynopsis.eraseToAnyPublisher(),
                             isScrollEnabled: false,
-                            definerResultHandler: definerResults.updateEntries,
+                            definerResultHandler: definerResultHandler,
                             updateSynopsisHeightHandler: viewModel.saveNovelSynopsisHeight
                         )
                         if !viewModel.isSynopsisExpanded {
@@ -139,12 +143,11 @@ struct NovelDetailsView: View {
             .padding(.bottom, DefinerConstants.BOTTOM_SHEET_SHADOW_RADIUS)
         }
         .navigationBarTitle("", displayMode: .inline)
-        .addDefinerAndAppNavigator(entries: $definerResults.entries)
     }
 }
 
 struct NovelDetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        NovelDetailsView(ncode: "n9669bk")
+        NovelDetailsView(ncode: "n9669bk", definerResultHandler: { _ in })
     }
 }
