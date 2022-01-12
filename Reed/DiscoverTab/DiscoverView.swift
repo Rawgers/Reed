@@ -63,9 +63,9 @@ struct DiscoverView: View {
                 from: searchViewModel.searchBar,
                 hidesWhenScrolling: false
             )
-            .addDefinerAndAppNavigator(entries: $definerResults.entries)
         }
         .navigationViewStyle(StackNavigationViewStyle())
+        .addDefinerAndAppNavigator(entries: $definerResults.entries)
     }
 }
 
