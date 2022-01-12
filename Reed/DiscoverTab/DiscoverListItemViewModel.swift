@@ -11,6 +11,8 @@ import enum SwiftyNarou.Subgenre
 import struct SwiftyNarou.NarouResponse
 
 class DiscoverListItemViewModel: ObservableObject {
+    let DEFINABLE_TEXT_VIEW_WIDTH = UIScreen.main.bounds.width - 48
+    
     let ncode: String
     let title: String
     let author: String
@@ -28,7 +30,7 @@ class DiscoverListItemViewModel: ObservableObject {
         rowHeight = DefinableTextView(
             id: "",
             content: processedTitle.attributedContent
-        ).calculateRowHeight()
+        ).calculateRowHeight(rowWidth: DEFINABLE_TEXT_VIEW_WIDTH)
     }
     
     // Used in DefinableTextView to highlight tapped token.
