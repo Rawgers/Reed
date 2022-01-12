@@ -8,13 +8,19 @@
 
 import SwiftUI
 
+struct SearchHistoryEntry {
+    let id: UUID = UUID()
+    let text: String
+}
+
 class DiscoverSearchViewModel: ObservableObject {
     let searchBar: SearchBar = SearchBar(shouldObscureBackground: false)
     var searchResultsViewModel: DiscoverSearchResultsViewModel = DiscoverSearchResultsViewModel(keyword: "")
     
     @Published var isSearching: Bool = false
     @Published var pushSearchResults = false
-    @Published var searchHistory: [String] = [] // TODO: consider making this a queue
+    @Published var shouldDiscoverViewScroll = true
+    @Published var searchHistory: [SearchHistoryEntry] = [] // TODO: consider making this a queue
     private var historyCount: Int = 0
     
     lazy var encoder: JSONEncoder = { JSONEncoder() }()
@@ -39,10 +45,11 @@ extension DiscoverSearchViewModel {
         ) else {
             return
         }
-        searchHistory = (try? decoder.decode(
+        let searchHistoryEntries = (try? decoder.decode(
             [String].self,
             from: searchHistoryData
         )) ?? []
+        searchHistory = searchHistoryEntries.map { entry in SearchHistoryEntry(text: entry)}
         historyCount = searchHistory.count
     }
     
@@ -51,7 +58,7 @@ extension DiscoverSearchViewModel {
             searchHistory.removeFirst()
             historyCount -= 1
         }
-        searchHistory.append(item)
+        searchHistory.append(SearchHistoryEntry(text: item))
         historyCount += 1
         updateSearchHistoryData()
     }
@@ -64,7 +71,7 @@ extension DiscoverSearchViewModel {
     
     func updateSearchHistoryData() {
         UserDefaults.standard.set(
-            (try? encoder.encode(searchHistory)) ?? [],
+            (try? encoder.encode(searchHistory.map { entry in entry.text })) ?? [],
             forKey: SEARCH_HISTORY_KEY
         )
     }
@@ -81,9 +88,11 @@ extension DiscoverSearchViewModel {
     
     func onBeginEdit() {
         isSearching = true
+        shouldDiscoverViewScroll = false
     }
     
     func onClickCancel() {
         isSearching = false
+        shouldDiscoverViewScroll = true
     }
 }
