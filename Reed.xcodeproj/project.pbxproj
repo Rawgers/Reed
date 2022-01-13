@@ -338,6 +338,7 @@
 			isa = PBXGroup;
 			children = (
 				B80F45BB25411271004F8A22 /* DiscoverViewModel.swift */,
+				B80CBD262542887700C807CD /* DiscoverListItemViewModel.swift */,
 				B82D3D99254D2E7700F06836 /* CategoryButtonsViewModel.swift */,
 			);
 			path = viewmodels;
@@ -532,7 +533,9 @@
 		B89AB0DE25448591001FC480 /* views */ = {
 			isa = PBXGroup;
 			children = (
+				B89CD68525098C0100D7D8ED /* DiscoverView.swift */,
 				B8A78F062542F26700577974 /* DiscoverList.swift */,
+				B8A78F0B2542F27200577974 /* DiscoverListItem.swift */,
 				B82D3D94254D2DA200F06836 /* CategoryButtons.swift */,
 			);
 			path = views;
@@ -723,9 +726,6 @@
 		B8D456D02508D8DD000F9E5F /* DiscoverTab */ = {
 			isa = PBXGroup;
 			children = (
-				B89CD68525098C0100D7D8ED /* DiscoverView.swift */,
-				B8A78F0B2542F27200577974 /* DiscoverListItem.swift */,
-				B80CBD262542887700C807CD /* DiscoverListItemViewModel.swift */,
 				B89AB0DD2544857F001FC480 /* DiscoverView */,
 				B82AF63F2548148100FAB2A8 /* SearchView */,
 				B8FA12602550B1E300ABE1D3 /* DiscoverTabConstants.swift */,
