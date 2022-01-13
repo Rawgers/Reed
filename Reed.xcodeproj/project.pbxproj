@@ -24,10 +24,6 @@
 		B80F45BC25411271004F8A22 /* DiscoverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80F45BB25411271004F8A22 /* DiscoverViewModel.swift */; };
 		B81C86FD250A1370000B9E5F /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81C86FC250A1370000B9E5F /* LibraryViewModel.swift */; };
 		B81C86FF250A2207000B9E5F /* LibraryEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81C86FE250A2207000B9E5F /* LibraryEntryViewModel.swift */; };
-		B82AF5DF2548015B00FAB2A8 /* View+UIKitComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AF5DC2548015B00FAB2A8 /* View+UIKitComponents.swift */; };
-		B82AF5FD2548031F00FAB2A8 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AF5FB2548031F00FAB2A8 /* SearchBar.swift */; };
-		B82AF5FE2548031F00FAB2A8 /* ViewControllerResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AF5FC2548031F00FAB2A8 /* ViewControllerResolver.swift */; };
-		B82AF6472548148200FAB2A8 /* SearchHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AF6442548148100FAB2A8 /* SearchHistory.swift */; };
 		B82AF65E2548187200FAB2A8 /* DiscoverSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AF65D2548187200FAB2A8 /* DiscoverSearchViewModel.swift */; };
 		B82D3D95254D2DA200F06836 /* CategoryButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82D3D94254D2DA200F06836 /* CategoryButtons.swift */; };
 		B82D3D9A254D2E7700F06836 /* CategoryButtonsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82D3D99254D2E7700F06836 /* CategoryButtonsViewModel.swift */; };
@@ -159,10 +155,6 @@
 		B80F45BB25411271004F8A22 /* DiscoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewModel.swift; sourceTree = "<group>"; };
 		B81C86FC250A1370000B9E5F /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
 		B81C86FE250A2207000B9E5F /* LibraryEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryEntryViewModel.swift; sourceTree = "<group>"; };
-		B82AF5DC2548015B00FAB2A8 /* View+UIKitComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+UIKitComponents.swift"; sourceTree = "<group>"; };
-		B82AF5FB2548031F00FAB2A8 /* SearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
-		B82AF5FC2548031F00FAB2A8 /* ViewControllerResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerResolver.swift; sourceTree = "<group>"; };
-		B82AF6442548148100FAB2A8 /* SearchHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchHistory.swift; sourceTree = "<group>"; };
 		B82AF65D2548187200FAB2A8 /* DiscoverSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverSearchViewModel.swift; sourceTree = "<group>"; };
 		B82D3D94254D2DA200F06836 /* CategoryButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryButtons.swift; sourceTree = "<group>"; };
 		B82D3D99254D2E7700F06836 /* CategoryButtonsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryButtonsViewModel.swift; sourceTree = "<group>"; };
@@ -376,10 +368,8 @@
 			children = (
 				6D4FED1E278C94E40088CD06 /* DefinableText */,
 				B891D7BF26BFCA3B00A748FF /* WKText */,
-				B82AF5FB2548031F00FAB2A8 /* SearchBar.swift */,
 				B8FA93BD254BBE0D00AE362C /* NavigationLazyView.swift */,
 				6D4F99B72556A0C900CC0DF6 /* BottomSheet.swift */,
-				B82AF5FC2548031F00FAB2A8 /* ViewControllerResolver.swift */,
 				B8ADEAB92570E205007C3D28 /* FlexView.swift */,
 				B8A704F125B8212200E605CC /* NavigationBackChevron.swift */,
 			);
@@ -399,7 +389,6 @@
 			isa = PBXGroup;
 			children = (
 				B80E0E6A25497E13009B0EE8 /* SearchResults.swift */,
-				B82AF6442548148100FAB2A8 /* SearchHistory.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -522,7 +511,6 @@
 		B8981109250F803F0059F71F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				B82AF5DC2548015B00FAB2A8 /* View+UIKitComponents.swift */,
 				B8ADEAB42570E0CC007C3D28 /* View+readSize.swift */,
 				B8969066267E904700CC68EE /* View+addDefinerAndAppNavigator.swift */,
 				B898110A250F81600059F71F /* NSManagedObject+Init.swift */,
@@ -1021,7 +1009,6 @@
 				B80E0E75254A225B009B0EE8 /* UINavigationController+UIGestureRecognizerDelegate.swift in Sources */,
 				B89CD68E2509928800D7D8ED /* ReaderView.swift in Sources */,
 				B8D4569A2508D1A2000F9E5F /* AppDelegate.swift in Sources */,
-				B82AF5DF2548015B00FAB2A8 /* View+UIKitComponents.swift in Sources */,
 				B8FA93B9254BB08F00AE362C /* NovelDetailsView.swift in Sources */,
 				B8F5C210250EDDB2000810F8 /* DictionaryReading+CoreDataProperties.swift in Sources */,
 				B82E94BD25665601004A6F85 /* PartOfSpeechMatcher.swift in Sources */,
@@ -1058,12 +1045,10 @@
 				B8FA12612550B1E300ABE1D3 /* DiscoverTabConstants.swift in Sources */,
 				6D4F99B82556A0C900CC0DF6 /* BottomSheet.swift in Sources */,
 				B8D456A12508D1A2000F9E5F /* LibraryView.swift in Sources */,
-				B82AF5FE2548031F00FAB2A8 /* ViewControllerResolver.swift in Sources */,
 				B82AF65E2548187200FAB2A8 /* DiscoverSearchViewModel.swift in Sources */,
 				B82E94AD25663890004A6F85 /* Deinflector.swift in Sources */,
 				B89CD6962509938C00D7D8ED /* VocabularyCardView.swift in Sources */,
 				B844F2BD256119060097F5EF /* NovelDetailsModel.swift in Sources */,
-				B82AF6472548148200FAB2A8 /* SearchHistory.swift in Sources */,
 				B89810F8250F17210059F71F /* DictionaryStorageManager.swift in Sources */,
 				B82E94B3256643C2004A6F85 /* Tokenizer.swift in Sources */,
 				6DCF77DB252DB19B00CB3C5D /* ReaderViewModel.swift in Sources */,
@@ -1079,7 +1064,6 @@
 				B82E949325662E98004A6F85 /* PartOfSpeech.swift in Sources */,
 				B81C86FF250A2207000B9E5F /* LibraryEntryViewModel.swift in Sources */,
 				B89CD69A2509944200D7D8ED /* MockCards.swift in Sources */,
-				B82AF5FD2548031F00FAB2A8 /* SearchBar.swift in Sources */,
 				B8A704F225B8212200E605CC /* NavigationBackChevron.swift in Sources */,
 				B8A78F0C2542F27200577974 /* DiscoverListItem.swift in Sources */,
 				B898627B270840A30034A37D /* AppNavigator.swift in Sources */,
