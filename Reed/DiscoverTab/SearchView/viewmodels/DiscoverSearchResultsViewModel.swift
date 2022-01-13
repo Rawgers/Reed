@@ -15,7 +15,7 @@ class DiscoverSearchResultsViewModel: ObservableObject {
     var resultCount: Int = 0
     let keyword: String
     
-    init(keyword: String) {
+    init(searchText keyword: String) {
         self.keyword = keyword
         updateSearchResults()
     }

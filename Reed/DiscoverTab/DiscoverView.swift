@@ -11,17 +11,15 @@ import WebKit
 
 struct DiscoverView: View {
     @StateObject var definerResults: DefinerResults = DefinerResults()
-    @StateObject var searchViewModel = DiscoverSearchViewModel()
     @StateObject var viewModel = DiscoverViewModel()
+    @StateObject var searchViewModel = DiscoverSearchViewModel()
     @State private var lastSelectedDefinableTextView: DefinableTextView?
-    
-    private var scrollAxis: Axis.Set {
-        return searchViewModel.shouldDiscoverViewScroll ? .vertical : []
-    }
+    @State private var searchText: String = ""
+    @State private var pushSearchResults: Bool = false
     
     var body: some View {
         NavigationView {
-            ScrollView(scrollAxis, showsIndicators: false) {
+            ScrollView(showsIndicators: false) {
                 VStack(alignment: .center) {
                     CategoryButtons(
                         activeCategory: $viewModel.category,
@@ -43,48 +41,35 @@ struct DiscoverView: View {
                     
                     NavigationLink(
                         destination: SearchResults(
-                            viewModel: searchViewModel.searchResultsViewModel,
+                            searchText: searchText,
                             lastSelectedDefinableTextView: $lastSelectedDefinableTextView
                         ),
-                        isActive: $searchViewModel.pushSearchResults
+                        isActive: $pushSearchResults
                     ) {
                         EmptyView()
                     }
                 }
-                .fullScreenCover(isPresented: $searchViewModel.isSearching) {
-                    NavigationView {
-                        VStack {
-                            SearchHistory(
-                                searchHistory: searchViewModel.searchHistory,
-                                onTapRow: searchViewModel.onClickSearch
-                            )
-                        }
-                        .navigationBarSearchController(
-                            from: searchViewModel.searchBar,
-                            hidesWhenScrolling: false
-                        )
-                        .navigationBarTitleDisplayMode(.inline)
-                        .navigationBarItems(
-                            leading: Button("Active") {
-                                searchViewModel.searchBar.searchController.isActive = true
-                            },
-                            trailing: Button("Done") {
-                                searchViewModel.isSearching = false
-                                searchViewModel.shouldDiscoverViewScroll = true
-                            }
-                        )
-                    }
-                }
             }
             .navigationBarTitle("Discover", displayMode: .inline)
-            .navigationBarItems(
-                trailing: Button {
-                    searchViewModel.isSearching = true
-                } label: {
-                    Image(systemName: "magnifyingglass")
+            .searchable(
+                text: $searchText,
+                placement: .navigationBarDrawer(displayMode: .always)
+            ) {
+                ForEach(searchViewModel.searchHistory.reversed(), id: \.self.id) { entry in
+                    Text(entry.text)
+                        .foregroundColor(Color(UIColor(.primary)))
+                        .searchCompletion(entry.text)
                 }
-            )
-            
+            }
+            .onSubmit(of: .search) {
+                searchViewModel.appendToSearchHistory(searchText: searchText)
+                pushSearchResults = true
+            }
+            .onAppear {
+                /// Can't figure out how to dismiss the search, so reset search text to fix an issue where
+                /// the search is active but no suggestions appear.
+                searchText = ""
+            }
             .addDefinerAndAppNavigator(entries: $definerResults.entries)
         }
         .navigationViewStyle(StackNavigationViewStyle())

@@ -14,25 +14,17 @@ struct SearchHistoryEntry {
 }
 
 class DiscoverSearchViewModel: ObservableObject {
-    let searchBar: SearchBar = SearchBar(shouldObscureBackground: false)
-    var searchResultsViewModel: DiscoverSearchResultsViewModel = DiscoverSearchResultsViewModel(keyword: "")
+    private let SEARCH_HISTORY_KEY = "discoverSearchHistory"
+    private let MAX_HISTORY_LENGTH = 100
     
-    @Published var isSearching: Bool = false
     @Published var pushSearchResults = false
-    @Published var shouldDiscoverViewScroll = true
     @Published var searchHistory: [SearchHistoryEntry] = [] // TODO: consider making this a queue
     private var historyCount: Int = 0
     
     lazy var encoder: JSONEncoder = { JSONEncoder() }()
     lazy var decoder: JSONDecoder = { JSONDecoder() }()
     
-    private let SEARCH_HISTORY_KEY = "discoverSearchHistory"
-    private let MAX_HISTORY_LENGTH = 100
-    
     init() {
-        searchBar.onBeginEdit = self.onBeginEdit
-        searchBar.onClickSearch = self.onClickSearch
-        searchBar.onClickCancel = self.onClickCancel
         getSearchHistory()
     }
 }
@@ -53,12 +45,12 @@ extension DiscoverSearchViewModel {
         historyCount = searchHistory.count
     }
     
-    func appendToSearchHistory(_ item: String) {
+    func appendToSearchHistory(searchText: String) {
         if historyCount == MAX_HISTORY_LENGTH {
             searchHistory.removeFirst()
             historyCount -= 1
         }
-        searchHistory.append(SearchHistoryEntry(text: item))
+        searchHistory.append(SearchHistoryEntry(text: searchText))
         historyCount += 1
         updateSearchHistoryData()
     }
@@ -74,29 +66,5 @@ extension DiscoverSearchViewModel {
             (try? encoder.encode(searchHistory.map { entry in entry.text })) ?? [],
             forKey: SEARCH_HISTORY_KEY
         )
-    }
-}
-
-/// Methods for the SearchBar
-extension DiscoverSearchViewModel {
-    func onClickSearch(keyword: String) {
-        searchResultsViewModel = DiscoverSearchResultsViewModel(keyword: keyword)
-        searchBar.searchController.searchBar.text = keyword
-        searchBar.searchController.isActive = false
-        appendToSearchHistory(keyword)
-        isSearching = false
-        shouldDiscoverViewScroll = true
-        pushSearchResults = true
-    }
-    
-    func onBeginEdit() {
-        print("onbeginedit")
-        isSearching = true
-        shouldDiscoverViewScroll = false
-    }
-    
-    func onClickCancel() {
-//        isSearching = false
-//        shouldDiscoverViewScroll = true
     }
 }

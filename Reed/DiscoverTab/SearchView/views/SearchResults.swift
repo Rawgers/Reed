@@ -13,10 +13,16 @@ import WebKit
 
 struct SearchResults: View {
     @StateObject private var definerResults: DefinerResults = DefinerResults()
-    @ObservedObject var viewModel: DiscoverSearchResultsViewModel
+    @StateObject var viewModel: DiscoverSearchResultsViewModel
     @Binding var lastSelectedDefinableTextView: DefinableTextView?
     
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    init(
+        searchText: String,
+        lastSelectedDefinableTextView: Binding<DefinableTextView?>
+    ) {
+        self._viewModel = StateObject(wrappedValue: DiscoverSearchResultsViewModel(searchText: searchText))
+        self._lastSelectedDefinableTextView = lastSelectedDefinableTextView
+    }
     
     var body: some View {
         ScrollView {
@@ -37,11 +43,6 @@ struct SearchResults: View {
             .padding(.horizontal)
         }
         .navigationBarTitle(viewModel.keyword, displayMode: .inline)
-        .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: NavigationBackChevron(
-            label: "Search",
-            handleDismiss: { self.presentationMode.wrappedValue.dismiss() }
-        ))
         .addDefinerAndAppNavigator(entries: $definerResults.entries)
     }
 }
@@ -49,7 +50,8 @@ struct SearchResults: View {
 struct SearchResults_Previews: PreviewProvider {
     static var previews: some View {
         SearchResults(
-            viewModel: DiscoverSearchResultsViewModel(keyword: "無職転生"), lastSelectedDefinableTextView: .constant(DefinableTextView(coder: NSCoder()))
+            searchText: "無職転生",
+            lastSelectedDefinableTextView: .constant(DefinableTextView(coder: NSCoder()))
         )
     }
 }
