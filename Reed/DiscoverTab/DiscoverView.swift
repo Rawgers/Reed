@@ -52,9 +52,8 @@ struct DiscoverView: View {
 
                     NavigationLink(
                         destination: SearchResults(
-                            lastSelectedDefinableTextView: $lastSelectedDefinableTextView,
                             viewModel: searchViewModel.searchResultsViewModel,
-                            definerResultHandler: definerResults.updateEntries(entries:)
+                            lastSelectedDefinableTextView: $lastSelectedDefinableTextView
                         ),
                         isActive: $searchViewModel.pushSearchResults
                     ) {
@@ -67,9 +66,9 @@ struct DiscoverView: View {
                 from: searchViewModel.searchBar,
                 hidesWhenScrolling: false
             )
+            .addDefinerAndAppNavigator(entries: $definerResults.entries)
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .addDefinerAndAppNavigator(entries: $definerResults.entries)
     }
 }
 

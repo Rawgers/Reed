@@ -43,10 +43,7 @@ struct DiscoverListItem: View {
             
             NavigationLink(
                 destination: NavigationLazyView(
-                    NovelDetailsView(
-                        ncode: viewModel.ncode,
-                        definerResultHandler: definerResultHandler
-                    )
+                    NovelDetailsView(ncode: viewModel.ncode)
                 )
             ) {
                 Image(systemName: "chevron.right")
