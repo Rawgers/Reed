@@ -12,9 +12,9 @@ import struct SwiftyNarou.NarouResponseFormat
 import WebKit
 
 struct SearchResults: View {
-    @Binding var lastSelectedDefinableTextView: DefinableTextView?
+    @StateObject private var definerResults: DefinerResults = DefinerResults()
     @ObservedObject var viewModel: DiscoverSearchResultsViewModel
-    let definerResultHandler: ([DefinitionDetails]) -> Void
+    @Binding var lastSelectedDefinableTextView: DefinableTextView?
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
@@ -26,7 +26,7 @@ struct SearchResults: View {
                     DiscoverListItem(
                         viewModel: viewModel.searchResults[i],
                         lastSelectedDefinableTextView: $lastSelectedDefinableTextView,
-                        definerResultHandler: definerResultHandler
+                        definerResultHandler: definerResults.updateEntries
                     ).onAppear {
                         if self.viewModel.searchResults.last == viewModel.searchResults[i] {
                             self.viewModel.updateSearchResults()
@@ -42,15 +42,14 @@ struct SearchResults: View {
             label: "Search",
             handleDismiss: { self.presentationMode.wrappedValue.dismiss() }
         ))
+        .addDefinerAndAppNavigator(entries: $definerResults.entries)
     }
 }
 
 struct SearchResults_Previews: PreviewProvider {
     static var previews: some View {
         SearchResults(
-            lastSelectedDefinableTextView: .constant(DefinableTextView(coder: NSCoder())),
-            viewModel: DiscoverSearchResultsViewModel(keyword: "無職転生"),
-            definerResultHandler: { _ in }
+            viewModel: DiscoverSearchResultsViewModel(keyword: "無職転生"), lastSelectedDefinableTextView: .constant(DefinableTextView(coder: NSCoder()))
         )
     }
 }
