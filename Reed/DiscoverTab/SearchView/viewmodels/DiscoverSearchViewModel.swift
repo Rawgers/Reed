@@ -82,17 +82,21 @@ extension DiscoverSearchViewModel {
     func onClickSearch(keyword: String) {
         searchResultsViewModel = DiscoverSearchResultsViewModel(keyword: keyword)
         searchBar.searchController.searchBar.text = keyword
+        searchBar.searchController.isActive = false
         appendToSearchHistory(keyword)
+        isSearching = false
+        shouldDiscoverViewScroll = true
         pushSearchResults = true
     }
     
     func onBeginEdit() {
+        print("onbeginedit")
         isSearching = true
         shouldDiscoverViewScroll = false
     }
     
     func onClickCancel() {
-        isSearching = false
-        shouldDiscoverViewScroll = true
+//        isSearching = false
+//        shouldDiscoverViewScroll = true
     }
 }

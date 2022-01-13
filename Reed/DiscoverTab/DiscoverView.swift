@@ -22,34 +22,25 @@ struct DiscoverView: View {
     var body: some View {
         NavigationView {
             ScrollView(scrollAxis, showsIndicators: false) {
-                ZStack {
-                    VStack(alignment: .center) {
-                        CategoryButtons(
-                            activeCategory: $viewModel.category,
-                            updateCategory: viewModel.updateCategory
-                        )
-                        HStack {
-                            Text(viewModel.category.id)
-                                .font(.title)
-                                .fontWeight(.semibold)
-                                .padding(.horizontal)
-                            Spacer()
-                        }
-                        DiscoverList(
-                            rows: $viewModel.rows,
-                            lastSelectedDefinableTextView: $lastSelectedDefinableTextView,
-                            updateRows: viewModel.updateRows,
-                            definerResultHandler: definerResults.updateEntries(entries:)
-                        )
+                VStack(alignment: .center) {
+                    CategoryButtons(
+                        activeCategory: $viewModel.category,
+                        updateCategory: viewModel.updateCategory
+                    )
+                    HStack {
+                        Text(viewModel.category.id)
+                            .font(.title)
+                            .fontWeight(.semibold)
+                            .padding(.horizontal)
+                        Spacer()
                     }
+                    DiscoverList(
+                        rows: $viewModel.rows,
+                        lastSelectedDefinableTextView: $lastSelectedDefinableTextView,
+                        updateRows: viewModel.updateRows,
+                        definerResultHandler: definerResults.updateEntries(entries:)
+                    )
                     
-                    if searchViewModel.isSearching {
-                        SearchHistory(
-                            searchHistory: searchViewModel.searchHistory,
-                            onTapRow: searchViewModel.onClickSearch
-                        )
-                    }
-
                     NavigationLink(
                         destination: SearchResults(
                             viewModel: searchViewModel.searchResultsViewModel,
@@ -60,12 +51,40 @@ struct DiscoverView: View {
                         EmptyView()
                     }
                 }
+                .fullScreenCover(isPresented: $searchViewModel.isSearching) {
+                    NavigationView {
+                        VStack {
+                            SearchHistory(
+                                searchHistory: searchViewModel.searchHistory,
+                                onTapRow: searchViewModel.onClickSearch
+                            )
+                        }
+                        .navigationBarSearchController(
+                            from: searchViewModel.searchBar,
+                            hidesWhenScrolling: false
+                        )
+                        .navigationBarTitleDisplayMode(.inline)
+                        .navigationBarItems(
+                            leading: Button("Active") {
+                                searchViewModel.searchBar.searchController.isActive = true
+                            },
+                            trailing: Button("Done") {
+                                searchViewModel.isSearching = false
+                                searchViewModel.shouldDiscoverViewScroll = true
+                            }
+                        )
+                    }
+                }
             }
             .navigationBarTitle("Discover", displayMode: .inline)
-            .navigationBarSearchController(
-                from: searchViewModel.searchBar,
-                hidesWhenScrolling: false
+            .navigationBarItems(
+                trailing: Button {
+                    searchViewModel.isSearching = true
+                } label: {
+                    Image(systemName: "magnifyingglass")
+                }
             )
+            
             .addDefinerAndAppNavigator(entries: $definerResults.entries)
         }
         .navigationViewStyle(StackNavigationViewStyle())

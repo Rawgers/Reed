@@ -13,18 +13,13 @@ struct SearchHistory: View {
     let onTapRow: (String) -> Void
     
     var body: some View {
-        ZStack {
-            Rectangle()
-                .foregroundColor(Color(uiColor: .systemBackground))
-            
-            List(searchHistory.reversed(), id: \.self.id) { entry in
-                Button(entry.text) {
-                    onTapRow(entry.text)
-                }
-                .lineLimit(1)
+        List(searchHistory.reversed(), id: \.self.id) { entry in
+            Button(entry.text) {
+                onTapRow(entry.text)
             }
-            .listStyle(PlainListStyle())
+            .lineLimit(1)
         }
+        .listStyle(PlainListStyle())
     }
 }
 
