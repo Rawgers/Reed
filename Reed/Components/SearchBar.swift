@@ -10,17 +10,17 @@ import SwiftUI
 
 class SearchBar: NSObject, ObservableObject {
     @Published var searchText: String = ""
-    let searchController: UISearchController = UISearchController(searchResultsController: nil)
+    let searchController: UISearchController = UISearchController()
     
-    var onBeginEdit: (() -> Void)?
-    var onClickSearch: ((String) -> Void)?
-    var onClickCancel: (() -> Void)?
+    var onBeginEdit: () -> Void
+    var onClickSearch: (String) -> Void
+    var onClickCancel: () -> Void
         
     init(
         shouldObscureBackground: Bool,
-        onBeginEdit: (() -> Void)? = nil,
-        onClickSearch: ((String) -> Void)? = nil,
-        onClickCancel: (() -> Void)? = nil
+        onBeginEdit: @escaping () -> Void = {},
+        onClickSearch: @escaping (String) -> Void = { _ in },
+        onClickCancel: @escaping () -> Void = {}
     ) {
         self.onBeginEdit = onBeginEdit
         self.onClickSearch = onClickSearch
@@ -28,6 +28,7 @@ class SearchBar: NSObject, ObservableObject {
         super.init()
         
         searchController.obscuresBackgroundDuringPresentation = shouldObscureBackground
+        searchController.hidesNavigationBarDuringPresentation = true
         
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
@@ -39,13 +40,14 @@ struct SearchBarModifier: ViewModifier {
     let hidesWhenScrolling: Bool
     
     func body(content: Content) -> some View {
-        content.overlay(
-            ViewControllerResolver { searchController in
-                searchController.navigationItem.hidesSearchBarWhenScrolling = hidesWhenScrolling
-                searchController.navigationItem.searchController = self.searchBar.searchController
-            }
-            .frame(width: 0, height: 0)
-        )
+        content
+            .overlay(
+                ViewControllerResolver { searchController in
+                    searchController.navigationItem.hidesSearchBarWhenScrolling = hidesWhenScrolling
+                    searchController.navigationItem.searchController = self.searchBar.searchController
+                }
+                    .frame(width: 0, height: 0)
+            )
     }
 }
 
@@ -59,20 +61,14 @@ extension SearchBar: UISearchResultsUpdating {
 
 extension SearchBar: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        if let onBeginEdit = onBeginEdit {
-            onBeginEdit()
-        }
+        onBeginEdit()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        if let onClickSearch = onClickSearch {
-            onClickSearch(searchText)
-        }
+        onClickSearch(searchText)
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        if let onClickCancel = onClickCancel {
-            onClickCancel()
-        }
+        onClickCancel()
     }
 }
