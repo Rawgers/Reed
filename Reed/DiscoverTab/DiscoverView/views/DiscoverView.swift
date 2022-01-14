@@ -19,7 +19,7 @@ struct DiscoverView: View {
     
     var body: some View {
         NavigationView {
-            ScrollView(showsIndicators: false) {
+            ScrollView(showsIndicators: true) {
                 VStack(alignment: .center) {
                     CategoryButtons(
                         activeCategory: $viewModel.category,

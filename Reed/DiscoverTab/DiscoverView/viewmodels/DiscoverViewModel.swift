@@ -33,7 +33,6 @@ class DiscoverViewModel: ObservableObject {
     @Published var rows: [DiscoverListItemViewModel] = []
     @Published var category: DiscoverListCategory = .recent
     var startIndex: Int = -FetchNarouConstants.LOAD_INCREMENT.rawValue
-    var resultCount: Int = 0
     
     init() {
         updateRows()
@@ -44,14 +43,11 @@ class DiscoverViewModel: ObservableObject {
         Narou.fetchNarouApi(request: request) { data, error in
             if error != nil { return }
             if let data = data {
-                self.resultCount = min(
-                    data.0,
-                    FetchNarouConstants.MAX_RESULT_INDEX.rawValue
-                )
                 for entry in data.1 {
                     self.rows.append(DiscoverListItemViewModel(from: entry))
                 }
             }
+            print(self.startIndex)
         }
     }
     
@@ -66,7 +62,9 @@ class DiscoverViewModel: ObservableObject {
         }
         
         let increment = FetchNarouConstants.LOAD_INCREMENT.rawValue
-        if startIndex + increment > resultCount { return nil }
+        if startIndex + increment > FetchNarouConstants.MAX_RESULT_INDEX.rawValue {
+            return nil
+        }
         
         startIndex += increment
         return NarouRequest(
@@ -90,7 +88,6 @@ class DiscoverViewModel: ObservableObject {
     private func resetData() {
         rows = []
         startIndex = -FetchNarouConstants.LOAD_INCREMENT.rawValue
-        resultCount = 0
         updateRows()
     }
 }

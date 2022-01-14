@@ -24,6 +24,7 @@ class DiscoverSearchViewModel: ObservableObject {
     lazy var decoder: JSONDecoder = { JSONDecoder() }()
     
     init() {
+        clearSearchHistory()
         getSearchHistory()
     }
 }
