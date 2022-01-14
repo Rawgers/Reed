@@ -62,7 +62,7 @@ struct NovelDetailsView: View {
                     .disabled(viewModel.isLibraryDataLoading)
 
                     Button(action: viewModel.toggleFavorite) {
-                        Image(systemName: viewModel.isFavorite ? "star.fill" : "star")
+                        Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
                     }
                     .disabled(viewModel.isLibraryDataLoading)
                 }
