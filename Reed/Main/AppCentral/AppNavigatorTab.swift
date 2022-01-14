@@ -14,7 +14,7 @@ struct AppNavigatorTabButtonStyle: PrimitiveButtonStyle {
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .foregroundColor(isSelected ? .blue : .black)
+            .foregroundColor(isSelected ? .blue : .primary)
             .opacity(self.pressed ? 0.5 : 1.0)
             .gesture(
                 DragGesture(minimumDistance: 0)
@@ -53,8 +53,11 @@ struct AppNavigatorTab: View {
             VStack(spacing: 4) {
                 Circle()
                     .frame(width: 48, height: 48)
-                    .foregroundColor(Color(.systemGray3))
-                    .overlay(Image(systemName: iconName).imageScale(.medium))
+                    .foregroundColor(Color(UIColor.systemGray5))
+                    .overlay(
+                        Image(systemName: iconName)
+                            .imageScale(.medium)
+                    )
                 Text(self.title)
                     .font(.footnote)
             }

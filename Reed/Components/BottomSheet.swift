@@ -48,9 +48,7 @@ struct BottomSheet<Content: View>: View {
             }
             .frame(width: geometry.size.width, height: self.maxHeight, alignment: .top)
             .background(
-                colorScheme == .dark
-                    ? Color(.secondarySystemBackground)
-                    : Color.white
+                Color(.secondarySystemBackground)
             )
             .cornerRadius(DefinerConstants.BOTTOM_SHEET_CORNER_RADIUS)
             .shadow(radius: DefinerConstants.BOTTOM_SHEET_SHADOW_RADIUS)
