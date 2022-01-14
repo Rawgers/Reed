@@ -24,7 +24,7 @@ struct DiscoverList: View {
                     lastSelectedDefinableTextView: $lastSelectedDefinableTextView,
                     definerResultHandler: definerResultHandler
                 )
-                    .onAppear {
+                    .task {
                         if row == self.rows.last {
                             self.updateRows()
                         }

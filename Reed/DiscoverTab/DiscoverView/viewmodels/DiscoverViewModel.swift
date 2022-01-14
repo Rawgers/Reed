@@ -33,7 +33,7 @@ class DiscoverViewModel: ObservableObject {
     @Published var rows: [DiscoverListItemViewModel] = []
     @Published var category: DiscoverListCategory = .recent
     var startIndex: Int = -FetchNarouConstants.LOAD_INCREMENT.rawValue
-    var resultCount: Int = 0
+    var resultCount: Int = 0 /// prevents making more requests when no more results are available
     
     init() {
         updateRows()
