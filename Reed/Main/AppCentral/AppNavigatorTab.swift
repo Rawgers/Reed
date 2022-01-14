@@ -60,6 +60,7 @@ struct AppNavigatorTab: View {
                     )
                 Text(self.title)
                     .font(.footnote)
+                    .foregroundColor(.primary)
             }
         }
         .buttonStyle(AppNavigatorTabButtonStyle(isSelected: selectedTab == tag))
