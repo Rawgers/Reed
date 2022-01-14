@@ -55,10 +55,15 @@ struct DiscoverView: View {
                 text: $searchText,
                 placement: .navigationBarDrawer(displayMode: .always)
             ) {
-                ForEach(searchViewModel.searchHistory.reversed(), id: \.self.id) { entry in
-                    Text(entry.text)
-                        .foregroundColor(Color(UIColor(.primary)))
-                        .searchCompletion(entry.text)
+                ForEach(searchViewModel.searchHistory, id: \.self.id) { entry in
+                    if entry.text == "" {
+                        Text(entry.text)
+                            .foregroundColor(Color(UIColor(.primary)))
+                    } else {
+                        Text(entry.text)
+                            .foregroundColor(Color(UIColor(.primary)))
+                            .searchCompletion(entry.text)
+                    }
                 }
             }
             .onSubmit(of: .search) {
