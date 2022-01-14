@@ -10,38 +10,71 @@ import SwiftUI
 import enum SwiftyNarou.Subgenre
 import struct SwiftyNarou.NarouResponse
 
+enum DiscoverListItemConstants {
+    static let TITLE_WIDTH: CGFloat = UIScreen.main.bounds.width - 24
+    static let SYNOPSIS_WIDTH: CGFloat = UIScreen.main.bounds.width - 72
+    static let TITLE_FONT = UIFont.systemFont(ofSize: 20, weight: .bold)
+    static let TITLE_MAX_ROW_COUNT: CGFloat = 2
+    static let SYNOPSIS_FONT = UIFont.systemFont(ofSize: 13)
+    static let SYNOPSIS_MAX_ROW_COUNT: CGFloat = 3
+}
+
 class DiscoverListItemViewModel: ObservableObject {
-    let DEFINABLE_TEXT_VIEW_WIDTH = UIScreen.main.bounds.width - 48
+    static let heightComputer = DefinableTextView()
     
     let ncode: String
     let title: String
     let author: String
+    let synopsis: String
     let subgenre: Subgenre?
     
     let processedTitle: ProcessedContent
-    let rowHeight: CGFloat
+    let processedSynopsis: ProcessedContent
+    @Published var titleHeight: CGFloat = 0
+    @Published var synopsisHeight: CGFloat = 0
 
     init(from data: NarouResponse) {
         ncode = data.ncode ?? ""
         title = data.title ?? ""
         author = data.author ?? ""
+        synopsis = data.synopsis ?? ""
         subgenre = data.subgenre
+        
         processedTitle = ProcessedContent(content: title, withFurigana: false)
-        rowHeight = DefinableTextView(
-            id: "",
-            content: processedTitle.attributedContent
-        ).calculateRowHeight(rowWidth: DEFINABLE_TEXT_VIEW_WIDTH)
+        processedSynopsis = ProcessedContent(content: synopsis, withFurigana: false)
+        
+        self.titleHeight = DiscoverListItemViewModel.heightComputer.calculateRowHeight(
+            content: self.processedTitle.attributedContent,
+            font: DiscoverListItemConstants.TITLE_FONT,
+            rowWidth: DiscoverListItemConstants.TITLE_WIDTH,
+            maxRowCount:  DiscoverListItemConstants.TITLE_MAX_ROW_COUNT
+        )
+        self.synopsisHeight = DiscoverListItemViewModel.heightComputer.calculateRowHeight(
+            content: self.processedSynopsis.attributedContent,
+            font: DiscoverListItemConstants.SYNOPSIS_FONT,
+            rowWidth: DiscoverListItemConstants.SYNOPSIS_WIDTH,
+            maxRowCount:  DiscoverListItemConstants.SYNOPSIS_MAX_ROW_COUNT
+        )
+    }
+    
+    func getTitleToken(x: Int) -> Token? {
+        return getToken(x: x, tokens: processedTitle.tokens)
+    }
+    
+    func getSynopsisToken(x: Int) -> Token? {
+        return getToken(x: x, tokens: processedSynopsis.tokens)
     }
     
     // Used in DefinableTextView to highlight tapped token.
-    func getTitleToken(x: Int) -> Token? {
+    private func getToken(x: Int, tokens: [Token]) -> Token? {
         var i = 0
-        var j = processedTitle.tokens.endIndex
+        var j = tokens.endIndex
         while j >= i {
             let mid = i + (j - i) / 2
-            if processedTitle.tokens[mid].range.lowerBound <= x && processedTitle.tokens[mid].range.upperBound > x {
-                return processedTitle.tokens[mid]
-            } else if processedTitle.tokens[mid].range.lowerBound > x {
+            if tokens[mid].range.lowerBound <= x
+                && tokens[mid].range.upperBound > x {
+                return tokens[mid]
+            } else if tokens[mid].range.lowerBound > x {
                 j = mid - 1
             } else {
                 i = mid + 1

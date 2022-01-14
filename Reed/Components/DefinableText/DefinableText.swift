@@ -11,23 +11,26 @@ import UIKit
 
 struct DefinableText: UIViewRepresentable {
     let id: String
+    let content: NSMutableAttributedString
+    let font: UIFont
     let lastSelectedDefinableTextView: DefinableTextView?
-    var content: NSMutableAttributedString
     let definerResultHandler: ([DefinitionDetails]) -> Void
     let getTokenHandler: (Int) -> Token?
     let updateLastSelectedDefinableTextViewHandler: (DefinableTextView) -> Void
     
     internal init(
         id: String,
-        lastSelectedDefinableTextView: DefinableTextView?,
         content: NSMutableAttributedString,
+        font: UIFont,
+        lastSelectedDefinableTextView: DefinableTextView?,
         definerResultHandler: @escaping ([DefinitionDetails]) -> Void,
         getTokenHandler: @escaping (Int) -> Token?,
         updateLastSelectedDefinableTextViewHandler: @escaping (DefinableTextView) -> Void
     ) {
         self.id = id
-        self.lastSelectedDefinableTextView = lastSelectedDefinableTextView
         self.content = content
+        self.font = font
+        self.lastSelectedDefinableTextView = lastSelectedDefinableTextView
         self.definerResultHandler = definerResultHandler
         self.getTokenHandler = getTokenHandler
         self.updateLastSelectedDefinableTextViewHandler = updateLastSelectedDefinableTextViewHandler
@@ -38,7 +41,8 @@ struct DefinableText: UIViewRepresentable {
     ) -> DefinableTextView {
         let textView = DefinableTextView(
             id: id,
-            content: content
+            content: content,
+            font: font
         )
         textView.backgroundColor = .systemBackground
         
@@ -178,7 +182,7 @@ struct DefinableText: UIViewRepresentable {
                 range: selectedRange!
             )
             textView.setNeedsDisplay()
-            textView.selectedRange = selectedRange
+            textView.selectedRange = selectedRange!
         }
     }
 }

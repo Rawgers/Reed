@@ -17,38 +17,62 @@ struct DiscoverListItem: View {
     var body: some View {
         HStack(alignment: .center){
             VStack(alignment: .leading, spacing: 0) {
-                ZStack {
-                    DefinableText(
-                        id: viewModel.ncode + "-title",
-                        lastSelectedDefinableTextView: lastSelectedDefinableTextView,
-                        content: viewModel.processedTitle.attributedContent,
-                        definerResultHandler: definerResultHandler,
-                        getTokenHandler: viewModel.getTitleToken,
-                        updateLastSelectedDefinableTextViewHandler: updateLastSelectedDefinableTextViewHandler
-                    )
-                        .frame(
-                            width: viewModel.DEFINABLE_TEXT_VIEW_WIDTH,
-                            height: viewModel.rowHeight
-                        )
-                        .padding(.top, 8)
-                        .padding(.bottom, 4)
-                }
-                
-                Text(viewModel.author)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                    .lineLimit(1)
-                    .truncationMode(.tail)
-            }
-            
-            NavigationLink(
-                destination: NavigationLazyView(
-                    NovelDetailsView(ncode: viewModel.ncode)
+                DefinableText(
+                    id: viewModel.ncode + "-title",
+                    content: viewModel.processedTitle.attributedContent,
+                    font: DiscoverListItemConstants.TITLE_FONT,
+                    lastSelectedDefinableTextView: lastSelectedDefinableTextView,
+                    definerResultHandler: definerResultHandler,
+                    getTokenHandler: viewModel.getTitleToken,
+                    updateLastSelectedDefinableTextViewHandler: updateLastSelectedDefinableTextViewHandler
                 )
-            ) {
-                Image(systemName: "chevron.right")
-                    .imageScale(.small)
-                    .foregroundColor(.secondary)
+                    .frame(
+                        width: DiscoverListItemConstants.TITLE_WIDTH,
+                        height: viewModel.titleHeight
+                    )
+                    .padding(.top, 8)
+                
+                HStack(alignment: .top) {
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text(viewModel.author + "｜" + viewModel.subgenre!.nameJp
+                        )
+                            .frame(width: DiscoverListItemConstants.SYNOPSIS_WIDTH, alignment: .leading)
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                            .lineLimit(1)
+                            .truncationMode(.tail)
+                            .padding(.bottom, 4)
+                        
+                        DefinableText(
+                            id: viewModel.ncode + "-synopsis",
+                            content: viewModel.processedSynopsis.attributedContent,
+                            font: DiscoverListItemConstants.SYNOPSIS_FONT,
+                            lastSelectedDefinableTextView: lastSelectedDefinableTextView,
+                            definerResultHandler: definerResultHandler,
+                            getTokenHandler: viewModel.getSynopsisToken,
+                            updateLastSelectedDefinableTextViewHandler: updateLastSelectedDefinableTextViewHandler
+                        )
+                            .frame(
+                                width: DiscoverListItemConstants.SYNOPSIS_WIDTH,
+                                height: viewModel.synopsisHeight
+                            )
+                            .padding(.bottom, 4)
+                    }
+                    
+                    NavigationLink(
+                        destination: NavigationLazyView(
+                            NovelDetailsView(ncode: viewModel.ncode)
+                        )
+                    ) {
+                        Image(systemName: "chevron.right")
+                            .frame(width: 32, height: 48)
+                            .imageScale(.medium)
+                            .foregroundColor(Color(UIColor.systemBlue))
+                            .background(Color(UIColor.secondarySystemBackground))
+                            .cornerRadius(8)
+                    }
+                    .padding(.top, 4)
+                }
             }
         }
         Divider()

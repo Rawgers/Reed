@@ -48,9 +48,11 @@ class DiscoverViewModel: ObservableObject {
                     data.0,
                     FetchNarouConstants.MAX_RESULT_INDEX.rawValue
                 )
+                var rows = [DiscoverListItemViewModel]()
                 for entry in data.1 {
-                    self.rows.append(DiscoverListItemViewModel(from: entry))
+                    rows.append(DiscoverListItemViewModel(from: entry))
                 }
+                self.rows.append(contentsOf: rows)
             }
         }
     }
@@ -74,7 +76,7 @@ class DiscoverViewModel: ObservableObject {
             responseFormat: NarouResponseFormat(
                 gzipCompressionLevel: 5,
                 fileFormat: .JSON,
-                fields: [.ncode, .novelTitle, .author, .subgenre],
+                fields: [.ncode, .novelTitle, .author, .subgenre, .synopsis],
                 limit: increment - 1,
                 startIndex: startIndex,
                 order: .mostPopularWeek

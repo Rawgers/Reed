@@ -29,11 +29,13 @@ class DiscoverSearchResultsViewModel: ObservableObject {
                     data.0,
                     FetchNarouConstants.MAX_RESULT_INDEX.rawValue
                 )
+                var searchResults = [DiscoverListItemViewModel]()
                 for entry in data.1 {
-                    self.searchResults.append(
+                    searchResults.append(
                         DiscoverListItemViewModel(from: entry)
                     )
                 }
+                self.searchResults.append(contentsOf: searchResults)
             }
         }
     }

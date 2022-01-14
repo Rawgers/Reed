@@ -13,9 +13,10 @@ private enum TextOrientation {
 }
 
 class DefinableTextView: UIView {
-    let font = UIFont.systemFont(ofSize: 20, weight: .bold)
+    var font: UIFont
+    
     let id: String
-    var content: NSMutableAttributedString
+    let content: NSMutableAttributedString
     var selectedRange: NSRange?
     var ctFrame: CTFrame?
     var linesYCoordinates: [CGFloat]?
@@ -33,11 +34,13 @@ class DefinableTextView: UIView {
     }
     
     init(
-        id: String,
-        content: NSMutableAttributedString,
+        id: String = "",
+        content: NSMutableAttributedString = NSMutableAttributedString(),
+        font: UIFont = UIFont(),
         isVerticalOrientation: Bool = false
     ) {
         self.id = id
+        self.font = font
         self.content = content
         self.content.addAttributes(
             [
@@ -45,10 +48,14 @@ class DefinableTextView: UIView {
                 NSAttributedString.Key.foregroundColor : UIColor.label,
                 NSAttributedString.Key.verticalGlyphForm: isVerticalOrientation
             ],
-            range: NSMakeRange(0, self.content.length)
+            range: NSMakeRange(0, content.length)
         )
-        frameSetter = CTFramesetterCreateWithAttributedString(content)
+        
+        self.frameSetter = CTFramesetterCreateWithAttributedString(content)
         self.orientation = isVerticalOrientation ? .vertical : .horizontal
+        if id == "" {
+            print("empty id", Thread.isMainThread)
+        }
         super.init(frame: CGRect.zero)
     }
     
@@ -56,7 +63,21 @@ class DefinableTextView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func calculateRowHeight(rowWidth: CGFloat) -> CGFloat {
+    func calculateRowHeight(
+        content: NSMutableAttributedString,
+        font: UIFont,
+        rowWidth: CGFloat,
+        maxRowCount: CGFloat
+    ) -> CGFloat {
+        content.addAttributes(
+            [
+                NSAttributedString.Key.font : font as Any,
+                NSAttributedString.Key.foregroundColor : UIColor.label,
+                NSAttributedString.Key.verticalGlyphForm: self.orientation == .vertical
+            ],
+            range: NSMakeRange(0, content.length)
+        )
+        
         frameSetter = CTFramesetterCreateWithAttributedString(content)
         let path = CGMutablePath()
         let rowHeight = ceil(font.lineHeight)
@@ -65,10 +86,9 @@ class DefinableTextView: UIView {
                 x: 0,
                 y: 0,
                 width: rowWidth,
-                height: 2 * rowHeight
+                height: maxRowCount * rowHeight
             )
         )
-        
         ctFrame = CTFramesetterCreateFrame(
             frameSetter,
             CFRangeMake(0, content.length),
@@ -76,7 +96,9 @@ class DefinableTextView: UIView {
             nil
         )
         let lines = CTFrameGetLines(ctFrame!) as! [CTLine]
-        return lines.endIndex == 1 ? rowHeight : 2 * rowHeight
+        
+        let rowCount = CGFloat(lines.endIndex)
+        return min(rowCount, maxRowCount) * rowHeight
     }
 
     // Only override draw() if you perform custom drawing.
@@ -115,10 +137,5 @@ class DefinableTextView: UIView {
             context.scaleBy(x: 1.0, y: -1.0)
         }
         CTFrameDraw(ctFrame!, context)
-    }
-    
-    func lengthThatFits(start: Int) -> Int {
-        ctFrame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(start, content.length - start), path, nil)
-        return min(CTFrameGetVisibleStringRange(ctFrame!).length as Int, content.length - start)
-    }
+    }    
 }
