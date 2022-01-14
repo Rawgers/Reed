@@ -57,6 +57,7 @@ struct AppNavigatorTab: View {
                     .overlay(Image(systemName: iconName).imageScale(.medium))
                 Text(self.title)
                     .font(.footnote)
+                    .foregroundColor(.primary)
             }
         }
         .buttonStyle(AppNavigatorTabButtonStyle(isSelected: selectedTab == tag))
