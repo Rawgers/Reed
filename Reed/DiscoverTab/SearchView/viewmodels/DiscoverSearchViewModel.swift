@@ -19,7 +19,6 @@ class DiscoverSearchViewModel: ObservableObject {
     
     @Published var pushSearchResults = false
     @Published var searchHistory: [SearchHistoryEntry] = [] // TODO: consider making this a queue
-    private var historyCount: Int = 0
     
     lazy var encoder: JSONEncoder = { JSONEncoder() }()
     lazy var decoder: JSONDecoder = { JSONDecoder() }()
@@ -35,29 +34,35 @@ extension DiscoverSearchViewModel {
         guard let searchHistoryData = UserDefaults.standard.data(
             forKey: SEARCH_HISTORY_KEY
         ) else {
+            searchHistory = Array(repeating: SearchHistoryEntry(text: ""), count: MAX_HISTORY_LENGTH)
             return
         }
+        
         let searchHistoryEntries = (try? decoder.decode(
             [String].self,
             from: searchHistoryData
         )) ?? []
-        searchHistory = searchHistoryEntries.map { entry in SearchHistoryEntry(text: entry)}
-        historyCount = searchHistory.count
+        searchHistory = searchHistoryEntries.map { entry in
+            SearchHistoryEntry(text: entry)
+        }
+        let emptyHistory = Array(
+            repeating: SearchHistoryEntry(text: ""),
+            count: MAX_HISTORY_LENGTH - searchHistory.endIndex
+        )
+        searchHistory.append(contentsOf: emptyHistory)
     }
     
     func appendToSearchHistory(searchText: String) {
-        if historyCount == MAX_HISTORY_LENGTH {
-            searchHistory.removeFirst()
-            historyCount -= 1
+        if searchText == searchHistory.first?.text {
+            return
         }
-        searchHistory.append(SearchHistoryEntry(text: searchText))
-        historyCount += 1
+        searchHistory.removeLast()
+        searchHistory.insert(SearchHistoryEntry(text: searchText), at: 0)
         updateSearchHistoryData()
     }
     
     func clearSearchHistory() {
         searchHistory = []
-        historyCount = 0
         updateSearchHistoryData()
     }
     
