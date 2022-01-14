@@ -36,7 +36,7 @@ struct DiscoverListItem: View {
                 
                 Text(viewModel.author)
                     .font(.caption)
-                    .foregroundColor(.gray)
+                    .foregroundColor(.secondary)
                     .lineLimit(1)
                     .truncationMode(.tail)
             }
@@ -48,7 +48,7 @@ struct DiscoverListItem: View {
             ) {
                 Image(systemName: "chevron.right")
                     .imageScale(.small)
-                    .foregroundColor(Color(.systemGray5))
+                    .foregroundColor(.secondary)
             }
         }
         Divider()

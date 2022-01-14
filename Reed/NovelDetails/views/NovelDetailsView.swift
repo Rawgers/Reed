@@ -28,9 +28,11 @@ struct NovelDetailsView: View {
 
                 HStack(spacing: .zero) {
                     Text(viewModel.novelAuthor)
+                        .foregroundColor(.secondary)
                     Text("｜")
-                        .foregroundColor(.gray)
+                        .foregroundColor(.secondary)
                     Text(viewModel.novelSubgenre?.nameJp ?? "")
+                        .foregroundColor(.secondary)
                 }
                 .padding(.bottom, 16)
 
@@ -71,7 +73,7 @@ struct NovelDetailsView: View {
                 Group {
                     Text("SYNOPSIS")
                         .font(.subheadline).bold()
-                        .foregroundColor(Color(.systemGray4))
+                        .foregroundColor(.secondary)
                         .padding(.bottom, 4)
                     ZStack {
                         Rectangle()
