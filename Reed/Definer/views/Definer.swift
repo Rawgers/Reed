@@ -41,19 +41,25 @@ class DefinerResults: ObservableObject {
 }
 
 struct Definer: View {
-    @State private var isBottomSheetExpanded = false
-    @State private var definitionEntryIndex = 0
-    @State private var tabViewId = UUID()
+    @State private var isBottomSheetExpanded: Bool = false
+    @State private var definitionEntryIndex: Int = 0
+    @State private var tabViewId: UUID = UUID()
     @Binding var entries: [DefinitionDetails]
+    
+    init(entries: Binding<[DefinitionDetails]>) {
+        self._entries = entries
+        UIPageControl.appearance().currentPageIndicatorTintColor = .systemGray
+        UIPageControl.appearance().pageIndicatorTintColor = .systemGray4
+    }
     
     var body: some View {
         if !entries.isEmpty {
             TabView(selection: $definitionEntryIndex) {
-                ForEach(entries, id: \.self) { entry in
-                    DefinerTab(entry: entry)
+                ForEach(entries.indices, id: \.self) { i in
+                    DefinerTab(entry: entries[i])
                 }
             }
-            .tabViewStyle(PageTabViewStyle())
+            .tabViewStyle(.page)
             .onChange(of: entries) { value in
                 definitionEntryIndex = 0
                 tabViewId = UUID()
