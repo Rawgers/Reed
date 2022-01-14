@@ -4,21 +4,26 @@
 // Add CSS to ReaderView
 const style = document.createElement('style');
 style.textContent = `
+    :root {
+        color-scheme: light dark;
+    }
     * {
         -webkit-touch-callout: none;
         -webkit-user-select: none
     }
     body {
-        font-size: 36px;
+        font-family: -apple-system, "Helvetica Neue"
     }
     span {
+        font-size: 36px;
         border: 1px solid transparent
     }
     rt {
         font-size: 18px;
     }
     .highlighted {
-        background-color: #FFFF00;
+        background-color: rgba(237, 237, 135, 0.5);
+        border-radius: 16px;
     }
 `;
 document.head.appendChild(style);

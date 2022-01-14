@@ -77,6 +77,14 @@ struct WKText: UIViewRepresentable {
         contentController.add(context.coordinator, name: "handleTapWord")
         webView.scrollView.delegate = context.coordinator
         do {
+//            let addStyleFile = try readFile(name: "AddStyle", ext: "js")
+//            let addStyleScript = WKUserScript(
+//                source: addStyleFile,
+//                injectionTime: .atDocumentStart,
+//                forMainFrameOnly: false
+//            )
+//            contentController.addUserScript(addStyleScript)
+            
             let addClickHandlersFile = try readFile(name: "AddClickHandlers", ext: "js")
             let addClickHandlersScript = WKUserScript(
                 source: addClickHandlersFile,

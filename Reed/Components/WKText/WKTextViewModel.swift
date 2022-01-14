@@ -20,6 +20,9 @@ class WKTextViewModel: ObservableObject {
             guard let processedContent = processedContent else { return }
             self.webView.loadHTMLString(processedContent.annotatedContent, baseURL: nil)
         }
+        webView.underPageBackgroundColor = .clear
+        webView.backgroundColor = .clear
+        webView.isOpaque = false
     }
     
     init(processedContent: ProcessedContent) {

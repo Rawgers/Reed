@@ -83,6 +83,7 @@ struct NovelDetailsView: View {
                                     ? viewModel.novelSynopsisHeight
                                     : viewModel.COLLAPSED_SYNOPSIS_HEIGHT
                             )
+                            .foregroundColor(Color(UIColor.systemBackground))
                         WKText(
                             processedContentPublisher: viewModel.$novelSynopsis.eraseToAnyPublisher(),
                             isScrollEnabled: false,
@@ -93,7 +94,11 @@ struct NovelDetailsView: View {
                             VStack {
                                 Spacer()
                                 LinearGradient(
-                                    colors: [.white.opacity(0), .white.opacity(0.9)],
+                                    colors: [
+                                        Color(UIColor.systemBackground).opacity(0),
+                                        Color(UIColor.systemBackground)
+                                            .opacity(0.9)
+                                    ],
                                     startPoint: .top,
                                     endPoint: .bottom
                                 )
