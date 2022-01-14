@@ -17,9 +17,6 @@ enum DefinerConstants {
     static let BOTTOM_SHEET_INDICATOR_HEIGHT: CGFloat = 5
     static let BOTTOM_SHEET_SNAP_RATIO: CGFloat = 0.25
     static let CONTENT_WIDTH: CGFloat = UIScreen.main.bounds.width - 32
-    static let CONTENT_HEIGHT: CGFloat = UIScreen.main.bounds.height
-        - (BOTTOM_SHEET_MAX_HEIGHT - BOTTOM_SHEET_MIN_HEIGHT) - 32
-    static let NOVEL_SYNOPSIS_PRELOAD_HEIGHT: CGFloat = 5 * CONTENT_HEIGHT
     static let PLACEHOLDER_RECTANGLE_HEIGHT = BOTTOM_SHEET_MIN_HEIGHT - BOTTOM_SHEET_SHADOW_RADIUS * 2
 }
 
@@ -28,17 +25,25 @@ private struct DefinerAndAppNavigator: View {
     @State private var bottomSheetDisplayType: BottomSheetDisplayType = .navigation
     @Binding var entries: [DefinitionDetails]
     
+    var appNavigator: some View {
+        AppNavigator(
+            selectedTab: $appState.selectedTab,
+            bottomSheetDisplayType: $bottomSheetDisplayType,
+            entries: $entries
+        )
+    }
+    
+    var definer: some View {
+        Definer(entries: $entries)
+    }
+    
     var body: some View {
         BottomSheet(toggleDisplayMode: toggleBottomSheetDisplayMode) {
             switch bottomSheetDisplayType {
             case .navigation:
-                AppNavigator(
-                    selectedTab: $appState.selectedTab,
-                    bottomSheetDisplayType: $bottomSheetDisplayType,
-                    entries: $entries
-                )
+                appNavigator
             case .definer:
-                Definer(entries: $entries)
+                definer
             }
         }
     }

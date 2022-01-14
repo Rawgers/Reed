@@ -63,8 +63,7 @@ struct BottomSheet<Content: View>: View {
                 }.onEnded { value in
                     let snapDistance = self.maxHeight * DefinerConstants.BOTTOM_SHEET_SNAP_RATIO
                     let screenHeight = UIScreen.main.bounds.size.height
-                    if value.location.y > screenHeight - minHeight
-                        && value.predictedEndLocation.y >= screenHeight - 10 {
+                    if value.predictedEndLocation.y >= screenHeight - minHeight {
                         self.toggleDisplayMode()
                     }
                     if abs(value.translation.height) > snapDistance {
