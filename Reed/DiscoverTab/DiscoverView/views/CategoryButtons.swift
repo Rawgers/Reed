@@ -30,7 +30,12 @@ struct CategoryButtons: View {
     func categoryButton(of category: DiscoverListCategory) -> some View {
         Button(action: {
             if category != activeCategory {
-                updateCategory(category)
+                if let switchingTask = viewModel.switchingTask {
+                    switchingTask.cancel()
+                }
+                viewModel.switchingTask = Task {
+                    updateCategory(category)
+                }
             }
         }) {
             let (label, icon) = viewModel.buttonData[category] ?? ("", "")

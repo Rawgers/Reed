@@ -20,7 +20,7 @@ struct DefinableText: UIViewRepresentable {
     
     internal init(
         id: String,
-        content: NSMutableAttributedString,
+        content: String,
         font: UIFont,
         lastSelectedDefinableTextView: DefinableTextView?,
         definerResultHandler: @escaping ([DefinitionDetails]) -> Void,
@@ -28,7 +28,7 @@ struct DefinableText: UIViewRepresentable {
         updateLastSelectedDefinableTextViewHandler: @escaping (DefinableTextView) -> Void
     ) {
         self.id = id
-        self.content = content
+        self.content = NSMutableAttributedString(string: content)
         self.font = font
         self.lastSelectedDefinableTextView = lastSelectedDefinableTextView
         self.definerResultHandler = definerResultHandler

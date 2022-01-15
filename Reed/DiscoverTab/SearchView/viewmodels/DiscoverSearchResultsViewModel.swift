@@ -10,11 +10,12 @@ import SwiftUI
 import SwiftyNarou
 
 class DiscoverSearchResultsViewModel: ObservableObject {
-    @Published var searchResults: [DiscoverListItemViewModel] = []
+    @Published var searchResults: [DiscoverListItemData] = []
     var startIndex: Int = -FetchNarouConstants.LOAD_INCREMENT.rawValue
     var resultCount: Int = 0
     let keyword: String
-    
+    let tokenizer = Tokenizer()
+
     init(searchText keyword: String) {
         self.keyword = keyword
         updateSearchResults()
@@ -29,13 +30,20 @@ class DiscoverSearchResultsViewModel: ObservableObject {
                     data.0,
                     FetchNarouConstants.MAX_RESULT_INDEX.rawValue
                 )
-                var searchResults = [DiscoverListItemViewModel]()
-                for entry in data.1 {
-                    searchResults.append(
-                        DiscoverListItemViewModel(from: entry)
+                let rows = data.1.map { entry -> DiscoverListItemData in
+                    let title = String(entry.title?.prefix(50) ?? "")
+                    let synopsis = String(entry.synopsis?.prefix(200) ?? "")
+                    return DiscoverListItemData(
+                        ncode: entry.ncode ?? "",
+                        author: entry.author ?? "",
+                        title: title,
+                        synopsis: synopsis,
+                        titleTokens: self.tokenizer.tokenize(title),
+                        synopsisTokens: self.tokenizer.tokenize(synopsis),
+                        subgenre: entry.subgenre
                     )
                 }
-                self.searchResults.append(contentsOf: searchResults)
+                self.searchResults.append(contentsOf: rows)
             }
         }
     }
@@ -52,7 +60,7 @@ class DiscoverSearchResultsViewModel: ObservableObject {
             responseFormat: NarouResponseFormat(
                 gzipCompressionLevel: 5,
                 fileFormat: .JSON,
-                fields: [.ncode, .novelTitle, .author, .subgenre],
+                fields: [.ncode, .novelTitle, .author, .synopsis, .subgenre],
                 limit: increment - 1, // offset by one to avoid duplicating last row
                 startIndex: startIndex,
                 order: .mostPopularWeek

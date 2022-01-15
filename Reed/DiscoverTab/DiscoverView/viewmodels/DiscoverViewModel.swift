@@ -29,11 +29,30 @@ enum DiscoverListCategory: Equatable, Hashable {
     }
 }
 
+struct DiscoverListItemData: Hashable {
+    let ncode: String
+    let author: String
+    let title: String
+    let synopsis: String
+    let titleTokens: [Token]
+    let synopsisTokens: [Token]
+    let subgenre: Subgenre?
+    
+    static func == (lhs: DiscoverListItemData, rhs: DiscoverListItemData) -> Bool {
+        return lhs.ncode == rhs.ncode
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(ncode)
+    }
+}
+
 class DiscoverViewModel: ObservableObject {
-    @Published var rows: [DiscoverListItemViewModel] = []
+    @Published var rows: [DiscoverListItemData] = []
     @Published var category: DiscoverListCategory = .recent
     var startIndex: Int = -FetchNarouConstants.LOAD_INCREMENT.rawValue
     var resultCount: Int = 0 /// prevents making more requests when no more results are available
+    let tokenizer = Tokenizer()
     
     init() {
         updateRows()
@@ -48,9 +67,18 @@ class DiscoverViewModel: ObservableObject {
                     data.0,
                     FetchNarouConstants.MAX_RESULT_INDEX.rawValue
                 )
-                var rows = [DiscoverListItemViewModel]()
-                for entry in data.1 {
-                    rows.append(DiscoverListItemViewModel(from: entry))
+                let rows = data.1.map { entry -> DiscoverListItemData in
+                    let title = String(entry.title?.prefix(50) ?? "")
+                    let synopsis = String(entry.synopsis?.prefix(200) ?? "")
+                    return DiscoverListItemData(
+                        ncode: entry.ncode ?? "",
+                        author: entry.author ?? "",
+                        title: title,
+                        synopsis: synopsis,
+                        titleTokens: self.tokenizer.tokenize(title),
+                        synopsisTokens: self.tokenizer.tokenize(synopsis),
+                        subgenre: entry.subgenre
+                    )
                 }
                 self.rows.append(contentsOf: rows)
             }
@@ -76,7 +104,7 @@ class DiscoverViewModel: ObservableObject {
             responseFormat: NarouResponseFormat(
                 gzipCompressionLevel: 5,
                 fileFormat: .JSON,
-                fields: [.ncode, .novelTitle, .author, .subgenre, .synopsis],
+                fields: [.ncode, .novelTitle, .author, .synopsis, .subgenre],
                 limit: increment - 1,
                 startIndex: startIndex,
                 order: .mostPopularWeek
