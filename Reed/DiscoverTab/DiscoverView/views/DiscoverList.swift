@@ -10,7 +10,7 @@ import SwiftUI
 import WebKit
 
 struct DiscoverList: View {
-    @Binding var rows: [DiscoverListItemViewModel]
+    @Binding var rows: [DiscoverListItemData]
     @Binding var lastSelectedDefinableTextView: DefinableTextView?
     let updateRows: () -> Void
     let definerResultHandler: ([DefinitionDetails]) -> Void
@@ -20,7 +20,7 @@ struct DiscoverList: View {
             Divider()
             ForEach(rows, id: \.self) { row in
                 DiscoverListItem(
-                    viewModel: row,
+                    data: row,
                     lastSelectedDefinableTextView: $lastSelectedDefinableTextView,
                     definerResultHandler: definerResultHandler
                 )

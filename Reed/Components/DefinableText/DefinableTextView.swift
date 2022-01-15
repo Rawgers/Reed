@@ -53,9 +53,6 @@ class DefinableTextView: UIView {
         
         self.frameSetter = CTFramesetterCreateWithAttributedString(content)
         self.orientation = isVerticalOrientation ? .vertical : .horizontal
-        if id == "" {
-            print("empty id", Thread.isMainThread)
-        }
         super.init(frame: CGRect.zero)
     }
     
@@ -64,11 +61,12 @@ class DefinableTextView: UIView {
     }
     
     func calculateRowHeight(
-        content: NSMutableAttributedString,
+        content: String,
         font: UIFont,
         rowWidth: CGFloat,
         maxRowCount: CGFloat
     ) -> CGFloat {
+        let content = NSMutableAttributedString(string: content)
         content.addAttributes(
             [
                 NSAttributedString.Key.font : font as Any,

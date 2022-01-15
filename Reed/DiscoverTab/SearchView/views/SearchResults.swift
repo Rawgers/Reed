@@ -30,7 +30,7 @@ struct SearchResults: View {
                 Divider()
                 ForEach(viewModel.searchResults.indices, id: \.self) { i in
                     DiscoverListItem(
-                        viewModel: viewModel.searchResults[i],
+                        data: viewModel.searchResults[i],
                         lastSelectedDefinableTextView: $lastSelectedDefinableTextView,
                         definerResultHandler: definerResults.updateEntries
                     ).onAppear {

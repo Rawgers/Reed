@@ -12,7 +12,7 @@ import enum SwiftyNarou.Genre
 class CategoryButtonsViewModel: ObservableObject {
     @Published var buttonCategories: [DiscoverListCategory] = []
     var buttonData: [DiscoverListCategory: (label: String, icon: String)] = [:]
-    
+    var switchingTask: Task<Void, Never>?
     
     init() {
         getCategories()
