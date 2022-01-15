@@ -9,8 +9,19 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @StateObject private var viewModel = SettingsViewModel()
+    
     var body: some View {
-        Text("Settings View")
+        VStack {
+            Button("BIG SWAG") {
+                print("BIG SWAG")
+            }
+            List(viewModel.titles, id: \.self) { titleTokens in
+                FlexView(data: titleTokens, spacing: 0, alignment: .leading) { token in
+                    Text(token.text)
+                }
+            }
+        }
     }
 }
 

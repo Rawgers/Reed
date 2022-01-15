@@ -21,24 +21,24 @@ struct AppNavigator: View {
                 tag: 0,
                 selectedTab: $selectedTab
             )
-            AppNavigatorTab(
-                title: "Discover",
-                iconName: "magnifyingglass",
-                tag: 1,
-                selectedTab: $selectedTab
-            )
+//            AppNavigatorTab(
+//                title: "Discover",
+//                iconName: "magnifyingglass",
+//                tag: 1,
+//                selectedTab: $selectedTab
+//            )
 //            AppNavigatorTab(
 //                title: "Cards",
 //                iconName: "rectangle.grid.2x2",
 //                tag: 2,
 //                selectedTab: $selectedTab
 //            )
-//            AppNavigatorTab(
-//                title: "Settings",
-//                iconName: "wrench",
-//                tag: 3,
-//                selectedTab: $selectedTab
-//            )
+            AppNavigatorTab(
+                title: "Settings",
+                iconName: "wrench",
+                tag: 3,
+                selectedTab: $selectedTab
+            )
         }
         .padding(.top)
         .onChange(of: entries) { value in

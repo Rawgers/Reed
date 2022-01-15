@@ -25,14 +25,14 @@ struct AppCentral: View {
             LibraryView()
                 .tag(0)
             
-            DiscoverView()
-                .tag(1)
+//            DiscoverView()
+//                .tag(1)
             
 //            VocabularyListView()
 //              .tag(2)
 //
-//            SettingsView()
-//              .tag(3)
+            SettingsView()
+              .tag(3)
         }
         .ignoresSafeArea(edges: .bottom)
         .introspectTabBarController { tabBarController in

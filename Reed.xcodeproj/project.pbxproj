@@ -16,6 +16,7 @@
 		6DCF77DB252DB19B00CB3C5D /* ReaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCF77DA252DB19B00CB3C5D /* ReaderViewModel.swift */; };
 		6DE8E966268DA2DE00D87D2A /* String+annotateWithFurigana.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE8E965268DA2DE00D87D2A /* String+annotateWithFurigana.swift */; };
 		B8032278278BD59D00F52071 /* RemoveHighlight.js in Resources */ = {isa = PBXBuildFile; fileRef = B8032277278BD59D00F52071 /* RemoveHighlight.js */; };
+		B803228727926CD200F52071 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B803228627926CD200F52071 /* SettingsViewModel.swift */; };
 		B8093DD6251A988200D95DCF /* NotificationName+DictionaryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8093DD5251A988200D95DCF /* NotificationName+DictionaryParser.swift */; };
 		B80CBD272542887700C807CD /* DiscoverListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80CBD262542887700C807CD /* DiscoverListItemViewModel.swift */; };
 		B80E0E6B25497E13009B0EE8 /* SearchResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80E0E6A25497E13009B0EE8 /* SearchResults.swift */; };
@@ -146,6 +147,7 @@
 		80EC6FD044C4D01C681A8553 /* libPods-Reed.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Reed.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D2CD05201E19A5664A8A884 /* Pods-Reed.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reed.debug.xcconfig"; path = "Target Support Files/Pods-Reed/Pods-Reed.debug.xcconfig"; sourceTree = "<group>"; };
 		B8032277278BD59D00F52071 /* RemoveHighlight.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = RemoveHighlight.js; sourceTree = "<group>"; };
+		B803228627926CD200F52071 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		B8093DD5251A988200D95DCF /* NotificationName+DictionaryParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+DictionaryParser.swift"; sourceTree = "<group>"; };
 		B80CBD262542887700C807CD /* DiscoverListItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverListItemViewModel.swift; sourceTree = "<group>"; };
 		B80E0E6A25497E13009B0EE8 /* SearchResults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResults.swift; sourceTree = "<group>"; };
@@ -330,6 +332,14 @@
 				23E5CFD0810ABA5749795CCE /* Pods-ReedTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		B803228527926CBB00F52071 /* viewmodels */ = {
+			isa = PBXGroup;
+			children = (
+				B803228627926CD200F52071 /* SettingsViewModel.swift */,
+			);
+			path = viewmodels;
 			sourceTree = "<group>";
 		};
 		B80F45BA25411110004F8A22 /* viewmodels */ = {
@@ -733,6 +743,7 @@
 		B8D456D12508D8E4000F9E5F /* SettingsTab */ = {
 			isa = PBXGroup;
 			children = (
+				B803228527926CBB00F52071 /* viewmodels */,
 				B8667F112509CA5D001EABD4 /* views */,
 			);
 			path = SettingsTab;
@@ -1069,6 +1080,7 @@
 				B81C86FD250A1370000B9E5F /* LibraryViewModel.swift in Sources */,
 				B8977925256626D400DF1B79 /* MecabWrapper.swift in Sources */,
 				B8F5C20D250EDDB2000810F8 /* DictionaryEntry+CoreDataClass.swift in Sources */,
+				B803228727926CD200F52071 /* SettingsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
