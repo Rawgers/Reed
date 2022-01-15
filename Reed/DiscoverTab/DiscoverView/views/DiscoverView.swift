@@ -32,11 +32,12 @@ struct DiscoverView: View {
                             .padding(.horizontal)
                         Spacer()
                     }
-                    DiscoverList(
-                        rows: $viewModel.rows,
+                    NovelList(
+                        rowData: $viewModel.rows,
                         lastSelectedDefinableTextView: $lastSelectedDefinableTextView,
+                        definerResultHandler: definerResults.updateEntries(entries:),
                         updateRows: viewModel.updateRows,
-                        definerResultHandler: definerResults.updateEntries(entries:)
+                        pushedViewType: .NovelDetails
                     )
                     
                     NavigationLink(

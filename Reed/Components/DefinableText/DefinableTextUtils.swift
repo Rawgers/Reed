@@ -11,12 +11,17 @@ import UIKit
 struct DefinableTextUtils {
     static let heightCalculator = DefinableTextView()
     
-    static func calculateContentHeight(content: String) -> CGFloat {
+    static func calculateContentHeight(
+        content: String,
+        font: UIFont,
+        rowWidth: CGFloat,
+        maxRowCount: CGFloat
+    ) -> CGFloat {
         heightCalculator.calculateRowHeight(
             content: content,
-            font: DiscoverListItemConstants.TITLE_FONT,
-            rowWidth: DiscoverListItemConstants.TITLE_WIDTH,
-            maxRowCount: DiscoverListItemConstants.TITLE_MAX_ROW_COUNT
+            font: font,
+            rowWidth: rowWidth,
+            maxRowCount: maxRowCount
         )
     }
     

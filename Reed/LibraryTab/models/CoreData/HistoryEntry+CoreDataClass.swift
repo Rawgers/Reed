@@ -17,6 +17,7 @@ public class HistoryEntry: NSManagedObject {
         ncode: String,
         title: String,
         author: String,
+        synopsis: String,
         subgenre: Int,
         isFavorite: Bool
     ) -> HistoryEntry? {
@@ -24,6 +25,7 @@ public class HistoryEntry: NSManagedObject {
         historyEntry.ncode = ncode
         historyEntry.title = title
         historyEntry.author = author
+        historyEntry.synopsis = synopsis
         historyEntry.subgenre = subgenre
         historyEntry.isFavorite = isFavorite
         

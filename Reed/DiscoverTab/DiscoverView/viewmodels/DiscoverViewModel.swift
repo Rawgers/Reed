@@ -29,26 +29,8 @@ enum DiscoverListCategory: Equatable, Hashable {
     }
 }
 
-struct DiscoverListItemData: Hashable {
-    let ncode: String
-    let author: String
-    let title: String
-    let synopsis: String
-    let titleTokens: [Token]
-    let synopsisTokens: [Token]
-    let subgenre: Subgenre?
-    
-    static func == (lhs: DiscoverListItemData, rhs: DiscoverListItemData) -> Bool {
-        return lhs.ncode == rhs.ncode
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(ncode)
-    }
-}
-
 class DiscoverViewModel: ObservableObject {
-    @Published var rows: [DiscoverListItemData] = []
+    @Published var rows: [NovelListRowData] = []
     @Published var category: DiscoverListCategory = .recent
     var startIndex: Int = -FetchNarouConstants.LOAD_INCREMENT.rawValue
     var resultCount: Int = 0 /// prevents making more requests when no more results are available
@@ -67,17 +49,17 @@ class DiscoverViewModel: ObservableObject {
                     data.0,
                     FetchNarouConstants.MAX_RESULT_INDEX.rawValue
                 )
-                let rows = data.1.map { entry -> DiscoverListItemData in
+                let rows = data.1.map { entry -> NovelListRowData in
                     let title = String(entry.title?.prefix(50) ?? "")
                     let synopsis = String(entry.synopsis?.prefix(200) ?? "")
-                    return DiscoverListItemData(
+                    return NovelListRowData(
                         ncode: entry.ncode ?? "",
-                        author: entry.author ?? "",
                         title: title,
+                        author: entry.author ?? "",
                         synopsis: synopsis,
+                        subgenre: entry.subgenre,
                         titleTokens: self.tokenizer.tokenize(title),
-                        synopsisTokens: self.tokenizer.tokenize(synopsis),
-                        subgenre: entry.subgenre
+                        synopsisTokens: self.tokenizer.tokenize(synopsis)
                     )
                 }
                 self.rows.append(contentsOf: rows)

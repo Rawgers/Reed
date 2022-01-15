@@ -48,6 +48,7 @@ class NovelDetailsModel {
     func addFavorite(
         title: String,
         author: String,
+        synopsis: String,
         subgenre: Int,
         completion: @escaping (NSManagedObjectID?) -> Void
     ) {
@@ -60,6 +61,7 @@ class NovelDetailsModel {
                 ncode: self.ncode,
                 title: title,
                 author: author,
+                synopsis: synopsis,
                 subgenre: subgenre,
                 isFavorite: true
             )
