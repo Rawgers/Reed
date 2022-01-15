@@ -13,21 +13,19 @@ struct ReaderNavigationBar: View {
     var novelTitle: String
     var sectionNcode: Binding<String>
     @Binding var isNavMenuHidden: Bool
-    @Binding var isActive: Bool
     @State var isSectionNavigationPresented: Bool = false
+    @Environment(\.presentationMode) var presentationMode
     
     init(
         sectionFetcher: SectionFetcher,
         novelTitle: String,
         sectionNcode: Binding<String>,
-        isNavMenuHidden: Binding<Bool>,
-        isActive: Binding<Bool>
+        isNavMenuHidden: Binding<Bool>
     ) {
         self.sectionFetcher = sectionFetcher
         self.novelTitle = novelTitle
         self.sectionNcode = sectionNcode
         self._isNavMenuHidden = isNavMenuHidden
-        self._isActive = isActive
     }
     
     private var titleView: some View {
@@ -39,7 +37,7 @@ struct ReaderNavigationBar: View {
     private var menuView: some View {
         HStack {
             Button(action: {
-                isActive.toggle()
+                self.presentationMode.wrappedValue.dismiss()
             }) {
                 Image(systemName: "chevron.backward")
             }
