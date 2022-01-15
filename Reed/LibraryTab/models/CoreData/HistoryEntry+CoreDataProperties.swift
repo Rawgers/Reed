@@ -20,6 +20,7 @@ extension HistoryEntry {
     @NSManaged private var novelIsFavorite: Bool
     @NSManaged private var novelNcode: String?
     @NSManaged private var novelSubgenre: Int16
+    @NSManaged private var novelSynopsis: String?
     @NSManaged private var novelTitle: String?
     @NSManaged private var novelLastReadSection: HistorySection?
     
@@ -36,6 +37,11 @@ extension HistoryEntry {
     var author: String {
         get { novelAuthor ?? "" }
         set { novelAuthor = newValue }
+    }
+    
+    var synopsis: String {
+        get { novelSynopsis ?? "" }
+        set { novelSynopsis = newValue }
     }
     
     var subgenre: Int {

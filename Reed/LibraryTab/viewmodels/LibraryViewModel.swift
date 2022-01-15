@@ -11,7 +11,7 @@ import SwiftyNarou
 import SwiftUI
 
 class LibraryViewModel: ObservableObject {
-    @Published var libraryEntryData = [LibraryEntryData]()
+    @Published var libraryEntryData = [NovelListRowData]()
     let tokenizer = Tokenizer()
     
     func fetchEntries() {
@@ -22,12 +22,14 @@ class LibraryViewModel: ObservableObject {
             let entriesCoreData: [NSFetchRequestResult] = try context.fetch(fetchRequest)
             libraryEntryData = entriesCoreData.map {
                 let historyEntry = $0 as! HistoryEntry
-                return LibraryEntryData(
+                return NovelListRowData(
                     ncode: historyEntry.ncode,
                     title: historyEntry.title,
                     author: historyEntry.author,
+                    synopsis: historyEntry.synopsis,
                     subgenre: Subgenre(rawValue: historyEntry.subgenre),
-                    titleTokens: tokenizer.tokenize(historyEntry.title)
+                    titleTokens: tokenizer.tokenize(historyEntry.title),
+                    synopsisTokens: tokenizer.tokenize(historyEntry.synopsis)
                 )
             }
         } catch {

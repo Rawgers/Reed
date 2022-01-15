@@ -69,6 +69,7 @@ class NovelDetailsViewModel: ObservableObject {
             model.addFavorite(
                 title: novelTitle,
                 author: novelAuthor,
+                synopsis: novelData?.synopsis ?? "",
                 subgenre: novelSubgenre!.rawValue
             ) { historyEntryId in
                 if let historyEntryId = historyEntryId {
@@ -90,6 +91,7 @@ class NovelDetailsViewModel: ObservableObject {
             ncode: novelNcode,
             title: novelTitle,
             author: novelAuthor,
+            synopsis: novelData?.synopsis ?? "",
             subgenre: novelSubgenre!.rawValue,
             isFavorite: false
         )

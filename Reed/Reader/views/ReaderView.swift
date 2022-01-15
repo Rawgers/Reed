@@ -16,7 +16,7 @@ struct ReaderView: View {
     let ncode: String
     let novelTitle: String
     
-    init(ncode: String, novelTitle: String, isActive: Binding<Bool>) {
+    init(ncode: String, novelTitle: String) {
         self._viewModel = StateObject(wrappedValue: ReaderViewModel(ncode: ncode))
         self.ncode = ncode
         self.novelTitle = novelTitle

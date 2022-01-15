@@ -26,21 +26,13 @@ struct SearchResults: View {
     
     var body: some View {
         ScrollView {
-            LazyVStack {
-                Divider()
-                ForEach(viewModel.searchResults.indices, id: \.self) { i in
-                    DiscoverListItem(
-                        data: viewModel.searchResults[i],
-                        lastSelectedDefinableTextView: $lastSelectedDefinableTextView,
-                        definerResultHandler: definerResults.updateEntries
-                    ).onAppear {
-                        if self.viewModel.searchResults.last == viewModel.searchResults[i] {
-                            self.viewModel.updateSearchResults()
-                        }
-                    }
-                }
-            }
-            .padding(.horizontal)
+            NovelList(
+                rowData: $viewModel.searchResults,
+                lastSelectedDefinableTextView: $lastSelectedDefinableTextView,
+                definerResultHandler: definerResults.updateEntries(entries:),
+                updateRows: viewModel.updateSearchResults,
+                pushedViewType: .NovelDetails
+            )
         }
         .navigationBarTitle(viewModel.keyword, displayMode: .inline)
         .addDefinerAndAppNavigator(entries: $definerResults.entries)

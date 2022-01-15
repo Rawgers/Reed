@@ -1,31 +1,32 @@
 //
-//  DiscoverList.swift
+//  NovelListView.swift
 //  Reed
 //
-//  Created by Roger Luo on 10/23/20.
-//  Copyright © 2020 Roger Luo. All rights reserved.
+//  Created by Roger Luo on 1/15/22.
+//  Copyright © 2022 Roger Luo. All rights reserved.
 //
 
 import SwiftUI
-import WebKit
 
-struct DiscoverList: View {
-    @Binding var rows: [DiscoverListItemData]
+struct NovelList: View {
+    @Binding var rowData: [NovelListRowData]
     @Binding var lastSelectedDefinableTextView: DefinableTextView?
-    let updateRows: () -> Void
     let definerResultHandler: ([DefinitionDetails]) -> Void
+    let updateRows: () -> Void
+    let pushedViewType: PushedViewType
     
     var body: some View {
         LazyVStack(alignment: .leading) {
             Divider()
-            ForEach(rows, id: \.self) { row in
-                DiscoverListItem(
-                    data: row,
+            ForEach(rowData, id: \.self) { data in
+                NovelListRow(
+                    data: data,
+                    definerResultHandler: definerResultHandler,
                     lastSelectedDefinableTextView: $lastSelectedDefinableTextView,
-                    definerResultHandler: definerResultHandler
+                    pushedViewType: pushedViewType
                 )
                     .task {
-                        if row == self.rows.last {
+                        if data == self.rowData.last {
                             self.updateRows()
                         }
                     }
@@ -52,16 +53,5 @@ struct DiscoverList: View {
                 }
             }
         }
-    }
-}
-
-struct DiscoverList_Previews: PreviewProvider {
-    static var previews: some View {
-        DiscoverList(
-            rows: .constant([]),
-            lastSelectedDefinableTextView: .constant(DefinableTextView(coder: NSCoder())),
-            updateRows: {},
-            definerResultHandler: { _ in }
-        )
     }
 }

@@ -46,8 +46,7 @@ struct NovelDetailsView: View {
                                 destination: NavigationLazyView(
                                     ReaderView(
                                         ncode: viewModel.ncode,
-                                        novelTitle: viewModel.novelTitle,
-                                        isActive: $isPushedToReader
+                                        novelTitle: viewModel.novelTitle
                                     )
                                 ),
                                 isActive: $isPushedToReader

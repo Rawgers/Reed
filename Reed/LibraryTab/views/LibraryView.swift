@@ -16,17 +16,13 @@ struct LibraryView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                LazyVStack {
-                    Divider()
-                    ForEach(viewModel.libraryEntryData, id: \.self) { data in
-                        LibraryEntryView(
-                            lastSelectedDefinableTextView: $lastSelectedDefinableTextView,
-                            definerResultHandler: definerResults.updateEntries(entries:),
-                            data: data
-                        )
-                    }
-                }
-                .padding(.horizontal)
+                NovelList(
+                    rowData: $viewModel.libraryEntryData,
+                    lastSelectedDefinableTextView: $lastSelectedDefinableTextView,
+                    definerResultHandler: definerResults.updateEntries(entries:),
+                    updateRows: {},
+                    pushedViewType: .Reader
+                )
             }
             .onAppear {
                 viewModel.fetchEntries()

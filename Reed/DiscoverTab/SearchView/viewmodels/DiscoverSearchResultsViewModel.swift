@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftyNarou
 
 class DiscoverSearchResultsViewModel: ObservableObject {
-    @Published var searchResults: [DiscoverListItemData] = []
+    @Published var searchResults: [NovelListRowData] = []
     var startIndex: Int = -FetchNarouConstants.LOAD_INCREMENT.rawValue
     var resultCount: Int = 0
     let keyword: String
@@ -30,17 +30,15 @@ class DiscoverSearchResultsViewModel: ObservableObject {
                     data.0,
                     FetchNarouConstants.MAX_RESULT_INDEX.rawValue
                 )
-                let rows = data.1.map { entry -> DiscoverListItemData in
+                let rows = data.1.map { entry -> NovelListRowData in
                     let title = String(entry.title?.prefix(50) ?? "")
                     let synopsis = String(entry.synopsis?.prefix(200) ?? "")
-                    return DiscoverListItemData(
+                    return NovelListRowData(
                         ncode: entry.ncode ?? "",
-                        author: entry.author ?? "",
-                        title: title,
+                        title: title, author: entry.author ?? "",
                         synopsis: synopsis,
-                        titleTokens: self.tokenizer.tokenize(title),
-                        synopsisTokens: self.tokenizer.tokenize(synopsis),
-                        subgenre: entry.subgenre
+                        subgenre: entry.subgenre, titleTokens: self.tokenizer.tokenize(title),
+                        synopsisTokens: self.tokenizer.tokenize(synopsis)
                     )
                 }
                 self.searchResults.append(contentsOf: rows)
