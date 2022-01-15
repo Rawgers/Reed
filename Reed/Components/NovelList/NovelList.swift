@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct NovelList: View {
+    @State private var isLoading: Bool = false
     @Binding var rowData: [NovelListRowData]
     @Binding var lastSelectedDefinableTextView: DefinableTextView?
     let definerResultHandler: ([DefinitionDetails]) -> Void
@@ -19,17 +20,26 @@ struct NovelList: View {
         LazyVStack(alignment: .leading) {
             Divider()
             ForEach(rowData, id: \.self) { data in
-                NovelListRow(
-                    data: data,
-                    definerResultHandler: definerResultHandler,
-                    lastSelectedDefinableTextView: $lastSelectedDefinableTextView,
-                    pushedViewType: pushedViewType
-                )
-                    .task {
-                        if data == self.rowData.last {
-                            self.updateRows()
+                ZStack {
+                    NovelListRow(
+                        data: data,
+                        definerResultHandler: definerResultHandler,
+                        lastSelectedDefinableTextView: $lastSelectedDefinableTextView,
+                        pushedViewType: pushedViewType
+                    )
+                        .task {
+                            if data == self.rowData.last {
+                                isLoading = true
+                                self.updateRows()
+                                isLoading = false
+                            }
                         }
+                    
+                    if isLoading {
+                        Rectangle()
+                        ProgressView()
                     }
+                }
             }
         }
         .padding(.horizontal)
