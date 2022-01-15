@@ -32,18 +32,35 @@ struct BottomSheet<Content: View>: View {
     }
     
     private var indicator: some View {
-        RoundedRectangle(cornerRadius: DefinerConstants.BOTTOM_SHEET_CORNER_RADIUS)
-            .fill(Color(.systemGray4))
-            .frame(
-                width: DefinerConstants.BOTTOM_SHEET_INDICATOR_WIDTH,
-                height: DefinerConstants.BOTTOM_SHEET_INDICATOR_HEIGHT
+        if isOpen {
+            return AnyView(Image(systemName: "chevron.compact.down")
+                .imageScale(.medium)
+                .foregroundColor(Color.secondary)
+                .animation(
+                    .interactiveSpring(
+                        response: 0.25,
+                        dampingFraction: 0.75
+                    ),
+                    value: isOpen
+                )
             )
+        } else {
+            return AnyView(VStack {
+                Image(systemName: "chevron.compact.up")
+                    .imageScale(.medium)
+                    .foregroundColor(Color.secondary)
+                Image(systemName: "chevron.compact.down")
+                    .imageScale(.medium)
+                    .foregroundColor(Color.secondary)
+            })
+        }
     }
     
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
-                self.indicator.padding(.top, 8)
+                indicator
+                    .padding(.top, 8)
                 self.content()
             }
             .frame(width: geometry.size.width, height: self.maxHeight, alignment: .top)
@@ -59,7 +76,7 @@ struct BottomSheet<Content: View>: View {
             .animation(
                 .interactiveSpring(
                     response: 0.25,
-                    dampingFraction: 0.50
+                    dampingFraction: 0.75
                 ),
                 value: self.translation
             )

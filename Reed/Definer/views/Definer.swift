@@ -53,7 +53,21 @@ struct Definer: View {
     }
     
     var body: some View {
-        if !entries.isEmpty {
+        if entries.isEmpty {
+            VStack {
+                Text("Tap on a word!")
+                    .foregroundColor(.primary)
+                    .italic()
+                    .padding(.top, 24)
+                
+                Spacer()
+                
+                Text("単語をタップしてみて！")
+                    .foregroundColor(.primary)
+                    .italic()
+                    .padding(.bottom, 144)
+            }
+        } else {
             TabView(selection: $definitionEntryIndex) {
                 ForEach(entries.indices, id: \.self) { i in
                     DefinerTab(entry: entries[i])
