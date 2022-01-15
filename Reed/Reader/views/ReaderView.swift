@@ -13,13 +13,11 @@ struct ReaderView: View {
     @StateObject var viewModel: ReaderViewModel
     @StateObject var definerResults: DefinerResults = DefinerResults()
     @State private var isNavMenuHidden = true
-    @Binding var isActive: Bool
     let ncode: String
     let novelTitle: String
     
     init(ncode: String, novelTitle: String, isActive: Binding<Bool>) {
         self._viewModel = StateObject(wrappedValue: ReaderViewModel(ncode: ncode))
-        self._isActive = isActive
         self.ncode = ncode
         self.novelTitle = novelTitle
     }
@@ -30,8 +28,7 @@ struct ReaderView: View {
                 sectionFetcher: viewModel.sectionFetcher,
                 novelTitle: novelTitle,
                 sectionNcode: $viewModel.sectionNcode,
-                isNavMenuHidden: $isNavMenuHidden,
-                isActive: $isActive
+                isNavMenuHidden: $isNavMenuHidden
             )
 
             ZStack {
