@@ -11,7 +11,8 @@ import SwiftyNarou
 import SwiftUI
 
 class LibraryViewModel: ObservableObject {
-    @Published var novels = [HistoryEntry]()
+    @Published var libraryEntryData = [LibraryEntryData]()
+    let tokenizer = Tokenizer()
     
     func fetchEntries() {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -19,12 +20,18 @@ class LibraryViewModel: ObservableObject {
         fetchRequest.predicate = NSPredicate(format: "novelIsFavorite == true")
         do {
             let entriesCoreData: [NSFetchRequestResult] = try context.fetch(fetchRequest)
-            novels = entriesCoreData.map {
-                $0 as! HistoryEntry
+            libraryEntryData = entriesCoreData.map {
+                let historyEntry = $0 as! HistoryEntry
+                return LibraryEntryData(
+                    ncode: historyEntry.ncode,
+                    title: historyEntry.title,
+                    author: historyEntry.author,
+                    subgenre: Subgenre(rawValue: historyEntry.subgenre),
+                    titleTokens: tokenizer.tokenize(historyEntry.title)
+                )
             }
         } catch {
             print("Unable to fetch entity LibraryEntry in LibraryViewModel.")
-            novels = []
         }
     }
 }

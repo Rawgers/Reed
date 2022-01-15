@@ -9,28 +9,38 @@
 import SwiftUI
 
 struct LibraryView: View {
-    @StateObject var viewModel: LibraryViewModel = LibraryViewModel()
+    @StateObject private var definerResults = DefinerResults()
+    @StateObject private var viewModel: LibraryViewModel = LibraryViewModel()
+    @State private var lastSelectedDefinableTextView: DefinableTextView?
 
     var body: some View {
         NavigationView {
-            List {
-                ForEach(viewModel.novels, id: \.self) {
-                    LibraryEntryView(entryData: $0)
+            ScrollView {
+                LazyVStack {
+                    Divider()
+                    ForEach(viewModel.libraryEntryData, id: \.self) { data in
+                        LibraryEntryView(
+                            lastSelectedDefinableTextView: $lastSelectedDefinableTextView,
+                            definerResultHandler: definerResults.updateEntries(entries:),
+                            data: data
+                        )
+                    }
                 }
+                .padding(.horizontal)
             }
             .onAppear {
                 viewModel.fetchEntries()
             }
             .navigationBarTitle("Library")
-            .addDefinerAndAppNavigator(entries: .constant([]))
+            .addDefinerAndAppNavigator(entries: $definerResults.entries)
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
-struct LibraryView_Previews: PreviewProvider {
-    static var previews: some View {
-        let viewModel = LibraryViewModel()
-        return LibraryView(viewModel: viewModel)
-    }
-}
+//struct LibraryView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let viewModel = LibraryViewModel()
+//        return LibraryView(viewModel: viewModel)
+//    }
+//}
