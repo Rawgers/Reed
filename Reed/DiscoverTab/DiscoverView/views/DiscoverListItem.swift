@@ -19,7 +19,6 @@ enum DiscoverListItemConstants {
 }
 
 struct DiscoverListItem: View {
-    let heightCalculator = DefinableTextView()
     let data: DiscoverListItemData
     @Binding var lastSelectedDefinableTextView: DefinableTextView?
     let definerResultHandler: ([DefinitionDetails]) -> Void
@@ -69,19 +68,10 @@ struct DiscoverListItem: View {
                             .padding(.bottom, 4)
                     }
                     
-                    NavigationLink(
-                        destination: NavigationLazyView(
-                            NovelDetailsView(ncode: data.ncode)
-                        )
-                    ) {
-                        Image(systemName: "chevron.right")
-                            .frame(width: 32, height: 48)
-                            .imageScale(.medium)
-                            .foregroundColor(Color(UIColor.systemBlue))
-                            .background(Color(UIColor.secondarySystemBackground))
-                            .cornerRadius(8)
+                    NavigationLinkRightChevron {
+                        NovelDetailsView(ncode: data.ncode)
                     }
-                    .padding(.top, 4)
+                    .padding(.top, 4)                    
                 }
             }
         }
@@ -89,7 +79,7 @@ struct DiscoverListItem: View {
     }
     
     private func calculateTitleHeight() -> CGFloat {
-        return heightCalculator.calculateRowHeight(
+        return DefinableTextUtils.heightCalculator.calculateRowHeight(
             content: data.title,
             font: DiscoverListItemConstants.TITLE_FONT,
             rowWidth: DiscoverListItemConstants.TITLE_WIDTH,
@@ -98,7 +88,7 @@ struct DiscoverListItem: View {
     }
     
     private func calculateSynopsisHeight() -> CGFloat {
-        return heightCalculator.calculateRowHeight(
+        return DefinableTextUtils.heightCalculator.calculateRowHeight(
             content: data.synopsis,
             font: DiscoverListItemConstants.SYNOPSIS_FONT,
             rowWidth: DiscoverListItemConstants.SYNOPSIS_WIDTH,
@@ -107,28 +97,11 @@ struct DiscoverListItem: View {
     }
     
     private func getTitleToken(x: Int) -> Token? {
-        return getToken(x: x, tokens: data.titleTokens)
+        return DefinableTextUtils.getToken(x: x, tokens: data.titleTokens)
     }
     
     private func getSynopsisToken(x: Int) -> Token? {
-        return getToken(x: x, tokens: data.synopsisTokens)
-    }
-    
-    private func getToken(x: Int, tokens: [Token]) -> Token? {
-        var i = 0
-        var j = tokens.endIndex
-        while j >= i {
-            let mid = i + (j - i) / 2
-            if tokens[mid].range.lowerBound <= x
-                && tokens[mid].range.upperBound > x {
-                return tokens[mid]
-            } else if tokens[mid].range.lowerBound > x {
-                j = mid - 1
-            } else {
-                i = mid + 1
-            }
-        }
-        return nil
+        return DefinableTextUtils.getToken(x: x, tokens: data.synopsisTokens)
     }
     
     func updateLastSelectedDefinableTextViewHandler(definableTextView: DefinableTextView) {
