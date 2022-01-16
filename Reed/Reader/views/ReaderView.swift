@@ -41,10 +41,7 @@ struct ReaderView: View {
                 )
 
                 if viewModel.isLoading {
-                    Rectangle()
-                        .opacity(0)
-                    ProgressView()
-                        .scaleEffect(x: 2, y: 2, anchor: .center)
+                    RoundedSquareProgressView()
                 }
             }
             .padding(.horizontal)

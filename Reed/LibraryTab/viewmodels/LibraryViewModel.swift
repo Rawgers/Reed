@@ -13,8 +13,9 @@ import SwiftUI
 class LibraryViewModel: ObservableObject {
     @Published var libraryEntryData = [NovelListRowData]()
     let tokenizer = Tokenizer()
+    var firstLoad = true
     
-    func fetchEntries() {
+    func fetchEntries(completion: @escaping (Bool) -> Void) {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<HistoryEntry> = HistoryEntry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "novelIsFavorite == true")
@@ -32,6 +33,8 @@ class LibraryViewModel: ObservableObject {
                     synopsisTokens: tokenizer.tokenize(historyEntry.synopsis)
                 )
             }
+            completion(firstLoad && libraryEntryData.endIndex == 0)
+            firstLoad = false
         } catch {
             print("Unable to fetch entity LibraryEntry in LibraryViewModel.")
         }

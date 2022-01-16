@@ -79,10 +79,7 @@ struct DiscoverView: View {
                 }
                 .addDefinerAndAppNavigator(entries: $definerResults.entries)
                 if viewModel.isLoading {
-                    Rectangle()
-                        .opacity(0)
-                    ProgressView()
-                        .scaleEffect(x: 2, y: 2, anchor: .center)
+                    RoundedSquareProgressView()
                 }
             }
         }

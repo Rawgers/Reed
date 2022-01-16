@@ -38,10 +38,7 @@ struct SearchResults: View {
             .navigationBarTitle(viewModel.keyword, displayMode: .inline)
             .addDefinerAndAppNavigator(entries: $definerResults.entries)
             if viewModel.isLoading {
-                Rectangle()
-                    .opacity(0)
-                ProgressView()
-                    .scaleEffect(x: 2, y: 2, anchor: .center)
+                RoundedSquareProgressView()
             }
         }
     }

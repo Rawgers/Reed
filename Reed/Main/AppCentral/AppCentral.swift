@@ -15,6 +15,10 @@ enum BottomSheetDisplayType {
 
 class AppState: ObservableObject {
     @Published var selectedTab: Int = 0
+    
+    func switchToDiscover() {
+        selectedTab = 1
+    }
 }
 
 struct AppCentral: View {
@@ -22,7 +26,7 @@ struct AppCentral: View {
     
     var body: some View {
         TabView(selection: $appState.selectedTab) {
-            LibraryView()
+            LibraryView(switchToDiscover: appState.switchToDiscover)
                 .tag(0)
             
             DiscoverView()
