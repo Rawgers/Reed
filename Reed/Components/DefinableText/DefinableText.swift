@@ -178,11 +178,11 @@ struct DefinableText: UIViewRepresentable {
             selectedRange = tappedRange
             textView.content.addAttribute(
                 NSAttributedString.Key.backgroundColor,
-                value: UIColor.systemYellow.withAlphaComponent(0.3),
+                value: UIColor.clear,
                 range: selectedRange!
             )
-            textView.setNeedsDisplay()
             textView.selectedRange = selectedRange!
+            textView.setNeedsDisplay()
         }
     }
 }
