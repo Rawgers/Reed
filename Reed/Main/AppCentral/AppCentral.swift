@@ -28,19 +28,21 @@ struct AppCentral: View {
         TabView(selection: $appState.selectedTab) {
             LibraryView(switchToDiscover: appState.switchToDiscover)
                 .tag(0)
+                .introspectTabBarController { tabBarController in
+                    tabBarController.tabBar.isHidden = true
+                }
             
             DiscoverView()
                 .tag(1)
+                .introspectTabBarController { tabBarController in
+                    tabBarController.tabBar.isHidden = true
+                }
             
 //            VocabularyListView()
 //              .tag(2)
 //
 //            SettingsView()
 //              .tag(3)
-        }
-        .ignoresSafeArea(edges: .bottom)
-        .introspectTabBarController { tabBarController in
-            tabBarController.tabBar.isHidden = true
         }
         .environmentObject(appState)
     }
