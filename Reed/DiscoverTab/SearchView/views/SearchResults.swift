@@ -25,17 +25,25 @@ struct SearchResults: View {
     }
     
     var body: some View {
-        ScrollView {
-            NovelList(
-                rowData: $viewModel.searchResults,
-                lastSelectedDefinableTextView: $lastSelectedDefinableTextView,
-                definerResultHandler: definerResults.updateEntries(entries:),
-                updateRows: viewModel.updateSearchResults,
-                pushedViewType: .NovelDetails
-            )
+        ZStack {
+            ScrollView {
+                NovelList(
+                    rowData: $viewModel.searchResults,
+                    lastSelectedDefinableTextView: $lastSelectedDefinableTextView,
+                    definerResultHandler: definerResults.updateEntries(entries:),
+                    updateRows: viewModel.updateSearchResults,
+                    pushedViewType: .NovelDetails
+                )
+            }
+            .navigationBarTitle(viewModel.keyword, displayMode: .inline)
+            .addDefinerAndAppNavigator(entries: $definerResults.entries)
+            if viewModel.isLoading {
+                Rectangle()
+                    .opacity(0)
+                ProgressView()
+                    .scaleEffect(x: 2, y: 2, anchor: .center)
+            }
         }
-        .navigationBarTitle(viewModel.keyword, displayMode: .inline)
-        .addDefinerAndAppNavigator(entries: $definerResults.entries)
     }
 }
 

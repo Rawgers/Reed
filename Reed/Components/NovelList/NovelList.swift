@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct NovelList: View {
-    @State private var isLoading: Bool = false
     @Binding var rowData: [NovelListRowData]
     @Binding var lastSelectedDefinableTextView: DefinableTextView?
     let definerResultHandler: ([DefinitionDetails]) -> Void
@@ -29,16 +28,9 @@ struct NovelList: View {
                     )
                         .task {
                             if data == self.rowData.last {
-                                isLoading = true
                                 self.updateRows()
-                                isLoading = false
                             }
                         }
-                    
-                    if isLoading {
-                        Rectangle()
-                        ProgressView()
-                    }
                 }
             }
         }
