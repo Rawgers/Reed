@@ -10,6 +10,7 @@ import SwiftUI
 import SwiftyNarou
 
 class DiscoverSearchResultsViewModel: ObservableObject {
+    @Published var isLoading = false
     @Published var searchResults: [NovelListRowData] = []
     var startIndex: Int = -FetchNarouConstants.LOAD_INCREMENT.rawValue
     var resultCount: Int = 0
@@ -22,6 +23,7 @@ class DiscoverSearchResultsViewModel: ObservableObject {
     }
     
     func updateSearchResults() {
+        isLoading = true
         guard let request = createRequest() else { return }
         Narou.fetchNarouApi(request: request) { data, error in
             if error != nil { return }
@@ -42,6 +44,7 @@ class DiscoverSearchResultsViewModel: ObservableObject {
                     )
                 }
                 self.searchResults.append(contentsOf: rows)
+                self.isLoading = false
             }
         }
     }

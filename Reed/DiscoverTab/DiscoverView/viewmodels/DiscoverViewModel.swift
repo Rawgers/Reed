@@ -32,6 +32,7 @@ enum DiscoverListCategory: Equatable, Hashable {
 class DiscoverViewModel: ObservableObject {
     @Published var rows: [NovelListRowData] = []
     @Published var category: DiscoverListCategory = .recent
+    @Published var isLoading = false
     var startIndex: Int = -FetchNarouConstants.LOAD_INCREMENT.rawValue
     var resultCount: Int = 0 /// prevents making more requests when no more results are available
     let tokenizer = Tokenizer()
@@ -42,6 +43,7 @@ class DiscoverViewModel: ObservableObject {
     
     func updateRows() {
         guard let request = createRequest(for: category) else { return }
+        isLoading = true
         Narou.fetchNarouApi(request: request) { data, error in
             if error != nil { return }
             if let data = data {
@@ -63,6 +65,7 @@ class DiscoverViewModel: ObservableObject {
                     )
                 }
                 self.rows.append(contentsOf: rows)
+                self.isLoading = false
             }
         }
     }
