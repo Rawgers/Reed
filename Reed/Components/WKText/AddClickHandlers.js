@@ -53,7 +53,7 @@ const onTapWord = token => {
                 token.classList.add('highlighted');
                 lastSelectedToken = token;
             }
-        }, 250);
+        }, 150);
     };
 };
 
