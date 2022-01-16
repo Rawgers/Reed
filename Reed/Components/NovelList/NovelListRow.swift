@@ -70,7 +70,6 @@ struct NovelListRow: View {
                     
                     NavigationLinkRightChevron {
                         pushedView()
-                        
                     }
                     .padding(.top, 4)
                 }
