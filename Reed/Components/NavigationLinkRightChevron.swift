@@ -24,7 +24,7 @@ struct NavigationLinkRightChevron<Content: View>: View {
                 .imageScale(.medium)
                 .foregroundColor(Color(UIColor.systemBlue))
                 .background(Color(UIColor.secondarySystemBackground))
-                .cornerRadius(8)
+                .cornerRadius(10)
         }
     }
 }

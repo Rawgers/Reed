@@ -12,6 +12,7 @@ struct LibraryView: View {
     @StateObject private var definerResults = DefinerResults()
     @StateObject private var viewModel: LibraryViewModel = LibraryViewModel()
     @State private var lastSelectedDefinableTextView: DefinableTextView?
+    let switchToDiscover: () -> Void
 
     var body: some View {
         NavigationView {
@@ -25,7 +26,11 @@ struct LibraryView: View {
                 )
             }
             .onAppear {
-                viewModel.fetchEntries()
+                viewModel.fetchEntries() { willSwitchToDiscover in
+                    if willSwitchToDiscover {
+                        switchToDiscover()
+                    }
+                }
             }
             .navigationBarTitle("Library")
             .addDefinerAndAppNavigator(entries: $definerResults.entries)
