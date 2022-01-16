@@ -35,7 +35,6 @@ struct BottomSheet<Content: View>: View {
         if isOpen {
             return AnyView(Image(systemName: "chevron.compact.down")
                 .imageScale(.medium)
-                .foregroundColor(Color.secondary)
                 .animation(
                     .interactiveSpring(
                         response: 0.25,
@@ -48,10 +47,8 @@ struct BottomSheet<Content: View>: View {
             return AnyView(VStack {
                 Image(systemName: "chevron.compact.up")
                     .imageScale(.medium)
-                    .foregroundColor(Color.secondary)
                 Image(systemName: "chevron.compact.down")
                     .imageScale(.medium)
-                    .foregroundColor(Color.secondary)
             })
         }
     }
@@ -60,6 +57,7 @@ struct BottomSheet<Content: View>: View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
                 indicator
+                    .foregroundColor(Color(UIColor.systemGray2))
                     .padding(.top, 8)
                 self.content()
             }
