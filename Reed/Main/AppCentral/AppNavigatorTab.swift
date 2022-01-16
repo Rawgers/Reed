@@ -52,11 +52,11 @@ struct AppNavigatorTab: View {
         }) {
             VStack(spacing: 4) {
                 Circle()
-                    .frame(width: 48, height: 48)
-                    .foregroundColor(Color(UIColor.systemGray5))
+                    .frame(width: 60, height: 60)
+                    .foregroundColor(Color(UIColor.systemGray4))
                     .overlay(
                         Image(systemName: iconName)
-                            .imageScale(.medium)
+                            .imageScale(.large)
                     )
                 Text(self.title)
                     .font(.footnote)

@@ -40,7 +40,7 @@ struct AppNavigator: View {
 //                selectedTab: $selectedTab
 //            )
         }
-        .padding(.top)
+        .padding(.top, 4)
         .onChange(of: entries) { value in
             bottomSheetDisplayType = .definer
         }
