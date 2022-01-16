@@ -17,7 +17,7 @@ struct NovelListRow: View {
 
     var body: some View {
         ZStack(alignment: .leading) {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 0) {
                 DefinableText(
                     id: data.ncode + "-title",
                     content: data.title,
