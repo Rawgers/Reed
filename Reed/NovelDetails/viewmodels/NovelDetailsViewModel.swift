@@ -19,8 +19,10 @@ class NovelDetailsViewModel: ObservableObject {
     @Published var isLibraryDataLoading: Bool = true
     @Published var isFavorite: Bool = false
     @Published var isSynopsisExpanded: Bool = false
-    @Published var novelSynopsis: ProcessedContent?
+    @Published var processedNovelSynopsis: ProcessedContent?
+    @Published var processedNovelTitle: ProcessedContent?
     @Published var novelSynopsisHeight: CGFloat = 1 // nonzero placeholder
+    @Published var novelTitleHeight: CGFloat = 1 // nonzero placeholder
     var novelData: NarouResponse?
     var historyEntry: HistoryEntry?
     
@@ -35,7 +37,8 @@ class NovelDetailsViewModel: ObservableObject {
         // Fetch metadata from Narou.
         model.fetchNovelDetails { novelData in
             self.novelData = novelData
-            self.novelSynopsis = ProcessedContent(content: novelData?.synopsis ?? "", withFurigana: true)
+            self.processedNovelSynopsis = ProcessedContent(content: novelData?.synopsis ?? "", withFurigana: true)
+            self.processedNovelTitle = ProcessedContent(content: novelData?.title ?? "", withFurigana: true)
         }
         
         // Fetch HistoryEntry if it exists.
@@ -100,6 +103,10 @@ class NovelDetailsViewModel: ObservableObject {
     func saveNovelSynopsisHeight(height: CGFloat) {
         novelSynopsisHeight = height
         isSynopsisExpanded = novelSynopsisHeight <= COLLAPSED_SYNOPSIS_HEIGHT
+    }
+    
+    func saveNovelTitleHeight(height: CGFloat) {
+        novelTitleHeight = height
     }
 }
 

@@ -14,7 +14,9 @@ class WKTextViewModel: ObservableObject {
     let webView = WKWebView()
     var processedContentCancellable: AnyCancellable?
     
-    init(processedContentPublisher: AnyPublisher<ProcessedContent?, Never>) {
+    init(
+        processedContentPublisher: AnyPublisher<ProcessedContent?, Never>
+    ) {
         self.processedContentCancellable = processedContentPublisher.sink { [weak self] processedContent in
             guard let self = self else { return }
             guard let processedContent = processedContent else { return }
@@ -25,15 +27,15 @@ class WKTextViewModel: ObservableObject {
         webView.isOpaque = false
     }
     
-    init(processedContent: ProcessedContent) {
-        self.webView.loadHTMLString(processedContent.annotatedContent, baseURL: nil)
-    }
-    
     // For mocking
     init() {}
     
     deinit {
         self.processedContentCancellable?.cancel()
+    }
+    
+    func removeHighlight() {
+        webView.evaluateJavaScript("removeHighlight();")
     }
 }
 

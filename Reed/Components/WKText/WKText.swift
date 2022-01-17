@@ -26,50 +26,38 @@ struct WKText: UIViewRepresentable {
     let bottomSpinner = UIActivityIndicatorView(style: .large)
     
     @StateObject var viewModel: WKTextViewModel
+    let viewType: WKTextViewType
     let isScrollEnabled: Bool
     let definerResultHandler: ([DefinitionDetails]) -> Void
     let switchSectionHandler: (Bool) -> Void
     let readerViewNavigationMenuToggleHandler: () -> Void
-    let updateSynopsisHeightHandler: (CGFloat) -> Void
-    let updateLastSelectedWebViewHandler: (WKWebView) -> Void
+    let updateHeightHandler: (CGFloat) -> Void
+    let updateLastSelectedWktextViewModelHandler: (WKTextViewModel) -> Void
     
     var webView: WKWebView { viewModel.webView }
     
     init(
         processedContentPublisher: AnyPublisher<ProcessedContent?, Never>,
+        viewType: WKTextViewType,
         isScrollEnabled: Bool,
         definerResultHandler: @escaping ([DefinitionDetails]) -> Void,
         switchSectionHandler: @escaping (Bool) -> Void = { _ in },
         readerViewNavigationMenuToggleHandler: @escaping () -> Void = {},
-        updateSynopsisHeightHandler: @escaping (CGFloat) -> Void = { _ in }
+        updateHeightHandler: @escaping (CGFloat) -> Void = { _ in },
+        updateLastSelectedWktextViewModelHandler: @escaping (WKTextViewModel) -> Void = { _ in }
     ) {
         self._viewModel = StateObject(
-            wrappedValue: WKTextViewModel(processedContentPublisher: processedContentPublisher)
+            wrappedValue: WKTextViewModel(
+                processedContentPublisher: processedContentPublisher
+            )
         )
         self.isScrollEnabled = isScrollEnabled
+        self.viewType = viewType
         self.definerResultHandler = definerResultHandler
         self.switchSectionHandler = switchSectionHandler
         self.readerViewNavigationMenuToggleHandler = readerViewNavigationMenuToggleHandler
-        self.updateSynopsisHeightHandler = updateSynopsisHeightHandler
-        self.updateLastSelectedWebViewHandler = { _ in }
-    }
-    
-    init(
-        processedContent: ProcessedContent,
-        isScrollEnabled: Bool,
-        definerResultHandler: @escaping ([DefinitionDetails]) -> Void,
-        updateLastSelectedWebViewHandler: @escaping (WKWebView) -> Void
-    ) {
-        self._viewModel = StateObject(
-            wrappedValue: WKTextViewModel(processedContent: processedContent)
-        )
-        self.isScrollEnabled = isScrollEnabled
-        self.definerResultHandler = definerResultHandler
-        
-        self.switchSectionHandler = { _ in }
-        self.readerViewNavigationMenuToggleHandler = {}
-        self.updateSynopsisHeightHandler = { _ in }
-        self.updateLastSelectedWebViewHandler = updateLastSelectedWebViewHandler
+        self.updateHeightHandler = updateHeightHandler
+        self.updateLastSelectedWktextViewModelHandler = updateLastSelectedWktextViewModelHandler
     }
     
     func makeUIView(context: UIViewRepresentableContext<WKText>) -> UIView {
@@ -77,13 +65,20 @@ struct WKText: UIViewRepresentable {
         contentController.add(context.coordinator, name: "handleTapWord")
         webView.scrollView.delegate = context.coordinator
         do {
-//            let addStyleFile = try readFile(name: "AddStyle", ext: "js")
-//            let addStyleScript = WKUserScript(
-//                source: addStyleFile,
-//                injectionTime: .atDocumentStart,
-//                forMainFrameOnly: false
-//            )
-//            contentController.addUserScript(addStyleScript)
+            let addStyleFile = try readFile(name: "AddStyle", ext: "js")
+            let addStyleScript = WKUserScript(
+                source: addStyleFile,
+                injectionTime: .atDocumentEnd,
+                forMainFrameOnly: false
+            )
+            contentController.addUserScript(addStyleScript)
+            
+            let addFontSizeScript = WKUserScript(
+                source: "setFontSizes('\(viewType.rawValue)');",
+                injectionTime: .atDocumentEnd,
+                forMainFrameOnly: false
+            )
+            contentController.addUserScript(addFontSizeScript)
             
             let addClickHandlersFile = try readFile(name: "AddClickHandlers", ext: "js")
             let addClickHandlersScript = WKUserScript(
@@ -105,13 +100,14 @@ struct WKText: UIViewRepresentable {
     
     func makeCoordinator() -> Coordinator {
         Coordinator(
-            webView: webView,
+            viewModel: viewModel,
+            viewType: viewType,
             definerResultHandler: definerResultHandler,
             switchSectionHandler: switchSectionHandler,
             readerViewNavigationMenuToggleHandler: readerViewNavigationMenuToggleHandler,
             startSpinningHandler: startSpinningHandler(offset:),
-            updateSynopsisHeightHandler: updateSynopsisHeightHandler,
-            updateLastSelectedWebViewHandler: updateLastSelectedWebViewHandler
+            updateHeightHandler: updateHeightHandler,
+            updateLastSelectedWktextViewModelHandler: updateLastSelectedWktextViewModelHandler
         )
     }
     
@@ -131,41 +127,44 @@ struct WKText: UIViewRepresentable {
         let SWITCH_SECTION_DRAG_OFFSET: CGFloat = 80
         
         let dictionaryFetcher = DictionaryFetcher()
-        let webView: WKWebView
+        let viewModel: WKTextViewModel
+        let viewType: WKTextViewType
         let definerResultHandler: ([DefinitionDetails]) -> Void
         let switchSectionHandler: (Bool) -> Void
         let readerViewNavigationMenuToggleHandler: () -> Void
         let startSpinningHandler: (CGFloat) -> Void
-        let updateSynopsisHeightHandler: (CGFloat) -> Void
-        let updateLastSelectedWebViewHandler: (WKWebView) -> Void
+        let updateHeightHandler: (CGFloat) -> Void
+        let updateLastSelectedWktextViewModelHandler: (WKTextViewModel) -> Void
 
         var shouldSwitchSection = false
         private var scrollCursorStartScrollPosition: ScrollCursorPosition = .middle
 
         init(
-            webView: WKWebView,
+            viewModel: WKTextViewModel,
+            viewType: WKTextViewType,
             definerResultHandler: @escaping ([DefinitionDetails]) -> Void,
             switchSectionHandler: @escaping (Bool) -> Void,
             readerViewNavigationMenuToggleHandler: @escaping () -> Void,
             startSpinningHandler: @escaping (CGFloat) -> Void,
-            updateSynopsisHeightHandler: @escaping (CGFloat) -> Void,
-            updateLastSelectedWebViewHandler: @escaping (WKWebView) -> Void
+            updateHeightHandler: @escaping (CGFloat) -> Void,
+            updateLastSelectedWktextViewModelHandler: @escaping (WKTextViewModel) -> Void
         ) {
-            self.webView = webView
+            self.viewModel = viewModel
+            self.viewType = viewType
             self.definerResultHandler = definerResultHandler
             self.switchSectionHandler = switchSectionHandler
             self.readerViewNavigationMenuToggleHandler = readerViewNavigationMenuToggleHandler
             self.startSpinningHandler = startSpinningHandler
-            self.updateSynopsisHeightHandler = updateSynopsisHeightHandler
-            self.updateLastSelectedWebViewHandler = updateLastSelectedWebViewHandler
+            self.updateHeightHandler = updateHeightHandler
+            self.updateLastSelectedWktextViewModelHandler = updateLastSelectedWktextViewModelHandler
             super.init()
 
-            webView.navigationDelegate = self
+            viewModel.webView.navigationDelegate = self
 
             let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(onDoubleTap(sender:)))
             doubleTapGesture.numberOfTapsRequired = 2
             doubleTapGesture.delegate = self
-            webView.addGestureRecognizer(doubleTapGesture)
+            viewModel.webView.addGestureRecognizer(doubleTapGesture)
         }
         
         // MARK: Defining/Highlighting Logic
@@ -176,10 +175,7 @@ struct WKText: UIViewRepresentable {
             guard let dict = message.body as? [String : AnyObject] else { return }
             if let word = dict["word"] {
                 defineSelection(from: word as! String)
-                updateLastSelectedWebViewHandler(webView)
-            }
-            if let everything = dict["everything"] {
-                print(everything)
+                updateLastSelectedWktextViewModelHandler(viewModel)
             }
         }
         
@@ -247,10 +243,10 @@ struct WKText: UIViewRepresentable {
             webView.evaluateJavaScript("document.readyState") { [weak self] (complete, error) in
                 guard let self = self else { return }
                 if complete != nil {
-                    self.webView.evaluateJavaScript(
+                    webView.evaluateJavaScript(
                         "document.body.scrollHeight"
                     ) { (height, error) in
-                        self.updateSynopsisHeightHandler((height as! CGFloat) / 2)
+                        self.updateHeightHandler((height as! CGFloat) / 2)
                     }
                 }
             }
