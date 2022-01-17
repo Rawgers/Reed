@@ -1,33 +1,6 @@
 //const html = document.documentElement.innerHTML;
 //window.webkit.messageHandlers.handleTapWord.postMessage({ 'everything': html });
 
-// Add CSS to ReaderView
-const style = document.createElement('style');
-style.textContent = `
-    :root {
-        color-scheme: light dark;
-    }
-    * {
-        -webkit-touch-callout: none;
-        -webkit-user-select: none
-    }
-    body {
-        font-family: -apple-system, "Helvetica Neue"
-    }
-    span {
-        font-size: 36px;
-        border: 1px solid transparent
-    }
-    rt {
-        font-size: 18px;
-    }
-    .highlighted {
-        background-color: rgba(237, 237, 135, 0.5);
-        border-radius: 16px;
-    }
-`;
-document.head.appendChild(style);
-
 // disable zoom
 const meta = document.createElement('meta');
 meta.name = 'viewport';
@@ -64,4 +37,9 @@ for (token of tokens) {
     token.ondblclick = function() {
         clearTimeout(timer);
     }
+}
+
+function removeHighlight() {
+    lastSelectedToken.classList.remove('highlighted');
+    lastSelectedToken = null;
 }

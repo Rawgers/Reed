@@ -34,6 +34,7 @@ struct ReaderView: View {
             ZStack {
                 WKText(
                     processedContentPublisher: viewModel.$processedContent.eraseToAnyPublisher(),
+                    viewType: .body,
                     isScrollEnabled: true,
                     definerResultHandler: definerResults.updateEntries,
                     switchSectionHandler: viewModel.handleSwitchSection,

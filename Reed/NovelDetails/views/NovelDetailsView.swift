@@ -10,8 +10,9 @@ import SwiftUI
 import Introspect
 
 struct NovelDetailsView: View {
-    @StateObject var viewModel: NovelDetailsViewModel
+    @StateObject private var viewModel: NovelDetailsViewModel
     @StateObject private var definerResults: DefinerResults = DefinerResults()
+    @State private var lastSelectedWktextViewModel: WKTextViewModel?
     @State private var isPushedToReader: Bool = false
     
     init(ncode: String) {
@@ -21,7 +22,18 @@ struct NovelDetailsView: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(alignment: .leading, spacing: 0) {
-                Text(viewModel.novelTitle)
+                WKText(
+                    processedContentPublisher: viewModel.$processedNovelTitle.eraseToAnyPublisher(),
+                    viewType: .title,
+                    isScrollEnabled: false,
+                    definerResultHandler: definerResults.updateEntries,
+                    updateHeightHandler: viewModel.saveNovelTitleHeight,
+                    updateLastSelectedWktextViewModelHandler: updateLastSelectedWktextViewModelHandler(wktextViewModel:)
+                )
+                    .frame(
+                        width: DefinerConstants.CONTENT_WIDTH,
+                        height: viewModel.novelTitleHeight
+                    )
                     .font(.title)
                     .padding(.top, 12)
                     .padding(.bottom, 4)
@@ -75,20 +87,20 @@ struct NovelDetailsView: View {
                         .foregroundColor(.secondary)
                         .padding(.bottom, 4)
                     ZStack {
-                        Rectangle()
+                        WKText(
+                            processedContentPublisher: viewModel.$processedNovelSynopsis.eraseToAnyPublisher(),
+                            viewType: .body,
+                            isScrollEnabled: false,
+                            definerResultHandler: definerResults.updateEntries,
+                            updateHeightHandler: viewModel.saveNovelSynopsisHeight,
+                            updateLastSelectedWktextViewModelHandler: updateLastSelectedWktextViewModelHandler(wktextViewModel:)
+                        )
                             .frame(
                                 width: DefinerConstants.CONTENT_WIDTH,
                                 height: viewModel.isSynopsisExpanded
                                     ? viewModel.novelSynopsisHeight
                                     : viewModel.COLLAPSED_SYNOPSIS_HEIGHT
                             )
-                            .foregroundColor(Color(UIColor.systemBackground))
-                        WKText(
-                            processedContentPublisher: viewModel.$novelSynopsis.eraseToAnyPublisher(),
-                            isScrollEnabled: false,
-                            definerResultHandler: definerResults.updateEntries,
-                            updateSynopsisHeightHandler: viewModel.saveNovelSynopsisHeight
-                        )
                         if !viewModel.isSynopsisExpanded {
                             VStack {
                                 Spacer()
@@ -146,6 +158,15 @@ struct NovelDetailsView: View {
         }
         .navigationBarTitle("", displayMode: .inline)
         .addDefinerAndAppNavigator(entries: $definerResults.entries)
+        .onChange(of: lastSelectedWktextViewModel) { [lastSelectedWktextViewModel] _ in
+            if let old = lastSelectedWktextViewModel {
+                old.removeHighlight()
+            }
+        }
+    }
+    
+    func updateLastSelectedWktextViewModelHandler(wktextViewModel: WKTextViewModel) {
+        lastSelectedWktextViewModel = wktextViewModel
     }
 }
 
