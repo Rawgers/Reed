@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct NovelList: View {
+    @State private var lastSelectedDefinableTextView: DefinableTextView?
     @Binding var rowData: [NovelListRowData]
-    @Binding var lastSelectedDefinableTextView: DefinableTextView?
     let definerResultHandler: ([DefinitionDetails]) -> Void
     let updateRows: () -> Void
     let pushedViewType: PushedViewType
@@ -47,7 +47,7 @@ struct NovelList: View {
                     if new.id == old.id {
                         new.content.addAttribute(
                             NSAttributedString.Key.backgroundColor,
-                            value: UIColor.systemYellow.withAlphaComponent(0.3),
+                            value: UIColor.clear,
                             range: old.selectedRange!
                         )
                         new.selectedRange = old.selectedRange

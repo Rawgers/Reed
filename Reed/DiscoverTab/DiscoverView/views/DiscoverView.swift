@@ -13,7 +13,6 @@ struct DiscoverView: View {
     @StateObject var definerResults: DefinerResults = DefinerResults()
     @StateObject var viewModel = DiscoverViewModel()
     @StateObject var searchViewModel = DiscoverSearchViewModel()
-    @State private var lastSelectedDefinableTextView: DefinableTextView?
     @State private var searchText: String = ""
     @State private var pushSearchResults: Bool = false
     
@@ -35,7 +34,6 @@ struct DiscoverView: View {
                         }
                         NovelList(
                             rowData: $viewModel.rows,
-                            lastSelectedDefinableTextView: $lastSelectedDefinableTextView,
                             definerResultHandler: definerResults.updateEntries(entries:),
                             updateRows: viewModel.updateRows,
                             pushedViewType: .NovelDetails
@@ -43,8 +41,7 @@ struct DiscoverView: View {
                         
                         NavigationLink(
                             destination: SearchResults(
-                                searchText: searchText,
-                                lastSelectedDefinableTextView: $lastSelectedDefinableTextView
+                                searchText: searchText
                             ),
                             isActive: $pushSearchResults
                         ) {

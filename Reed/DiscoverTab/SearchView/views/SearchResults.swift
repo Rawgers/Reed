@@ -14,14 +14,11 @@ import WebKit
 struct SearchResults: View {
     @StateObject private var definerResults: DefinerResults = DefinerResults()
     @StateObject var viewModel: DiscoverSearchResultsViewModel
-    @Binding var lastSelectedDefinableTextView: DefinableTextView?
     
     init(
-        searchText: String,
-        lastSelectedDefinableTextView: Binding<DefinableTextView?>
+        searchText: String
     ) {
         self._viewModel = StateObject(wrappedValue: DiscoverSearchResultsViewModel(searchText: searchText))
-        self._lastSelectedDefinableTextView = lastSelectedDefinableTextView
     }
     
     var body: some View {
@@ -29,7 +26,6 @@ struct SearchResults: View {
             ScrollView {
                 NovelList(
                     rowData: $viewModel.searchResults,
-                    lastSelectedDefinableTextView: $lastSelectedDefinableTextView,
                     definerResultHandler: definerResults.updateEntries(entries:),
                     updateRows: viewModel.updateSearchResults,
                     pushedViewType: .NovelDetails
@@ -47,8 +43,7 @@ struct SearchResults: View {
 struct SearchResults_Previews: PreviewProvider {
     static var previews: some View {
         SearchResults(
-            searchText: "無職転生",
-            lastSelectedDefinableTextView: .constant(DefinableTextView(coder: NSCoder()))
+            searchText: "無職転生"
         )
     }
 }
