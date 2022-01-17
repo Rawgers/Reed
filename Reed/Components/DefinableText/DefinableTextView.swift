@@ -140,8 +140,6 @@ class DefinableTextView: UIView {
             context.rotate(by: .pi / 2)
             context.scaleBy(x: 1.0, y: -1.0)
         }
-        CTFrameDraw(ctFrame!, context)
-        
         let lines = CTFrameGetLines(ctFrame!) as! [CTLine]
         var lineOrigins = Array<CGPoint>(repeating: CGPoint.zero, count: lines.count)
         CTFrameGetLineOrigins(ctFrame!, CFRange(location: 0, length: lines.count), &lineOrigins)
@@ -175,6 +173,8 @@ class DefinableTextView: UIView {
             yCoordinates.append(bounds.height - lineOrigins[lineIndex].y)
         }
         linesYCoordinates = yCoordinates
+        
+        CTFrameDraw(ctFrame!, context)
     }
 }
 
