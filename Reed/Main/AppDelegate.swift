@@ -51,24 +51,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let url = databaseDirectoryUrl.appendingPathComponent("\(appName).sqlite")
         if !FileManager.default.fileExists(atPath: url.path) {
-            let extensions = ["sqlite", "sqlite-wal", "sqlite-shm"]
+            if FileManager.default.fileExists(
+                atPath: Bundle.main.url(
+                    forResource: appName,
+                    withExtension: "sqlite"
+                )?.path ?? "") {
+                let extensions = ["sqlite", "sqlite-wal", "sqlite-shm"]
 
-            var sourceSqliteUrls = [URL]()
-            var destSqliteUrls = [URL]()
+                var sourceSqliteUrls = [URL]()
+                var destSqliteUrls = [URL]()
 
-            for ext in extensions {
-                sourceSqliteUrls.append(Bundle.main.url(forResource: appName, withExtension: ext)!)
-                destSqliteUrls.append(databaseDirectoryUrl.appendingPathComponent("\(appName).\(ext)"))
-            }
-
-            for i in extensions.indices {
-                do {
-                    try FileManager.default.copyItem(at: sourceSqliteUrls[i], to: destSqliteUrls[i])
-                } catch {
-                    fatalError(error.localizedDescription)
+                for ext in extensions {
+                    sourceSqliteUrls.append(Bundle.main.url(forResource: appName, withExtension: ext)!)
+                    destSqliteUrls.append(databaseDirectoryUrl.appendingPathComponent("\(appName).\(ext)"))
                 }
+
+                for i in extensions.indices {
+                    do {
+                        try FileManager.default.copyItem(at: sourceSqliteUrls[i], to: destSqliteUrls[i])
+                    } catch {
+                        fatalError(error.localizedDescription)
+                    }
+                }
+                UserDefaults.standard.set(true, forKey: "hasDictionary")
+            } else {
+                UserDefaults.standard.set(false, forKey: "hasDictionary")
             }
-            UserDefaults.standard.set(true, forKey: "hasDictionary")
         }
         
         let container = NSPersistentContainer(name: appName)
