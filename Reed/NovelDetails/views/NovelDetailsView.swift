@@ -65,10 +65,11 @@ struct NovelDetailsView: View {
                             ) { EmptyView() }
 
                             Text("Read")
-                                .frame(width: 72, height: 32)
+                                .font(.headline)
+                                .frame(width: 84, height: 44)
                                 .foregroundColor(.white)
                                 .background(Color(.systemBlue))
-                                .cornerRadius(4)
+                                .cornerRadius(10)
                         }
                     }
                     .buttonStyle(PlainButtonStyle())
@@ -76,6 +77,7 @@ struct NovelDetailsView: View {
 
                     Button(action: viewModel.toggleFavorite) {
                         Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
+                            .font(.largeTitle)
                     }
                     .disabled(viewModel.isLibraryDataLoading)
                 }

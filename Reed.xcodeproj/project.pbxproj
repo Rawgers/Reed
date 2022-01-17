@@ -61,6 +61,9 @@
 		B8667F132509CA68001EABD4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8667F122509CA68001EABD4 /* SettingsView.swift */; };
 		B86D422F279550E300D9BF1A /* WKTextViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86D422E279550E300D9BF1A /* WKTextViewType.swift */; };
 		B86D4231279553C500D9BF1A /* AddStyle.js in Resources */ = {isa = PBXBuildFile; fileRef = B86D4230279553C500D9BF1A /* AddStyle.js */; };
+		B86D424827958DE100D9BF1A /* Reed.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = B86D424527958DE100D9BF1A /* Reed.sqlite-shm */; };
+		B86D424927958DE100D9BF1A /* Reed.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = B86D424627958DE100D9BF1A /* Reed.sqlite-wal */; };
+		B86D424A27958DE100D9BF1A /* Reed.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = B86D424727958DE100D9BF1A /* Reed.sqlite */; };
 		B87D30772516C537002E25FF /* DictionaryLanguageSource+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87D30752516C537002E25FF /* DictionaryLanguageSource+CoreDataClass.swift */; };
 		B87D30782516C537002E25FF /* DictionaryLanguageSource+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87D30762516C537002E25FF /* DictionaryLanguageSource+CoreDataProperties.swift */; };
 		B880D139251810F20097AF8D /* SplashViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B880D138251810F20097AF8D /* SplashViewModel.swift */; };
@@ -195,6 +198,9 @@
 		B8667F122509CA68001EABD4 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B86D422E279550E300D9BF1A /* WKTextViewType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WKTextViewType.swift; sourceTree = "<group>"; };
 		B86D4230279553C500D9BF1A /* AddStyle.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = AddStyle.js; sourceTree = "<group>"; };
+		B86D424527958DE100D9BF1A /* Reed.sqlite-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Reed.sqlite-shm"; sourceTree = "<group>"; };
+		B86D424627958DE100D9BF1A /* Reed.sqlite-wal */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Reed.sqlite-wal"; sourceTree = "<group>"; };
+		B86D424727958DE100D9BF1A /* Reed.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = Reed.sqlite; sourceTree = "<group>"; };
 		B87D30752516C537002E25FF /* DictionaryLanguageSource+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DictionaryLanguageSource+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B87D30762516C537002E25FF /* DictionaryLanguageSource+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DictionaryLanguageSource+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B880D138251810F20097AF8D /* SplashViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewModel.swift; sourceTree = "<group>"; };
@@ -334,6 +340,9 @@
 		6DF349E6279580C000C1A698 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				B86D424727958DE100D9BF1A /* Reed.sqlite */,
+				B86D424527958DE100D9BF1A /* Reed.sqlite-shm */,
+				B86D424627958DE100D9BF1A /* Reed.sqlite-wal */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -942,9 +951,12 @@
 				B86D4231279553C500D9BF1A /* AddStyle.js in Resources */,
 				B898628327089EA80034A37D /* AddClickHandlers.js in Resources */,
 				B898628327089EA80034A37D /* AddClickHandlers.js in Resources */,
+				B86D424827958DE100D9BF1A /* Reed.sqlite-shm in Resources */,
 				B8032278278BD59D00F52071 /* (null) in Resources */,
 				B860B7122518207900F48FBE /* JMdict_e.json.gz in Resources */,
 				B8D456A32508D1A2000F9E5F /* Assets.xcassets in Resources */,
+				B86D424927958DE100D9BF1A /* Reed.sqlite-wal in Resources */,
+				B86D424A27958DE100D9BF1A /* Reed.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
