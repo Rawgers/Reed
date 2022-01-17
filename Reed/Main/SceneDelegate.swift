@@ -23,7 +23,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Create the SwiftUI view and set the context as the value for the managedObjectContext environment keyPath.
         // Add `@Environment(\.managedObjectContext)` in the views that will need the context.
-        let initialView = AppCentral().environment(\.managedObjectContext, context)
+        let initialView = (
+            UserDefaults.standard.bool(forKey: "hasDictionary")
+                ? AnyView(AppCentral())
+                : AnyView(SplashView())
+        ).environment(\.managedObjectContext, context)
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {

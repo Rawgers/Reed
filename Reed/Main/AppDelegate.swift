@@ -68,6 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     fatalError(error.localizedDescription)
                 }
             }
+            UserDefaults.standard.set(true, forKey: "hasDictionary")
         }
         
         let container = NSPersistentContainer(name: appName)
