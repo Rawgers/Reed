@@ -42,7 +42,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
         */
-        let container = NSPersistentContainer(name: "Reed")
+        let appName = "Reed"
+        
+        let databaseDirectoryUrl = FileManager.default.urls(
+            for: .documentDirectory,
+            in: .userDomainMask
+        ).first!
+        
+        let url = databaseDirectoryUrl.appendingPathComponent("\(appName).sqlite")
+        if !FileManager.default.fileExists(atPath: url.path) {
+            let extensions = ["sqlite", "sqlite-wal", "sqlite-shm"]
+
+            var sourceSqliteUrls = [URL]()
+            var destSqliteUrls = [URL]()
+
+            for ext in extensions {
+                sourceSqliteUrls.append(Bundle.main.url(forResource: appName, withExtension: ext)!)
+                destSqliteUrls.append(databaseDirectoryUrl.appendingPathComponent("\(appName).\(ext)"))
+            }
+
+            for i in extensions.indices {
+                do {
+                    try FileManager.default.copyItem(at: sourceSqliteUrls[i], to: destSqliteUrls[i])
+                } catch {
+                    fatalError(error.localizedDescription)
+                }
+            }
+        }
+        
+        let container = NSPersistentContainer(name: appName)
+        container.persistentStoreDescriptions = [NSPersistentStoreDescription(url: url)]
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.

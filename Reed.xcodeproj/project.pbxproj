@@ -16,6 +16,10 @@
 		6DCF77DB252DB19B00CB3C5D /* ReaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCF77DA252DB19B00CB3C5D /* ReaderViewModel.swift */; };
 		6DE8E966268DA2DE00D87D2A /* String+annotateWithFurigana.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE8E965268DA2DE00D87D2A /* String+annotateWithFurigana.swift */; };
 		6DF349DF2793E50700C1A698 /* RoundedSquareProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF349DE2793E50700C1A698 /* RoundedSquareProgressView.swift */; };
+		6DF349E32795783C00C1A698 /* Reed.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 6DF349E02795783B00C1A698 /* Reed.sqlite */; };
+		6DF349E42795783C00C1A698 /* Reed.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = 6DF349E12795783B00C1A698 /* Reed.sqlite-wal */; };
+		6DF349E52795783C00C1A698 /* Reed.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = 6DF349E22795783C00C1A698 /* Reed.sqlite-shm */; };
+		B8032278278BD59D00F52071 /* RemoveHighlight.js in Resources */ = {isa = PBXBuildFile; fileRef = B8032277278BD59D00F52071 /* RemoveHighlight.js */; };
 		B803228727926CD200F52071 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B803228627926CD200F52071 /* SettingsViewModel.swift */; };
 		B80322892792AFBE00F52071 /* NavigationLinkRightChevron.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80322882792AFBE00F52071 /* NavigationLinkRightChevron.swift */; };
 		B803228B2792B3A000F52071 /* DefinableTextUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B803228A2792B3A000F52071 /* DefinableTextUtils.swift */; };
@@ -148,6 +152,9 @@
 		6DCF77DA252DB19B00CB3C5D /* ReaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderViewModel.swift; sourceTree = "<group>"; };
 		6DE8E965268DA2DE00D87D2A /* String+annotateWithFurigana.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+annotateWithFurigana.swift"; sourceTree = "<group>"; };
 		6DF349DE2793E50700C1A698 /* RoundedSquareProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedSquareProgressView.swift; sourceTree = "<group>"; };
+		6DF349E02795783B00C1A698 /* Reed.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = Reed.sqlite; sourceTree = "<group>"; };
+		6DF349E12795783B00C1A698 /* Reed.sqlite-wal */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Reed.sqlite-wal"; sourceTree = "<group>"; };
+		6DF349E22795783C00C1A698 /* Reed.sqlite-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Reed.sqlite-shm"; sourceTree = "<group>"; };
 		80EC6FD044C4D01C681A8553 /* libPods-Reed.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Reed.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D2CD05201E19A5664A8A884 /* Pods-Reed.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reed.debug.xcconfig"; path = "Target Support Files/Pods-Reed/Pods-Reed.debug.xcconfig"; sourceTree = "<group>"; };
 		B803228627926CD200F52071 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -328,6 +335,16 @@
 				6DCF77DA252DB19B00CB3C5D /* ReaderViewModel.swift */,
 			);
 			path = viewmodels;
+			sourceTree = "<group>";
+		};
+		6DF349E6279580C000C1A698 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				6DF349E02795783B00C1A698 /* Reed.sqlite */,
+				6DF349E22795783C00C1A698 /* Reed.sqlite-shm */,
+				6DF349E12795783B00C1A698 /* Reed.sqlite-wal */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		AF0496628FC517FF3A2B0A80 /* Pods */ = {
@@ -715,6 +732,7 @@
 		B8D456CC2508D2E3000F9E5F /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				6DF349E6279580C000C1A698 /* CoreData */,
 				B8D1797A26A90F850051008A /* AppCentral */,
 				B8D456992508D1A2000F9E5F /* AppDelegate.swift */,
 				B8D4569B2508D1A2000F9E5F /* SceneDelegate.swift */,
@@ -932,6 +950,11 @@
 				B8D456A62508D1A2000F9E5F /* Preview Assets.xcassets in Resources */,
 				B86D4231279553C500D9BF1A /* AddStyle.js in Resources */,
 				B898628327089EA80034A37D /* AddClickHandlers.js in Resources */,
+				6DF349E32795783C00C1A698 /* Reed.sqlite in Resources */,
+				B898628327089EA80034A37D /* AddClickHandlers.js in Resources */,
+				6DF349E42795783C00C1A698 /* Reed.sqlite-wal in Resources */,
+				6DF349E52795783C00C1A698 /* Reed.sqlite-shm in Resources */,
+				B8032278278BD59D00F52071 /* RemoveHighlight.js in Resources */,
 				B860B7122518207900F48FBE /* JMdict_e.json.gz in Resources */,
 				B8D456A32508D1A2000F9E5F /* Assets.xcassets in Resources */,
 			);
