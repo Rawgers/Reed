@@ -11,7 +11,6 @@ import SwiftUI
 struct LibraryView: View {
     @StateObject private var definerResults = DefinerResults()
     @StateObject private var viewModel: LibraryViewModel = LibraryViewModel()
-    @State private var lastSelectedDefinableTextView: DefinableTextView?
     let switchToDiscover: () -> Void
 
     var body: some View {
@@ -19,7 +18,6 @@ struct LibraryView: View {
             ScrollView {
                 NovelList(
                     rowData: $viewModel.libraryEntryData,
-                    lastSelectedDefinableTextView: $lastSelectedDefinableTextView,
                     definerResultHandler: definerResults.updateEntries(entries:),
                     updateRows: {},
                     pushedViewType: .Reader
