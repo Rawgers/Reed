@@ -41,8 +41,8 @@ struct AppCentral: View {
 //            VocabularyListView()
 //              .tag(2)
 //
-//            SettingsView()
-//              .tag(3)
+            SettingsView()
+              .tag(3)
         }
         .environmentObject(appState)
     }

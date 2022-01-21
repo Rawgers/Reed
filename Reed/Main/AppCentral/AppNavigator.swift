@@ -33,12 +33,12 @@ struct AppNavigator: View {
 //                tag: 2,
 //                selectedTab: $selectedTab
 //            )
-//            AppNavigatorTab(
-//                title: "Settings",
-//                iconName: "wrench",
-//                tag: 3,
-//                selectedTab: $selectedTab
-//            )
+            AppNavigatorTab(
+                title: "Settings",
+                iconName: "wrench",
+                tag: 3,
+                selectedTab: $selectedTab
+            )
         }
         .padding(.top, 4)
         .onChange(of: entries) { value in
